@@ -1,0 +1,130 @@
+* {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    outline: none;
+    page-break-inside: avoid;
+}
+
+body {
+    background-color: rgba(245, 245, 245, 0.514);
+    column-count: 2;
+    column-gap: 20px;
+    padding: 85px 20px 0 20px;
+}
+
+#navbar {
+    background-color: white;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.288);
+}
+
+#navbar h1{
+    margin-left: 30px;
+    color: blue;
+}
+
+#search {
+    margin-left: auto;
+    margin-right: 30px;
+    background: none;
+    padding: 10px;
+    border-radius: 6px;
+    width: 300px;
+    background-color: whitesmoke;
+}
+
+#search input {
+    color: grey;
+    border: none;
+    width: 90%;
+    background: none;
+}
+
+#search button {
+    background: none;
+    border: none;
+    color: grey;
+}
+
+#navbar a {
+    color: grey;
+    text-decoration: none;
+    background-color: whitesmoke;
+    margin-right: 30px;
+    padding: 12px 20px 12px 20px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.post_div2 {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid rgba(182, 178, 178, 0.288);
+    box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
+    margin-top: 20px;
+}
+
+.post_div2 img {
+    width: 100%;
+    height: auto;
+}
+
+.post_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.post_info a {
+    color: blue;
+    background-color: rgba(43, 43, 245, 0.178);
+    padding: 10px 10px 10px 10px;
+    border-radius: 9px;
+    width: 36%;
+    text-decoration: none;
+}
+
+.post_info button {
+    color: grey;
+    background-color: whitesmoke;
+    border: none;
+    font-size: 19px;
+    border-radius: 7px;
+}
+
+.post_info2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.post_info2 input {
+    margin-left: 20px;
+    border: none;
+    border-bottom: 1px solid blue;
+    padding: 10px 0 10px 10px;
+    width: 60%;
+}
+
+.post_info2 button {
+    color: blue;
+    background-color: white;
+    border: none;
+    font-size: 19px;
+    margin-left: 20px;
+}
+
+.text_post {
+    color: grey; 
+    text-align: justify;
+    margin-top: 20px;
+}

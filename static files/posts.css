@@ -1,0 +1,135 @@
+* {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    outline: none;
+}
+
+body {
+    padding-top: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(245, 245, 245, 0.514);
+}
+
+#navbar {
+    background-color: white;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: rgba(128, 128, 128, 0.219) 0 2px 7px 0;
+}
+
+#navbar h1{
+    margin-left: 30px;
+    color: blue;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 50px;
+}
+
+#divone {
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
+}
+
+#divtwo {
+    width: 100%;
+    height: 200px;
+    border: 1px dashed grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(245, 245, 245, 0.726);
+}
+
+#divtwo i {
+    color: grey;
+    font-size: 50px;
+}
+
+#one {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: red;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 0, 0, 0.103);
+    border: none;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+#two {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: green;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(0, 128, 0, 0.103);
+    border: none;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+#divone input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid grey;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#post_text {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid green;
+}
+
+#post_text input {
+    border: none;
+    margin-left: 5px;
+    color: green;
+}
+
+#post_text button {
+    color: green;
+    border: none;
+    background: none;
+    margin-right: 5px;
+}
+
+#footer {
+    color: rgba(128, 128, 128, 0.726);
+    font-family: 'Brush Script MT', cursive;
+    font-size: 22px;
+    margin: 0;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#post {
+    margin-top: 20px;
+    color: white;
+    background-color: blue;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+}

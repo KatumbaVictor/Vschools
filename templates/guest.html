@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vschools | get started</title>
+        <link rel = "stylesheet" href = "{% static 'guest.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body>
+        <div id = "container">
+            <div id = "card">
+                <h2>Vschools</h2>
+                <p id = "info">
+                    Hello user you're welcome to Vschools login or create account below.
+                </p>
+                <img src = "{% static 'selfie.svg' %}" height = "200" width = "300"/>
+                <div>
+                    <a href = "{% url 'login' %}" id = "login"><i class = "far fa-user"></i> Login</a>
+                    <a href = "{% url 'sign_up' %}" id = "sign_up"><i class = "fas fa-user-plus"></i> Sign up</a>
+                </div>
+                <p id = "footer">Vschools premium</p>
+            </div>
+        </div>
+    </body>
+</html>

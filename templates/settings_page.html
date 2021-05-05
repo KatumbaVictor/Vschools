@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+    <head>
+        <title>Vschools | user info</title>
+        <link rel = "stylesheet" href = "{% static 'settings_page.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+            <a href = "{% url 'logout' %}">Sign out</a>
+        </div>
+
+        <div id = "one">
+            <div id = "text">
+                <h2><i class = "far fa-user"></i> Account info</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
+                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet 
+                    luctus hendrerit. Morbi imperdiet eget turpis eu commodo. Vestibulum arcu 
+                    dui, faucibus fermentum mollis quis, aliquam ac orci. Curabitur facilisis 
+                    laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum
+                </p>
+            </div>
+
+            <div id = "info1">
+                <p><i class = "far fa-user"></i> Katumba Victor</p>
+                <p><i class = "far fa-envelope"></i> katumbavictor5@gmail.com</p>
+                <p><i class = "far fa-bell"></i> Modify my account</p>
+                <a href = "{% url 'adverts' %}"><i class = "fas fa-cog"></i> Update my account</a>
+            </div>
+        </div>
+
+        <div id = "others">
+            <div id = "text">
+                <h2><i class = "far fa-bell"></i> Notification settings</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
+                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet 
+                    luctus hendrerit. Morbi imperdiet eget turpis eu commodo. Vestibulum arcu 
+                    dui, faucibus fermentum mollis quis, aliquam ac orci. Curabitur facilisis 
+                    laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum
+                </p>
+            </div>
+
+            <div id = "info">
+                
+            </div>
+        </div>
+
+        <div id = "others">
+            <div id = "text">
+                <h2><i class = "far fa-envelope"></i> Message settings</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
+                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet 
+                    luctus hendrerit. Morbi imperdiet eget turpis eu commodo. Vestibulum arcu 
+                    dui, faucibus fermentum mollis quis, aliquam ac orci. Curabitur facilisis 
+                    laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum
+                </p>
+            </div>
+
+            <div id = "info3">
+                <div>
+                    <a href = "#"><i class = "far fa-envelope"></i> Manage message notifications</a>
+                    <a href = "#"><i class = "fas fa-user-slash"></i> Block some users' messages</a>
+                </div>
+            </div>
+        </div>
+
+        <div id = "others">
+            <div id = "text">
+                <h2><i class = "fas fa-lock"></i> Password settings</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
+                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet 
+                    luctus hendrerit. Morbi imperdiet eget turpis eu commodo. Vestibulum arcu 
+                    dui, faucibus fermentum mollis quis, aliquam ac orci. Curabitur facilisis 
+                    laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum
+                </p>
+            </div>
+
+            <div id = "info3">
+                <div>
+                    <a href = "#"><i class = "fas fa-lock"></i> Change my password</a>
+                    <a href = "#"><i class = "fas fa-user-slash"></i> Block some users' messages</a>
+                </div>
+
+                <a href = "#">I have problems with my password</a>
+            </div>
+        </div>
+
+        <div id = "others">
+            <div id = "text">
+                <h2><i class = "fas fa-trash"></i> Delete my account</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
+                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet 
+                    luctus hendrerit. Morbi imperdiet eget turpis eu commodo. Vestibulum arcu 
+                    dui, faucibus fermentum mollis quis, aliquam ac orci. Curabitur facilisis 
+                    laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum
+                </p>
+            </div>
+
+            <div id = "info">
+                <a class = "a" href = "{% url 'ask_delete' %}"><i class = "fas fa-trash"></i> Delete my account</a>
+                <a class = "b" href = "#"><i class = "fas fa-times"></i> Suspend my account</a>
+            </div>
+        </div>
+    </body>
+</html>

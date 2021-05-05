@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Comments</title>
+        <link rel="icon" type="image/png" href="{% static 'logo.png' %}"/>
+        <link rel = "stylesheet" href = "{% static 'comments.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+            <div id = "search">
+                <button><i class = "fas fa-search"></i></button>
+                <input type = "search" placeholder="Search Vschools"/>
+            </div>
+            <a href = "{% url 'logout' %}">Sign out</a>
+        </div>
+
+        <div class = "post_div2">
+            <div class = "post_info">
+                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
+                <a href = "#" style = "font-style: italic;">Lule Mark</a>
+                <button style = "margin-left: auto; margin-right: 15px;"
+                        data-post_id = {{ post.id }} class = "save"><i class = "far fa-bookmark"></i></button>
+                <button onclick="display_options()"><i class = "fas fa-ellipsis-h"></i></button>
+            </div>
+            <p class = "text_post">
+                {{ post.caption }}
+            </p>
+
+            <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" style = "width: 100%; height: auto;"/>
+
+            <div class = "post_info2">
+                <div id = "likes">
+                    <p style = "color: grey; font-weight: bold;
+                            background-color: rgba(128, 128, 128, 0.226);
+                            padding: 10px; border-radius: 8px; width: 120px;
+                            border: 1px solid rgba(128, 128, 128, 0.274);">
+                            <i class = "fas fa-comment"></i> comments 2
+                    </p>
+                    <button style="margin-left: 20px; font-size: 17px;" class = "like"><i class = "far fa-heart"></i></button>
+                    <p style = "color: grey">0</p>
+                    <button style = " font-size: 17px; margin-left: 15px;" class = "like"><i class = "far fa-bell"></i></button>
+                    <p style = "color: grey;">0</p>
+                    <button style = " font-size: 17px; margin-left: 15px;" class = "like"><i class = "far fa-envelope"></i></button>
+                    <p style = "margin-right: 15px; color: grey;">0</p>
+                    <div style = "display: flex; flex-direction: row;">
+                        <input type = "text" placeholder="Add comment here" style = "width: 90%;"/>
+                        <button style = "margin-left: auto;"><i class = "fas fa-comment"></i></button>
+                    </div>
+                </div>
+                <div id = "comment_info">
+                    <div>
+                        <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
+                        <p style = "color: grey; margin-left: 10px; font-style: italic; font-size: 18px;">Katumba Victor</p>
+                        <p style = "margin-left: auto; color: grey; font-weight: bold; font-size: 14px;">Reply</p>
+                        <p style = "margin-left: 20px; color: grey; font-weight: bold; font-size: 14px;">Chat</p>
+                    </div>
+                    <p style = "color: grey; text-align: justify; margin-top: 0; font-size: 16px;">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
+                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et
+                    </p>
+                </div>
+
+                <div id = "comment_info">
+                    <div>
+                        <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
+                        <p style = "color: grey; margin-left: 10px; font-style: italic; font-size: 18px;">Katumba Joel</p>
+                        <p style = "margin-left: auto; color: grey; font-weight: bold; font-size: 14px;">Reply</p>
+                        <p style = "margin-left: 20px; color: grey; font-weight: bold; font-size: 14px;">Chat</p>
+                    </div>
+                    <p style = "color: grey; text-align: justify; margin-top: 0; font-size: 16px;">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body> 
+</html>

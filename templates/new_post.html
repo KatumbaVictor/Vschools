@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Posts</title>
+        <link rel = "stylesheet" href = "{% static 'posts.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src = "{% static 'posts.js' %}"></script>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+        </div>
+
+        <div id = "divone"> 
+            <h2 style = "color: grey;">Upload posts</h2>
+            <p style="color: grey; margin-top: 0;">Share some pictures or videos with friends and followers.</p>
+            <div id = "divtwo">
+                <i class = "fas fa-upload"></i>
+                <p style = "color: grey;">Let's share some media.</p>
+            </div>
+            <button id = "one" onclick="getImage()"><i class = "fas fa-image"></i> Upload image</button>
+            <button id = "two" onclick = "getVideo()"><i class = "fas fa-video"></i> Upload video</button>
+            <form method = "POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type = "file" onchange = "view_files(event)" accept = "image/*" id = "image" required multiple hidden/>
+                <input type = "file" accept = "video/*" id = "video" multiple hidden/>
+                <button type = "submit" id = "post">Post</button>
+            </form>
+            <p id = "footer">Vschools premium</p>
+        </div>
+
+    </body>
+</html>

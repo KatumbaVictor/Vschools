@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+    <head>
+        <title>Vschools | sign up</title>
+        <link rel = "stylesheet" href = "{% static 'sign_up.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src = "{% static 'sign_up.js' %}"></script>
+    </head>
+    <body>
+        <div id = "container"> 
+            <div id = "divone">
+                <h1 style = "font-family: 'Brush Script MT', cursive; font-size: 50px;">Vschools</h1>
+                <p>
+                    Start your sign up process here and ensure that your user details are 
+                    true for rememberence purposes.
+                </p>
+                <img src = "{% static 'profile_pic.svg' %}" height = "200" width = "300"/>
+            </div>
+            <div id = "login">
+                <div id = "i-one"><i class = "fas fa-user-plus"></i></div>
+                <form method = "POST">
+                    {% csrf_token %}
+                    <div id = "holder">
+                        <i class="fas fa-user"></i>
+                        <input type = "text" placeholder="Enter first name" name = "first_name" required/>
+                    </div>
+
+                    <div id = "holder">
+                        <i class="fas fa-user"></i>
+                        <input type = "text" placeholder="Enter last name" name = "last_name" required/>
+                    </div>
+
+                    <div id = "holder">
+                        <i class = "fas fa-envelope"></i>
+                        <input type = "email" placeholder="Enter e-mail" name = "email" required/>
+                    </div>
+                    <button type = "submit">NEXT</button>
+                </form>
+            <p id = "footer">Vschools premium</p>
+        </div>
+    </body>
+</html>

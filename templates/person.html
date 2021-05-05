@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Vschools | info</title>
+        <link rel = "stylesheet" href = "{% static 'person.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+        </div>
+
+        <div id = "divone">
+            <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 200 width = 200/>
+            <div>
+                <p id = "name">Katumba Victor</p>
+                <p id = "followers"><i class = "far fa-bell"></i> 200</p>
+                <button>Follow</button>
+            </div>
+        </div>
+
+        <div id = "posts">
+            <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 200 width = 200/>
+            <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 200 width = 200/>
+        </div>
+        
+    </body>
+</html>

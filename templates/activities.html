@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Activities</title>
+        <link rel="icon" type="image/png" href="{% static 'logo.png' %}"/>
+        <link rel = "stylesheet" href = "{% static 'activities.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <script src = "{% static 'activities.js' %}"></script>
+    </head>
+    <body>
+        <div id = "divone">
+            <div id = "heading">
+                <h2 style = "color: blue; margin-left: 20px;">Activities</h2>
+                <button style = "margin-left: auto;">new</button>
+            </div>
+            <div class = "info" style = "margin-left: 20px; margin-right: 20px;">
+                <img src = "http://127.0.0.1:8000/media/posts/IMG_8895.JPG" height = 40 width = 40/>
+                <p style = "color: grey; margin-left: 10px; font-style: italic;">Lule Mark</p>
+                <i style = "margin-left: auto; color: blue;" class = "far fa-eye"></i>
+                <p style="margin-left: 8px; color: grey;">5</p>
+            </div>
+            <div class = "info" style = "margin-left: 20px; margin-right: 20px;">
+                <img src = "http://127.0.0.1:8000/media/posts/IMG_8895.JPG" height = 40 width = 40/>
+                <p style = "color: grey; margin-left: 10px; font-style: italic;">Katumba Victor</p>
+                <i style = "margin-left: auto; color: blue;" class = "far fa-eye"></i>
+                <p style="margin-left: 8px; color: grey;">10</p>
+            </div>
+        </div>
+
+        <div id = "divtwo">
+            <div id = "name">
+                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" height = 40 width = 40/>
+                <p>Katumba Victor</p>
+            </div>
+            <img src = "http://127.0.0.1:8000/media/posts/IMG_8895.JPG" class = "photo"/>
+        </div>
+    </body>
+</html>

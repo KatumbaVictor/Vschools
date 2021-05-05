@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Advertisements</title>
+        <link rel="icon" type="image/png" href="{% static 'logo.png' %}"/>
+        <link rel = "stylesheet" href = "{% static 'advertisements.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+            <div id = "search">
+                <button><i class = "fas fa-search"></i></button>
+                <input type = "search" placeholder="Search Vschools"/>
+            </div>
+            <a href = "{% url 'logout' %}">Sign out</a>
+        </div>
+
+        <div class = "no_post">
+            <img src = "{% static 'shopping.svg' %}" height = "200" width = "200"/>
+            <div>
+                <h2>Create business channel</h2>
+                <p>
+                    Create a channel that will help to advertise the items you
+                    sell at your business.
+                </p>
+
+                <a href = "#">Create channel</a>
+            </div>
+        </div>
+
+        <div class = "no_post">
+            <img src = "{% static 'group_video.svg' %}" height = "200" width = "200"/>
+            <div>
+                <h2>Create business channel</h2>
+                <p>
+                    Hey {{ request.user }} select a picture for your profile that will help friends
+                    to identify you.
+                </p>
+
+                <a href = "{% url 'user_info' %}">Update now</a>
+                <button>May be later</button>
+            </div>
+        </div>
+
+        <div class = "no_post">
+            <img src = "{% static 'group_selfie.svg' %}" height = "200" width = "200"/>
+            <div>
+                <h2>Create new group</h2>
+                <p>
+                    Create new group to connect with people that share your interests
+                </p>
+
+                <a href = "{% url 'groups' %}">Create group</a>
+            </div>
+        </div>
+
+        <div class = "no_post">
+            <img src = "{% static 'video_call.svg' %}" height = "200" width = "200"/>
+            <div>
+                <h2>Create video channel</h2>
+                <p>
+                    Create video where your friends shall see your live videos.
+                </p>
+
+                <a href = "{% url 'user_info' %}">Create channel</a>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+web: gunicorn vschools.wsgi --log-file -

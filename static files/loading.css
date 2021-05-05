@@ -1,0 +1,52 @@
+* {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+    background-color: white;
+}
+
+#container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#one {
+    background-color: rgba(128, 0, 128, 0.192);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: loading 5s infinite;
+    animation-delay: 1s;
+}
+
+#two {
+    background-color: rgba(0, 0, 255, 0.192);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+#three {
+    background-color: rgba(255, 0, 0, 0.192);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+#four {
+    background-color: rgba(0, 128, 0, 0.192);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+

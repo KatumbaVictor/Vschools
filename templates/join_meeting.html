@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Meetings</title>
+        <link rel="icon" type="image/png" href="{% static 'logo.png' %}"/>
+        <link rel = "stylesheet" href = "{% static 'join_meetings.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1 style = "color: blue; margin-left: 30px; font-family: 'Brush Script MT', cursive; font-size: 50px;">
+                Vschools
+            </h1>
+        </div>
+
+        <div id = "divone">
+            <div id = "divtwo">
+                <div style = "display: flex; flex-direction: column; align-items: center;">
+                    <img src = "{% static 'group_video.svg' %}"/>
+                    <a href = "#" style = "color: blue; font-style: italic;
+                        margin-top: 20px; text-decoration: none;"><i class = "fas fa-video"></i> Start meeting</a>
+                </div>
+                <div style = "display: flex; flex-direction: column;">
+                    <h2 style="color: blue;">Meetings</h2>
+                    <p style = "color: grey; margin-top: 0;">
+                        We also support meetings here at Vschools join one below.
+                    </p>
+
+                    <form method = "POST"> 
+                        {% csrf_token %}
+                        <div class = "holder">
+                            <i class = "fas fa-key"></i>
+                            <input type = "text" placeholder="Enter meeting ID" required/>
+                        </div>
+
+                        <div class = "holder">
+                            <i class = "fas fa-lock"></i>
+                            <input type = "password" placeholder="Enter meeting passcode" required/>
+                        </div>
+                        <button type = "submit"><i class = "fas fa-video"></i> Join</button>
+                    </form>
+                    <p style="color: rgba(128, 128, 128, 0.658); font-size: 23px; align-self: center;
+                             margin: 0; padding: 0; font-family: 'Brush Script MT', cursive;
+                            ">Vschools premium</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+* {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    outline: none;
+    page-break-inside: avoid;
+
+}
+
+body {
+    background-color: rgba(245, 245, 245, 0.514);
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.video {
+    width: 80%;
+    height: 100%;
+}
+
+#divone {
+    width: 20%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#divone div {
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(0, 0, 255, 0.137);
+    border-bottom: 1px solid blue;
+}
+
+#divone button {
+    color: blue;
+    background: none;
+    padding: 10px;
+    font-size: 20px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 9px;
+}
+
+#divtwo {
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+#divtwo button {
+    border-radius: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 255, 0.096);
+    border: none;
+    font-size: 20px;
+    color: blue;
+}
+
+#name {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 255, 0.096);
+    border-radius: 10px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+#name img {
+    border-radius: 50%;
+    padding: 2px;
+    border: 3px solid blue;
+}
+
+#name p {
+    color: blue;
+    font-style: italic;
+    margin-left: 20px;
+}
+
+.video2 {
+    align-self: center;
+    margin-bottom: 15px;
+    width: 90%;
+    box-shadow: rgba(128, 128, 128, 0.842) 2px 2px 7px 0;
+}
+
+.video2:hover {
+    box-shadow: grey 4px 4px 7px 0;
+}
