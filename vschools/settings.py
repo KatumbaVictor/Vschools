@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'u8haeu_4mowv=2^0i!1c^g-!fq7ko+w1nx^w2m^5jmb&op2hn1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['vschools.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -123,7 +123,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static files')
+
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static files')]
 
@@ -136,9 +137,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "katumbavictor5@gmail.com"
 EMAIL_HOST_PASSWORD = 'victorious'
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 
