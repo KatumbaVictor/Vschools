@@ -10,16 +10,11 @@
     </head>
     <body>
         <div id = "container"> 
-            <div id = "divone">
-                <h1 style = "font-family: 'Brush Script MT', cursive; font-size: 50px;">Vschools</h1>
-                <p>
-                    Start your sign up process here and ensure that your user details are 
-                    true for rememberence purposes.
-                </p>
-                <img src = "{% static 'profile_pic.svg' %}" height = "200" width = "300"/>
-            </div>
             <div id = "login">
-                <div id = "i-one"><i class = "fas fa-user-plus"></i></div>
+                <h1 style = "font-family: 'Brush Script MT', cursive; font-size: 50px;">Vschools</h1>
+                <p id = "text">
+                    Start your sign up process here.
+                </p>
                 <form method = "POST">
                     {% csrf_token %}
                     <div id = "holder">

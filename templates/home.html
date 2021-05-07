@@ -13,21 +13,20 @@
     <body>
         <div id = "navbar">
             <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-            <div id = "search">
-                <button><i class = "fas fa-search"></i></button>
-                <input type = "search" placeholder="Search Vschools"/>
+            <button class = "navbuttons" style="margin-left: auto;"><i class = "far fa-paper-plane"></i></button>
+            <button class = "navbuttons"><i class = "fas fa-search"></i></button>
+            <button class = "navbuttons"><i class = "far fa-bell"></i></button>
+            <button class = "navbuttons"><i class = "far fa-bookmark"></i></button>
+            <div id = "dropdown">
+                <button onclick="view_div()"><i class = "far fa-user"></i></button>
+                <div id="drop_div">
+                    <a href = "{% url 'saved_posts' %}"><i class = "fas fa-bookmark"></i> Saved posts</a>
+                    <a href = "{% url 'settings' %}"><i class = "fas fa-cog"></i> Settings</a>
+                    <a href = "#"><i class = "fas fa-users"></i> Groups</a>
+                    <a href = "{% url 'live' %}"><i class = "fas fa-video"></i> Live</a>
+                    <a href = "{% url 'logout' %}"><i class = "fas fa-sign-out-alt"></i> Sign out</a>
+                </div>
             </div>
-            <a href = "{% url 'logout' %}">Sign out</a>
-        </div>
-        <div id = "divone">
-            <a href = "{% url 'messages' %}"><i class = "far fa-envelope"></i></a>
-            <a href = "{% url 'notifications' %}"><i class = "far fa-bell"></i></a>
-            <a href = "{% url 'settings' %}"><i class = "fas fa-cog"></i></a>
-            <a href = "{% url 'live' %}"><i class = "fas fa-video"></i></a>
-            <a href = "#"><i class = "fas fa-lock"></i></a>
-            <a href = "#"><i class = "fas fa-user-plus"></i></a>
-            <a href = "{% url 'groups' %}"><i class = "fas fa-users"></i></a>
-            <a href = "{% url 'saved_posts' %}"><i class = "fas fa-bookmark"></i></a>
         </div>
 
         <div id = "container_one">
@@ -73,10 +72,10 @@
                 </p>
 
                 <button onclick = "take_photo()" 
-                    style = "color:green; background-color: rgba(0, 128, 0, 0.151);
+                    style = "color:green; background-color: rgba(0, 128, 0, 0.212);
                     box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;"><i class = "fas fa-camera"></i> Take picture</button>
                 <button 
-                style = "color:purple; background-color: rgba(128, 0, 128, 0.151); margin-top: 10px;
+                style = "color:purple; background-color: rgba(128, 0, 128, 0.212); margin-top: 10px;
                     box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;"><i class = "fas fa-video"></i> Live video</button>
             </div>
         </div>
@@ -179,7 +178,10 @@
                     <p style = "color: grey;">0</p>
                     <button><i class = "far fa-comment"></i></button>
                     <p style = "color: grey;">0</p>
-                    <input type = "text" placeholder="What do you think"/>
+                    <div>
+                        <input type = "text" placeholder="What do you think"/>
+                        <button><i class = "fas fa-comment"></i></button>
+                    </div>
                 </div>
             </div>   
 
@@ -218,10 +220,19 @@
             {% for post in posts %}
             <div class = "post_div2">
                 <div class = "post_info">
-                    <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                    <a href = "#" style = "font-style: italic;">{{ post.user.username }}</a>
-                    <button style = "margin-left: auto; margin-right: 15px;" onclick = "save_post(this)"
-                            data-post_id = {{ post.id }} class = "save"><i class = "far fa-bookmark"></i></button>
+                    {% if post.profile_picture %}
+                    <img src = "{{ post.profile_picture.url }}" class = "profile_pic" height = 40 width = 40/>
+                    {% else %}
+                    <div class = "no_profile_pic"><i class = "fas fa-user"></i></div>
+                    {% endif %}
+                    <a href = "{% url 'person_info' post.user.id %}" style = "font-style: italic;">{{ post.user.username }}</a>
+                    {% if post.id in saved_posts %}
+                        <button style = "margin-left: auto; margin-right: 15px;" onclick = "save_post(this)"
+                            data-post_id = {{ post.id }}><i class = "fas fa-bookmark"></i></button>
+                    {% else %}
+                        <button style = "margin-left: auto; margin-right: 15px;" onclick = "save_post(this)"
+                        data-post_id = {{ post.id }}><i class = "far fa-bookmark"></i></button>
+                    {% endif %}
                     <button onclick="display_options()"><i class = "fas fa-ellipsis-h"></i></button>
                 </div>
 
@@ -231,18 +242,18 @@
                     </p>
                 {% endif %}
 
-                <img src = "{{ post.file_uploaded.url }}" style = "width: 100%; height: auto;"/>
+                <img src = "{{ post.file_uploaded.url }}" style = "width: 100%; height: auto; margin-top: 20px;"/>
 
                 <div class = "post_info2">
                     <button onclick = "like(this)" data-post_id = {{post.id}}><i class = "far fa-heart"></i></button>
                     <p style = "color: grey;">0</p>
-                    <button><i class = "far fa-bell"></i></button>
-                    <p style = "color: grey;">0</p>
-                    <button><i class = "far fa-envelope"></i></button>
-                    <p style = "color: grey;">0</p>
                     <button><i class = "far fa-comment"></i></button>
                     <p style = "color: grey;">0</p>
-                    <input type = "text" placeholder="What do you think"/>
+                    <div>
+                        <input type = "text" id = {{ post.id }} placeholder="What do you think"/>
+                        <button><i class = "far fa-surprise"></i></button>
+                        <button onclick = "comment(this)"><i class = "far fa-paper-plane"></i></button>
+                    </div>
                 </div>
             </div> 
             {% endfor %}

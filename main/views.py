@@ -93,7 +93,7 @@ def sign_up_page(request):
     if request.user.is_authenticated:
         return redirect('home')
         
-    if request.method == "POST" and "vschools_first_name" in request.POST:
+    if request.method == "POST":
         request.session["vschools_first_name"] = request.POST['first_name']
         request.session["vschools_last_name"] = request.POST['last_name']
         request.session["vschools_email"] = request.POST['email']
@@ -122,7 +122,7 @@ def new_password_page(request):
     return render(request,"new_password.html")
 
 def messages_page(request):
-    context = {'messaging':messaging.objects.filter(sender_id=request.user.id,receiver_id=request.user.id)}
+    context = {'messaging':messaging.objects.filter(sender_id=request.user.id,receiver_id=request.user.id),}
 
     return render(request, "messages.html", context)
 
@@ -132,8 +132,10 @@ def advertisements_page(request):
 def groups_page(request):
     return render(request, "groups.html")
 
-def person_info_page(request):
-    return render(request,"person.html")
+def person_info_page(request,user_id):
+    context = {'person':account_info.objects.get(user=User.objects.get(id=user_id)),
+                'posts':posts.objects.filter(user=User.objects.get(id=user_id))}
+    return render(request,"person.html",context)
 
 def live_page(request):
     return render(request, "live.html")
@@ -143,9 +145,13 @@ def guest_page(request):
 
 @login_required(login_url='login')
 def home_page(request):
-    user = account_info.objects.get(user=request.user)
+    user = account_info.objects.filter(user=request.user)
+    saved = []
+
+    [saved.append(item.id) for item in saved_posts.objects.filter(user=request.user)]
+
     context = {'posts':posts.objects.all(),'user':user, 
-                'saved_posts':saved_posts.objects.filter(user=request.user)}
+                'saved_posts':saved}
     if request.is_ajax:
         if request.body:
             if 'save' in json.loads(request.body):
@@ -153,6 +159,12 @@ def home_page(request):
                     post=posts.objects.get(id=json.loads(request.body)['save'])).save()
             elif 'like' in json.loads(request.body):
                 print('like')
+            elif 'subscribe' in json.loads(request.body):
+                account_info(user=posts.objects.get(id=json.loads(request.body)['subscribe']).user,
+                    subscriptions=request.user.id).save()
+                print('saved')
+            elif 'comment' in json.loads(request.body):
+                print(json.loads(request.body)['comment'])
         
 
     return render(request, "home.html",context)
@@ -165,4 +177,5 @@ def logout_user(request):
     return redirect('login')
 
 def test_page(request):
-    return render(request, "test.html")
+    context={'s':[1,2,3,4]}
+    return render(request, "test.html",context)

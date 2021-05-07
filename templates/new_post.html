@@ -26,12 +26,12 @@
             <button id = "two" onclick = "getVideo()"><i class = "fas fa-video"></i> Upload video</button>
             <form method = "POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type = "file" onchange = "view_files(event)" accept = "image/*" id = "image" required multiple hidden/>
+                <input type = "file" onchange = "view_files(event)" accept = "image/*" id = "image" required hidden/>
                 <input type = "file" accept = "video/*" id = "video" multiple hidden/>
                 <button type = "submit" id = "post">Post</button>
             </form>
             <p id = "footer">Vschools premium</p>
-        </div>
+        </div>  
 
     </body>
 </html>

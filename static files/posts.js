@@ -6,6 +6,9 @@ function getVideo(){
     document.getElementById('video').click()
 }
 
-function view_files(event){
-    console.log(event)
+function view_files(){
+    var reader = new FileReader();
+    reader.onload = function(){
+        console.log(reader.result);
+    }
 }

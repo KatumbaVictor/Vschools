@@ -10,7 +10,7 @@ body {
     height: 100%;
     column-count: 2;
     column-gap: 20px;
-    padding: 85px 30px 0 100px;
+    padding: 85px 30px 0 30px;
 }
 
 #navbar {
@@ -33,63 +33,48 @@ body {
     font-size: 50px;
 }
 
-#search {
-    margin-left: auto;
-    margin-right: 30px;
-    background: none;
-    padding: 10px;
-    border-radius: 6px;
-    width: 300px;
-    background-color: whitesmoke;
-    transition: .3s box-shadow;
-}
-
-#search:hover {
-    box-shadow: rgba(128, 128, 128, 0.205) 1px 1px 7px 0;
-}
-
-#search input {
+.navbuttons {
     color: grey;
-    border: none;
-    width: 90%;
-    background: none;
-}
-
-#search button {
     background: none;
     border: none;
-    color: grey;
+    font-size: 20px;
+    margin-right: 20px;
 }
 
-#navbar a {
-    color: grey;
-    text-decoration: none;
-    background-color: whitesmoke;
-    margin-right: 30px;
-    padding: 12px 20px 12px 20px;
-    font-weight: bold;
-    border-radius: 6px;
-    border: 1px solid rgba(128, 128, 128, 0.171);
+#dropdown {
+    margin-right: 20px;
+    position: relative;
+    display: inline-block;
 }
 
-#divone {
-    position: fixed;
-    top: 95px;
-    left: 0;
+#dropdown button {
+    color: grey;
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+#dropdown div {
+    position: absolute;
     background-color: white;
-    padding: 20px;
+    box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    height: 450px;
-    justify-content: space-evenly;
-    box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
-}
+    margin-top: 10px;
+    right: 0;
+    width: 120px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+  }
 
-#divone a {
-    color: blue;
-    font-size: 30px;
-}
-
+  #dropdown div a {
+      color: grey;
+      justify-content: space-evenly;
+      text-decoration: none;
+      line-height: 30px;
+  }
 
 #divtwo {
     display: flex;
@@ -325,8 +310,8 @@ body {
 
 .profile_pic {
     border-radius: 50%;
-    padding: 2px;
-    border: 3px solid rgba(128, 128, 128, 0.623);
+    padding: 3px;
+    border: 3px solid rgba(128, 128, 128, 0.61);
 }
 
 .no_profile_pic {
@@ -339,12 +324,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(128, 128, 128, 0.219);
+    border: 3px solid rgba(128, 128, 128, 0.219);
 }
 
 .no_profile_pic i {
     font-size: 19px;
-    color: rgba(128, 128, 128, 0.589);
+    color: rgba(128, 128, 128, 0.521);
 }
 
 .post_info a {
@@ -357,8 +342,9 @@ body {
     color: grey;
     background-color: whitesmoke;
     border: none;
-    font-size: 19px;
+    font-size: 15px;
     border-radius: 7px;
+    border: 3px solid rgba(128, 128, 128, 0.219);
 }
 
 .post_info2 {
@@ -368,13 +354,21 @@ body {
     border-radius: 8px;
 }
 
-.post_info2 input {
+.post_info2 div {
     margin-left: 20px;
     border: none;
     border-bottom: 1px solid blue;
-    padding: 10px 0 10px 10px;
-    width: 60%;
-    color: grey;
+    padding: 10px 0 8px 10px;
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.post_info2 div input {
+    border: none;
+    width: 80%;
+    color: blue;
 }
 
 .post_info2 button {
@@ -382,7 +376,8 @@ body {
     background-color: white;
     border: none;
     font-size: 19px;
-    margin-left: 20px;
+    margin-left: auto;
+    margin-right: 10px;
 }
 
 .text_post {
@@ -557,7 +552,6 @@ body {
     border-radius: 7px;
     color: white;
     font-weight: bold;
-    box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
 }
 
 .no_post div button {
@@ -567,7 +561,7 @@ body {
     border-radius: 7px;
     color: grey;
     font-weight: bold;
-    box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
+    border: 3px solid rgba(128, 128, 128, 0.219);
 }
 
 .no_post p {

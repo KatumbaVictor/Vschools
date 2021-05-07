@@ -26,12 +26,12 @@ body {
     margin-right: 20px;
 }
 
-#divone h1 {
+h1 {
     color: blue;
     margin-top: 0;
 }
 
-#divone p {
+#text {
     text-align: justify;
     color: grey;
     margin-top: 0;
@@ -92,7 +92,7 @@ body {
 } 
 
 
-#login p {
+#footer {
     align-self: center;
     margin-top: 10px;
     color: rgba(128, 128, 128, 0.726);
