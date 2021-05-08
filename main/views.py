@@ -45,8 +45,9 @@ def user_info_page(request):
 def new_posts_page(request):
     context = {'posts':posts.objects.all()}
     if request.method == "POST":
-        posts(user=request.user,caption=request.POST['caption'],
+        posts(user=request.user,
                 file_uploaded=request.FILES['file_uploaded'], date = date.today()).save()
+        return redirect('home')
     return render(request, "new_post.html",context)
 
 def comments_page(request):
@@ -134,7 +135,8 @@ def groups_page(request):
 
 def person_info_page(request,user_id):
     context = {'person':account_info.objects.get(user=User.objects.get(id=user_id)),
-                'posts':posts.objects.filter(user=User.objects.get(id=user_id))}
+                'posts':posts.objects.filter(user=User.objects.get(id=user_id)),
+                'today':date.today()}
     return render(request,"person.html",context)
 
 def live_page(request):
@@ -145,13 +147,23 @@ def guest_page(request):
 
 @login_required(login_url='login')
 def home_page(request):
-    user = account_info.objects.filter(user=request.user)
+    user = account_info.objects.get(user=request.user)
     saved = []
+    all_posts = posts.objects.all()
+
+    def user_picture(user):
+        a = account_info.objects.get(user=user)
+        return a.profile_picture
+
+    for post in all_posts:
+        user = post.user
+        post.user_pic = user_picture(user)
 
     [saved.append(item.id) for item in saved_posts.objects.filter(user=request.user)]
 
-    context = {'posts':posts.objects.all(),'user':user, 
-                'saved_posts':saved}
+    context = {'posts':all_posts[::-1],'user':user, 
+                'saved_posts':saved,
+                'pic':account_info.objects.get(user=request.user).profile_picture}
     if request.is_ajax:
         if request.body:
             if 'save' in json.loads(request.body):

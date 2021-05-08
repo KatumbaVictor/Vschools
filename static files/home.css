@@ -7,7 +7,6 @@
 
 body {
     background-color: rgba(245, 245, 245, 0.514);
-    height: 100%;
     column-count: 2;
     column-gap: 20px;
     padding: 85px 30px 0 30px;
@@ -77,10 +76,10 @@ body {
   }
 
 #divtwo {
+    column-count: 4;
+    column-gap: 10px;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    grid-column: 1 / 2;
 }
 
 #user {
@@ -88,8 +87,10 @@ body {
     background-color: rgba(43, 43, 245, 0.178);
     padding: 10px 10px 10px 10px;
     border-radius: 9px;
-    width: 36%;
     text-decoration: none;
+    border: 3px solid rgba(0, 0, 255, 0.192);
+    width: 25%;
+    text-align: center;
 }
 
 #one {
@@ -97,10 +98,11 @@ body {
     background-color: rgba(255, 0, 0, 0.212);
     padding: 10px 10px 10px 10px;
     border-radius: 10px;
-    width: 90px;
     text-align: center;
     margin-left: auto;
     text-decoration: none;
+    border: 3px solid rgba(255, 0, 0, 0.192);
+    width: 25%;
 }
 
 #two {
@@ -108,10 +110,10 @@ body {
     background-color: rgba(0, 128, 0, 0.219);
     padding: 10px 10px 10px 10px;
     border-radius: 10px;
-    width: 90px;
     text-align: center;
     text-decoration: none;
-    margin-left: 8px;
+    border: 3px solid rgba(0, 128, 0, 0.192);
+    width: 25%;
 }
 
 #three {
@@ -119,10 +121,10 @@ body {
     background-color: rgba(128, 0, 128, 0.212);
     padding: 10px 10px 10px 10px;
     border-radius: 10px;
-    width: 90px;
     text-align: center;
     text-decoration: none;
-    margin-left: 8px;
+    border: 3px solid rgba(128, 0, 128, 0.192);
+    width: 25%;
 } 
 
 #container_one {
@@ -314,6 +316,13 @@ body {
     border: 3px solid rgba(128, 128, 128, 0.61);
 }
 
+#profile_picture {
+    border-radius: 50%;
+    padding: 3px;
+    border: 3px solid rgba(128, 128, 128, 0.61);
+    margin-right: 20px;
+}
+
 .no_profile_pic {
     padding: 12px;
     width: 22px;
@@ -328,6 +337,25 @@ body {
 }
 
 .no_profile_pic i {
+    font-size: 19px;
+    color: rgba(128, 128, 128, 0.521);
+}
+
+#no_profile {
+    padding: 12px;
+    width: 22px;
+    height: 22px;
+    background-color: whitesmoke;
+    border-radius: 50%;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(128, 128, 128, 0.219);
+    margin-right: 20px;
+}
+
+#no_profile i {
     font-size: 19px;
     color: rgba(128, 128, 128, 0.521);
 }
@@ -594,28 +622,8 @@ body {
 }
 
 @media screen and (max-width: 1030px) {
-    #divone {
-        visibility: hidden;
-    }
-
     body {
         columns: auto;
         padding: 85px 20px 0 20px;
-    }
-
-    #container_one {
-        grid-column: 1 / 2;
-    }
-
-    .post_div2 {
-        grid-column: 1 / 2;
-    }
-
-    .follow {
-        grid-column: 1 / 2;
-    }
-
-    .no_post {
-        grid-column: 1 / 2;
     }
    }

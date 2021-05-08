@@ -15,23 +15,42 @@
             <h1>Vschools</h1>
         </div>
 
-        <div id = "divone"> 
-            <h2 style = "color: grey;">Upload posts</h2>
+        <div class = "divone"> 
+            <h2 style = "color: grey;">Upload photo</h2>
             <p style="color: grey; margin-top: 0;">Share some pictures or videos with friends and followers.</p>
-            <div id = "divtwo">
+            <div class = "divtwo" id = "divtwo">
                 <i class = "fas fa-upload"></i>
                 <p style = "color: grey;">Let's share some media.</p>
             </div>
-            <button id = "one" onclick="getImage()"><i class = "fas fa-image"></i> Upload image</button>
-            <button id = "two" onclick = "getVideo()"><i class = "fas fa-video"></i> Upload video</button>
+            <img id = "img"/>
+            <input type = "text" class = "caption"/>
+            <button id = "one" class = "one" onclick="getImage()"><i class = "fas fa-image"></i> Upload image</button>
+
             <form method = "POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type = "file" onchange = "view_files(event)" accept = "image/*" id = "image" required hidden/>
-                <input type = "file" accept = "video/*" id = "video" multiple hidden/>
+                <input type = "file" name = "file_uploaded" onchange = "view_files()" accept = "image/*" id = "image" required hidden/>
                 <button type = "submit" id = "post">Post</button>
             </form>
             <p id = "footer">Vschools premium</p>
         </div>  
 
+        <div class = "divone"> 
+            <h2 style = "color: grey;">Upload video</h2>
+            <p style="color: grey; margin-top: 0;">Share some pictures or videos with friends and followers.</p>
+            <div class = "divtwo">
+                <i class = "fas fa-play-circle"></i>
+                <p style = "color: grey;">Let's share some media.</p>
+            </div>
+            <img id = "vid"/>
+            <input type = "text" class = "caption"/>
+            <button id = "two" onclick="getVideo()"><i class = "fas fa-image"></i> Upload video</button>
+
+            <form method = "POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type = "file" name = "file_uploaded" onchange = "view_files()" accept = "video/*" id = "video" required hidden/>
+                <button type = "submit" id = "post_video">Post</button>
+            </form>
+            <p id = "footer">Vschools premium</p>
+        </div> 
     </body>
 </html>

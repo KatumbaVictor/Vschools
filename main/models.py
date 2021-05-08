@@ -4,12 +4,12 @@ from datetime import date
 
 class account_info(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    datejoined = models.DateField(blank=True, default=date.today())
+    datejoined = models.DateField(blank=True)
     subscriptions = models.IntegerField(blank=True, default=0)
     profile_picture = models.ImageField(blank=True, upload_to='profile_pics')
 
 class posts(models.Model):
-    USER = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateField()
     caption = models.TextField(blank=True)
     file_uploaded = models.FileField(blank=True, upload_to='posts')

@@ -7,8 +7,13 @@ function getVideo(){
 }
 
 function view_files(){
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = function(){
-        console.log(reader.result);
+        console.log(reader);
+        document.getElementById('divtwo').style.display = "none";
+        document.getElementById('img').src = reader.result;
+        
+
     }
+    reader.readAsDataURL(document.getElementById('image').files[0]);
 }

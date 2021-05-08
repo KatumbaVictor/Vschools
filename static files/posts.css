@@ -1,14 +1,13 @@
 * {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     outline: none;
+    page-break-inside: avoid;
 }
 
 body {
-    padding-top: 75px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    column-count: 2;
     background-color: rgba(245, 245, 245, 0.514);
+    padding: 85px 30px 0 30px;
 }
 
 #navbar {
@@ -31,17 +30,17 @@ body {
     font-size: 50px;
 }
 
-#divone {
-    max-width: 550px;
+.divone {
     display: flex;
     flex-direction: column;
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: rgba(128, 128, 128, 0.288) 2px 2px 7px 0;
+    margin-bottom: 20px;
 }
 
-#divtwo {
+.divtwo {
     width: 100%;
     height: 200px;
     border: 1px dashed grey;
@@ -52,12 +51,12 @@ body {
     background-color: rgba(245, 245, 245, 0.726);
 }
 
-#divtwo i {
+.divtwo i {
     color: grey;
     font-size: 50px;
 }
 
-#one {
+.one {
     width: 100%;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -83,13 +82,14 @@ body {
     font-style: italic;
 }
 
-#divone input {
+.caption {
     width: 100%;
     border: none;
     border-bottom: 1px solid grey;
     margin-top: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
+    display: none;
 }
 
 #post_text {
@@ -133,3 +133,15 @@ body {
     border: none;
     border-radius: 8px;
 }
+
+#img {
+    width: 100%;
+    height: auto;
+}
+
+@media screen and (max-width: 1030px) {
+    body {
+        columns: auto;
+        padding: 85px 20px 0 20px;
+    }
+   }
