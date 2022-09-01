@@ -5,34 +5,62 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Vschools | Login</title>
-        <link rel = "stylesheet" href = "{% static 'login.css' %}"/>
+        <link rel = "stylesheet" id = "styles" href = "{% static 'dark/login.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src = "{% static 'login.js' %}" defer></script>
     </head>
     <body>
         <div id = "navbar">
             <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-            <a href = "{% url 'reset_password' %}">forgot password</a>
         </div>
         <div id = "container">
             <div id = "login_holder">
                 <div id = "login">
-                    <div id = "i-one"><i class = "fas fa-user"></i></div>
-                    <form method = "POST" autocomplete="off">
+                    <div id = "i-one"><i class = "far fa-user"></i></div>
+                    <form method = "POST" autocomplete="off" id = "form">
                         {% csrf_token %}
-                        <div id = "holder">
+                        <div class = "holder">
                             <i class="fas fa-user"></i>
-                            <input type = "text" placeholder="Enter username" name = "username" required/>
+                            <input type = "text" id = "username" placeholder="Enter username" name = "username" required/>
                         </div>
 
-                        <div id = "holder">
+                        <div class = "holder">
                             <i class = "fas fa-lock"></i>
-                            <input type = "password" placeholder="Enter password" name = "password" required/>
+                            <input type = "password" id = "password" placeholder="Enter password" name = "password" required/>
                         </div>
-                        <button type = "submit">LOGIN</button>
+                        <button type = "submit" onclick = "login(this)">LOG IN</button>
                     </form>
-                <p>Vschools premium</p>
+                    <p>live</p>
+                </div>
+                <div class = "divtwo">
+                    <a style = "margin-left: 25px;" href = "{% url 'sign_up' %}">Create account</a>
+                    <a style = "margin-right: 25px;" href = "{% url 'reset_password' %}">Forgot password</a>
+                </div>
             </div>
+
+            <div class = "divthree">
+                <h2>Link up with friends and family!!!</h2>
+                <p>
+                    Interact with friends and family and let them know what you have to say....
+                </p>
+                <img src = "{% static 'selfie.svg' %}"/>
+                <p class = "footer">Quality meetings</p>
+            </div>
+            <p class = "premium">premium</p>
         </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div id = "forgot_password">
+                    <div>
+                        <p><i class = "fas fa-exclamation-triangle"></i> Wrong log in details, please try again or click the forgot password link
+                            for help
+                        </p>
+                        <button onclick = "close_item()">Ok</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </body>
 </html>

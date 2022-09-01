@@ -6,271 +6,63 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Home</title>
-        <link rel = "stylesheet" href = "{% static 'home.css' %}"/>
-        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <script src = "{% static 'home.js' %}"></script>
+        <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
+        <link id = "styles" rel = "stylesheet" href = "{% static 'dark/home.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
+        <script src = "{% static 'home.js' %}" type = "text/javascript" defer></script>
     </head>
-    <body>
+    <body oncontextmenu = "return false">
         <div id = "navbar">
-            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-            <button class = "navbuttons" style="margin-left: auto;"><i class = "far fa-paper-plane"></i></button>
-            <button class = "navbuttons"><i class = "fas fa-search"></i></button>
-            <button class = "navbuttons"><i class = "far fa-bell"></i></button>
-            <div id = "dropdown">
-                <button onclick="view_div()"><i class = "far fa-user"></i></button>
-                <div id="drop_div">
-                    <a href = "{% url 'saved_posts' %}"><i class = "fas fa-bookmark"></i> Saved posts</a>
-                    <a href = "{% url 'settings' %}"><i class = "fas fa-cog"></i> Settings</a>
-                    <a href = "#"><i class = "fas fa-users"></i> Groups</a>
-                    <a href = "{% url 'live' %}"><i class = "fas fa-video"></i> Live</a>
-                    <a href = "{% url 'logout' %}"><i class = "fas fa-sign-out-alt"></i> Sign out</a>
-                </div>
-            </div>
-            {% if pic %}
-            <img src = "{{ pic.url }}" id = "profile_picture" height = 40 width = 40/>
-            {% else %}
-            <div id = "no_profile"><i class = "fas fa-user"></i></div>
-            {% endif %}
+            <h1>Vschools</h1>
+            <a href = "{% url 'settings' %}" style = "margin-left: auto;"><i class = "far fa-user"></i></a>
+            <a href = "{% url 'logout' %}"><i class = "fas fa-sign-out-alt"></i></a>
+            <img data-name = "LM" src = "{{ profile_picture.url }}"/>
         </div>
-
-        <div id = "container_one">
-            <div id = "divtwo">
-                <a id = "user" href = "{% url 'user_info' %}"><i class = "far fa-user"></i> Your info</a>
-                <a id = "one" href = "{% url 'posts' %}">New post</a>
-                <a id = "two" href = "{% url 'live' %}">Live stream</a>
-                <a id = "three" href = "{% url 'meetings' %}">Meetings</a>
-            </div>
-
-            <div id = "welcome">
-                <h2><i class = "far fa-bell"></i> Hello {{ request.user }}</h2>
+        <div class = "holder">
+            <div class = "join">
+                <h2><i class = "fas fa-link"></i> Hello {{ request.user.username }}, you are welcome here.</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
-                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet
+                    Let's help you hold premium virtual meetings and interact with partners, friends and family
+                    at different places around the globe... 
                 </p>
-            </div>
-            <div id = "text_share">
-                <input type = "text" id = "text_post" name = "text_post" placeholder="Share some text with friends" required/>
-                <button type = "submit" onclick = "post_text()">Post</button>
-            </div>
-            <h2 style = "color: grey; margin-left: 10px;">Activities</h2>
-
-            <div id = "activities">
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8895.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-            </div>
-            <a href = "{% url 'activities' %}" class = "see_activities">See all activities</a>
-        </div>
-
-        <div class = "no_post">
-            <img src = "{% static 'selfie.svg' %}" height = "200" width = "200"/>
-            <div>
-                <p>
-                    Hey {{ request.user }} select a picture for your profile that will help friends
-                    to identify you.
-                </p>
-
-                <button onclick = "take_photo()" 
-                    style = "color:green; background-color: rgba(0, 128, 0, 0.212);
-                    border: 3px solid rgba(0, 128, 0, 0.192);"><i class = "fas fa-camera"></i> Take picture</button>
-                <button 
-                style = "color:purple; background-color: rgba(128, 0, 128, 0.212); margin-top: 10px;
-                    border: 3px solid rgba(128, 0, 128, 0.192);"><i class = "fas fa-video"></i> Live video</button>
-            </div>
-        </div>
-
-        <div id = "online">
-            <p style = "color: grey;">These people are online, you might be wanting
-                 to chat with them.</p>
-            <div>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <p style = "margin-left: 10px; font-weight: bold; color: grey;">Katumba Victor</p>
-                <a style = "margin-left: auto; margin-right: 10px;" href = "#"><i class = "fas fa-video"></i></a>
-                <a href = "#"><i class = "far fa-envelope"></i></a>
-            </div>
-
-            <div>
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" class = "profile_pic" height = 40 width = 40/>
-                <p style = "margin-left: 10px; font-weight: bold; color: grey;">Lule Mark</p>
-                <a style = "margin-left: auto; margin-right: 10px;" href = "#"><i class = "fas fa-video"></i></a>
-                <a href = "#"><i class = "far fa-envelope"></i></a>
-            </div>
-            <a style = "width: 98%;
-            color: blue;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            background-color: rgba(0, 0, 255, 0.158);
-            margin-top: 20px;
-            font-weight: bold;
-            text-align: center;
-            border: 1px solid rgba(0, 0, 255, 0.226);" href = "#">See all</a>
-        </div>
-
-        {% if not user.profile_picture %}
-        <div class = "no_post" id = "no_pic">
-            <img src = "{% static 'profile_pic.svg' %}" height = "200" width = "200"/>
-            <div>
-                <p>
-                    Hey {{ request.user }} select a picture for your profile that will help friends
-                    to identify you.
-                </p>
-                <a href = "{% url 'user_info' %}">Update now</a>
-                <button id = "later" onclick = "hide()">May be later</button>
-            </div>
-        </div>
-        {% endif %}
-
-        <div class = "follow">
-            <div class = "follow_div">
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8895.JPG" style = "width: 100%; height: auto;"/>
-                <button class = "close"><i class = "fas fa-times"></i></button>
-                <p>Katumba Victor</p>
-                <button class = "follow_button" data-id = "1"><i class = "far fa-bell"></i> Follow</button>
-            </div>
-
-            <div class = "follow_div">
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" style = "width: 100%; height: auto;"/>
-                <button class = "close"><i class = "fas fa-times"></i></button>
-                <p>Katumba Victor</p>
-                <button class = "follow_button" data-id = "2"><i class = "far fa-bell"></i> Follow</button>
-            </div>
-
-            <div class = "follow_div">
-                <div class = "no_pic"><i class = "fas fa-user"></i></div>
-                <button class = "close"><i class = "fas fa-times"></i></button>
-                <p>Katumba Victor</p>
-                <button class = "follow_button" data-id = "3"><i class = "far fa-bell"></i> Follow</button>
-            </div>
-
-            <div class = "follow_div">
-                <img src = "http://127.0.0.1:8000/media/posts/IMG_8723.JPG" style = "width: 100%; height: auto;"/>
-                <button class = "close"><i class = "fas fa-times"></i></button>
-                <p>Katumba Victor</p>
-                <button class = "follow_button" data-id = "4"><i class = "far fa-bell"></i> Follow</button>
-            </div>
-            <a href = "{% url 'follow' %}" class = "see_all">See all people</a>
-        </div>
-
-            <div class = "post_div2">
-                <div class = "post_info">
-                    <div class = "no_profile_pic"><i class = "fas fa-user"></i></div> 
-                    <a href = "#" style = "font-style: italic;">{{ request.user }}</a>
-                    <button style = "margin-left: auto; margin-right: 15px;"><i class = "far fa-bookmark"></i></button>
-                    <button><i class = "fas fa-ellipsis-h"></i></button>
-                </div>
-                <p class = "text_post">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
-                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
-                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
-                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet
-                </p>
-                <div class = "post_info2">
-                    <button onclick = "like(this)" class = "like"><i class = "far fa-heart"></i></button>
-                    <p style = "color: grey;">2</p>
-                    <button><i class = "far fa-bell"></i></button>
-                    <p style = "color: grey;">0</p>
-                    <button><i class = "far fa-envelope"></i></button>
-                    <p style = "color: grey;">0</p>
-                    <button><i class = "far fa-comment"></i></button>
-                    <p style = "color: grey;">0</p>
-                    <div>
-                        <input type = "text" placeholder="What do you think"/>
-                        <button><i class = "fas fa-comment"></i></button>
-                    </div>
-                </div>
-            </div>   
-
-            <div class = "no_post">
-                <img src = "{% static 'post.svg' %}" height = "200" width = "200"/>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et 
-                    egestas nibh. Donec et dapibus orci. Pellentesque rutrum dolor sit amet
-                </p>
-            </div>
-
-            <div id = "options">
-                <div id = "option_items">
-                    <div>
-                        <a href = "#"><i class = "far fa-bell"></i> Notify me</a>
-                        <p>Be notified of this post</p>
-                    </div>
-                    <div>
-                        <a href = "#"><i class = "far fa-bookmark"></i> Save post</a>
-                        <p>Save this post for rememberence</p>
-                    </div>
-                    <div>
-                        <a href = "#"><i class = "far fa-envelope"></i> Send message</a>
-                        <p>Be notified of this post</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id = "take_photo">
+                <form onsubmit = "join_meeting(event)" autocomplete = "off">
+                    <textarea placeholder = "Join session by code....." name = "passcode" required></textarea>
+                    <button>Join session</button>
+                </form>
                 <div>
-                    <video id = "capture" autoplay></video>
+                    <i data-description = 'captions' class = "far fa-closed-captioning"></i>
+                    <i data-description = 'hands' class = "far fa-hand-paper"></i>
+                    <i data-description = 'invite' class = "fas fa-link"></i>
+                    <i data-description = 'screen' class = "fas fa-laptop"></i>
                 </div>
             </div>
-
-            {% if posts %} 
-            {% for post in posts %}
-            <div class = "post_div2">
-                <div class = "post_info">
-                    {% if post.user_pic %}
-                        <img src = "{{ post.user_pic.url }}" class = "profile_pic" height = 40 width = 40/>
-                    {% else %}
-                        <div class = "no_profile_pic"><i class = "fas fa-user"></i></div>
-                    {% endif %}
-
-                    {% if post.user.id == request.user.id %}
-                        <a href = "{% url 'person_info' post.user.id %}" style = "font-style: italic;">
-                            You
-                        </a>
-                    {% else %}
-                        <a href = "{% url 'person_info' post.user.id %}" style = "font-style: italic;">
-                            {{ post.user.username }}
-                        </a>
-                    {% endif %}
-
-                    {% if post.id in saved_posts %}
-                        <button style = "margin-left: auto; margin-right: 15px;" onclick = "save_post(this)"
-                            data-post_id = {{ post.id }}><i class = "fas fa-bookmark"></i></button>
-                    {% else %}
-                        <button style = "margin-left: auto; margin-right: 15px;" onclick = "save_post(this)"
-                        data-post_id = {{ post.id }}><i class = "far fa-bookmark"></i></button>
-                    {% endif %}
-                    <button onclick="display_options()"><i class = "fas fa-ellipsis-h"></i></button>
-                </div>
-
-                {% if post.caption %}
-                    <p class = "text_post">
-                        {{ post.caption }}
-                    </p>
-                {% endif %}
-
-                <img src = "{{ post.file_uploaded.url }}" style = "width: 100%; height: auto; margin-top: 20px;"/>
-
-                <div class = "post_info2">
-                    <button onclick = "like(this)" data-post_id = {{post.id}}><i class = "far fa-heart"></i></button>
-                    <p style = "color: grey;">0</p>
-                    <button><i class = "far fa-comment"></i></button>
-                    <p style = "color: grey;">0</p>
+            <div class = "create">
+                <div class = "child_one">
                     <div>
-                        <input type = "text" id = {{ post.id }} placeholder="What do you think"/>
-                        <button><i class = "far fa-surprise"></i></button>
-                        <button onclick = "comment(this)"><i class = "far fa-paper-plane"></i></button>
+                        <img src = "{% static 'conversation.svg' %}"/>
+                    </div>
+                    <div>
+                        <p>
+                            <i class = "fas fa-users"></i> Start an instant meeting...
+                        </p>
+                        <form method = "POST" autocomplete = "off" onsubmit = "create_meeting(this)">
+                            {% csrf_token %}
+                            <input type = "text" placeholder = "Name your meeting....." name = "meeting_title" required/>
+                            <button>Start meeting</button>
+                        </form>
                     </div>
                 </div>
-            </div> 
-            {% endfor %}
-            {% endif %}
+                <div class = "child_two">
+                    <h2>
+                       <i class = "fas fa-clock"></i> Schedule for a meeting later by clicking <a href = "{% url 'schedule' %}">here</a>
+                    </h2>
+                    <p>
+                        This shall help the meeting participants to know the date and time of the 
+                        next meeting session...
+                    </p>
+                </div>
+            </div>
+        </div>
+        <p class = "footer">premium</p>
     </body>
 </html>

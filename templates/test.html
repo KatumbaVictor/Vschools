@@ -1,20 +1,17 @@
 {% load static %}
 
 <!DOCTYPE html>
+<html lang="en">
     <head>
-        <title>Test page</title>
-        <link rel = "stylesheet" href = "{% static 'test.css' %}"/>
+        <title>Test page 1</title>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'test.css' %}"/>
 	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src="https://sdk.symbl.ai/js/beta/symbl-web-sdk/latest/symbl.min.js"></script>
+        <script src = "{% static 'test.js' %}" defer></script>
     </head>
     <body>
-
-    {% if 1 in s %}
-    <p>yes</p>
-    {% else %}
-    <p>no</p>
-    {% endif %}
-    
+        <div id = 'main' data-token = {{ token }}></div>
+        <button onclick = "add_tile()">add tile</button>
     </body> 
-    
 </html>

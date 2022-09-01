@@ -26,20 +26,41 @@ SECRET_KEY = 'u8haeu_4mowv=2^0i!1c^g-!fq7ko+w1nx^w2m^5jmb&op2hn1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['vschools.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','vschools.herokuapp.com','vschools.space']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
+    'main',
+    'storages'
 ]
+
+ASGI_APPLICATION = 'vschools.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL')],
+        },
+    },
+}
+
+'''
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}
+'''
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -78,10 +99,23 @@ WSGI_APPLICATION = 'vschools.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER':'postgres',
+        'PASSWORD':'lG82sgSAxZYTjdnfsLlR',
+        'HOST':'containers-us-west-58.railway.app',
+        'PORT':'7005'
+    }
+}
+
+'''
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''
 
 
 # Password validation
@@ -103,6 +137,17 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -118,29 +163,65 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+# https://docs.djangoproject.com/en/3.1/howto/static-files/ 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static files')]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+AWS_ACCESS_KEY_ID = 'AKIARLTR4RWUQPIM3AEB'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'vschools-file-bucket'
 
+AWS_DEFAULT_ACL = 'public-read'
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl':'max-age=86400'
+}
+
+AWS_LOCATION = 'static'
+
+AWS_QUERYSTRING_AUTH = False
+
+AWS_HEADERS = {
+    'Access-Control-Allow-Origin':'*',
+}
+
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+'''
+MEDIA_URL = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
+
+MEDIA_ROOT = MEDIA_URL
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+'''
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+EMAIL_FROM_USER = 'vschoolspremium@gmail.com'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "katumbavictor5@gmail.com"
-EMAIL_HOST_PASSWORD = 'victorious'
+EMAIL_HOST_USER = "vschoolspremium@gmail.com"
+EMAIL_HOST_PASSWORD = 'gzhisykpjzwnznbo'
 
 CSRF_COOKIE_SECURE = True
 
 SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
-

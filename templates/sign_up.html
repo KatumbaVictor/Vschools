@@ -1,39 +1,57 @@
 {% load static %}
 
 <!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8"/>
         <title>Vschools | sign up</title>
-        <link rel = "stylesheet" href = "{% static 'sign_up.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'dark/sign_up.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <script src = "{% static 'sign_up.js' %}"></script>
+        <script src = "{% static 'sign_up.js' %}" defer></script>
     </head>
     <body>
-        <div id = "container"> 
-            <div id = "login">
-                <h1 style = "font-family: 'Brush Script MT', cursive; font-size: 50px;">Vschools</h1>
-                <p id = "text">
-                    Start your sign up process here.
-                </p>
-                <form method = "POST">
-                    {% csrf_token %}
-                    <div id = "holder">
-                        <i class="fas fa-user"></i>
-                        <input type = "text" placeholder="Enter first name" name = "first_name" required/>
-                    </div>
-
-                    <div id = "holder">
-                        <i class="fas fa-user"></i>
-                        <input type = "text" placeholder="Enter last name" name = "last_name" required/>
-                    </div>
-
-                    <div id = "holder">
-                        <i class = "fas fa-envelope"></i>
-                        <input type = "email" placeholder="Enter e-mail" name = "email" required/>
-                    </div>
-                    <button type = "submit">NEXT</button>
-                </form>
-            <p id = "footer">Vschools premium</p>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+            <button onclick = "submit()">Submit</button>
         </div>
+        <form method = "POST" autocomplete="off" id = "form">
+        {% csrf_token %}
+        <div class = "holder">
+            <h2>Enter username</h2>
+            <p>Enter your names here both first and last name that will help other users
+                to identify you in meeting sessions...
+            </p>
+            <input type = "text" placeholder = "Enter first name" name = "first_name" autofocus required/>
+            <input type = "text" placeholder = "Enter last name" name = "last_name" required/>
+        </div>
+        <div class = "holder">
+            <h2>Enter e-mail</h2>
+            <p>Enter your e-mail address, this email address shall be have to be verified for 
+                security purposes...
+            </p>
+            <input type = "email" name = "email" placeholder = "Enter your e-mail" required/>
+        </div>
+        <div class = "holder">
+            <h2>Enter password</h2>
+            <p>Enter your password below, your password has to have atleast 8 characters and atmost 
+                32 characters...
+            </p>
+            <input type = "password" min = "8" max = "32" name = "password_one" placeholder = "Enter password here" required/>
+            <input type = "password" min = "8" max = "32" name = "password_two" placeholder = "Confirm password" required/>
+        </div>
+        <button type = "submit">Submit</button>
+    </form>
+    <div class = "holder2">
+        <h2>Sign up and link up with friends</h2>
+        <p>Enter all your information above to get started, we hope to give you the best</p>
+        <div>
+            <i data-description = 'captions' class = "far fa-closed-captioning"></i>
+            <i data-description = 'hands' class = "far fa-hand-paper"></i>
+            <i data-description = 'invite' class = "fas fa-link"></i>
+            <i data-description = 'screen' class = "fas fa-laptop"></i>
+        </div>
+    </div>
+    <p class = "premium">premium</p>
     </body>
 </html>
