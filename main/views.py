@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.http import JsonResponse
-from main.models import account_info, followings, Room, Room_member, Room_message
+from main.models import account_info, Room, Room_member, Room_message, whiteboard_files, MeetingWhiteboard, RecordedFiles
 from datetime import date, timedelta, datetime
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -23,6 +23,11 @@ import secrets
 import time
 import uuid
 from agora_token_builder import RtcTokenBuilder
+import base64
+import http.client
+from background_task import background
+import boto3
+import os
 
 
 def getToken(request):
@@ -61,42 +66,70 @@ def login_page(request):
 
     return render(request, "login.html")
 
-def getRoomMembers(request):
-    room_name = reqeust.GET.get('room_name')
-    target = Room.objects.filter(room_name=room_name)
-    response = []
-    for item in target:
-        dict_item = {'name':room.user.username}
-        dict_item['profile_picture'] = account_info.objects.get(user=item.user).profile_picture.url
-        dict_item['uid'] = item.uid
+def update_username(request):
+    data = json.loads(request.body)
+    first_name = data['first_name']
+    last_name = data['last_name']
+    username = first_name + ' ' + last_name
+    user = User.objects.get(id=request.user.id)
+    user.first_name = first_name
+    user.last_name = last_name
+    user.username = username
+    user.save()
+    return JsonResponse({'first_name':first_name,'last_name':last_name,'username':username}, safe=False)
+
+def update_password(request):
+    data = json.loads(request.body)
+    current_password = data['current_password']
+    password_one = data['password_one']
+    password_two = data['password_two']
+    user = User.objects.get(id=request.user.id)
+    
+    if password_one == password_two:
+        user.set_password('password_two')
+        user.save()
+    
+    return JsonResponse({'password_changed':True})
+
+@login_required(login_url='login')
+def whiteboard_page(request, meeting_id):
+    if request.method == "POST":
+        if request.FILES:
+            item = whiteboard_files(room_name=meeting_id,file=request.FILES['image'])
+            item.save()
+            return JsonResponse({'imageUrl':item.file.url,'uuid':secrets.token_urlsafe(4)}, safe=False)
+        
+    if request.is_ajax:
+        if request.body:
+            data = json.loads(request.body)
+            room_token = data['room_token']
+            room_uuid = data['room_uuid']
+
+            room = Room.objects.get(room_name=meeting_id)
+
+            item = MeetingWhiteboard.objects.get(room=room)
+            item.room_token=room_token
+            item.room_uuid = room_uuid
+            item.save()
+
+    user_token = account_info.objects.get(user=request.user).user_token
+    request.user.user_token = user_token
+    request.meeting_token = meeting_id
+
+    return render(request, 'whiteboard.html')
+
+def whiteboardDetails(request):
+    data = request.GET
+    room_name = data['room_name']
+    room = Room.objects.get(room_name=room_name)
+    item = MeetingWhiteboard.objects.get(room=room)
+
+    response = {'room_token':item.room_token,'room_uuid':item.room_uuid}
 
     return JsonResponse(response, safe=False)
 
-def followUser(request):
-    data = json.loads(request.body)
-    user_id = data['user_id']
-    user = User.objects.get(id=int(user_id))
-    if request.user.id not in [item.follower.id for item in followings.objects.filter(user=user)]:
-        followings(user=user,follower=request.user).save()
-
-def unfollowUser(request):
-    data = json.loads(request.body)
-    user_id = data['user_id']
-    user = User.objects.get(id=int(user_id))
-    if request.user.id in [item.follower.id for item in followings.objects.filter(user=user)]:
-        followings.objects.get(user=user,follower=request.user).delete()
-
-def getRoomMember(request):
-    uid = request.GET['uid']
-    user = User.objects.get(id=int(uid))
-    room_name = request.GET['room_name']
-    user_token = account_info.objects.get(user=user).user_token
-    print(account_info.objects.get(user=user).profile_picture.url)
-    response = {'name':user.username,
-               'profile_picture':account_info.objects.get(user=user).profile_picture.url,
-              'user_token':user_token,'uid':user.id}
-    print(response)
-    return JsonResponse(response, safe=False)
+def UpdateWhiteboardDetails(request):
+    return JsonResponse({'updated':True}, safe=False)
 
 @login_required(login_url='login')
 def ask_delete_page(request):
@@ -116,7 +149,7 @@ def settings_page(request):
         user.profile_picture = account_info.objects.get(user=request.user).profile_picture
 
     if request.method == "POST":
-        if request.FILES:
+        if request.FILES: 
             item = account_info.objects.get(user=request.user)
             item.profile_picture = request.FILES['image']
             item.save()
@@ -162,6 +195,9 @@ def sign_up_page(request):
                 user.save()
                 account_info(user=user,datejoined=timezone.now(),
                         user_token=secrets.token_urlsafe(), email_token=email_token).save()
+                room = Room(room_name=account_info.objects.get(user=user).user_token)
+                room.save()
+                MeetingWhiteboard(room=room).save()
 
                 verification_link = 'https://' + str(get_current_site(request))+'/verify/'+email_token
 
@@ -207,57 +243,8 @@ def person_info_page(request,user_token):
 
     return render(request,"person.html",context)
 
-@login_required(login_url='login')
-def share_screen_page(request):
-    return render(request, 'share_screen.html')
-
-def create_room(request):
-    data = json.loads(request.body)
-    uid = data['uid']
-    room = data['room']
-    Room(room_name=data['room'],uid=data['uid'],user=request.user,role='host').save()
-
-def co_host_page(request,token_value):
-    return render(request, "co-host.html")
-
-@login_required(login_url='login')
-def live_page(request):
-    request.profile_picture = account_info.objects.get(user=request.user).profile_picture
-    request.user_token = account_info.objects.get(user=request.user).user_token
-    request.current_site = get_current_site(request)
-    if request.method == "POST":
-        data = json.loads(request.body)
-        stream_title = data['stream_title']
-        description = data['description']
-        chats = data['chats']
-        room_name = account_info.objects.get(user=request.user).user_token
-        Room(room_name=room_name,chats=chats,title=stream_title,
-                description=description,room_type='live').save()
-    return render(request, "live.html")
-
-def question_page(request):
-    return render(request, "question.html")
-
-def start_meeting_page(request):
-    if request.method == "POST":
-        print(request.POST)
-    return render(request,"start_meeting.html")
-
 def guest_page(request):
     return render(request, "guest.html")
-
-@login_required(login_url='login')
-def live_now(request):
-    following = [account_info.objects.get(user=item.user).user_token for item in followings.objects.filter(follower=request.user)]
-    ongoing = [item for item in Room.objects.all() if item.room_name in following]
-    for item in ongoing:
-        room_host = account_info.objects.get(user_token=item.room_name)
-        item.host = room_host.user.username
-        item.profile_picture = room_host.profile_picture
-        item.users = Room_member.objects.filter(room=item).count()
-
-    context = {'rooms':ongoing}
-    return render(request, "live_now.html", context)
 
 @login_required(login_url='login')
 def meeting_auth(request, meeting_id):
@@ -269,74 +256,86 @@ def schedule_meeting(request):
     return render(request, 'schedule_meeting.html')
 
 @login_required(login_url='login')
+def recorded_files(request, meeting_id):
+    files = RecordedFiles.objects.filter(user=request.user)
+    context = {'files':files}
+
+    return render(request, 'recorded_files.html', context)
+
+@login_required(login_url='login')
+def uploaded_files(request, meeting_id):
+    room = Room.objects.get(room_name=meeting_id)
+    objects = Room_message.objects.filter(room=room)
+
+    context = {'files':objects}
+
+    return render(request, 'uploaded_files.html', context)
+
 def meet_page(request, meeting_id):
-    appId = '0eb3e08e01364927854ee79b9e513819'
-    appCertificate = 'f2fdb8604d8b47a9bc71dcd5606f1d7e'
-    channelName = meeting_id
-    uid = request.user.id
-    expirationTimeInSeconds = 3600 * 24
-    currentTimeStamp = time.time()
-    privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds
-    role = 1
+    user_details = {}
 
-    token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
-    room_messages = Room_message.objects.filter(room=Room.objects.get(room_name=meeting_id))
+    try:
+        if request.user.is_authenticated:
+            user_details['profile_picture'] = account_info.objects.get(user=request.user).profile_picture
+    except:
+        pass
 
-    for item in room_messages:
-        item.user.profile_picture = account_info.objects.get(user=item.user).profile_picture
+    if request.method == 'POST':
+        if request.FILES:
+            if request.user.is_authenticated:
+                room = Room.objects.get(room_name=meeting_id)
+                room_member = Room_member.objects.get(id=int(request.POST['uid']))
+                item = Room_message(room=room,room_member=room_member,
+                    file=request.FILES['image'],file_type=request.POST['fileType'],
+                    file_name=request.POST['fileName'],time=timezone.now())
+                item.save()
+                return JsonResponse({'fileUrl':item.file.url}, safe=False)
+        else:
+            video_file_name = request.POST['video_file_name']
 
-    context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
+            RecordedFiles(User=request.user, fileUrl=video_file_name).save()
+
+    customer_key = "a0a3bcfe4bf24cb48e5ace72855058cc"
+    customer_secret = "35c8f03349184c40932e03d531c06de5"
+    credentials = customer_key + ":" + customer_secret
+    base64_credentials = base64.b64encode(credentials.encode("utf8"))
+    credential = base64_credentials.decode("utf8")
+
+    room_chats = Room_message.objects.filter(room=Room.objects.get(room_name=meeting_id))
+
+    for item in room_chats:
+        item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture
+
+    context = {'profile_picture':user_details.get('profile_picture','/media/no_profile_Pic.jpeg'),
                 'host_profile_pic':account_info.objects.get(user_token=meeting_id).profile_picture,
                 'meeting_link':'https://'+str(get_current_site(request))+'/meet/'+meeting_id,
                 'host_username':account_info.objects.get(user_token=meeting_id).user.username,
-                'token':token,'room_chats':room_messages}
+                'authorization': credential,'room_chats':room_chats}
     request.user.user_token = meeting_id
     request.meeting_description = Room.objects.get(room_name=meeting_id).description
     request.meeting_passcode = Room.objects.get(room_name=meeting_id).passcode
-    if meeting_id == account_info.objects.get(user=request.user).user_token:
-        context['role'] = 'host'
-    else:
-        context['role'] = 'participant'
 
     return render(request, "meet.html",context)
 
-def join_meeting(request):
-    return render(request, "join_meeting.html")
+@background(schedule=10)
+def notify_user():
+    print('hello this is your scheduled message')
 
 @login_required(login_url='login')
 def home_page(request):
+    notify_user()
     if request.method == "POST":
         meeting_title = request.POST['meeting_title']
-        Room.objects.filter(room_name=account_info.objects.get(user=request.user).user_token).delete()
-        Room(room_name=account_info.objects.get(user=request.user).user_token,
-            description = meeting_title.upper(), passcode = secrets.token_urlsafe(4), start_date=timezone.now()).save()
+        room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
+        room.description = meeting_title.capitalize()
+        room.passcode = secrets.token_urlsafe(4)
+        room.start_date = timezone.now()
+        room.save()
         return redirect('meet',account_info.objects.get(user=request.user).user_token)
 
     context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
-                'user_token':account_info.objects.get(user=request.user).user_token}
+                'user_token':account_info.objects.get(user=request.user).user_token,'current_time':timezone.now()}
     return render(request, "home.html", context)
-
-@login_required(login_url='login')
-def watch_page(request, user_id):
-    if user_id == account_info.objects.get(user=request.user).user_token:
-        return redirect('home')
-    request.profile_picture = account_info.objects.get(user=request.user).profile_picture
-    user = account_info.objects.get(user_token=user_id).user
-    following = request.user.id in [item.follower.id for item in followings.objects.filter(user=user)]
-    room = Room.objects.get(room_name=user_id)
-    context = {'following':following,'Room':room}
-
-    if request.method == "POST":
-        if request.user.id not in [item.follower.id for item in followings.objects.filter(user=user)]:
-            followings(user=user,follower=request.user).save()
-        else:
-            followings.objects.get(user=user,follower=request.user).delete()
-
-    return render(request, "watch.html",context)
-
-@login_required(login_url='login')
-def create_live(request):
-    return render(request, "create_live.html")
 
 @login_required(login_url='login')
 def get_started_page(request):
@@ -347,10 +346,16 @@ def logout_user(request):
     return redirect('login')
 
 def test_page(request):
+    customer_key = "a0a3bcfe4bf24cb48e5ace72855058cc"
+    customer_secret = "35c8f03349184c40932e03d531c06de5"
+    credentials = customer_key + ":" + customer_secret
+    base64_credentials = base64.b64encode(credentials.encode("utf8"))
+    credential = base64_credentials.decode("utf8")
+
     appId = '0eb3e08e01364927854ee79b9e513819'
     appCertificate = 'f2fdb8604d8b47a9bc71dcd5606f1d7e'
-    channelName = 'victor'
-    uid = request.user.id
+    channelName = 'uiuiubui'
+    uid = 57687
     expirationTimeInSeconds = 3600 * 24
     currentTimeStamp = time.time()
     privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds
@@ -358,7 +363,7 @@ def test_page(request):
 
     token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
 
-    context = {'token':token}
+    context = {'authorization':credential,'token':token}
 
     return render(request, "test.html",context)
 

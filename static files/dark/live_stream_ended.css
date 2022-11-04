@@ -22,7 +22,8 @@ body {
     flex-direction: row;
     align-items: center;
     z-index: 5;
-    border-bottom: 4px solid rgba(21, 21, 21, 0.863);
+    background-color: rgb(10,10,10);
+    border-bottom: 1px solid rgb(23, 23, 23);
 }
 
 #navbar h1{

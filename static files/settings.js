@@ -5,12 +5,6 @@ function get_photo(){
     file_button.click();
 }
 
-function change_password(){
-    var current_password = document.getElementById('current_password');
-    var new_password1 = document.getElementById('new_password1');
-    var new_password2 = docucment.getElementById('new_password2');
-}
-
 function crop_photo(self){
     if (self.files){
         var file_reader = new FileReader();
@@ -47,7 +41,6 @@ function crop(){
     image_cropper.getCroppedCanvas().toBlob((blob) => {
         var form = new FormData();
         form.append("image",blob);
-        console.log(URL.createObjectURL(blob));
         fetch(window.location,{
             method: "POST",
             headers: { 'Accept': 'application/json',
@@ -64,6 +57,46 @@ function crop(){
     document.getElementById('cropper_holder').style.display = "none";
 }
 
-document.getElementById('cancel').addEventListener('click',() => {
-    document.getElementById('cropper_holder').style.display = "none";
-})
+let change_password = (ev) => {
+    ev.preventDefault();
+    var current_password = document.getElementById('password_form').children[1].value;
+    var password_one = document.getElementById('password_form').children[2].value;
+    var password_two = document.getElementById('password_form').children[3].value;
+    var button = document.getElementById('password_form').lastElementChild;
+    button.innerHTML = "Updating...";
+    fetch('/update_password/',{
+        method: 'POST',
+        headers: { 'Accept': 'application/json',
+                'X-Requested-With':'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')},
+        body: JSON.stringify({'current_password':current_password,'password_one':password_one,'password_two':password_two})
+    }).then(response => {
+        return response.json().then(data => {
+            setTimeout(() => {
+                button.innerHTML = "Save changes";
+            }, 3000)
+        })
+    })
+}
+
+let change_username = (ev) => {
+    ev.preventDefault();
+    var first_name = document.getElementById('info_form').children[1].value;
+    var last_name = document.getElementById('info_form').children[2].value;
+    var button = document.getElementById('info_form').lastElementChild;
+    button.innerHTML = "Updating...";
+    fetch('/update_username/',{
+        method: 'POST',
+        headers: { 'Accept': 'application/json',
+                'X-Requested-With':'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')},
+        body: JSON.stringify({'first_name':first_name,'last_name':last_name})
+    }).then(response => {
+        return response.json().then(data => {
+            setTimeout(() => {
+                document.getElementById('username').innerHTML = data.username;
+                button.innerHTML = "Save changes";
+            }, 3000)
+        })
+    })
+}

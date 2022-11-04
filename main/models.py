@@ -14,10 +14,6 @@ class account_info(models.Model):
     email_token = models.CharField(max_length=200, null=True, blank=True)
     email_verified = models.BooleanField(default=False)
 
-class followings(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
-
 class Room(models.Model):
     room_name = models.TextField(unique=True)
     chats = models.BooleanField(default=True)
@@ -26,22 +22,22 @@ class Room(models.Model):
     passcode = models.TextField(blank=True, null=True)
     room_type = models.CharField(max_length=30, default='meeting')
     start_date = models.DateTimeField(blank=True, null=True)
+    time_limit = models.IntegerField(default=2400)
 
 class Room_member(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     role = models.CharField(max_length=30)
     time_joined = models.DateTimeField(blank=True, null=True)
 
 class Room_message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room_member = models.ForeignKey(Room_member, on_delete=models.CASCADE, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
-    time = models.DateTimeField()
-
-class Raised_hands(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    file = models.FileField(blank=True, null=True, upload_to='media')
+    file_type = models.CharField(max_length=30, blank=True, null=True)
+    file_name = models.TextField(blank=True, null=True)
+    time = models.DateTimeField(auto_now_add=True)
 
 class Attendence_report(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -53,5 +49,18 @@ class meeting_schedule(models.Model):
     uer = models.ForeignKey(User, on_delete=models.CASCADE)
     meeting_title = models.TextField()
     meeting_time = models.DateTimeField()
+
+class MeetingWhiteboard(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room_token = models.TextField(blank=True, null=True)
+    room_uuid = models.TextField(blank=True, null=True)
+
+class whiteboard_files(models.Model):
+    room_name = models.TextField()
+    file = models.FileField(upload_to='media')
+
+class RecordedFiles(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    fileUrl = models.TextField()
 
 

@@ -1,34 +1,76 @@
-(async () => {
-    try {
-        const symbl = new Symbl({
-            appId: '6f77634b73416c4c616b575949676d576e494b4a304c44564e446e34644b7551',
-            appSecret: '715341643953573431314d65344935496a716a7157566b5078513532445234757a52726a31364a69766f6c4745624430703237525f5637314435356a3774376e',
-            reconnectOnError: true
-        });
-        const connection = await symbl.createConnection();
-        connection.connect();
-        await connection.startProcessing({
-          insightTypes: ["question", "action_item", "follow_up"],
-          config: {
-            encoding: "OPUS"
-          },
-          speaker: {
-            userId: "user@example.com",
-            name: "Your Name Here"
-          }
-        });
-  
-        connection.on("message", (speechData) => {
-                console.log(speechData[0]);
-        });
-  
-        await Symbl.wait(60000);
-        
-        await connection.stopProcessing();
-        
-        connection.disconnect();
-    } catch(e) {
-        
-    }
-  
-  })();
+/*
+var canonical_querystring = '';
+
+var date = new Date();
+
+var year = date.getFullYear();
+var month = date.getMonth();
+var day = date.getDay()
+
+var hours = date.getHours();
+var minutes = date.getMinutes();
+var seconds = date.getSeconds()
+
+method = "GET";
+service = "transcribe";
+region = "us-east-1";
+endpoint = "wss://transcribestreaming.us-west-2.amazonaws.com:8443";
+host = "transcribestreaming.us-west-2.amazonaws.com:8443";
+amz_date = `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+datestamp = `${year}${month}${day}`;
+access_key = 'AKIARLTR4RWUQPIM3AEB'
+
+canonical_uri = "/stream-transcription-websocket"
+
+canonical_headers = "host:" + host + "\n"
+signed_headers = "host"
+
+algorithm = "AWS4-HMAC-SHA256"
+
+credential_scope = datestamp + "/" + region + "/" + service + "/" + "aws4_request"
+
+canonical_querystring  = "X-Amz-Algorithm=" + algorithm
+canonical_querystring += "&X-Amz-Credential="+ URI-encode(access_key + "/" + credential_scope)
+canonical_querystring += "&X-Amz-Date=" + amz_date 
+canonical_querystring += "&X-Amz-Expires=250"
+canonical_querystring += "&X-Amz-Security-Token=" + token
+canonical_querystring += "&X-Amz-SignedHeaders=" + signed_headers
+canonical_querystring += "&language-code=en-US&media-encoding=flac&sample-rate=16000"
+
+payload_hash = HashSHA256(("").Encode("utf-8")).HexDigest()
+
+canonical_request = method + '\n' 
+   + canonical_uri + '\n' 
+   + canonical_querystring + '\n' 
+   + canonical_headers + '\n' 
+   + signed_headers + '\n' 
+   + payload_hash
+
+string_to_sign=algorithm + "\n"
+   + amz_date + "\n"
+   + credential_scope + "\n"
+   + HashSHA256(canonical_request.Encode("utf-8")).HexDigest()
+
+signing_key = GetSignatureKey(secret_key, datestamp, region, service)
+                
+signature = HMAC.new(signing_key, (string_to_sign).Encode("utf-8"), Sha256()).HexDigest
+
+canonical_querystring += "&X-Amz-Signature=" + signature
+
+request_url = endpoint + canonical_uri + "?" + canonical_querystring
+
+
+// Create a canonical request
+
+*/
+
+
+
+colorPicker.addEventListener("input", updateFirst, false);
+colorPicker.addEventListener("change", watchColorPicker, false);
+
+function watchColorPicker(event) {
+  document.querySelectorAll("p").forEach((p) => {
+    p.style.color = event.target.value;
+  });
+}

@@ -9,10 +9,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+    padding-top: 80px;
+} 
 
 #container {
-    padding-top: 85px;
     width: calc(100% - 40px);
     height: 100%;
     display: grid;
@@ -47,14 +47,18 @@ body {
     flex-direction: column;
 }
 
-#divone h2 {
+.heading_one {
     color: rgba(245, 245, 245, 0.829);
     font-weight: lighter;
     margin: 0;
     margin-top: 10px;
     font-size: 30px;
+    margin-bottom: 23px;
+    align-self: flex-start;
+    margin-left: 20px;
+    margin-right: 20px;
 }
-
+ 
 #form {
     display: flex;
     flex-direction: column;
@@ -64,10 +68,26 @@ body {
     margin-bottom: 20px;
     padding: 15px;
     background-color: rgba(128, 128, 128, 0.082);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.733);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(30, 30, 30, 0.685);
+}
+
+#divone textarea {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(128, 128, 128, 0.082);
     border: 1px solid rgba(128, 128, 128, 0.452);
     border-radius: 8px;
     color: rgba(255, 255, 255, 0.733);
     border: none;
+    border-radius: 8px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid rgba(30, 30, 30, 0.685);
 }
 
 #divone button {
@@ -82,6 +102,7 @@ body {
     color: rgba(245, 245, 245, 0.479);
     font-weight: normal;
     font-size: 15px;
+    margin-top: 0;
 }
 
 #divtwo {
@@ -97,23 +118,66 @@ body {
     margin-top: 20px;
 }
 
-#divtwo h2 {
-    color: rgba(245, 245, 245, 0.829);
-    font-weight: lighter;
-    margin: 0;
-    margin-top: 10px;
-    font-size: 30px;
-}
-
-#divtwo p {
-    color: rgba(245, 245, 245, 0.37);
-    font-weight: normal;
-    font-size: 14px;
-    margin-top: 0;
-}
-
 #divthree {
     width: calc(100% - 40px);
+}
+
+.holder {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    border: 1px solid rgba(128, 128, 128, 0.205);
+}
+
+.holder h2 {
+    color: rgba(245, 245, 245, 0.705);
+    font-weight: lighter;
+    font-size: 18px;
+    margin: 0;
+    margin: 0 0 15px 0;
+    padding: 13px 20px 15px 20px;
+    background-color: rgba(128, 128, 128, 0.068);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.11);
+}
+
+.holder p {
+    color: rgba(245, 245, 245, 0.356);
+    font-weight: normal;
+    font-size: 13px;
+    margin: 0;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.holder input {
+    border: none;
+    margin-bottom: 11px;
+    padding: 12px 0 12px 10px;
+    border-radius: 6px;
+    transition: .7s box-shadow;
+    background-color: rgba(19, 19, 19, 0.616);
+    transition: background-color .3s;
+    color: grey;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.holder button {
+    border: none;
+    background-color: rgba(19, 19, 19, 0.651);
+    color: grey;
+    padding: 12px 0 12px 10px;
+    border: 1px solid rgba(128, 128, 128, 0.096);
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 6px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .premium {
@@ -149,4 +213,8 @@ body {
     position: absolute;
     top: 20px;
     right: 0;
+}
+
+input[type='time']::-webkit-clear-button {
+    padding: 30px;
 }

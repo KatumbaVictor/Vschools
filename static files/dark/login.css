@@ -16,7 +16,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-bottom: 3px solid rgba(128, 128, 128, 0.075);
+    border-bottom: 2px solid rgba(128, 128, 128, 0.116);
     z-index: 5;
     background-color: rgba(128, 128, 128, 0.082);
 }
@@ -67,21 +67,21 @@ body {
     align-self: center;
     color: rgba(245, 245, 245, 0.493);
     background-color: rgba(128, 128, 128, 0.082);
-    border: 1px solid rgba(128, 128, 128, 0.055);
+    border: 1px solid rgba(128, 128, 128, 0.171);
 }
 
 .holder {
     margin-top: 15px;
     padding: 10px 0 10px 10px;
-    border-radius: 6px;
+    border-radius: 8px;
     width: 230px;
-    transition: .7s box-shadow;
-    background-color: rgba(128, 128, 128, 0.123);
+    background-color: rgba(128, 128, 128, 0.062);
     transition: background-color .3s;
+    border: 1px solid rgba(128, 128, 128, 0.171);
 }
 
 .holder:hover {
-    background-color: rgba(128, 128, 128, 0.171);
+    background-color: rgba(128, 128, 128, 0.123);
 }
 
 .holder i {
@@ -107,6 +107,7 @@ body {
     position: relative;
     color: rgba(245, 245, 245, 0.575);
     background-color: rgba(128, 128, 128, 0.116);
+    border: 1px solid rgba(128, 128, 128, 0.116);
 }
 
 #login p {
@@ -205,7 +206,6 @@ body {
 .divthree h2{
     color: rgba(245, 245, 245, 0.678);
     font-weight: lighter;
-    margin-top: 0;
 }
 
 .divthree p {

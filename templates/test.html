@@ -4,14 +4,12 @@
 <html lang="en">
     <head>
         <title>Test page 1</title>
-        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'test.css' %}"/>
+        <link href = "https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css"/>
 	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <script src="https://sdk.symbl.ai/js/beta/symbl-web-sdk/latest/symbl.min.js"></script>
         <script src = "{% static 'test.js' %}" defer></script>
     </head>
     <body>
-        <div id = 'main' data-token = {{ token }}></div>
-        <button onclick = "add_tile()">add tile</button>
+        <i class = "fas fa-user"></i>
     </body> 
 </html>

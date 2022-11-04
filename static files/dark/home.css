@@ -7,7 +7,7 @@
 body {
     background-color: rgb(0, 0, 0);
     padding-top: 85px;
-    display: flex;
+    display: flex; 
     flex-direction: column;
     align-items: center;
 }
@@ -22,7 +22,8 @@ body {
     flex-direction: row;
     align-items: center;
     z-index: 5;
-    border-bottom: 4px solid rgba(21, 21, 21, 0.863);
+    border-bottom: 2px solid rgba(128, 128, 128, 0.123);
+    background-color: rgb(10,10,10);
 }
 
 #navbar h1{
@@ -80,12 +81,12 @@ body {
     font-weight: 400;
 }
 
-.create p {
+.main_text {
     color: rgba(245, 245, 245, 0.815);
     font-weight: lighter;
     font-size: 20px;
 }
-
+ 
 .join form {
     display: flex;
     flex-direction: column;
@@ -100,7 +101,7 @@ body {
     font-size: 30px;
 }
 
-.join p {
+.main_text {
     color: rgba(245, 245, 245, 0.425);
     font-weight: normal;
     font-size: 15px;
@@ -111,55 +112,17 @@ body {
     border-radius: 8px;
     height: 70px;
     padding: 10px;
-    background-color: rgba(7, 7, 7);
-    border: 1px solid rgb(30, 30, 30);
+    background-color: rgba(128, 128, 128, 0.062);
+    border: 2px solid rgba(128, 128, 128, 0.123);
 }
 
 .join button {
     padding: 20px;
     margin-top: 20px;
-    background-color: rgba(90, 90, 90, 0.11);
-    border: 1px solid rgba(30, 30, 30, 0.733);
+    background-color: rgba(128, 128, 128, 0.116);
+    border: 1px solid rgba(128, 128, 128, 0.158);
     color: grey;
     border-radius: 8px;
-}
-
-.join div {
-    margin-top: 20px;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.join div i {
-    border: none;
-    background: none;
-    padding: 10px;
-    color: rgba(245, 245, 245, 0.658);
-    background-color: rgba(128, 128, 128, 0.116);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.join div i::after {
-    content: attr(data-description);
-    color: rgba(255, 255, 255, 0.39);
-    position: absolute;
-    bottom: -20px;
-    transform: translateX(-50%);
-    margin: 0;
-    left: 50%;
-    font-size: 12px;
-    font-weight: normal;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
 .divtwo {
@@ -210,8 +173,8 @@ body {
     color: rgba(245, 245, 245, 0.712);
     border-radius: 8px;
     padding: 10px;
-    background-color: rgba(90, 90, 90, 0.048);
-    border: 1px solid rgb(30, 30, 30);
+    background-color: rgba(128, 128, 128, 0.062);
+    border: 2px solid rgba(128, 128, 128, 0.123);
     margin-bottom: 15px;
 }
 
@@ -226,8 +189,8 @@ body {
     color: rgba(245, 245, 245, 0.527);
     border-radius: 8px;
     padding: 10px;
-    background-color: rgba(90, 90, 90, 0.123);
-    border: 1px solid rgba(30, 30, 30, 0.733);
+    background-color: rgba(128, 128, 128, 0.116);
+    border: 1px solid rgba(128, 128, 128, 0.158);
 }
 
 .child_two {
@@ -235,6 +198,7 @@ body {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .child_two h2 {

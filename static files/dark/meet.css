@@ -30,7 +30,7 @@ body {
     flex-direction: row;
     align-items: center;
     position: relative;
-    border-bottom: 1px solid rgb(18,18,18);
+    border-bottom: 3px solid rgb(18,18,18);
     background-color: rgb(10,10,10);
 }
 
@@ -51,8 +51,8 @@ body {
 }
 
 #stream_title p {
-    color: rgba(245, 245, 245, 0.342);
-    font-size: 11px;
+    color: rgba(245, 245, 245, 0.344);
+    font-size: 12px;
     position: absolute;
     bottom: 4px;
     left: 69px;
@@ -95,12 +95,11 @@ body {
 #container {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
-    display: grid;
-    grid-gap: 7px;
-    grid-template-columns: auto;
-    grid-auto-rows: auto;
-    align-content: center;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 8px;
     overflow-y: scroll;
@@ -132,7 +131,7 @@ body {
     bottom: 122px;
     left: 15px;
     overflow-y: scroll;
-    z-index: 16;
+    z-index: 15;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -147,7 +146,7 @@ body {
     color: rgba(245, 245, 245, 0.767);
     font-size: 13px;
     font-weight: 400;
-    background-color: rgb(18,18,18);
+    background-color: rgb(13,13,13);
     padding: 14px;
     border-radius: 8px;
     margin: 0;
@@ -155,6 +154,8 @@ body {
     transition-property: opacity;
     transition-duration: .6s;
     transition-timing-function: ease-out;
+    border: 1px solid rgb(25,25,25, 0.754);
+
 }
 
 #notifications p span {
@@ -191,7 +192,7 @@ body {
     flex-direction: row;
     padding-top: 14px;
     justify-content: center;
-    border-top: 1px solid rgb(18,18,18);
+    border-top: 3px solid rgb(18,18,18);
     background-color: rgb(10,10,10);
 }
 
@@ -228,7 +229,7 @@ body {
     position: relative;
     color: rgba(245, 245, 245, 0.658);
     background-color: rgba(128, 128, 128, 0.116);
-    border: 2px solid rgba(128, 128, 128, 0.068);
+    border: 2px solid rgba(128, 128, 128, 0.098);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -316,7 +317,7 @@ body {
     border-radius: 9px;
 }
 
-.comment_holder div {
+.message_container {
     display: flex;
     flex-direction: column;
     padding: 5px 8px 12px 4px;
@@ -326,7 +327,7 @@ body {
     position: relative;
 }
 
-.comment_holder div img {
+.profile_picture {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -334,6 +335,54 @@ body {
     position: absolute;
     top: 0;
     left: 10px;
+}
+
+.image_file {
+    width: calc(100% - 70px);
+    height: auto;
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid rgb(18,18,18);
+    margin-left: 52px;
+    margin-top: 10px;
+}
+
+.file_container {
+    border: 1px solid rgb(30,30,30);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 210px;
+    border-radius: 8px;
+    background-color: rgba(70, 70, 70, 0.305);
+    position: unset;
+    margin-left: 53px;
+    margin-top: 10px;
+}
+
+.file_container i {
+    font-size: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: rgba(255, 255, 255, 0.705);
+}
+
+.file_container div {
+    width: 100%;
+    border-top: 2px solid rgb(60,60,60);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.file_container div a {
+    color: rgba(255, 255, 255, 0.705);
+    font-size: 13px;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 .close_comments {
@@ -395,7 +444,7 @@ body {
     margin-left: 53px;
 }
 
-.comment_holder i {
+.background-icon {
     font-size: 80px;
     color: rgba(128, 128, 128, 0.137);
     position: absolute;
@@ -442,7 +491,7 @@ body {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 30;
 }
 
 #viewers h3 {
@@ -462,7 +511,7 @@ body {
     flex-direction: column;
     width: 300px;
     background-color: black;
-    border: 1px solid rgba(29, 29, 29, 0.712);
+    border: 3px solid rgba(29, 29, 29, 0.712);
     height: 370px;
     position: relative;
     overflow: hidden;
@@ -510,6 +559,67 @@ body {
     font-size: 16px;
 }
 
+#hands {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+}
+
+#hands h3 {
+    color: rgba(245, 245, 245, 0.685);
+    font-weight: normal;
+    margin: 0;
+    background-color: rgba(128, 128, 128, 0.11);
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(29, 29, 29, 0.568);
+}
+
+.raised_hands {
+    overflow-y: scroll;
+    height: 250px;
+}
+
+.raised_hands div i {
+    font-size: 80px;
+    color: rgba(128, 128, 128, 0.137);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.raised_hands::-webkit-scrollbar {
+    width: 8px;
+}
+
+.raised_hands::-webkit-scrollbar-thumb {
+    background-color: rgba(245, 245, 245, 0.089);
+    border-radius: 8px;
+    margin-block: 5px;
+}
+
+.raised_hands p {
+    color: rgba(245, 245, 245, 0.548);
+    margin: 0;
+    margin-bottom: 7px;
+    background-color: rgba(128, 128, 128, 0.075);
+    padding: 13px;
+    border-radius: 7px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
 .user_holder {
     overflow-y: scroll;
     height: 250px;
@@ -534,7 +644,7 @@ body {
     margin-block: 5px;
 }
 
-.divone p {
+.user_holder p {
     color: rgba(245, 245, 245, 0.548);
     margin: 0;
     margin-bottom: 7px;
@@ -590,13 +700,45 @@ body {
     margin-left: auto;
     border: none;
     background: none;
-    color: grey;
-    font-size: 15px;
+    font-size: 16px;
     transition: color .3s;
+    padding: 17px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245, 245, 245, 0.544);
 }
 
 .entry button:hover {
-    color: rgba(128, 128, 128, 0.596);
+    color: rgba(128, 128, 128, 0.664);
+}
+
+#captions {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.068);
+    border: 1px solid rgba(128, 128, 128, 0.096);
+    width: 300px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+#captions i {
+    font-size: 80px;
+    color: rgba(128, 128, 128, 0.137);
+}
+
+#captions p {
+    color: whitesmoke;
+    align-self: flex-start;
+    justify-self: flex-start;
 }
 
 #options {
@@ -611,6 +753,8 @@ body {
     border-radius: 0 0 7px 7px;
     z-index: 25;
     background-color: rgb(10,10,10);
+    border: 1px solid rgb(18,18,18);
+    border-top: none;
 }
 
 #options button {
@@ -697,11 +841,80 @@ body {
     align-items: center;
     justify-content: center;
     padding: 15px;
+    border: 6px solid rgb(41,41,41);
+
 }
 
 #qrcode div img {
     width: calc(100% - 20px);
     height: calc(100% - 20px);
+}
+
+#uploadProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.527);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#progressContainer {
+    width: 280px;
+    background-color: rgb(12,12,12);
+    display: flex;
+    flex-direction: column;
+    padding: 0 13px 25px 13px;
+    border: 1px solid rgb(24, 24, 24);
+    position: relative;
+}
+
+#progressContainer p {
+    color: rgba(150, 150, 150, 0.856);
+    margin: 0;
+    margin-top: 20px;
+    font-size: 13px;
+}
+
+#progressContainer button {
+    color: grey;
+    font-size: 13px;
+    background: none;
+    width: 100px;
+    padding: 6px;
+    border: none;
+    position: absolute;
+    bottom: 18px;
+    right: 20px;
+    background-color: rgba(60, 60, 60, 0.2);
+    border-radius: 8px;
+}
+
+#uploadProgress h2 {
+    color: rgba(210, 210, 210, 0.856);
+    margin: 0;
+    font-weight: lighter;
+    margin-top: 12px;
+    font-size: 16px;
+}
+
+#progressElement {
+    width: 100%;
+    margin-top: 20px;
+    height: 10px;
+    border-radius: 3px;
+    background-color: rgb(20,20,20);
+    border: 1px solid rgb(30,30,30);
+    overflow: hidden;
+}
+
+#progressElement div {
+    background-color: rgb(100,100,100);
+    width: 0;
+    height: 100%;
 }
 
 #meeting_link {
@@ -718,11 +931,11 @@ body {
 
 #meeting_link div {
     width: 280px;
-    background-color: rgb(10,10,10);
+    background-color: rgb(12,12,12);
     display: flex;
     flex-direction: column;
     padding: 0 13px 25px 13px;
-    border-radius: 10px;
+    border: 1px solid rgb(24, 24, 24);
 }
 
 #meeting_link h2 {
@@ -782,16 +995,50 @@ body {
     display: none;
 }
 
+#caption_text {
+    background-color: rgba(15,15,15);
+    padding: 10px;
+    color: rgba(178, 178, 178);
+    font-size: 13px;
+    border-radius: 10px;
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+
+#caption_text i {
+    font-size: 15px;
+}
+
+#caption_text span {
+    font-weight: bold;
+}
+
 .loader_holder {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 200px;
+}
+
+.loader_holder i {
+    color: rgba(110, 110, 110, 0.8);
+    font-size: 75px;
+}
+
+.loader_holder p {
+    text-align: center;
 }
 
 .holder {
     position: relative;
-    border: 1px solid rgba(128, 128, 128, 0.062);
+    border: 1px solid rgba(40, 40, 40, 0.453);
     overflow: hidden;
+    height: 300px;
+    width: 300px;
+    margin: 10px;
 }
 
 .holder p {
@@ -844,6 +1091,13 @@ body {
     height: 15%;
     background-color: rgba(245, 245, 245, 0.788);
     border-radius: 15px;
+}
+
+@supports (scrollbar-color: red blue) {
+    * {
+        scrollbar-color: rgba(120, 120, 120, 0.388) rgba(4,4,4);
+        scrollbar-width: thin;
+    }
 }
 
 .lds-ring {
@@ -955,7 +1209,7 @@ body {
         background-color: rgba(0, 0, 0, 0.5);
         align-items: center;
         justify-content: center;
-        z-index: 10;
+        z-index: 30;
     }
 
     #comments {

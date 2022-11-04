@@ -12,8 +12,7 @@
     </head>
     <body>
         <div id = "navbar">
-            <h1>Vschools</h1>
-            <button onclick = "submit()">Submit</button>
+            <h1>Shark</h1>
         </div>
         <form method = "POST" autocomplete="off" id = "form">
         {% csrf_token %}
@@ -43,12 +42,12 @@
         <button type = "submit">Submit</button>
     </form>
     <div class = "holder2">
+        <button onclick = "submit()">Submit</button>
         <h2>Sign up and link up with friends</h2>
-        <p>Enter all your information above to get started, we hope to give you the best</p>
+        <p>Enter all your information above to get started</p>
         <div>
-            <i data-description = 'captions' class = "far fa-closed-captioning"></i>
-            <i data-description = 'hands' class = "far fa-hand-paper"></i>
             <i data-description = 'invite' class = "fas fa-link"></i>
+            <i data-description = 'meet' class = "fas fa-users"></i>
             <i data-description = 'screen' class = "fas fa-laptop"></i>
         </div>
     </div>

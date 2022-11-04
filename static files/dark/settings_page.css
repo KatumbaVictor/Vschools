@@ -19,7 +19,8 @@ body {
     flex-direction: row;
     align-items: center;
     z-index: 5;
-    border-bottom: 3px solid rgba(128, 128, 128, 0.116);
+    border-bottom: 3px solid rgba(128, 128, 128, 0.178);
+    background-color: rgb(10,10,10);
 }
 
 #navbar h1{
@@ -35,8 +36,8 @@ body {
     flex-direction: column;
     align-items: center; 
     padding: 20px;
-    background-color: rgba(128, 128, 128, 0.034);
-    border: 3px solid rgba(128, 128, 128, 0.11);
+    margin-bottom: 20px;
+    width: 450px;
 }
 
 .info {
@@ -72,11 +73,11 @@ body {
     border: none;
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
-    color: rgba(128, 128, 128, 0.836);
+    color: rgba(128, 128, 128, 0.932);
     width: 130px;
     font-size: 12px;
     background: none;
-    background-color: rgba(128, 128, 128, 0.082);
+    background-color: rgba(128, 128, 128, 0.11);
 }
 
 .info p {
@@ -146,29 +147,27 @@ body {
     display: none;
 }
 
-#parent {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.parent {
+    display: flex;
     width: 100%;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.137);
+    flex-wrap: wrap;
 }
-
+ 
 .holder {
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
-    border: 3px solid rgba(128, 128, 128, 0.11);
+    max-width: 400px;
 }
 
 .holder h2 {
-    color: rgba(245, 245, 245, 0.705);
+    color: rgba(245, 245, 245, 0.747);
     font-weight: lighter;
-    font-size: 18px;
+    font-size: 19px;
     margin: 0;
-    margin: 0 0 15px 0;
-    padding: 13px 20px 15px 20px;
-    background-color: rgba(128, 128, 128, 0.068);
-    border-bottom: 1px solid rgba(128, 128, 128, 0.11);
+    margin: 20px 20px 15px 20px;
+
 }
 
 .holder p {
@@ -181,32 +180,84 @@ body {
     margin-right: 20px;
 }
 
-.holder input {
+input[type="password"] {
     border: none;
     margin-bottom: 11px;
-    padding: 12px 0 12px 10px;
+    padding: 12px 0 12px 10px; 
     border-radius: 6px;
     transition: .7s box-shadow;
-    background-color: rgba(19, 19, 19, 0.616);
     transition: background-color .3s;
     color: grey;
     margin-left: 20px;
     margin-right: 20px;
+    background-color: rgba(128, 128, 128, 0.062);
+    border: 2px solid rgba(128, 128, 128, 0.123);
+}
+
+input[type="text"] {
+    border: none;
+    margin-bottom: 11px;
+    padding: 12px 0 12px 10px;
+    border-radius: 6px;
+    transition: .7s box-shadow; 
+    transition: background-color .3s;
+    color: grey;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgba(128, 128, 128, 0.062);
+    border: 2px solid rgba(128, 128, 128, 0.123);
 }
 
 .holder button {
     border: none;
     background-color: rgba(19, 19, 19, 0.651);
-    color: grey;
+    color: rgba(245, 245, 245, 0.637);
     padding: 12px 0 12px 10px;
     border: 1px solid rgba(128, 128, 128, 0.096);
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 6px;
+    background-color: rgba(128, 128, 128, 0.116);
+    border: 2px solid rgba(128, 128, 128, 0.123);
 }
 
 form {
     display: flex;
     flex-direction: column;
     width: 100%;
+}
+
+.form-controller {
+    color: grey; 
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+input[type="checkbox"] {
+    margin: 0;
+    appearance: none;
+    font: inherit;
+    color: whitesmoke;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(245, 245, 245, 0.644);
+    display: grid;
+    place-content: center;
+    margin-right: 3px;
+}
+
+input[type="checkbox"]::before{
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.719);
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+}
+
+input[type="checkbox"]:checked::before{
+    transform: scale(1);
 }
