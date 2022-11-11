@@ -17,39 +17,10 @@
         <div id = "navbar">
             <h1>Schedule</h1>
         </div>
-        <h2 class = "heading_one"><i class = "far fa-calendar"></i> Schedule your next meeting session</h2>
-        <div id = "container">
-        <div id = 'divone'>
-            <p>
-                This Schedule shall help your meeting participants to know the date of the next meeting
-                to help them catch up easily...
-            </p>
-            <form method = "POST" id = "form">
-                {% csrf_token %}
-                <textarea placeholder = "Enter session title...." required></textarea>
-                <input type = "date" placeholder = "Enter meeting date"/>
-            </form>
-        </div>
-
-        <div id = 'divtwo'>
-            <div class = "holder">
-                <h2><i class = "far fa-clock"></i> Meeting time</h2>
-                <p>Enter your password below, your password has to have atleast 8 characters and atmost 
-                    32 characters...
-                </p>
-                <form method = "POST" id = "poassword_form">
-                    {% csrf_token %}
-                    <input type = "text" onfocus = "get_start_time()" placeholder = "Meeting starting time" required/>
-                    <input type = "datetime-local" placeholder = "Meeting ending time" required/>
-                    <input type="text" name = "datetimes" placeholder = "Select meeting time" class="form-control js-daterangepicker-times" data-auto-apply="true">
-                    <button type = "submit">Submit changes</button>
-                </form>
-            </div>
-        </div>
-        </div>
-
-        <div id = 'divthree'>
-        <p class = "premium">scheduler</p>
+        
+        <div id = "divone">
+            <p>Name your meeting session here</p>
+            <input type = "text" placeholder="Name your class here..."/>
         </div>
     </body>
 </html>

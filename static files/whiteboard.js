@@ -168,23 +168,55 @@ let upload_image = () => {
 
 let uploadFile = (self) => {
     if (self.files) {
+        document.getElementById('uploadProgress').style.display = "flex";
         var form = new FormData();
         form.append("image",self.files[0]);
-        fetch(window.location,{
-            method: "POST",
-            headers: {
-                    "X-CSRFToken": getCookie('csrftoken'),
-                    'X-Requested-With':'XMLHttpRequest'},
-            body: form
-        }).then((response) => {
-            return response.json().then(data => {
-                console.log(data);
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.upload.onloadstart = () => {
+            document.getElementById('uploadProgress').style.display = "flex";
+        }
+
+        var button = document.getElementById('progressContainer').lastElementChild;
+
+        button.addEventListener('click', () => {
+            xhr.abort();
+            button.innerHTML = "Upload cancelled";
+            setTimeout(() => {
+                document.getElementById('uploadProgress').style.display = "none";
+                button.innerHTML = "Cancel";
+            },10000)
+        })
+
+        xhr.upload.onprogress = (event) => {
+            var total = event.total;
+            var loaded = event.loaded;
+
+            var progressValue = (loaded / total) * 100;
+            var progressElement = document.getElementById('progressElement').firstElementChild;
+            progressElement.style.width = `${progressValue}%`;
+
+            var percentage = document.getElementById('progressContainer').children[2];
+            percentage.innerHTML = `${Math.trunc(progressValue)}%`;
+
+        }
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                var data = JSON.parse(xhr.responseText);
                 var imageUrl = data.imageUrl;
                 var image_information = {centerX:5,centerY:5,height:300,locked:false, uuid:data.uuid,width:300};
                 room.insertImage(image_information);
                 room.completeImageUpload(data.uuid,data.imageUrl);
-            })
-        })
+                document.getElementById('uploadProgress').style.display = "none";
+            }
+        }
+
+        xhr.open('POST',window.location);
+        xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+        xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+        xhr.send(form);
     }
 }
 

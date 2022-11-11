@@ -12,7 +12,7 @@
     </head>
     <body>
         <div id = "navbar">
-            <h1 style = "font-family: 'Brush Script MT', cursive;">Shark</h1>
+            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
         </div>
         <div id = "container">
             <div id = "login_holder">
@@ -21,8 +21,8 @@
                     <form method = "POST" autocomplete="off" id = "form">
                         {% csrf_token %}
                         <div class = "holder">
-                            <i class="fas fa-user"></i>
-                            <input type = "text" id = "username" placeholder="Enter username" name = "username" required/>
+                            <i class="fas fa-envelope"></i>
+                            <input type = "text" id = "username" placeholder="Enter e-mail" name = "username" required/>
                         </div>
 
                         <div class = "holder">
@@ -43,7 +43,7 @@
                 <h2>Virtual learning environment...</h2>
                 <p>
                     Learn from anywhere, get the best classroom experience from anywhere all over
-                    the globe at a location of your convenience
+                    the globe.
                 </p>
                 <img src = "{% static 'selfie.svg' %}"/>
                 <p class = "footer">Quality classrooms</p>

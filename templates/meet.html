@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Vschools | Meet</title>
+        <title>Shark | Meet</title>
         <link rel = "stylesheet" href = "{% static 'dark/meet.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -63,8 +63,8 @@
                 </div>
             </div>
             <div id = "controls" data-profile_picture = "{{ profile_picture.url }}" data-authorization = "{{ authorization }}">
-                <button class = "control_buttons" data-description = "disable" onclick = "handle_camera(this)"><i class = "fas fa-video"></i></button>
-                <button class = "control_buttons" data-description = "mute" onclick = "handle_audio(this)" disabled><i class = "fas fa-microphone"></i></button>
+                <button class = "inactive" data-description = "enable" onclick = "handle_camera(this)"><i class = "fas fa-video-slash"></i></button>
+                <button class = "inactive" data-description = "unmute" onclick = "handle_audio(this)" disabled><i class = "fas fa-microphone-slash"></i></button>
                 <button class = "control_buttons" data-description = "0" onclick = "get_views()"><i class = "fas fa-users"></i></button>
                 <button class = "control_buttons" data-description = "screen" onclick = "screen_sharing(this)" disabled><i class = "fas fa-laptop"></i></button>
                 <button class = "stop_live" data-description = "leave" disabled onclick = "leaveAndRemoveLocalStream()"><i class = "fas fa-stop"></i></button>

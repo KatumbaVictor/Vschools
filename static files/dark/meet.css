@@ -1034,7 +1034,7 @@ body {
 
 .holder {
     position: relative;
-    border: 1px solid rgba(40, 40, 40, 0.453);
+    border: 2px dashed rgba(40, 40, 40, 0.692);
     overflow: hidden;
     height: 300px;
     width: 300px;

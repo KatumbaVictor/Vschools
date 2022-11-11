@@ -17,6 +17,7 @@ var sid;
 var time_string;
 var token;
 var socket;
+var playing = false;
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -113,9 +114,7 @@ let createTracks = async () => {
         socket = new WebSocket(websocket_url);
         socket.addEventListener('message',getSocketMessages);
     } catch (error) {
-        console.log(error.message.toString())
         if (error.message.toString() == 'AgoraRTCError NOT_READABLE: NotReadableError: Could not start video source') {
-            console.log('this is an error message by Victor man');
             var target_element = document.getElementById('container').firstElementChild;
             target_element.firstElementChild.remove();
 
@@ -154,39 +153,16 @@ let joinAndDisplayLocalStream = async (token, UID) => {
 
     var holder = document.getElementById(my_id.toString());
 
-    var profile_picture = document.getElementById(`profile_picture_${my_id.toString()}`);
-    var microphone = document.getElementById(`name_${my_id.toString()}`).firstElementChild;
-
-    videoTrack.play(holder);
-
     var player = holder.lastElementChild;
     player.style.display = "flex";
     player.style.flexDirection = "column";
     player.style.alignItems = "center";
     player.style.justifyItems = "center";
-
-    profile_picture.style.display = "none";
-
-    var video = holder.lastElementChild.firstElementChild;
-    console.log(video);
-    video.setAttribute('style','height: 100%; width: auto; max-width: 100%;');
-
-    microphone.style.color = 'blue';
-    microphone.setAttribute('class','fas fa-microphone');
  
-
     client.on('token-privilege-will-expire',renew_client_token);
     client.on('token-privilege-did-expire',rejoin_session);
     client.on('user-left',handleUserLeft);
     client.on('user-unpublished',UserUnpublishedEvent);
-
-    if (videoInputDevices.length > 0) {
-        await client.publish(videoTrack);
-    }
-
-    if (audioInputDevices.length > 0) {
-        await client.publish(audioTrack);
-    }
 
     /*if (CHANNEL == user_token) {
         var time_values = {};
@@ -578,6 +554,7 @@ let getSocketMessages = function(self){
 }
 
 let handle_camera = async (self) => {
+    var holder = document.getElementById(my_id.toString());
     var profile_picture = document.getElementById(`profile_picture_${my_id.toString()}`);
     if (videoInputDevices.length > 0) {
         if (videoTrack.muted){
@@ -586,7 +563,16 @@ let handle_camera = async (self) => {
             self.innerHTML = '<i class = "fas fa-video"></i>';
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-description','disable');
-            post_message('<i class = "fas fa-video"></i> Your camera is enabled')
+
+            if (playing == false) {
+                videoTrack.play(document.getElementById(my_id.toString()));
+                playing == true;
+                var video = holder.lastElementChild.firstElementChild;
+                console.log(video)
+                video.setAttribute('style','height: 100%; width: auto; max-width: 100%;');
+            }
+
+            post_message('<i class = "fas fa-video"></i> Your camera is enabled');
         }else {
             await videoTrack.setMuted(true);
             self.innerHTML = '<i class = "fas fa-video-slash"></i>';
@@ -954,6 +940,8 @@ function copy_link(self){
 }
 
 window.addEventListener('beforeunload',() => {
+    audioTrack.stop();
+    videoTrack.stop();
     socket.close();
     client.leave();
 });
