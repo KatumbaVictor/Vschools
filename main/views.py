@@ -25,7 +25,6 @@ import uuid
 from agora_token_builder import RtcTokenBuilder
 import base64
 import http.client
-from background_task import background
 import boto3
 import os
 
@@ -317,10 +316,6 @@ def meet_page(request, meeting_id):
     request.meeting_passcode = Room.objects.get(room_name=meeting_id).passcode
 
     return render(request, "meet.html",context)
-
-@background(schedule=10)
-def notify_user():
-    print('hello this is your scheduled message')
 
 @login_required(login_url='login')
 def home_page(request):

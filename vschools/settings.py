@@ -45,26 +45,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'storages',
-    'background_task'
 ]
 
-'''
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://default:aPa6efjayEl6hiDY0i0g@containers-us-west-49.railway.app:7191'],
+            "hosts": ['redis://127.0.0.1:6379'],
         },
     },
 }
-'''
 
+
+'''
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
-
+'''
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -138,17 +138,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-'''
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": 'redis://default:aPa6efjayEl6hiDY0i0g@containers-us-west-49.railway.app:7191',
+        "LOCATION": 'redis://127.0.0.1:6379',
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
-'''
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -223,3 +223,9 @@ CSRF_COOKIE_SECURE = False
 SECURE_SSL_REDIRECT = False
 
 SESSION_COOKIE_SECURE = False
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'

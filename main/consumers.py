@@ -6,7 +6,6 @@ from asgiref.sync import async_to_sync
 from django.contrib.auth.models import User
 from main.models import Room, Room_member, account_info, Room_message
 from django.utils import timezone
-from background_task import background
 from agora_token_builder import RtcTokenBuilder
 
 appId = '0eb3e08e01364927854ee79b9e513819'
@@ -49,6 +48,9 @@ class ChatConsumer(WebsocketConsumer):
                     obj['name'] = item.user.username
                     obj['profile_picture'] = account_info.objects.get(user=item.user).profile_picture.url
                     obj['user_token'] = account_info.objects.get(user=item.user).user_token
+
+                    if channelName == obj['user_token']:
+                        obj['time_limit'] = account_info.objects.get(user=item.user).time_limit
 
                 except:
                     pass
