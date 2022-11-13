@@ -18,6 +18,7 @@ var time_string;
 var token;
 var socket;
 var playing = false;
+var time_limit;
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -111,6 +112,9 @@ let createTracks = async () => {
         audioTrack = tracks[0];
         videoTrack = tracks[1];
 
+        await videoTrack.setMuted(true);
+        await audioTrack.setMuted(true);
+
         socket = new WebSocket(websocket_url);
         socket.addEventListener('message',getSocketMessages);
     } catch (error) {
@@ -163,6 +167,11 @@ let joinAndDisplayLocalStream = async (token, UID) => {
     client.on('token-privilege-did-expire',rejoin_session);
     client.on('user-left',handleUserLeft);
     client.on('user-unpublished',UserUnpublishedEvent);
+
+    setTimeout(() => {
+        var message = `Hello User your meeting session has reached its time limit`
+        post_message(message);
+    },2000)
 
     /*if (CHANNEL == user_token) {
         var time_values = {};
@@ -885,6 +894,14 @@ function close_options(){
 function get_link(self){
     document.getElementById('options').style.display = "none";
     document.getElementById('meeting_link').style.display = "flex";
+}
+
+function ExtendMeeting() {
+    var e = 'v';
+}
+
+function Cancel(self) {
+    self.parentElement.parentElement.style.display = "none";
 }
 
 function close_comments(self){

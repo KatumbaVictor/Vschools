@@ -917,6 +917,58 @@ body {
     height: 100%;
 }
 
+#time_alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.527);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#time_alert div {
+    width: 280px;
+    background-color: rgb(12,12,12);
+    display: flex;
+    flex-direction: column;
+    padding: 0 13px 25px 13px;
+    border: 1px solid rgb(24, 24, 24);
+}
+
+#time_alert h2 {
+    color: rgba(245, 245, 245, 0.76);
+    margin: 0;
+    font-weight: lighter;
+    margin-top: 17px;
+    font-size: 20px;
+}
+
+#time_alert p {
+    color: rgba(245, 245, 245, 0.575);
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.extend {
+    color: rgba(245, 245, 245, 0.562);
+    border: 2px solid rgba(128, 128, 128, 0.185);
+    background: none;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.cancel {
+    color: rgba(245, 245, 245, 0.562);
+    background-color: rgba(100, 100, 100, 0.13);
+    border: 2px solid rgba(128, 128, 128, 0.116);
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
 #meeting_link {
     position: fixed;
     top: 0;

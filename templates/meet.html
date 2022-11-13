@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Shark | Meet</title>
+        <title>Vschools | Meet</title>
         <link rel = "stylesheet" href = "{% static 'dark/meet.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -175,6 +175,16 @@
                 </div>
                 <p>0%</p>
                 <button>Cancel</button>
+            </div>
+        </div>
+        <div id = "time_alert">
+            <div>
+                <h2><i class = "fas fa-exclamation-triangle"></i> Time usage alert</h2>
+                <p>Hello user, this is to inform your that you are almost reaching your
+                    meeting time limit, you can extend the meeting below
+                </p>
+                <button class = "extend" onclick = "ExtendMeeting()">Extend meeting</button>
+                <button class = "cancel" onclick = "Cancel(this)">Cancel</button>
             </div>
         </div>
         <p id = "caption_text">

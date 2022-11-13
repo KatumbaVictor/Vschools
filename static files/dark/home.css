@@ -108,10 +108,11 @@ body {
 
 .join a {
     font-size: 15px;
-    color: rgba(245, 245, 245, 0.543);
+    color: rgba(245, 245, 245, 0.486);
     align-self: center;
     margin-top: 25px;
     font-style: italic;
+    font-weight: 600;
 }
 
 .main_text {
