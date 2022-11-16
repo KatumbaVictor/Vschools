@@ -271,7 +271,6 @@ def uploaded_files(request, meeting_id):
     return render(request, 'uploaded_files.html', context)
 
 def meet_page(request, meeting_id):
-    print(request.META['REMOTE_ADDR'])
     user_details = {}
 
     try:
@@ -319,7 +318,6 @@ def meet_page(request, meeting_id):
 
 @login_required(login_url='login')
 def home_page(request):
-    print(request.META['REMOTE_ADDR'])
     if request.method == "POST":
         meeting_title = request.POST['meeting_title']
         room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
