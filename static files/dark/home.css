@@ -106,17 +106,34 @@ body {
     font-size: 30px;
 }
 
-.join a {
+.schedule {
     font-size: 15px;
     color: rgba(245, 245, 245, 0.486);
     align-self: center;
-    margin-top: 25px;
     font-style: italic;
     font-weight: 600;
+    margin-top: 17px;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.links a {
+    font-size: 18px;
+    color: rgba(245, 245, 245, 0.486);
+    align-self: center;
+    font-style: italic;
+    font-weight: 600;
+    margin: 10px;
 }
 
 .main_text {
-    color: rgba(245, 245, 245, 0.425);
+    color: rgba(245, 245, 245, 0.435);
     font-weight: normal;
     font-size: 15px;
 }
