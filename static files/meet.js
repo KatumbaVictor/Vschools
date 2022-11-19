@@ -168,12 +168,12 @@ let joinAndDisplayLocalStream = async (token, UID) => {
     client.on('user-left',handleUserLeft);
     client.on('user-unpublished',UserUnpublishedEvent);
 
-    setTimeout(() => {
+    /*setTimeout(() => {
         var message = `Hello User your meeting session has reached its time limit`
         post_message(message);
     },2000)
 
-    /*if (CHANNEL == user_token) {
+    if (CHANNEL == user_token) {
         var time_values = {};
         var seconds = 0;
         var minutes = 0;
@@ -382,7 +382,7 @@ function sendFile(self) {
             xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
             xhr.send(form);
         }else {
-            post_message('<i class = "fas fa-exclamation-triangle"></i> Failed to send file')
+            post_message('<i class = "fas fa-exclamation-triangle"></i> Failed to send file');
         }
     }
 }
@@ -428,7 +428,7 @@ let getSocketMessages = function(self){
         var element = Array.from(document.getElementsByClassName('hands_button'))[0];
         element.style.setProperty('--raised_hands','block');
 
-        post_message(`<i class = "fas fa-hand-paper"></i> ${response.username}`)
+        post_message(`<i class = "fas fa-hand-paper"></i> ${response.username} is raising a hand`);
 
         var parent = Array.from(document.getElementsByClassName('raised_hands'))[0];
         var name = document.createElement('p');
