@@ -30,9 +30,11 @@ comment_holder.scrollTop = comment_holder.scrollHeight;
 function post_message(str) {
     var text = document.createElement('p');
     text.innerHTML = str;
-    notifications.appendChild(text);
+    notifications.prepend(text);
     notifications.scrollTop = notifications.scrollHeight;
-    setTimeout(() => {text.style.opacity = "0"}, 5000);
+    text.style.opacity = "1";
+    setTimeout(() => {text.style.opacity = "0";}, 5000);
+    setTimeout(() => {text.style.display = "none";}, 6000);
 }
 
 let getCookie = (name) => {
@@ -75,7 +77,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let websocket_url = `${connection_protocol}://${window.location.host}/meet/${CHANNEL}/`;
+let websocket_url = `${connection_protocol}://${window.location.host}:8001/meet/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -241,6 +243,8 @@ let handleJoinedUser = (item) => {
     holder.setAttribute('class','holder');
     holder.setAttribute('ondblclick','full_screen(this)');
     container.appendChild(holder);
+    holder.style.transform = "scale(1)";
+    holder.style.opacity = "1";
 
     holder.appendChild(name);
     holder.appendChild(profile_picture);
@@ -852,7 +856,7 @@ function open_chats(){
 let captions = async (self) => {
     self.innerHTML = '<i class = "fas fa-closed-captioning"></i>';
     self.setAttribute('onclick','mute_captions(this)');
-    post_message('Subtitles have been turned on');
+    post_message('<i class = "far fa-closed-captioning"></i> Auto generated subtitles have been turned on');
 }
 
 let mute_captions = async (self) => {

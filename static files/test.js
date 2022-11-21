@@ -66,11 +66,6 @@ request_url = endpoint + canonical_uri + "?" + canonical_querystring
 
 
 
-colorPicker.addEventListener("input", updateFirst, false);
-colorPicker.addEventListener("change", watchColorPicker, false);
-
-function watchColorPicker(event) {
-  document.querySelectorAll("p").forEach((p) => {
-    p.style.color = event.target.value;
-  });
-}
+var divone = document.getElementById('divone');
+divone.style.transform = "scale(1)";
+divone.style.opacity = "1"

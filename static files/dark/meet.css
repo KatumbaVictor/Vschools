@@ -151,11 +151,11 @@ body {
     border-radius: 8px;
     margin: 0;
     margin-bottom: 8px;
+    opacity: 0;
     transition-property: opacity;
     transition-duration: .6s;
     transition-timing-function: ease-out;
     border: 1px solid rgb(25,25,25, 0.754);
-
 }
 
 #notifications p span {
@@ -1086,11 +1086,14 @@ body {
 
 .holder {
     position: relative;
-    border: 2px dashed rgba(40, 40, 40, 0.692);
+    border: 1px solid rgba(40, 40, 40, 0.552);
     overflow: hidden;
     height: 300px;
     width: 300px;
     margin: 10px;
+    transform: scale(0);
+    opacity: 0;
+    transition: transform .7s, opacity 2s;
 }
 
 .holder p {
