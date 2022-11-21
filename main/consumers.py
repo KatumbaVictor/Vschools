@@ -45,7 +45,7 @@ class ChatConsumer(WebsocketConsumer):
             obj = {'role':item.role,'user_joined':True,'uid':item.id}
             if hasattr(item,'user'):
                 try:
-                    obj['name'] = item.user.username
+                    obj['name'] = account_info.objects.get(user=item.user).username
                     obj['profile_picture'] = account_info.objects.get(user=item.user).profile_picture.url
                     obj['user_token'] = account_info.objects.get(user=item.user).user_token
 

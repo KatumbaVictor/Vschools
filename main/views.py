@@ -315,6 +315,7 @@ def meet_page(request, meeting_id):
     request.user.user_token = meeting_id
     request.meeting_description = Room.objects.get(room_name=meeting_id).description
     request.meeting_passcode = Room.objects.get(room_name=meeting_id).passcode
+    request.user.username = account_info.objects.get(user=request.user).username
 
     return render(request, "meet.html",context)
 
