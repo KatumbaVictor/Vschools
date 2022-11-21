@@ -104,11 +104,11 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER':'postgres',
-        'PASSWORD':'nVbQpvnwYsIqcjhAkGSY',
-        'HOST':'containers-us-west-58.railway.app',
-        'PORT':'7005'
+        'NAME': 'vschools_db',
+        'USER':'database_user',
+        'PASSWORD':'victorious5@gmail.com',
+        'HOST':'localhost',
+        'PORT':''
     }
 }
 '''
