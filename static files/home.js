@@ -1,7 +1,6 @@
 function create_meeting(self){
-    var button = self.lastElementChild;
-    button.innerHTML = "Starting meeting...";
-    button.style.color = 'rgba(245, 245, 245, 0.44)';
+    window.open(`/meet/${self.dataset.user_token}`,'_self');
+
 }
 
 let join_meeting = (self) => {
@@ -9,18 +8,20 @@ let join_meeting = (self) => {
     self.innerHTML = "Checking meeting..."
     var passcode = self.target.firstElementChild.value;
     var button = self.target.lastElementChild;
-    button.style.color = 'rgba(245, 245, 245, 0.44)';
 
     fetch(`/join_session/?passcode=${passcode}`,{
         method: 'GET'
     }).then(response => {
         return response.json().then(data => {
             if (data.meeting_id){
-                button.innerHTML = "joining session....";
+                button.innerHTML = "joining";
+                button.style.color = 'rgba(0, 0, 200, 0.44)';
                 window.open(`/meet/${data.meeting_id}`,'_self');
             }else {
-                button.innerHTML = "Meeting not found";
-                setTimeout(() => {button.innerHTML = "Join meeting"; self.target.firstElementChild.value = ""},4000)
+                document.getElementById('notification').style.opacity = "1";
+                setTimeout(() => {
+                    document.getElementById('notification').style.opacity = "0";
+                }, 2000)
             }
         })
     })

@@ -1,7 +1,6 @@
 * {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     outline: none;
-    page-break-inside: avoid;
 }
 
 body {
@@ -15,7 +14,7 @@ body {
 #navbar {
     width: 100%;
     height: 70px;
-    position: absolute;
+    position: absolute; 
     top: 0;
     left: 0;
     display: flex;
@@ -32,4 +31,73 @@ body {
     font-size: 40px;
     font-family: 'Brush Script MT', cursive;
     font-weight: lighter;
+}
+
+#divone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
+
+#divone h2 {
+    color: rgba(245, 245, 245, 0.753);
+    font-size: 25px;
+    font-weight: lighter;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-start;
+}
+
+#divone h2 button {
+    background: none;
+    border: none;
+    color: rgba(245, 245, 245, 0.753);
+    font-size: 25px;
+    margin-right: 15px;
+    background-color: rgba(30, 30, 30, 0.663);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#divone p {
+    color: rgba(245, 245, 245, 0.503);
+    margin: 0;
+    font-size: 14px;
+}
+
+#divtwo {
+    border: 1px solid rgba(60, 60, 60, 0.253);
+    background-color: rgba(30, 30, 30, 0.203);
+    border-radius: 10px;
+    width: 100%;
+    height: 400px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#divtwo input {
+    width: calc(100% - 74px);
+    margin: 20px;
+    background-color: rgba(50, 50, 50, 0.173);
+    padding: 14px;
+    border: none;
+    color: grey;
+    border-radius: 9px;
+    border: 1px solid rgba(50, 50, 50, 0.343);
+}
+
+#divtwo h3 {
+    color: rgba(245, 245, 245, 0.753);
+    font-size: 17px;
+    font-weight: lighter;
+    align-self: flex-start;
 }

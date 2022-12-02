@@ -18,7 +18,7 @@
         {% endif %}
 
     </head>
-    <body>
+    <body oncontextmenu = "return false">
         <div id = "main" data-username = "{{ request.user.username }}" data-channel = "{{ request.user.user_token }}">
             <div id = "stream_title">
                 <img src = "{{ host_profile_pic.url }}"/>

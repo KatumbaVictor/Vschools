@@ -1,20 +1,18 @@
 * {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     outline: none;
-    page-break-inside: avoid;
 }
 
 body {
-    background-color: rgb(0, 0, 0);
-    padding-top: 85px;
-    display: flex; 
+    padding-top: 69px;
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 #navbar {
     width: 100%;
-    height: 70px;
+    height: 60px;
     position: absolute;
     top: 0;
     left: 0;
@@ -22,274 +20,192 @@ body {
     flex-direction: row;
     align-items: center;
     z-index: 5;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.123);
-    background-color: rgb(10,10,10);
+    border-bottom: 2px solid rgba(128, 128, 128, 0.206);
+    background-color: rgba(200, 200, 200, 0.055);
 }
 
 #navbar h1{
     margin-left: 30px;
-    color: rgba(245, 245, 245, 0.753);
-    font-size: 40px;
-    font-family: 'Brush Script MT', cursive;
+    font-size: 30px;
+    color: blue;
     font-weight: lighter;
-}
-
-#navbar a {
-    margin-right: 13px;
-    color: rgba(245, 245, 245, 0.795);
-    text-decoration: none;
-    font-size: 13px;
-    background-color: rgba(128, 128, 128, 0.082);
-    width: 20px;
-    height: 20px;
-    padding: 6px;
-    border-radius: 50%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #navbar img {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    margin-left: auto;
     margin-right: 20px;
+    padding: 2px;
+    border: 1px solid rgba(120,120,120,0.3);
 }
 
-.holder {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-template-rows: auto;
-    width: calc(100% - 40px);
-    padding-bottom: 20px;
-}
-
-.create {
+.divone {
+    max-width: 500px;
+    margin: 7px;
+    border-radius: 9px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
+}
+
+#navbar2 {
+    background-color: rgba(200, 200, 200, 0.055);
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: calc(100% - 20px);
+    padding: 4px;
+    border: 1px solid rgba(128, 128, 128, 0.096);
+    border-radius: 4px;
 }
 
-.create img {
-    height: 200px;
+#navbar2 a {
+    color: grey;
+    margin: 5px;
+    font-size: 12px;
 }
 
-.create h3 {
-    color: rgba(245, 245, 245, 0.678);
+h2 {
     font-weight: 400;
-}
-
-.main_text {
-    color: rgba(245, 245, 245, 0.915);
+    color: rgba(0, 0, 0, 0.61);
     font-weight: lighter;
-    font-size: 20px;
-    margin: 0;
-    margin-top: 5px;
+    align-self: center;
 }
 
-.join {
+p {
+    font-weight: lighter;
+    color: grey;
+    margin-top: 0;
+}
+
+.divone button {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: none;
+    border: none;
+    color: blue;
+    font-weight: 600;
+    margin-top: 12px;
+    background-color: rgba(200, 200, 200, 0.155);
+    border: 1px solid rgba(128, 128, 128, 0.177);
+    border-radius: 9px;
+}
+
+.divone h4 {
+    font-weight: lighter;
+    color: grey;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-top: 1px solid rgba(128, 128, 128, 0.329);
+    padding-top: 8px;
+    margin-bottom: 0;
+}
+
+.divtwo {
+    width: 500px;
+    margin: 7px;
+    border-radius: 9px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
+    justify-items: flex-start;
 }
- 
-.join form {
+
+.divtwo h2 {
+    margin-top: 0;
+}
+
+.divone input {
+    padding: 13px;
+    border: 1px solid rgba(128, 128, 128, 0.377);
+    border-radius: 6px;
+}
+
+.divtwo button {
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 6px;
+    border: none;
+    margin-top: 14px;
+    color: blue;
+    font-weight: 600;
+    margin-bottom: 20px;
+    background: none;
+}
+
+.divtwo img {
+    width: 40%;
+    height: auto;
+    margin-top: 10px;
+    align-self: center;
+}
+
+.divtwo a {
+    color: rgba(0, 0, 0, 0.57);
+    font-weight: lighter;
+}
+
+form {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.join h2 {
-    color: rgba(245, 245, 245, 0.829);
-    font-weight: lighter;
-    margin: 0;
-    margin-top: 10px;
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.schedule {
-    font-size: 15px;
-    color: rgba(245, 245, 245, 0.486);
-    align-self: center;
-    font-style: italic;
-    font-weight: 600;
-    margin-top: 17px;
-}
-
-.links {
+#container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
 }
 
-.links a {
-    font-size: 18px;
-    color: rgba(245, 245, 245, 0.486);
-    align-self: center;
-    font-style: italic;
-    font-weight: 600;
-    margin: 10px;
+.join {
+    display: flex;
+    width: 500px;
+    border: 1px solid rgba(128, 128, 128, 0.42);
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-radius: 5px;
 }
 
-.main_text {
-    color: rgba(245, 245, 245, 0.435);
-    font-weight: normal;
-    font-size: 15px;
-}
-
-.join textarea {
+.join input {
+    width: 82%;
+    margin-left: 10px;
     color: grey;
-    border-radius: 8px;
-    height: 70px;
-    padding: 10px;
-    background-color: rgba(128, 128, 128, 0.062);
-    border: 2px solid rgba(128, 128, 128, 0.123);
-    font-size: 14px;
-    margin-top: 15px;
+    border: none;
 }
 
 .join button {
-    padding: 20px;
-    margin-top: 20px;
-    background-color: rgba(128, 128, 128, 0.116);
-    border: 1px solid rgba(128, 128, 128, 0.158);
-    color: grey;
-    border-radius: 8px;
-}
-
-.divtwo {
-    display: flex;
-    flex-direction: row;
-    padding-right: 20px;
-    padding-left: 20px;
-    width: calc(100% - 40px);
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.child_one {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    width: calc(100% - 30px);
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    border-radius: 8px;
-}
-
-.child_one p {
-    color: rgba(245, 245, 245, 0.692);
-    font-weight: normal;
-    font-size: 16px;
-}
-
-.child_one img {
-    width: 150px;
-    height: 150px;
-    margin-left: 20px;
-    border: 4px solid rgba(128, 128, 128, 0.514);
-    border-radius: 50%;
-    padding: 7px;
-    align-self: center;
-}
-
-.child_one div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.child_one div input {
+    margin-left: auto;
+    margin-right: 12px;
     border: none;
-    color: rgba(245, 245, 245, 0.712);
-    border-radius: 8px;
-    padding: 10px;
-    background-color: rgba(128, 128, 128, 0.062);
-    border: 2px solid rgba(128, 128, 128, 0.123);
-    margin-bottom: 15px;
-}
-
-.child_one form {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% - 20px);
-}
-
-.child_one div button {
-    border: none;
-    color: rgba(245, 245, 245, 0.527);
-    border-radius: 8px;
-    padding: 10px;
-    background-color: rgba(128, 128, 128, 0.116);
-    border: 1px solid rgba(128, 128, 128, 0.158);
-}
-
-.child_two {
-    width: calc(100% - 70px);
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.child_two h2 {
-    color: rgba(245, 245, 245, 0.637);
-    font-weight: lighter;
-    margin: 0;
-    margin-top: 10px;
-    font-size: 27px;
-}
-
-.child_two p {
-    color: rgba(245, 245, 245, 0.336);
-    font-weight: normal;
-    font-size: 15px;
+    background: none;
+    color: blue;
 }
 
 .footer {
-    font-size: 30px;
-    font-family: 'Brush Script MT', cursive;
-    font-weight: lighter;
-    color: rgba(245, 245, 245, 0.671);
-    position: relative;
-    width: 94%;
-    text-align: center;
-    margin: 0;
+    font-weight: normal; 
+    margin-top: 25px; 
+    width: 100%; 
+    height: 60px;
+    align-self: center; 
+    border-top: 1px solid rgba(128, 128, 128, 0.18); 
+    padding: 20px; text-align: center; 
+    background-color: rgba(200, 200, 200, 0.055);
 }
 
-.footer::before {
-    content: "";
-    border-top: 1px solid rgba(245, 245, 245, 0.11);
-    height: 30px;
-    width: 42%;
-    margin-right: 8px;
-    position: absolute;
-    top: 20px;
-    left: 0;
-}
-
-.footer::after {
-    content: "";
-    border-top: 1px solid rgba(245, 245, 245, 0.11);
-    height: 30px;
-    width: 42%;
-    margin-right: 8px;
-    position: absolute;
-    top: 20px;
-    right: 0;
-}
-
-@media screen and (max-width: 700px) {
-    .divtwo {
-        flex-direction: column;
-    }
-
-    .divtwo div {
-        width: 100%;
-    }
+#notification {
+    color: white;
+    background-color: rgb(50,50,50);
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: normal;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity .4s;
 }

@@ -3,28 +3,25 @@
     outline: none;
 }
 
-body {
-    background-color: rgb(0, 0, 0);
-} 
-
 #navbar {
     width: 100%;
-    height: 70px;
+    height: 60px;
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.116);
+    justify-content: center;
     z-index: 5;
-    background-color: rgba(128, 128, 128, 0.082);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.164);
+    background-color: rgba(200, 200, 200, 0.055);
 }
 
 #navbar h1{
     margin-left: 30px;
-    font-size: 40px;
-    color: rgba(245, 245, 245, 0.753);
+    font-size: 30px;
+    color: blue;
     font-weight: lighter;
 }
 
@@ -65,34 +62,32 @@ body {
     border-radius: 110px;
     margin-top: 20px;
     align-self: center;
-    color: rgba(245, 245, 245, 0.493);
-    background-color: rgba(128, 128, 128, 0.082);
-    border: 1px solid rgba(128, 128, 128, 0.171);
+    color: blue;
+    background-color: rgba(0, 0, 255, 0.26);
 }
 
 .holder {
     margin-top: 15px;
     padding: 10px 0 10px 10px;
-    border-radius: 8px;
+    border-radius: 6px;
     width: 230px;
-    background-color: rgba(128, 128, 128, 0.062);
+    background-color:rgba(0, 0, 255, 0.26);
     transition: background-color .3s;
-    border: 1px solid rgba(128, 128, 128, 0.171);
 }
 
 .holder:hover {
-    background-color: rgba(128, 128, 128, 0.123);
+    background-color: rgba(0, 0, 255, 0.342);
 }
 
 .holder i {
-    color: rgba(245, 245, 245, 0.616);
+    color: blue;
 }
 
 .holder input {
     background: none;
     border: none;
     margin-left: 5px;
-    color: grey;
+    color: blue;
     width: 80%;
 }
 
@@ -105,15 +100,14 @@ body {
     height: 45px;
     transition: .3s box-shadow;
     position: relative;
-    color: rgba(245, 245, 245, 0.575);
-    background-color: rgba(128, 128, 128, 0.116);
-    border: 1px solid rgba(128, 128, 128, 0.116);
+    color: white;
+    background-color: rgba(0, 0, 255, 0.856);
 }
 
 #login p {
     align-self: center;
     margin-top: 10px;
-    color: rgba(245, 245, 245, 0.466);
+    color: blue;
     font-size: 23px;
     font-family: 'Brush Script MT', cursive;
     margin-bottom: 0;
@@ -126,7 +120,7 @@ body {
 
 #login p::before {
     content: "";
-    border-top: 1px solid rgba(245, 245, 245, 0.137);
+    border-top: 1px solid rgba(0, 0, 255, 0.185);
     height: 2px;
     width: 39%;
     margin-right: 8px;
@@ -134,7 +128,7 @@ body {
 
 #login p::after {
     content: "";
-    border-top: 1px solid rgba(245, 245, 245, 0.137);
+    border-top: 1px solid rgba(0, 0, 255, 0.185);
     height: 2px;
     width: 39%;
     margin-left: 8px;
@@ -150,7 +144,7 @@ body {
 
 .divtwo a {
     font-size: 13px;
-    color: rgba(245, 245, 245, 0.493);
+    color: grey;
 }
 
 #forgot_password {
@@ -204,12 +198,12 @@ body {
 }
 
 .divthree h2{
-    color: rgba(245, 245, 245, 0.678);
+    color: rgba(0, 0, 0, 0.76);
     font-weight: lighter;
 }
 
 .divthree p {
-    color: rgba(245, 245, 245, 0.349);
+    color: grey;
     margin: 0;
 }
 

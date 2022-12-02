@@ -206,7 +206,7 @@ def sign_up_page(request):
                 
                 send_email_token(email, email_token, message)
                 
-                return redirect('verify_email_page')
+                return redirect('login')
 
     return render(request,"sign_up.html")
 
@@ -292,9 +292,12 @@ def meet_page(request, meeting_id):
                 item.save()
                 return JsonResponse({'fileUrl':item.file.url}, safe=False)
         else:
-            video_file_name = request.POST['video_file_name']
+            try:
+                video_file_name = request.POST['video_file_name']
 
-            RecordedFiles(User=request.user, fileUrl=video_file_name).save()
+                RecordedFiles(User=request.user, fileUrl=video_file_name).save()
+            except:
+                pass
 
     customer_key = "a0a3bcfe4bf24cb48e5ace72855058cc"
     customer_secret = "35c8f03349184c40932e03d531c06de5"
@@ -317,7 +320,7 @@ def meet_page(request, meeting_id):
     request.meeting_passcode = Room.objects.get(room_name=meeting_id).passcode
     request.user.username = account_info.objects.get(user=request.user).username
 
-    return render(request, "meet.html",context)
+    return render(request, "meeting.html",context)
 
 @login_required(login_url='login')
 def home_page(request):

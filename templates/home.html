@@ -7,66 +7,87 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Home</title>
         <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link id = "styles" rel = "stylesheet" href = "{% static 'dark/home.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src = "{% static 'home.js' %}" type = "text/javascript" defer></script>
     </head>
-    <body>
-        <div id = "navbar" data-time = "{{ current_time }}">
-            <h1>Vschools</h1>
-            <a href = "{% url 'settings' %}" style = "margin-left: auto;"><i class = "far fa-user"></i></a>
-            <a href = "{% url 'logout' %}"><i class = "fas fa-sign-out-alt"></i></a>
-            <img data-name = "LM" src = "{{ profile_picture.url }}"/>
+    <body oncontextmenu="return false">
+        <div id = "navbar">
+            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            <img src = "{{ profile_picture.url }}"/>
         </div>
-        <div class = "holder">
-            <div class = "join">
-                <h2><i class = "fas fa-link"></i> Hello {{ request.user.username }}, you are welcome here.</h2>
-                <p class = "main_text">
-                    Let's help you hold premium virtual meetings and interact with partners, friends and family
-                    at different places around the globe... 
+        <div id = "navbar2">
+            <a href = "{% url 'home' %}" style = "text-decoration: underline;">home</a>
+            <a href = "{% url 'settings' %}">settings</a>
+            <a href = "{% url 'logout' %}">logout</a>
+        </div>
+        <div id = "container">
+            <div class = "divone">
+                <h2>Vritual learning platform.</h2>
+                <p>Learn from anywhere, get the best classroom experience from anywhere all over
+                    the globe at a location of your convenience
                 </p>
-                <form onsubmit = "join_meeting(event)" autocomplete = "off">
-                    <textarea placeholder = "Join ongoing class by passcode....." name = "passcode" required></textarea>
-                    <button>Join session</button>
-                </form>
-                <a href = "#" class = "schedule"><i class = "fas fa-calendar"></i> Schedule your next meeting session</a>
-                <div class = "links">
-                    <a href = "https://www.instagram.com/katumba_victor/"><i class = "fab fa-instagram"></i></a>
-                    <a href = "#"><i class = "fab fa-facebook"></i></a>
-                    <a href = "#"><i class = "fab fa-twitter"></i></a>
-                    <a href = "#"><i class = "fab fa-linkedin"></i></a>
-                    <a href = "#"><i class = "fab fa-github"></i></a>
-                </div>
             </div>
-            <div class = "create">
-                <div class = "child_one">
-                    <div>
-                        <img src = "{% static 'conversation.svg' %}"/>
-                    </div>
-                    <div>
-                        <p>
-                            <i class = "fas fa-users"></i> Start an instant class...
-                        </p>
-                        <form method = "POST" autocomplete = "off" onsubmit = "create_meeting(this)">
-                            {% csrf_token %}
-                            <input type = "text" placeholder = "Name your class....." name = "meeting_title" required/>
-                            <button>Start class</button>
-                        </form>
-                    </div>
+            <div class = "divtwo">
+             <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                    <i class = "fas fa-users"></i> Start an instant meeting.</a>
+                  </h4>
                 </div>
-                <div class = "child_two">
-                    <h2>
-                       All recorded classes can be seen <a href = "{% url 'recorded_files' user_token %}">here</a>
-                    </h2>
-                    <p class = "main_text">
-                        <i class = "far fa-copyright"></i> 2022 | Katumba Victor | All Rights Reserved.
-                    </p>
-                    <p class = "main_text">
-                        <i class = "far fa-envelope"></i> katumbavictor5@gmail.com
-                    </p>
+                <div id="collapse1" class="panel-collapse collapse in">
+                  <div class="panel-body">Start an instant meeting session and invite guests to join.
+                    <button style = "border: none; background: none; padding: 0; margin: 0;" data-user_token = "{{ user_token }}" onclick = "create_meeting(this)">Click here to start</button>
+                  </div>
                 </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                    <i class = "fas fa-record-vinyl"></i> Recorded meetings.</a>
+                  </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat.</div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                    <i class = "fas fa-calendar"></i> Schedule a meeting.</a>
+                  </h4>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse">
+                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat.
+                  <button>Schedule a meeting</button>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            </div>
+            <p style = "align-self: flex-start; margin-left: 7px;">Enter passcode to join an ongoing meeting</p>
+            <div class = "join">
+                <form style = "flex-direction: row;" onsubmit = "join_meeting(event)">
+                    <input type = "text" placeholder = "Enter meeting passcode" required/>
+                    <button type = "submit">Join</button>
+                </form>
             </div>
         </div>
-        <p class = "footer">premium</p>
+        <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = "margin-top: 20px; text-decoration: underline;"><i class = "fab fa-instagram"></i> Follow us on instagram</a>
+        <p class = "footer"><i class = "far fa-copyright"></i> 2022 | Katumba Victor | All Rights Reserved.</p>
+        <p id = "notification">Meeting not found</p>
     </body>
 </html>
