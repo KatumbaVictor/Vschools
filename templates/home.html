@@ -7,86 +7,43 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Home</title>
         <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link id = "styles" rel = "stylesheet" href = "{% static 'dark/home.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src = "{% static 'home.js' %}" type = "text/javascript" defer></script>
     </head>
     <body oncontextmenu="return false">
         <div id = "navbar">
             <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            <button onclick = "options()"><i class = "fas fa-bars"></i></button>
             <img src = "{{ profile_picture.url }}"/>
         </div>
-        <div id = "navbar2">
-            <a href = "{% url 'home' %}" style = "text-decoration: underline;">home</a>
-            <a href = "{% url 'settings' %}">settings</a>
-            <a href = "{% url 'logout' %}">logout</a>
-        </div>
+        <div id = "options">
+            <button onclick = "settings()"><i class = "fas fa-user"></i> Your profile</button>
+            <button onclick = "schedule()"><i class = "fas fa-calendar"></i> Schedule a meeting</button>
+            <button><i class = "fas fa-record-vinyl"></i> Recorded meetings</button>
+            <button onclick = "logout()" style = "border: none;"><i class = "fas fa-sign-out-alt"></i> Logout</button>
+        </div> 
         <div id = "container">
-            <div class = "divone">
-                <h2>Vritual learning platform.</h2>
-                <p>Learn from anywhere, get the best classroom experience from anywhere all over
-                    the globe at a location of your convenience
+            <div id = "divone">
+                <h2>Vritual learning platform</h2>
+                <p class = "header">Learn from anywhere, get the best classroom experience from anywhere all over
+                        the globe at a location of your convenience
                 </p>
+                <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-link"></i> Start a meeting</button>
+                <div class = "join">
+                    <form style = "flex-direction: row;" onsubmit = "join_meeting(event)">
+                        <input type = "text" oninput = "check_passcode(this)" onfocus="input_focus(this)" placeholder = "Enter meeting passcode" onblur = "input_blur(this)" required/>
+                        <button type = "submit">Join</button>
+                    </form>
+                </div>
+                <p style = "font-size: 25px; color: grey; font-family: 'Brush Script MT', cursive; margin: 0; margin-top: 25px; align-self: center;">premium</p>
             </div>
-            <div class = "divtwo">
-             <div class="panel-group" id="accordion">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                    <i class = "fas fa-users"></i> Start an instant meeting.</a>
-                  </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse in">
-                  <div class="panel-body">Start an instant meeting session and invite guests to join.
-                    <button style = "border: none; background: none; padding: 0; margin: 0;" data-user_token = "{{ user_token }}" onclick = "create_meeting(this)">Click here to start</button>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                    <i class = "fas fa-record-vinyl"></i> Recorded meetings.</a>
-                  </h4>
-                </div>
-                <div id="collapse2" class="panel-collapse collapse">
-                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.</div>
-                </div>
-              </div>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                    <i class = "fas fa-calendar"></i> Schedule a meeting.</a>
-                  </h4>
-                </div>
-                <div id="collapse3" class="panel-collapse collapse">
-                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                  <button>Schedule a meeting</button>
-                  </div>
-                </div>
-              </div>
-            </div> 
-            </div>
-            <p style = "align-self: flex-start; margin-left: 7px;">Enter passcode to join an ongoing meeting</p>
-            <div class = "join">
-                <form style = "flex-direction: row;" onsubmit = "join_meeting(event)">
-                    <input type = "text" placeholder = "Enter meeting passcode" required/>
-                    <button type = "submit">Join</button>
-                </form>
+            <div id = "divtwo">
+                <img src = "{% static 'conversation.svg' %}"/>
+                <p>Quality meetings</p>
             </div>
         </div>
-        <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = "margin-top: 20px; text-decoration: underline;"><i class = "fab fa-instagram"></i> Follow us on instagram</a>
+        <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = "margin-top: 40px; text-decoration: underline; font-size: 13px;"><i class = "fab fa-instagram"></i> Follow us on instagram</a>
         <p class = "footer"><i class = "far fa-copyright"></i> 2022 | Katumba Victor | All Rights Reserved.</p>
         <p id = "notification">Meeting not found</p>
     </body>

@@ -40,6 +40,8 @@ urlpatterns = [
     path('join_session/', join_session, name = "join_session"),
     path('meeting_ended/',meeting_ended, name = "meeting_ended"),
     path('whiteboardDetails/', whiteboardDetails, name = "whiteboardDetails"),
+    path('start_meeting/',start_meeting, name = "start_meeting"),
+    path('changeWhiteboardDetails/', changeWhtieboardDetails, name = "changeWhtieboardDetails"),
     path('UpdateWhiteboardDetails/', UpdateWhiteboardDetails),
     path('recorded_meetings/<str:meeting_id>', recorded_files, name = "recorded_files"),
     path('files/<str:meeting_id>',uploaded_files, name = "uploaded_files"),

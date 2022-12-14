@@ -19,12 +19,12 @@ class ChatConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(self.room_name, self.channel_name)
 
         if self.scope['user'].is_authenticated:
-            room_member = Room_member(room=Room.objects.get(room_name=self.room_name),user=self.scope['user'],role='participant',
+            room_member = Room_member(room=Room.objects.get(room_id=self.room_name),user=self.scope['user'],role='participant',
                         time_joined=timezone.now())
             room_member.save()
             self.uid = room_member.id
         else:
-            room_member = Room_member(room=Room.objects.get(room_name=self.room_name),role='participant',
+            room_member = Room_member(room=Room.objects.get(room_id=self.room_name),role='participant',
                     time_joined=timezone.now())
             room_member.save()
             self.uid = room_member.id
@@ -41,7 +41,7 @@ class ChatConsumer(WebsocketConsumer):
 
         token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, self.uid, role, privilegeExpiredTs)
 
-        for item in Room_member.objects.filter(room=Room.objects.get(room_name=self.room_name)):
+        for item in Room_member.objects.filter(room=Room.objects.get(room_id=self.room_name)):
             obj = {'role':item.role,'user_joined':True,'uid':item.id}
             if hasattr(item,'user'):
                 try:
@@ -69,7 +69,7 @@ class ChatConsumer(WebsocketConsumer):
         self.send(json.dumps(item))
 
     def disconnect(self, close_code):
-        room = Room.objects.get(room_name=self.room_name)
+        room = Room.objects.get(room_id=self.room_name)
         Room_member.objects.get(room=room,id=self.uid).delete()
         async_to_sync(self.channel_layer.group_discard)(self.room_name, self.channel_name)
 
@@ -87,7 +87,7 @@ class ChatConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps(data))
 
         if 'room_token' in data:
-            room = Room.objects.get(room_name=self.room_name)
+            room = Room.objects.get(room_id=self.room_name)
             room.room_token = data['room_token']
 
 

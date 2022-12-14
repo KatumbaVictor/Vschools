@@ -4,7 +4,6 @@
 }
 
 body {
-    background-color: rgb(0, 0, 0);
     padding-top: 85px;
     display: flex; 
     flex-direction: column;
@@ -12,8 +11,8 @@ body {
 }
 
 #navbar {
-    width: 100%;
-    height: 70px;
+    width: 100%; 
+    height: 60px;
     position: absolute; 
     top: 0;
     left: 0;
@@ -21,14 +20,14 @@ body {
     flex-direction: row;
     align-items: center;
     z-index: 5;
-    border-bottom: 2px solid rgba(128, 128, 128, 0.123);
-    background-color: rgb(10,10,10);
+    background-color: white;
+    box-shadow: 0 0 7px rgba(128, 128, 128, 0.541);
 }
 
 #navbar h1{
     margin-left: 30px;
-    color: rgba(245, 245, 245, 0.753);
-    font-size: 40px;
+    color: blue;
+    font-size: 30px;
     font-family: 'Brush Script MT', cursive;
     font-weight: lighter;
 }
@@ -37,67 +36,30 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px;
+    width: 500px;
 }
 
 #divone h2 {
-    color: rgba(245, 245, 245, 0.753);
-    font-size: 25px;
     font-weight: lighter;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-self: flex-start;
-}
-
-#divone h2 button {
-    background: none;
-    border: none;
-    color: rgba(245, 245, 245, 0.753);
-    font-size: 25px;
-    margin-right: 15px;
-    background-color: rgba(30, 30, 30, 0.663);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    padding: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#divone p {
-    color: rgba(245, 245, 245, 0.503);
+    color: rgba(0, 0, 0, 0.71);
     margin: 0;
-    font-size: 14px;
 }
 
-#divtwo {
-    border: 1px solid rgba(60, 60, 60, 0.253);
-    background-color: rgba(30, 30, 30, 0.203);
-    border-radius: 10px;
-    width: 100%;
-    height: 400px;
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#divtwo input {
-    width: calc(100% - 74px);
-    margin: 20px;
-    background-color: rgba(50, 50, 50, 0.173);
-    padding: 14px;
-    border: none;
+.header {
+    font-weight: normal; 
+    width: 100%; 
+    align-self: center; 
+    padding: 20px;
+    text-align: center; 
+    font-style: italic;
+    margin: 0;
     color: grey;
-    border-radius: 9px;
-    border: 1px solid rgba(50, 50, 50, 0.343);
 }
 
-#divtwo h3 {
-    color: rgba(245, 245, 245, 0.753);
-    font-size: 17px;
-    font-weight: lighter;
-    align-self: flex-start;
+input[type='text'] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    color: grey;
+    border: none;
+    border-bottom: 2px solid rgba(0,0,200,0.42);
 }

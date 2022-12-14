@@ -1,4 +1,4 @@
-if (navigator.mediaDevices.getDisplayMedia == undefined){controls.children[3].remove();};
+if (navigator.mediaDevices.getDisplayMedia == undefined){document.getElementById('controls').children[3].remove();};
 var my_id;
 const username = document.getElementById('main').dataset.username;
 var notifications = document.getElementById('notifications');
@@ -17,7 +17,8 @@ var sid;
 var time_string;
 var token;
 var socket;
-var playing = false;
+var video_track_playing = false;
+var audio_track_playing = false;
 var time_limit;
 var room;
 var user_token;
@@ -285,8 +286,8 @@ let handleJoinedUser = (item) => {
     }
 
     Array.from(document.getElementsByClassName('holder')).forEach((item) => {
-        item.style.width = "300px";
-        item.style.height = "300px";
+        item.style.width = "260px";
+        item.style.height = "260px";
     })
 
     var target_item = `
@@ -482,8 +483,6 @@ let getSocketMessages = function(self){
             profile_picture = response.profile_picture;
             user_token = response.user_token;
             if (user_token == CHANNEL) {
-                console.log(CHANNEL)
-                console.log(user_token)
                 create_whiteboard_room();
             }
             if (document.getElementById(response.uid.toString()) == null) {
@@ -585,10 +584,8 @@ let getSocketMessages = function(self){
         joinAndDisplayLocalStream(response.token, response.id);
         my_id = response.id;
         token = response.token;
-    }else if (response.room_token) {
-        if (response.id != my_id) {
-            start_whiteboard(response.room_token, response.room_uid);
-        }
+
+        getCredentials();
     }
 }
 
@@ -599,16 +596,18 @@ let handle_camera = async (self) => {
     if (videoInputDevices.length > 0) {
         if (videoTrack.muted){
             profile_picture.style.display = "none";
-            await videoTrack.setMuted(false);
             self.innerHTML = '<i class = "fas fa-video"></i>';
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-description','disable');
 
-            if (playing == false) {
+            if (video_track_playing == false) {
                 videoTrack.play(holder);
-                playing == true;
+                video_track_playing == true;
+                client.publish(videoTrack);
                 /*video.setAttribute('style','height: 100%; width: auto; max-width: 100%;');*/
             }
+
+            await videoTrack.setMuted(false);
             console.log(holder)
             console.log(holder.innerHTML);
             var item = holder.children[2];
@@ -639,6 +638,11 @@ let handle_audio = async (self) => {
             self.setAttribute('data-description','mute');
             microphone.style.color = 'blue';
             microphone.setAttribute('class','fas fa-microphone');
+
+            if (audio_track_playing == false) {
+                audio_track_playing == true;
+                client.publish(audioTrack);
+            }
         }else {
             await audioTrack.setMuted(true);
             self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
@@ -998,9 +1002,6 @@ let start_whiteboard = (room_token, room_uid) => {
         appIdentifier: "kxGEgDNcEe2cCXezkLqgEg/Gf-OOdcaZPZ-pg",
         region: "us-sv",
       })
-
-        var item = {'room_token':room_token,'room_uid':room_uid, 'id':my_id};
-        socket.send(JSON.stringify(item));
       
       var joinRoomParams = {
         uuid: room_uid,
@@ -1030,15 +1031,14 @@ let start_whiteboard = (room_token, room_uid) => {
         }).then(response => {
         return response.json().then(data => {
             start_whiteboard(data, room_uid);
-
-            fetch(window.location,{
+            fetch('/changeWhiteboardDetails/',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
                     "X-CSRFToken": getCookie('csrftoken'),
                     'X-Requested-With':'XMLHttpRequest'
                 },
-                body: JSON.stringify({'room_token':data,'room_uuid':room_uid})
+                body: JSON.stringify({'room_token':data,'room_uuid':room_uid,'room_id':CHANNEL})
                 })
             })
       })
@@ -1062,21 +1062,21 @@ let start_whiteboard = (room_token, room_uid) => {
       })
   }
 
-/*
-if (CHANNEL != user_token) {
-    fetch(`/whiteboardDetails/?room_name=${meeting_token}`,{
+let getCredentials = () => {
+    fetch(`/whiteboardDetails/?room_name=${CHANNEL}`,{
         method: 'GET'
     }).then((response) => {
         return response.json().then((data) => {
-            console.log(data);
-            start_whiteboard(data.room_token, data.room_uuid);
+            console.log(data)
+            if (data.room_token) {
+                console.log(data);
+                start_whiteboard(data.room_token,data.room_uuid)
+            }else {
+                create_whiteboard_room();
+            }
         })
     })
-}else {
-    create_whiteboard_room();
 }
-
-*/
 
 let clicker = () => {
     room.setMemberState(

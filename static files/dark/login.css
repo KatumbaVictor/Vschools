@@ -14,8 +14,8 @@
     align-items: center;
     justify-content: center;
     z-index: 5;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.164);
-    background-color: rgba(200, 200, 200, 0.055);
+    background-color: white;
+    box-shadow: 0 0 7px rgba(128, 128, 128, 0.541);
 }
 
 #navbar h1{

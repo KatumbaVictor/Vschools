@@ -64,8 +64,33 @@ request_url = endpoint + canonical_uri + "?" + canonical_querystring
 
 */
 
+navigator.serviceWorker.register('/static/sw.js').then((registration) => {
+   reg.showNotification('title',{'body':'body'})
+})
 
 
-var divone = document.getElementById('divone');
-divone.style.transform = "scale(1)";
-divone.style.opacity = "1"
+
+/*
+Notification.requestPermission((result) => {
+   console.log(result)
+   navigator.serviceWorker.ready.then((reg) => {
+      console.log(reg)
+      reg.showNotification('title',{'body':'body'});
+   })
+})
+*/
+
+let getCookie = (name) => {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== ''){
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')){
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

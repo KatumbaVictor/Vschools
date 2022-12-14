@@ -46,7 +46,7 @@ def join_session(request):
     data = request.GET
     passcode = data['passcode']
     if any(Room.objects.filter(passcode=passcode)):
-        return JsonResponse({'meeting_id':Room.objects.get(passcode=passcode).room_name}, safe=False)
+        return JsonResponse({'meeting_id':Room.objects.get(passcode=passcode).room_id}, safe=False)
     else:
         return JsonResponse({'not_found':True}, safe=False)
 
@@ -120,10 +120,15 @@ def whiteboard_page(request, meeting_id):
 def whiteboardDetails(request):
     data = request.GET
     room_name = data['room_name']
-    room = Room.objects.get(room_name=room_name)
+    room = Room.objects.get(room_id=room_name)
     item = MeetingWhiteboard.objects.get(room=room)
+    response = None
 
-    response = {'room_token':item.room_token,'room_uuid':item.room_uuid}
+    if item.room_token != None and item.room_uuid != None:
+        response = {'room_token':item.room_token,'room_uuid':item.room_uuid}
+        print(response)
+    else:
+        response = {}
 
     return JsonResponse(response, safe=False)
 
@@ -284,7 +289,7 @@ def meet_page(request, meeting_id):
     if request.method == 'POST':
         if request.FILES:
             if request.user.is_authenticated:
-                room = Room.objects.get(room_name=meeting_id)
+                room = Room.objects.get(room_id=meeting_id)
                 room_member = Room_member.objects.get(id=int(request.POST['uid']))
                 item = Room_message(room=room,room_member=room_member,
                     file=request.FILES['image'],file_type=request.POST['fileType'],
@@ -305,39 +310,47 @@ def meet_page(request, meeting_id):
     base64_credentials = base64.b64encode(credentials.encode("utf8"))
     credential = base64_credentials.decode("utf8")
 
-    room_chats = Room_message.objects.filter(room=Room.objects.get(room_name=meeting_id))
+    room_chats = Room_message.objects.filter(room=Room.objects.get(room_id=meeting_id))
 
     for item in room_chats:
         item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture
 
     context = {'profile_picture':user_details.get('profile_picture','/media/no_profile_Pic.jpeg'),
-                'host_profile_pic':account_info.objects.get(user_token=meeting_id).profile_picture,
                 'meeting_link':'https://'+str(get_current_site(request))+'/meet/'+meeting_id,
-                'host_username':account_info.objects.get(user_token=meeting_id).user.username,
                 'authorization': credential,'room_chats':room_chats}
     request.user.user_token = meeting_id
-    request.meeting_description = Room.objects.get(room_name=meeting_id).description
-    request.meeting_passcode = Room.objects.get(room_name=meeting_id).passcode
+    request.meeting_description = Room.objects.get(room_id=meeting_id).description
+    request.meeting_passcode = Room.objects.get(room_id=meeting_id).passcode
     request.user.username = account_info.objects.get(user=request.user).username
 
     return render(request, "meeting.html",context)
 
+def changeWhtieboardDetails(request):
+    if request.method == 'POST':
+        if request.is_ajax:
+            data = json.loads(request.body)
+            room = Room.objects.get(room_id=data['room_id'])
+            item = MeetingWhiteboard.objects.get(room=room)
+            item.room_token = data['room_token']
+            item.room_uuid = data['room_uuid']
+            item.save()
+            return render(request, 'meeting.html')
+
 @login_required(login_url='login')
 def home_page(request):
-    if request.method == "POST":
-        meeting_title = request.POST['meeting_title']
-        room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
-        room.description = meeting_title.capitalize()
-        room.passcode = secrets.token_urlsafe(4)
-        room.start_date = timezone.now()
-        room.save()
-        return redirect('meet',account_info.objects.get(user=request.user).user_token)
-
     request.user.username = account_info.objects.get(user=request.user).username
 
     context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
                 'user_token':account_info.objects.get(user=request.user).user_token,'current_time':timezone.now()}
-    return render(request, "home.html", context)
+    return render(request, "home.html", context) 
+
+def start_meeting(request):
+    if request.method == "POST":
+        room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
+        room.room_id = secrets.token_urlsafe()
+        room.passcode = secrets.token_urlsafe(4)
+        room.save()
+        return JsonResponse({'meeting_id':room.room_id}, safe=False)
 
 @login_required(login_url='login')
 def get_started_page(request):
