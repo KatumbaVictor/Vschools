@@ -96,7 +96,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let websocket_url = `${connection_protocol}://${window.location.host:8001}/meet/${CHANNEL}/`;
+let websocket_url = `${connection_protocol}://${window.location.host}:8001/meet/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
