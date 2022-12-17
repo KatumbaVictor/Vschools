@@ -30,25 +30,6 @@ body {
     font-weight: lighter;
 }
 
-#navbar2 {
-    background-color: rgba(200, 200, 200, 0.055);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: calc(100% - 20px);
-    padding: 4px;
-    border: 1px solid rgba(128, 128, 128, 0.096);
-    border-radius: 4px;
-}
-
-#navbar2 a {
-    color: grey;
-    margin: 5px;
-    font-size: 12px;
-    text-decoration: none;
-}
-
-
 .info_holder {
     display: flex;
     flex-direction: column;
@@ -105,6 +86,7 @@ body {
     font-size: 14px;
     margin: 0;
     margin-bottom: 20px; 
+    font-style: italic;
 }
 
 #container{
@@ -179,11 +161,11 @@ body {
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
-    max-width: 400px;
+    max-width: 500px;
 }
 
 .holder h2 {
-    color: grey;
+    color: rgba(0, 0, 0, 0.71);
     font-weight: lighter;
     font-size: 19px;
     margin: 0;
@@ -199,10 +181,10 @@ body {
     margin-bottom: 15px;
     margin-left: 20px;
     margin-right: 20px;
+    font-style: italic;
 }
 
 input[type="password"] {
-    border: none;
     margin-bottom: 11px;
     padding: 12px 0 12px 10px; 
     border-radius: 6px;
@@ -211,12 +193,10 @@ input[type="password"] {
     color: grey;
     margin-left: 20px;
     margin-right: 20px;
-    background-color: rgba(128, 128, 128, 0.062);
-    border: 2px solid rgba(128, 128, 128, 0.123);
+    border: 1px solid rgba(128, 128, 128, 0.64);
 }
 
 input[type="text"] {
-    border: none;
     margin-bottom: 11px;
     padding: 12px 0 12px 10px;
     border-radius: 6px;
@@ -225,21 +205,21 @@ input[type="text"] {
     color: grey;
     margin-left: 20px;
     margin-right: 20px;
-    background-color: rgba(128, 128, 128, 0.062);
-    border: 2px solid rgba(128, 128, 128, 0.123);
+    border: 1px solid rgba(128, 128, 128, 0.64);
 }
 
 .holder button {
     border: none;
     background-color: rgba(19, 19, 19, 0.651);
-    color: rgba(245, 245, 245, 0.637);
+    color: white;
     padding: 12px 0 12px 10px;
     border: 1px solid rgba(128, 128, 128, 0.096);
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 6px;
-    background-color: rgba(128, 128, 128, 0.116);
-    border: 2px solid rgba(128, 128, 128, 0.123);
+    background-color: blue;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 form {

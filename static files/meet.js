@@ -22,6 +22,7 @@ var audio_track_playing = false;
 var time_limit;
 var room;
 var user_token;
+var whiteboard;
 var all_users = 0;
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
@@ -95,7 +96,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let websocket_url = `${connection_protocol}://${window.location.host}/meet/${CHANNEL}/`;
+let websocket_url = `${connection_protocol}://${window.location.host:8001}/meet/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -308,7 +309,6 @@ function view_users() {
 let handleNewUser = async (user, mediaType) => {
     await client.subscribe(user, mediaType);
     var holder = document.getElementById(user.uid.toString());
-    console.log(holder);
     if (mediaType === 'video'){
         user.videoTrack.play(holder);
         var player = holder.lastElementChild;
@@ -465,13 +465,8 @@ let getSocketMessages = function(self){
     }else if (response.raise_hand) {
         send_notification(response.username,`${response.username} is raising a hand`,response.profile_picture);
 
-        var parent = Array.from(document.getElementsByClassName('raised_hands'))[0];
-        var name = document.createElement('p');
-        name.setAttribute('id',`hand_${response.id}`)
-        name.innerHTML = `<i class = "fas fa-hand-paper"></i> ${response.username}`;
-        parent.appendChild(name);
-        var hands = document.getElementById('hands').firstElementChild.children[2].children.length - 1;
-        all_hands.innerHTML = hands;
+        var item = document.createElement('i');
+        item.setAttribute('class','fas fa-hand')
     }else if (response.caption) {
         
     }else if (response.lower_hand) {
@@ -481,10 +476,7 @@ let getSocketMessages = function(self){
     }else if (response.user_joined) {
         if (response.name) {
             profile_picture = response.profile_picture;
-            user_token = response.user_token;
-            if (user_token == CHANNEL) {
-                create_whiteboard_room();
-            }
+            
             if (document.getElementById(response.uid.toString()) == null) {
                 handleJoinedUser(response);
             }
@@ -582,10 +574,14 @@ let getSocketMessages = function(self){
         }
     }else if (response.auth) {
         joinAndDisplayLocalStream(response.token, response.id);
-        my_id = response.id;
+        my_id = response.id; 
         token = response.token;
 
-        getCredentials();
+        if (response.user_token) {
+            create_whiteboard_room();
+        }else {
+            getCredentials();
+        }
     }
 }
 
@@ -608,8 +604,7 @@ let handle_camera = async (self) => {
             }
 
             await videoTrack.setMuted(false);
-            console.log(holder)
-            console.log(holder.innerHTML);
+
             var item = holder.children[2];
             item.style.backgroundColor = "white";
 
@@ -1067,13 +1062,7 @@ let getCredentials = () => {
         method: 'GET'
     }).then((response) => {
         return response.json().then((data) => {
-            console.log(data)
-            if (data.room_token) {
-                console.log(data);
-                start_whiteboard(data.room_token,data.room_uuid)
-            }else {
-                create_whiteboard_room();
-            }
+            start_whiteboard(data.room_token,data.room_uuid)
         })
     })
 }

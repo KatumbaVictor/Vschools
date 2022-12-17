@@ -49,9 +49,6 @@ class ChatConsumer(WebsocketConsumer):
                     obj['profile_picture'] = account_info.objects.get(user=item.user).profile_picture.url
                     obj['user_token'] = account_info.objects.get(user=item.user).user_token
 
-                    if channelName == obj['user_token']:
-                        obj['time_limit'] = account_info.objects.get(user=item.user).time_limit
-
                 except:
                     pass
             room_participants.append(obj)
@@ -66,6 +63,14 @@ class ChatConsumer(WebsocketConsumer):
         )
 
         item = {'auth':True, 'token':token, 'id':self.uid}
+
+        try:
+            user_token = account_info.objects.get(user=self.scope['user']).user_token
+            if user_token == self.room_name:
+                item['user_token'] = user_token
+        except:
+            pass
+
         self.send(json.dumps(item))
 
     def disconnect(self, close_code):

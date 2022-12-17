@@ -15,7 +15,7 @@
     justify-content: center;
     z-index: 5;
     background-color: white;
-    box-shadow: 0 0 7px rgba(128, 128, 128, 0.541);
+    box-shadow: 0 0 7px rgba(128, 128, 128, 0.741);
 }
 
 #navbar h1{
@@ -101,7 +101,7 @@
     transition: .3s box-shadow;
     position: relative;
     color: white;
-    background-color: rgba(0, 0, 255, 0.856);
+    background-color: blue;
 }
 
 #login p {

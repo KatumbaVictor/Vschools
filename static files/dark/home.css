@@ -21,7 +21,7 @@ body {
     align-items: center;
     z-index: 5;
     background-color: white;
-    box-shadow: 0 0 7px rgba(128, 128, 128, 0.541);
+    box-shadow: 0 0 7px rgba(128, 128, 128, 0.741);
 }
 
 #navbar h1{
