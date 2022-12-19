@@ -43,7 +43,7 @@ urlpatterns = [
     path('start_meeting/',start_meeting, name = "start_meeting"),
     path('changeWhiteboardDetails/', changeWhtieboardDetails, name = "changeWhtieboardDetails"),
     path('UpdateWhiteboardDetails/', UpdateWhiteboardDetails),
-    path('recorded_meetings/<str:meeting_id>', recorded_files, name = "recorded_files"),
+    path('recorded_meetings/', recorded_files, name = "recorded_files"),
     path('files/<str:meeting_id>',uploaded_files, name = "uploaded_files"),
     path('verify/<str:token>',verify_email),
     path('test/', test_page, name = "test"),

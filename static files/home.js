@@ -18,6 +18,7 @@ let getCookie = (name) => {
 
 function start_meeting(self){
     self.innerHTML = '<i class = "fas fa-link"></i> Starting meeting...';
+    self.style.color = 'rgba(255, 255, 255, 0.889)';
 
     fetch('/start_meeting/',{
         method: 'POST',
@@ -95,6 +96,11 @@ let options = () => {
 let logout = () => {
     page_options.style.display = "none";
     window.open('/logout/','_self');
+}
+
+let recorded_meetings = () => {
+    page_options.style.display = "none";
+    window.open('/recorded_meetings/','_self');
 }
 
 let settings = () => {

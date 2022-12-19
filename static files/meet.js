@@ -24,33 +24,19 @@ var room;
 var user_token;
 var whiteboard;
 var all_users = 0;
+var recording = false;
+
+console.log(authorization)
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 
-var send_notification = (title, body, icon) => {
-    var notification = new Notification(title,{body:body,icon:icon});
-    if (Notification.permission === "granted") {
-        return notification;
-    }else if (Notification.permission !== "granted") {
-        Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-                return notification;
-            }
-        })
-    }
+var send_notification = (title, body) => {
+    var notification = document.getElementById('notification');
+    notification.innerHTML = `<span>${title}</span> ${body}`;
+    notification.style.opacity = '1';
 }
-
-/*function post_message(str) {
-    var text = document.createElement('p');
-    text.innerHTML = str;
-    notifications.prepend(text);
-    notifications.scrollTop = notifications.scrollHeight;
-    text.style.opacity = "1";
-    setTimeout(() => {text.style.opacity = "0";}, 5000);
-    setTimeout(() => {text.style.display = "none";}, 6000);
-}*/
 
 let getCookie = (name) => {
     let cookieValue = null;
@@ -85,9 +71,6 @@ document.getElementById('options').addEventListener('mouseup',() => {
     document.getElementById('options').style.display = "none";
 })
 
-var element = Array.from(document.getElementsByClassName('hands_button'))[0];
-element.style.setProperty('--raised_hands','none');
-
 */
 
 if (window.location.protocol == 'https:'){
@@ -106,7 +89,7 @@ AgoraRTC.getCameras().then((devices) => {
         var button = document.getElementById('controls').firstElementChild;
         button.innerHTML = '<i class = "fas fa-video-slash"></i>';
         button.setAttribute('class','inactive');
-        button.setAttribute('data-description','enable');
+        button.setAttribute('data-name','enable');
     }
 })
 
@@ -116,7 +99,7 @@ AgoraRTC.getMicrophones().then((devices) => {
         var button = document.getElementById('controls').children[1];
         button.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
         button.setAttribute('class','inactive');
-        button.setAttribute('data-description','unmute');
+        button.setAttribute('data-name','unmute');
     }
 })
 
@@ -291,7 +274,7 @@ let handleJoinedUser = (item) => {
         item.style.height = "260px";
     })
 
-    var target_item = `
+    /*var target_item = `
         <div id = 'participant_${item.uid}'>
             <img src = "${item.profile_picture}"/>
             <p>${item.name}</p>
@@ -299,7 +282,7 @@ let handleJoinedUser = (item) => {
     `
 
     var parent = document.getElementById('meeting_info').firstElementChild.children[2];
-    parent.innerHTML += target_item;
+    parent.innerHTML += target_item;*/
 }
 
 function view_users() {
@@ -348,8 +331,15 @@ let handleUserLeft = async (user) => {
 let leaveAndRemoveLocalStream = async () => {
     socket.close();
     videoTrack.stop();
+    audioTrack.stop();
     videoTrack.close();
+    audioTrack.close()
     client.leave();
+
+    if (recording == true) {
+        stop_recording();
+    }
+
     window.open('/','_self');
 }
 
@@ -460,10 +450,10 @@ let getSocketMessages = function(self){
         comment_holder.scrollTop = comment_holder.scrollHeight;
 
         if (chats === false) {
-            send_notification(response.name, response.message, response.profile_picture);
+            send_notification(response.name, response.message);
         }
     }else if (response.raise_hand) {
-        send_notification(response.username,`${response.username} is raising a hand`,response.profile_picture);
+        send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
 
         var item = document.createElement('i');
         item.setAttribute('class','fas fa-hand')
@@ -472,7 +462,7 @@ let getSocketMessages = function(self){
     }else if (response.lower_hand) {
         
     }else if (response.screen_sharing) {
-        send_notification(response.username, `${response.username} is sharing screen`, response.profile_picture);
+        send_notification(response.username, 'is sharing screen');
     }else if (response.user_joined) {
         if (response.name) {
             profile_picture = response.profile_picture;
@@ -570,17 +560,20 @@ let getSocketMessages = function(self){
         comment_holder.scrollTop = comment_holder.scrollHeight;
 
         if (chats === false) {
-            send_notification(response.name, `${response.name} shared a file`, response.profile_picture);
+            send_notification(response.name, 'shared a file');
         }
     }else if (response.auth) {
         joinAndDisplayLocalStream(response.token, response.id);
         my_id = response.id; 
         token = response.token;
 
+        console.log(response)
         if (response.user_token) {
             create_whiteboard_room();
         }else {
             getCredentials();
+            var button = document.getElementById('meeting_info').firstElementChild.lastElementChild;
+            button.remove();
         }
     }
 }
@@ -594,7 +587,7 @@ let handle_camera = async (self) => {
             profile_picture.style.display = "none";
             self.innerHTML = '<i class = "fas fa-video"></i>';
             self.setAttribute('class','control_buttons');
-            self.setAttribute('data-description','disable');
+            self.setAttribute('data-name','disable');
 
             if (video_track_playing == false) {
                 videoTrack.play(holder);
@@ -612,7 +605,7 @@ let handle_camera = async (self) => {
             await videoTrack.setMuted(true);
             self.innerHTML = '<i class = "fas fa-video-slash"></i>';
             self.setAttribute('class','inactive');
-            self.setAttribute('data-description','enable');
+            self.setAttribute('data-name','enable');
             profile_picture.style.display = "block";
             video.style.display = "block";
         }
@@ -630,7 +623,7 @@ let handle_audio = async (self) => {
             await audioTrack.setMuted(false);
             self.innerHTML = '<i class = "fas fa-microphone"></i>';
             self.setAttribute('class','control_buttons');
-            self.setAttribute('data-description','mute');
+            self.setAttribute('data-name','mute');
             microphone.style.color = 'blue';
             microphone.setAttribute('class','fas fa-microphone');
 
@@ -642,7 +635,7 @@ let handle_audio = async (self) => {
             await audioTrack.setMuted(true);
             self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
             self.setAttribute('class','inactive');
-            self.setAttribute('data-description','unmute');
+            self.setAttribute('data-name','unmute');
             microphone.style.color = 'red';
             microphone.setAttribute('class','fas fa-microphone-slash');
         }
@@ -675,7 +668,7 @@ let screen_sharing = (self) => {
         screenSourceType: 'screen',
     }).then(localScreenTrack => {
         self.setAttribute('class','inactive');
-        self.setAttribute('data-description','end');
+        self.setAttribute('data-name','end');
         client.unpublish(videoTrack);
         client.publish(localScreenTrack);
         socket.send(JSON.stringify({'screen_sharing':true,'username':username,'profile_picture':profile_picture}));
@@ -683,7 +676,7 @@ let screen_sharing = (self) => {
             client.unpublish(localScreenTrack);
             client.publish(videoTrack);
             self.setAttribute('class','control_buttons');
-            self.setAttribute('data-description','screen');
+            self.setAttribute('data-name','screen');
         })
     })
 }
@@ -707,7 +700,7 @@ let start_recording = (resource_id) => {
                             "serviceName": "web_recorder_service",
                             "errorHandlePolicy": "error_abort",
                             "serviceParam": {
-                                "url": document.getElementById('meeting_link').firstElementChild.children[2].value,
+                                "url": `https://${window.location.host}/meet/${CHANNEL}`,
                                 "audioProfile": 0,
                                 "videoWidth": 1280,
                                 "videoHeight": 720,
@@ -738,12 +731,18 @@ let start_recording = (resource_id) => {
         }).then(response => {
         return response.json().then(data => {
             sid = data.sid;
-            send_notification('Meeting recording', 'Meeting recording has started', null);
-        })
+            send_notification('Meeting recording', 'has started');
+            recording = true;
+            })
         })
 }
 
-let get_resource_id = () => {
+let get_resource_id = (self) => {
+    self.innerHTML = '<i class = "fas fa-record-vinyl"></i> Stop recording';
+    self.style.color = "rgba(255, 0, 0, 0.838)";
+    self.setAttribute('onclick','stop_recording()');
+    console.log(CHANNEL)
+    console.log(my_id.toString())
     fetch(`https://api.agora.io/v1/apps/${APP_ID}/cloud_recording/acquire`,{
         method: 'POST',
         headers:{
@@ -762,6 +761,7 @@ let get_resource_id = () => {
         }).then(response => {
         return response.json().then(data => {
             resource_id_value = data.resourceId;
+            console.log(data);
             start_recording(data.resourceId);
         })
         })
@@ -780,26 +780,27 @@ let stop_recording = () => {
           "clientRequest": {}
         })
         }).then(response => {
-        return response.json().then(data => {
-            var mp4_file = `https://vschools-file-bucket.s3.amazonaws.com/media/${data.sid}_${CHANNEL}_0.mp4`;
+            recording = false;
+            return response.json().then(data => {
+                var mp4_file = `https://vschools-file-bucket.s3.amazonaws.com/media/${data.sid}_${CHANNEL}_0.mp4`;
 
-            var form = new FormData();
-            form.append("video_file_name",mp4_file);
-    
-            var xhr = new XMLHttpRequest();
+                var form = new FormData();
+                form.append("video_file_name",mp4_file);
+        
+                var xhr = new XMLHttpRequest();
 
-            xhr.onreadystatechange = () => {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                    console.log('meeting recorded successfully');
+                xhr.onreadystatechange = () => {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                        console.log('meeting recorded successfully');
+                    }
                 }
-            }
 
-            xhr.open('POST',window.location);
-            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-            xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
-            xhr.send(form);
+                xhr.open('POST',window.location);
+                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
+                xhr.send(form);
+            })
         })
-      })
   }
 
 let query_record_status = () => {
@@ -819,7 +820,7 @@ let query_record_status = () => {
 let record_meeting = (self) => {
     get_resource_id();
     document.getElementById('options').style.display = "none";
-    send_notification('Meeting recording', 'Meeting recording will start shortly');
+    send_notification('Meeting recording', 'will start shortly');
   }
 
 let end_recording = (self) => {
@@ -859,12 +860,12 @@ let open_whiteboard = (self) => {
 }
 
 let open_meet_info = (self) => {
+    document.getElementById('whiteboard_container').style.display = "none";
+    document.getElementById('meeting_info').style.display = "flex";
     var tools = document.getElementById('meeting_tools');
     Array.from(tools.children).forEach((item) => {
         item.style.borderBottom = "none";
     })
-    document.getElementById('whiteboard_container').style.display = "none";
-    document.getElementById('meeting_info').style.display = "flex";
     self.style.borderBottom = "2px solid rgba(0,0,200,0.6)";
 }
 
@@ -937,12 +938,14 @@ let show_qrcode = () => {
 let raise_hand = (self) => {
     self.innerHTML = "<i class = 'fas fa-hand-paper'></i>";
     self.setAttribute('onclick','lower_hand(this)');
+    self.setAttribute('data-name','unraise');
     socket.send(JSON.stringify({'raise_hand':true,'username':username,'id':my_id,'profile_picture':profile_picture}));
 }
 
 let lower_hand = (self) => {
     self.innerHTML = "<i class = 'far fa-hand-paper'></i>";
     self.setAttribute('onclick','raise_hand(this)');
+    self.setAttribute('data-name','raise');
     socket.send(JSON.stringify({'lower_hand':true,'username':username,'id':my_id}));
 }
 
@@ -957,10 +960,6 @@ function close_options(){
 function get_link(self){
     document.getElementById('options').style.display = "none";
     document.getElementById('meeting_link').style.display = "flex";
-}
-
-function ExtendMeeting() {
-    var e = 'v';
 }
 
 function Cancel(self) {
@@ -981,15 +980,8 @@ function close_items(self){
     self.parentElement.parentElement.style.display = "none";
 }
 
-function get_views(){
-    document.getElementById('viewers').style.display = "flex";
-}
-
 window.addEventListener('beforeunload',() => {
-    audioTrack.stop();
-    videoTrack.stop();
-    socket.close();
-    client.leave();
+    leaveAndRemoveLocalStream();
 });
 
 let start_whiteboard = (room_token, room_uid) => {

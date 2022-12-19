@@ -11,7 +11,11 @@
         <script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
         <script src = "{% static 'qr_code/qrcode.js' %}"></script>
         <script src = "{% static 'AgoraRTC_N-4.10.2.js' %}" type = "text/javascript"></script>
-        <script src = "{% static 'meet.js' %}" type = "text/javascript" defer></script>
+        {% if request.user.is_authenticated %}
+            <script src = "{% static 'meet.js' %}" type = "text/javascript" defer></script>
+        {% else %}
+            <script src = "{% static 'unauthenticated.js' %}" type = "text/javascript" defer></script>
+        {% endif %}
     </head>
     <body>
         <div id = "main" data-username = "{{ request.user.username }}">
@@ -36,10 +40,6 @@
                     
                 </div>
                 <div id = "options" onblur = "close_options()" data-channel = "{{ request.user.user_token }}">
-                    <button onclick = "get_link(this)"><i class = "fas fa-link"></i> Get invite link</button>
-                    <button class = 'raise_hands' onclick = "show_hands()" data-hands = "0"><i class = "fas fa-hand-paper"></i> All hands <span id = "all_hands">0</span></button>
-                    <button onclick = "record_meeting(this)"><i class = "fas fa-record-vinyl"></i> Record meeting</button>
-                    <button onclick = "UploadedFiles()"><i class = "fas fa-file"></i> Uploaded files</button>
                     <button data-name = "chats" style = "border: none;" onclick = "open_chats()"><i class = "far fa-comments"></i> Live chat</button>
                 </div> 
                 <div id = "whiteboard_container">
@@ -62,13 +62,11 @@
                             <input type = "text" value = "{{ meeting_link }}" placeholder = "meeting invite_link"/>
                             <button onclick = "copy_link(this)"><i class = "far fa-copy"></i></button>
                         </div>
-                        <div class = "joined_users">
-                            <h4>Participants</h4>
-                        </div>
+                        <button class = "start_recording" onclick = "get_resource_id(this)"><i class = "fas fa-record-vinyl"></i> Record meeting</button>
                     </div>
                 </div>
             </div>
-            <div id= "controls">
+            <div id= "controls" data-authorization = "{{ authorization }}">
                 <button data-name = "enable" onclick = "handle_camera(this)"><i class = "fas fa-video-slash"></i></button>
                 <button data-name = "unmute" onclick = "handle_audio(this)"><i class = "fas fa-microphone-slash"></i></button>
                 <button data-name = "raise" onclick = "raise_hand(this)"><i class = "far fa-hand-paper"></i></button>
@@ -92,5 +90,6 @@
             </div>
         </div>
         <p id = "recording"><i class = "fas fa-record-vinyl"></i> Rec</p>
+        <p id = "notification"><span>Lule Mark</span> Hello guys how are you doing</p>
     </body>
 </html>
