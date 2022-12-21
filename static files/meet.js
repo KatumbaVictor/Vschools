@@ -1,4 +1,4 @@
-if (navigator.mediaDevices.getDisplayMedia == undefined){document.getElementById('controls').children[3].remove();};
+//if (navigator.mediaDevices.getDisplayMedia == undefined){document.getElementById('controls').children[3].remove()};
 var my_id;
 const username = document.getElementById('main').dataset.username;
 var notifications = document.getElementById('notifications');
