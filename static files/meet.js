@@ -26,6 +26,7 @@ var whiteboard;
 var all_users = 0;
 var recording = false;
 
+/*
 console.log(authorization)
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
