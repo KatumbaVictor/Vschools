@@ -100,7 +100,7 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -111,16 +111,15 @@ DATABASES = {
         'PORT':'5432'
     }
 }
-
-
 '''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-'''
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -220,11 +219,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_USER')
 
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
 
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = True
 
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
