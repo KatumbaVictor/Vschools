@@ -100,26 +100,27 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vschoolsdatabase',
-        'USER':'katumbavictor',
-        'PASSWORD':'victorious',
-        'HOST':'vschoolsdatabase.cwzyh0pakvrr.us-east-1.rds.amazonaws.com',
+        'NAME': 'vschools_db',
+        'USER':'database_user',
+        'PASSWORD':'victorious5@gmail.com',
+        'HOST':'localhost',
         'PORT':'5432'
     }
 }
-'''
 
+
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
