@@ -58,6 +58,7 @@
                 <div id = "meeting_info">
                     <div class = "first_child">
                         <h3>Meeting passcode is <span>{{ request.meeting_passcode }}</span></h3>
+                        <p>Copy and share the meeting invite link below to invite other users into the meeting.</p>
                         <div class = "invite_link">
                             <input type = "text" value = "{{ meeting_link }}" placeholder = "meeting invite_link"/>
                             <button onclick = "copy_link(this)"><i class = "far fa-copy"></i></button>

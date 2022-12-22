@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 
@@ -100,27 +100,27 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vschools_db',
-        'USER':'database_user',
-        'PASSWORD':'victorious5@gmail.com',
-        'HOST':'localhost',
-        'PORT':''
+        'NAME': 'vschoolsdatabase',
+        'USER':'katumbavictor',
+        'PASSWORD':'victorious',
+        'HOST':'vschoolsdatabase.cwzyh0pakvrr.us-east-1.rds.amazonaws.com',
+        'PORT':'5432'
     }
 }
+
+
 '''
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
