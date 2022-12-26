@@ -205,13 +205,13 @@ body {
     font-weight: normal;
     font-size: 13px;
     text-align: center;
-    background-color: rgba(0,0,255,0.123);
+    background-color: rgb(173,216,230);
     color: black;
     max-width: 200px;
     border-radius: 8px;
+    display: none;
     opacity: 1;
     transition: opacity 1s;
-    display: none;
 }
 
 #notification span {

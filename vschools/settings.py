@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech']
+ALLOWED_HOSTS = ['*']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 
@@ -98,6 +98,7 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
