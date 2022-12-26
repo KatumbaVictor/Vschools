@@ -197,19 +197,21 @@ body {
 
 #notification {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    color: white;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 10px;
     z-index: 20;
     font-weight: normal;
     font-size: 13px;
-    font-style: italic;
-    background-color: rgb(50,50,50);
+    text-align: center;
+    background-color: rgba(0,0,255,0.123);
+    color: black;
     max-width: 200px;
     border-radius: 8px;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 1s;
+    display: none;
 }
 
 #notification span {
@@ -574,11 +576,9 @@ body {
 
 .start_recording {
     width: 100%;
-    color: red;
     font-weight: 600;
     font-size: 15px;
     border: none;
-    background-color: rgba(255, 0, 0, 0.123);
     border-radius: 6px;
     margin-top: 10px;
     padding-top: 8px;

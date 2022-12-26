@@ -21,7 +21,6 @@
         <div id = "main" data-username = "{{ request.user.username }}">
             <div id = "navbar">
                 <h3>Vschools</h3>
-                <button onclick = "options()"><i class = "fas fa-bars"></i></button>
             </div>
             <div id = "container">
                 <div class = "loader_holder">
@@ -39,9 +38,6 @@
                 <div id = "hosts">
                     
                 </div>
-                <div id = "options" onblur = "close_options()" data-channel = "{{ request.user.user_token }}">
-                    <button data-name = "chats" style = "border: none;" onclick = "open_chats()"><i class = "far fa-comments"></i> Live chat</button>
-                </div> 
                 <div id = "whiteboard_container">
                     <div id="whiteboard" data-meeting_token = "{{ request.meeting_token }}">
                     </div>
@@ -57,13 +53,18 @@
                 </div>
                 <div id = "meeting_info">
                     <div class = "first_child">
-                        <h3>Meeting passcode is <span>{{ request.meeting_passcode }}</span></h3>
-                        <p>Copy and share the meeting invite link below to invite other users into the meeting.</p>
+                        <h3>Meeting tools</h3>
+                        <p>Copy and share the meeting invite link and passcode below to invite other users into the meeting.</p>
                         <div class = "invite_link">
-                            <input type = "text" value = "{{ meeting_link }}" placeholder = "meeting invite_link"/>
+                            <input type = "text" value = "{{ meeting_link }}" placeholder = "Meeting invite link"/>
                             <button onclick = "copy_link(this)"><i class = "far fa-copy"></i></button>
                         </div>
-                        <button class = "start_recording" onclick = "get_resource_id(this)"><i class = "fas fa-record-vinyl"></i> Record meeting</button>
+                        <div class = "invite_link" style = "margin-top: 10px;">
+                            <input type = "text" value = "{{ request.meeting_passcode }}" placeholder = "meeting passcode"/>
+                            <button onclick = "copy_link(this)"><i class = "far fa-copy"></i></button>
+                        </div>
+                        <button class = "start_recording" style = "background-color: rgba(0, 0, 255, 0.123); color: blue;" onclick = "open_chats()"><i class = "far fa-comments"></i> Live chat</button>
+                        <button class = "start_recording" style = "background-color: rgba(255, 0, 0, 0.123); color: red;" onclick = "get_resource_id(this)"><i class = "fas fa-record-vinyl"></i> Record meeting</button>
                     </div>
                 </div>
             </div>

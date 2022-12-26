@@ -96,10 +96,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 
 DATABASES = {
     'default': {
@@ -111,7 +109,6 @@ DATABASES = {
         'PORT':'5432'
     }
 }
-
 
 '''
 DATABASES = {
@@ -206,8 +203,6 @@ MEDIA_URL = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
 MEDIA_ROOT = MEDIA_URL
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 '''
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
@@ -220,11 +215,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_USER')
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']

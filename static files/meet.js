@@ -1,11 +1,11 @@
-//if (navigator.mediaDevices.getDisplayMedia == undefined){document.getElementById('controls').children[3].remove()};
+if (navigator.mediaDevices.getDisplayMedia == undefined){document.getElementById('controls').children[3].remove()};
 var my_id;
 const username = document.getElementById('main').dataset.username;
 var notifications = document.getElementById('notifications');
 var container = document.getElementById('container');
 const APP_ID = '0eb3e08e01364927854ee79b9e513819';
 var authorization = document.getElementById('controls').dataset.authorization;
-var CHANNEL = document.getElementById('options').dataset.channel;
+var CHANNEL = window.location.pathname.split('/')[2]
 var connection_protocol;
 var profile_picture = document.getElementById('controls').dataset.profile_picture;
 var all_hands = document.getElementById('all_hands');
@@ -26,8 +26,6 @@ var whiteboard;
 var all_users = 0;
 var recording = false;
 
-/*
-console.log(authorization)
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -35,8 +33,23 @@ var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image
 
 var send_notification = (title, body) => {
     var notification = document.getElementById('notification');
-    notification.innerHTML = `<span>${title}</span> ${body}`;
-    notification.style.opacity = '1';
+    var message = `<span>${title}</span> ${body}`;
+    notification.innerHTML = message;
+    notification.setAttribute('data-message',JSON.stringify(message));
+    notification.style.display = "block";
+
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 1300)
+
+    setTimeout(() => {
+        if (notification.dataset.message == JSON.stringify(message)) {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 1000)
+        }
+    } ,5000)
 }
 
 let getCookie = (name) => {
@@ -54,25 +67,6 @@ let getCookie = (name) => {
     return cookieValue;
 }
 
-/*
-var qr_code_holder = document.getElementById('qrcode');
-qr_code_holder.firstElementChild.setAttribute('autofocus','');
-var qr_code = new QRCode(document.getElementById('qrcode').firstElementChild,{
-    text: document.getElementById('meeting_link').firstElementChild.children[2].value,
-    width: 128,
-    height: 128
-});
-
-
-qr_code_holder.addEventListener('mousedown',() => {
-    qr_code_holder.style.display = "none";
-})
-
-document.getElementById('options').addEventListener('mouseup',() => {
-    document.getElementById('options').style.display = "none";
-})
-
-*/
 
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
@@ -910,7 +904,6 @@ let search_user = (self) => {
 
 function open_chats(){
     chats = true;
-    document.getElementById('options').style.display = "none";
     document.getElementById('livechat').style.display = "block";
 }
 
