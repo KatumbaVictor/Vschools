@@ -1,5 +1,5 @@
 const page_options = document.getElementById('options');
-page_options.style.display = "none"
+page_options.style.display = "none";
 
 let getCookie = (name) => {
     let cookieValue = null;
@@ -106,9 +106,4 @@ let recorded_meetings = () => {
 let settings = () => {
     page_options.style.display = "none";
     window.open('/settings/','_self');
-}
-
-let schedule = () => {
-    page_options.style.display = "none";
-    window.open('/schedule_meeting/','_self');
 }

@@ -161,9 +161,9 @@ body {
     align-items: center;
     justify-content: center;
     margin: 4px;
-    border: 1px solid rgba(128, 128, 128, 0.14);
+    border: 1px solid rgba(128, 128, 128, 0.22);
     background-color: rgba(128, 128, 128, 0.05);
-    padding: 10px;
+    border-radius: 9px;
 }
 
 .holder img {
@@ -181,12 +181,13 @@ body {
 
 .holder p {
     position: absolute;
-    bottom: 8px;
-    left: 14px;
-    font-size: 12px;
+    bottom: 7px;
+    left: 13px;
+    font-size: 11px;
     color: grey;
     background-color: rgba(128, 128, 128, 0.102);
-    padding: 8px;
+    font-weight: normal;
+    padding: 6px;
     border-radius: 9px;
     z-index: 10;
 }

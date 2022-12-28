@@ -74,27 +74,12 @@ Notification.requestPermission((result) => {
 })
 */
 
-const APP_ID = '0eb3e08e01364927854ee79b9e513819';
+const CHANNEL = 'hellosdfakldjkflasdaf'
 
-fetch(`https://api.agora.io/v1/apps/${APP_ID}/cloud_recording/acquire`,{
-        method: 'POST',
-        headers:{
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization':'Basic ' + authorization
-        },
-        body: JSON.stringify({
-            'cname':CHANNEL,
-            'uid': my_id.toString(),
-            "clientRequest": {
-                "region": "CN",
-                "resourceExpiredHour": 24,
-                "scene": 1
-                }
-        })
-        }).then(response => {
-        return response.json().then(data => {
-            resource_id_value = data.resourceId;
-            console.log(data.resourceId);
-            start_recording(data.resourceId);
-        })
-        })
+fetch(`/get_token/?channel=${CHANNEL}`,{
+    method: 'GET'
+}).then(response => {
+    return response.json().then(data => {
+        console.log(data)
+    })
+})

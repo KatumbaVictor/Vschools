@@ -34,6 +34,9 @@ class Room_member(models.Model):
     role = models.CharField(max_length=30)
     time_joined = models.DateTimeField(blank=True, null=True)
 
+class Room_recording(models.Model):
+    room = models.OneToOneField(Room, on_delete=models.CASCADE, unique=True)
+
 class Room_message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     room_member = models.ForeignKey(Room_member, on_delete=models.CASCADE, blank=True, null=True)

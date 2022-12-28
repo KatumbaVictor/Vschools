@@ -1,56 +1,61 @@
-if (navigator.mediaDevices.getDisplayMedia == undefined){document.getElementById('controls').children[3].remove();};
-var my_id;
+const UID = document.getElementById('container').dataset.id;
 const username = document.getElementById('main').dataset.username;
-var notifications = document.getElementById('notifications');
-var container = document.getElementById('container');
+var token;
 const APP_ID = '0eb3e08e01364927854ee79b9e513819';
+const notifications = document.getElementById('notifications');
+const container = document.getElementById('container');
+const room_name = document.getElementById('controls').dataset.room_name;
 var authorization = document.getElementById('controls').dataset.authorization;
-var CHANNEL = document.getElementById('options').dataset.channel;
+var CHANNEL = window.location.pathname.split('/')[2];
 var connection_protocol;
-var profile_picture = document.getElementById('controls').dataset.profile_picture;
-var all_hands = document.getElementById('all_hands');
 var chats = false;
 var set_captions = false;
 var connection;
 var resource_id_value;
+var messagesocket;
 var sid;
 var time_string;
-var token;
-var socket;
-var video_track_playing = false;
+var video_track_playing = false; 
 var audio_track_playing = false;
 var time_limit;
 var room;
-var user_token;
+var user_token = document.getElementById('meeting_info').dataset.user_token;
 var whiteboard;
 var all_users = 0;
+var recording = false;
+
+fetch(`/get_token/?channel=${CHANNEL}`,{
+    method: 'GET'
+}).then(response => {
+    return response.json().then(data => {
+        token = response.token;
+    })
+})
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 
-var send_notification = (title, body, icon) => {
-    var notification = new Notification(title,{body:body,icon:icon});
-    if (Notification.permission === "granted") {
-        return notification;
-    }else if (Notification.permission !== "granted") {
-        Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-                return notification;
-            }
-        })
-    }
-}
+var send_notification = (title, body) => {
+    var notification = document.getElementById('notification');
+    var message = `<span>${title}</span> ${body}`;
+    notification.innerHTML = message;
+    notification.setAttribute('data-message',JSON.stringify(message));
+    notification.style.display = "block";
 
-/*function post_message(str) {
-    var text = document.createElement('p');
-    text.innerHTML = str;
-    notifications.prepend(text);
-    notifications.scrollTop = notifications.scrollHeight;
-    text.style.opacity = "1";
-    setTimeout(() => {text.style.opacity = "0";}, 5000);
-    setTimeout(() => {text.style.display = "none";}, 6000);
-}*/
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 1300)
+
+    setTimeout(() => {
+        if (notification.dataset.message == JSON.stringify(message)) {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 1000)
+        }
+    } ,5000)
+}
 
 let getCookie = (name) => {
     let cookieValue = null;
@@ -67,31 +72,34 @@ let getCookie = (name) => {
     return cookieValue;
 }
 
+
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
 }else {
     connection_protocol = 'ws';
 }
 
-let websocket_url = `${connection_protocol}://${window.location.host}/meet/${CHANNEL}/`;
+let meetingrecording = `${connection_protocol}://${window.location.host}/MeetingRecording/${CHANNEL}/`;
+recording_socket = new WebSocket(meetingrecording);
+
+
+let MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
+
+messagesocket = new WebSocket(MessageSocket);
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
-var videoInputDevices;
-var audioInputDevices;
-
-var videoTrack;
-var audioTrack;
-
-let createTracks = async () => {
-    socket = new WebSocket(websocket_url);
-    socket.addEventListener('message',getSocketMessages);
-}
-
-createTracks();
-
-let joinAndDisplayLocalStream = async (token, UID) => {
-    client.on('user-published',handleNewUser);
+let joinAndDisplayLocalStream = async () => {
+    client.on('user-joined', (user) => {
+        fetch(`/getRoomMember/?room_id=${CHANNEL}$?uid=${user.uid}`,{
+            method: 'GET'
+        }).then((response) => {
+            return response.json().then((data) => {
+                handleJoinedUser(data);
+            })
+        })
+    })
+    client.on('user-published',UserPublishedEvent);
 
     await client.join(APP_ID, CHANNEL, token, UID);
 
@@ -100,14 +108,14 @@ let joinAndDisplayLocalStream = async (token, UID) => {
             item.removeAttribute('disabled');
         }
     })
-
-    var loader = container.firstElementChild;
  
     client.on('token-privilege-will-expire',renew_client_token);
     client.on('token-privilege-did-expire',rejoin_session);
     client.on('user-left',handleUserLeft);
     client.on('user-unpublished',UserUnpublishedEvent);
 }
+
+joinAndDisplayLocalStream();
 
 let UserUnpublishedEvent = async (user, mediaType) => {
     await client.unsubscribe(user, mediaType);
@@ -164,50 +172,39 @@ let handleJoinedUser = (item) => {
         item.style.height = "260px";
     })
 
-    /*var target_item = `
-        <div id = 'participant_${item.uid}'>
-            <img src = "${item.profile_picture}"/>
-            <p>${item.name}</p>
-        </div>
-    `
-
-    var parent = document.getElementById('meeting_info').firstElementChild.children[2];
-    parent.innerHTML += target_item;*/
 }
 
-function view_users() {
-    document.getElementById('meeting_tools').lastElementChild.click();
-}
 
-let handleNewUser = async (user, mediaType) => {
+let UserPublishedEvent = async (user, mediaType) => {
     await client.subscribe(user, mediaType);
     var holder = document.getElementById(user.uid.toString());
-    if (mediaType === 'video'){
-        user.videoTrack.play(holder);
-        var player = holder.lastElementChild;
-        var video = holder.lastElementChild.firstElementChild;
-        var image = document.getElementById(`profile_picture_${user.uid.toString()}`);
-        image.style.display = "none";
-        
-        player.style.display = "flex";
-        player.style.flexDirection = "column";
-        player.style.alignItems = "center";
-        player.style.justifyItems = "center";
 
-        video.setAttribute('style','height: 100%; width: auto; max-width: 100%;'); 
+    if (holder == null) {
+        setTimeout(UserPublishedEvent(user, mediaType), 2000);
+    }else {
+        if (mediaType === 'video'){
+            user.videoTrack.play(holder);
+            var player = holder.lastElementChild;
+            var video = holder.lastElementChild.firstElementChild;
+            var image = document.getElementById(`profile_picture_${user.uid.toString()}`);
+            image.style.display = "none";
+            
+            player.style.display = "flex";
+            player.style.flexDirection = "column";
+            player.style.alignItems = "center";
+            player.style.justifyItems = "center";
+
+            video.setAttribute('style','height: 100%; width: auto; max-width: 100%;'); 
+        }
+
+        if (mediaType === 'audio'){
+            user.audioTrack.play();
+            var name = document.getElementById(`name_${user.uid.toString()}`);
+            var microphone = name.firstElementChild;
+            microphone.setAttribute('class','fas fa-microphone');
+            microphone.style.color = "blue";
+        }
     }
-
-    if (mediaType === 'audio'){
-        user.audioTrack.play();
-        var name = document.getElementById(`name_${user.uid.toString()}`);
-        var microphone = name.firstElementChild;
-        microphone.setAttribute('class','fas fa-microphone');
-        microphone.style.color = "blue";
-    }
-
-    Array.from(holder.children).forEach((item) => {
-        item.style.backgroundColor = "rgba(198, 198, 198, 0.102";
-    })
 }
 
 let handleUserLeft = async (user) => {
@@ -219,83 +216,18 @@ let handleUserLeft = async (user) => {
 }
 
 let leaveAndRemoveLocalStream = async () => {
-    socket.close();
+    messagesocket.close();
     videoTrack.stop();
+    audioTrack.stop();
     videoTrack.close();
+    audioTrack.close()
     client.leave();
-    window.open('/','_self');
-}
 
-function countWords(str) {
-    const arr = str.split(' ');
-    return arr.filter(word => word !== '').length;
-  }
-
-function getImage() {
-    document.getElementById('photo').click();
-}
-
-function sendFile(self) {
-    if (self.files) {
-        var form = new FormData();
-        form.append("image",self.files[0]);
-        form.append("uid",my_id);
-        form.append("fileType",self.files[0].type);
-        form.append("fileName", self.files[0].name);
-
-        var xhr = new XMLHttpRequest();
-
-        /*xhr.upload.onloadstart = () => {
-            document.getElementById('uploadProgress').style.display = "flex";
-        }
-
-        xhr.upload.onloadend = () => {
-            document.getElementById('uploadProgress').style.display = "none";
-        }
-
-        var button = document.getElementById('progressContainer').lastElementChild;
-
-        button.addEventListener('click', () => {
-            xhr.abort();
-            button.innerHTML = "Upload cancelled";
-            setTimeout(() => {
-                document.getElementById('uploadProgress').style.display = "none";
-                button.innerHTML = "Cancel";
-            },10000)
-        })
-
-        xhr.upload.onprogress = (event) => {
-            var total = event.total;
-            var loaded = event.loaded;
-
-            var progressValue = (loaded / total) * 100;
-            var progressElement = document.getElementById('progressElement').firstElementChild;
-            progressElement.style.width = `${progressValue}%`;
-
-            var percentage = document.getElementById('progressContainer').children[2];
-            percentage.innerHTML = `${Math.trunc(progressValue)}%`;
-
-        }*/
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                var data = JSON.parse(xhr.responseText);
-                var fileUrl = data.fileUrl;
-                var item = {'fileUrl':fileUrl,'profile_picture':profile_picture,
-                    'id':my_id,'name':username,'fileType':self.files[0].type,'fileName':self.files[0].name};
-                socket.send(JSON.stringify(item));
-            }
-        }
-
-        if (file_types.includes(self.files[0].type)) {
-            xhr.open('POST',window.location);
-            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-            xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
-            xhr.send(form);
-        }else {
-            post_message('<i class = "fas fa-exclamation-triangle"></i> Failed to send file');
-        }
+    if (recording == true) {
+        stop_recording();
     }
+
+    window.open('/','_self');
 }
 
 let getCurrentTime = () => {
@@ -318,7 +250,7 @@ let getSocketMessages = function(self){
     var response = JSON.parse(self.data);
     var comment_holder = document.getElementById('livechat').children[1];
 
-    if(response.message){
+    if (response.message) {
         var container = document.createElement('div');
         
         var time = getCurrentTime();
@@ -333,27 +265,15 @@ let getSocketMessages = function(self){
         comment_holder.scrollTop = comment_holder.scrollHeight;
 
         if (chats === false) {
-            send_notification(response.name, response.message, response.profile_picture);
+            send_notification(response.name, response.message);
         }
     }else if (response.raise_hand) {
-        send_notification(response.username,`${response.username} is raising a hand`,response.profile_picture);
+        send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
 
         var item = document.createElement('i');
-        item.setAttribute('class','fas fa-hand')
-    }else if (response.caption) {
-        
-    }else if (response.lower_hand) {
-        
+        item.setAttribute('class','fas fa-hand');
     }else if (response.screen_sharing) {
-        send_notification(response.username, `${response.username} is sharing screen`, response.profile_picture);
-    }else if (response.user_joined) {
-        if (response.name) {
-            profile_picture = response.profile_picture;
-            
-            if (document.getElementById(response.uid.toString()) == null) {
-                handleJoinedUser(response);
-            }
-        }
+        send_notification(response.username, 'is sharing screen');
     }else if (response.fileType) {
         var container = document.createElement('div');
         var time = getCurrentTime();
@@ -443,14 +363,87 @@ let getSocketMessages = function(self){
         comment_holder.scrollTop = comment_holder.scrollHeight;
 
         if (chats === false) {
-            send_notification(response.name, `${response.name} shared a file`, response.profile_picture);
+            send_notification(response.name, 'shared a file');
         }
-    }else if (response.auth) {
-        joinAndDisplayLocalStream(response.token, response.id);
-        my_id = response.id; 
-        token = response.token;
+    }
+}
 
-        getCredentials();
+messagesocket.addEventListener('message',getSocketMessages);
+
+
+let handle_camera = async (self) => {
+    var holder = document.getElementById(UID.toString());
+    var profile_picture = document.getElementById(`profile_picture_${UID.toString()}`);
+    var video = holder.lastElementChild.firstElementChild;
+    if (videoInputDevices.length > 0) {
+        if (videoTrack.muted){
+            profile_picture.style.display = "none";
+            self.innerHTML = '<i class = "fas fa-video"></i>';
+            self.setAttribute('class','control_buttons');
+            self.setAttribute('data-name','disable');
+
+            if (video_track_playing == false) {
+                videoTrack.play(holder);
+                video_track_playing == true;
+                client.publish(videoTrack);
+                /*video.setAttribute('style','height: 100%; width: auto; max-width: 100%;');*/
+            }
+
+            await videoTrack.setMuted(false);
+
+            var item = holder.children[2];
+            item.style.backgroundColor = "white";
+
+        }else {
+            await videoTrack.setMuted(true);
+            self.innerHTML = '<i class = "fas fa-video-slash"></i>';
+            self.setAttribute('class','inactive');
+            self.setAttribute('data-name','enable');
+            profile_picture.style.display = "block";
+            video.style.display = "block";
+        }
+    }else {
+        post_message('You have no webcam attached to your device');
+    }
+}
+
+let handle_audio = async (self) => {
+    var holder = document.getElementById(UID.toString());
+    var microphone = document.getElementById(`name_${UID.toString()}`).firstElementChild;
+    
+    if (audioInputDevices.length > 0) {
+        if (audioTrack.muted){
+            await audioTrack.setMuted(false);
+            self.innerHTML = '<i class = "fas fa-microphone"></i>';
+            self.setAttribute('class','control_buttons');
+            self.setAttribute('data-name','mute');
+            microphone.style.color = 'blue';
+            microphone.setAttribute('class','fas fa-microphone');
+
+            if (audio_track_playing == false) {
+                audio_track_playing == true;
+                client.publish(audioTrack);
+            }
+        }else {
+            await audioTrack.setMuted(true);
+            self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
+            self.setAttribute('class','inactive');
+            self.setAttribute('data-name','unmute');
+            microphone.style.color = 'red';
+            microphone.setAttribute('class','fas fa-microphone-slash');
+        }
+    }else {
+        post_message('You have no audio input device attached');
+    }
+}
+
+function add_comment(self){
+    var input_box = self.parentElement.children[2];
+    if (input_box.value.length > 0){
+        var item = {'name':username,'message':input_box.value,
+            'profile_picture':profile_picture,'id':UID};
+        messagesocket.send(JSON.stringify(item));
+        input_box.value = "";
     }
 }
 
@@ -534,52 +527,12 @@ let search_user = (self) => {
 
 function open_chats(){
     chats = true;
-    document.getElementById('options').style.display = "none";
     document.getElementById('livechat').style.display = "block";
-}
-
-let captions = async (self) => {
-    self.innerHTML = '<i class = "fas fa-closed-captioning"></i>';
-    self.setAttribute('onclick','mute_captions(this)');
-    post_message('<i class = "far fa-closed-captioning"></i> Auto generated subtitles have been turned on');
-}
-
-let mute_captions = async (self) => {
-    self.innerHTML = '<i class = "far fa-closed-captioning"></i>';
-    self.setAttribute('onclick','captions(this)');
-    await connection.stopProcessing();
 }
 
 let show_hands = () => {
     document.getElementById('options').style.display = "none";
     document.getElementById('hands').style.display = "flex";
-}
-
-let raise_hand = (self) => {
-    self.innerHTML = "<i class = 'fas fa-hand-paper'></i>";
-    self.setAttribute('onclick','lower_hand(this)');
-    self.setAttribute('data-name','unraise');
-    socket.send(JSON.stringify({'raise_hand':true,'username':username,'id':my_id,'profile_picture':profile_picture}));
-}
-
-let lower_hand = (self) => {
-    self.innerHTML = "<i class = 'far fa-hand-paper'></i>";
-    self.setAttribute('onclick','raise_hand(this)');
-    self.setAttribute('data-name','raise');
-    socket.send(JSON.stringify({'lower_hand':true,'username':username,'id':my_id}));
-}
-
-function options(){
-    document.getElementById('options').style.display = "flex";
-}
-
-function close_options(){
-    document.getElementById('options').style.display = "none";
-}
-
-function get_link(self){
-    document.getElementById('options').style.display = "none";
-    document.getElementById('meeting_link').style.display = "flex";
 }
 
 function Cancel(self) {
@@ -591,22 +544,12 @@ function close_comments(){
     chats = false;
 }
 
-let start_meeting = (self) => {
-    self.style.display = "none";
-    joinAndDisplayLocalStream();
-}
-
 function close_items(self){
     self.parentElement.parentElement.style.display = "none";
 }
 
-function get_views(){
-    document.getElementById('viewers').style.display = "flex";
-}
-
 window.addEventListener('beforeunload',() => {
-    socket.close();
-    client.leave();
+    leaveAndRemoveLocalStream();
 });
 
 let start_whiteboard = (room_token, room_uid) => {
@@ -617,7 +560,7 @@ let start_whiteboard = (room_token, room_uid) => {
       
       var joinRoomParams = {
         uuid: room_uid,
-        uid: my_id.toString(),
+        uid: UID.toString(),
         roomToken: room_token, 
       };
       
@@ -630,3 +573,63 @@ let start_whiteboard = (room_token, room_uid) => {
           console.error(err);
       });
  }
+ 
+ let generate_room_token = (room_uid) => {
+    fetch(`https://api.netless.link/v5/tokens/rooms/${room_uid}`,{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'region':'us-sv',
+            'token':'NETLESSSDK_YWs9UHI2SjR2T3RHUlBCai1fMSZub25jZT0yNTYwMTIzMC0zYjdjLTExZWQtODE5MC02ZDgwYzBkMGU1YmEmcm9sZT0wJnNpZz04NzdhZmY1YWE0YTUxYjczNjEzYTVlMjgzYmY3NDFhNTQyYTJiZTU5MjkyZGM2NTY4Yjg5NDJiMzYxNzBlMWY0'
+        },
+        body: JSON.stringify({'lifespan':3600000,"role":"admin"})
+        }).then(response => {
+        return response.json().then(data => {
+            start_whiteboard(data, room_uid);
+            fetch('/changeWhiteboardDetails/',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": getCookie('csrftoken'),
+                    'X-Requested-With':'XMLHttpRequest'
+                },
+                body: JSON.stringify({'room_token':data,'room_uuid':room_uid,'room_id':CHANNEL})
+                })
+            })
+      })
+  }
+
+  let create_whiteboard_room = () => {
+    fetch('https://api.netless.link/v5/rooms',{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'region':'us-sv',
+            'token':'NETLESSSDK_YWs9UHI2SjR2T3RHUlBCai1fMSZub25jZT0yNTYwMTIzMC0zYjdjLTExZWQtODE5MC02ZDgwYzBkMGU1YmEmcm9sZT0wJnNpZz04NzdhZmY1YWE0YTUxYjczNjEzYTVlMjgzYmY3NDFhNTQyYTJiZTU5MjkyZGM2NTY4Yjg5NDJiMzYxNzBlMWY0'
+        },
+        body: JSON.stringify({
+          'isRecord': false
+        })
+        }).then(response => {
+        return response.json().then(data => {
+            generate_room_token(data.uuid);
+        })
+      })
+  }
+
+let getCredentials = () => {
+    fetch(`/whiteboardDetails/?room_name=${CHANNEL}`,{
+        method: 'GET'
+    }).then((response) => {
+        return response.json().then((data) => {
+            start_whiteboard(data.room_token,data.room_uuid)
+        })
+    })
+}
+
+
+getCredentials();
+
+let upload_image = () => {
+    document.getElementById('photo').click();
+}
