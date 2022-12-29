@@ -75,7 +75,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
+let MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -369,35 +369,48 @@ let getCurrentTime = () => {
     return time;
 }
 
+let add_to_chat = (profile_picture, name, message) => {
+    var time = getCurrentTime();
+    var comment_holder = document.getElementById('livechat').children[1];
+
+    var container = `
+        <div class = "message_container">
+            <img class = 'profile_picture' src = "${profile_picture}"/>
+            <p class = "user_name">${name} <span>${time}</span></p>
+            <p class = "message">${message}</p>
+        </div>
+    `
+    comment_holder.innerHTML += container;
+    comment_holder.scrollTop = comment_holder.scrollHeight;
+}
+
 let getSocketMessages = function(self){
     var response = JSON.parse(self.data);
-    console.log(response)
     var comment_holder = document.getElementById('livechat').children[1];
 
     if (response.message) {
-        var container = document.createElement('div');
-        
-        var time = getCurrentTime();
-        var container = `
-            <div class = "message_container">
-                <img class = 'profile_picture' src = "${response.profile_picture}"/>
-                <p class = "user_name">${response.name} <span>${time}</span></p>
-                <p class = "message">${response.message}</p>
-            </div>
-        `
-        comment_holder.innerHTML += container;
-        comment_holder.scrollTop = comment_holder.scrollHeight;
+        add_to_chat(response.profile_picture, response.name, response.message);
 
         if (chats === false) {
             send_notification(response.name, response.message);
         }
     }else if (response.raise_hand) {
-        send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
+        if (response.id == UID) {
+            send_notification('<i class = "fas fa-hand-paper"></i> You','are raising a hand');
+            add_to_chat(response.profile_picture, username, '<i class = "fas fa-hand-paper"></i> You are raising a hand');
+        }else {
+            send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
+            add_to_chat(response.profile_picture, response.username, '<i class = "fas fa-hand-paper"></i> is raising a hand');
+        }
 
         var item = document.createElement('i');
         item.setAttribute('class','fas fa-hand');
     }else if (response.screen_sharing) {
-        send_notification(response.username, 'is sharing screen');
+        if (response.id == UID) {
+            send_notification('You', 'have started screen sharing');
+        }else {
+            send_notification(response.username, 'has started screen sharing');
+        }
     }else if (response.fileType) {
         var container = document.createElement('div');
         var time = getCurrentTime();
@@ -585,12 +598,16 @@ let screen_sharing = (self) => {
         self.setAttribute('data-name','end');
         client.unpublish(videoTrack);
         client.publish(localScreenTrack);
-        messagesocket.send(JSON.stringify({'screen_sharing':true,'username':username,'profile_picture':profile_picture}));
+        self.setAttribute('onclick',() => {
+            client.unpublish(localScreenTrack);
+        })
+        messagesocket.send(JSON.stringify({'screen_sharing':true,'username':username,
+                'profile_picture':profile_picture, 'id':UID}));
         localScreenTrack.on('track-ended', () => {
             client.unpublish(localScreenTrack);
-            client.publish(videoTrack);
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-name','screen');
+            self.setAttribute('onclick','screen_sharing(this)');
         })
     })
 }

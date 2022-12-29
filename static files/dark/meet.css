@@ -299,15 +299,6 @@ body {
     background-color: white;
 }
 
-.chats i {
-    color: rgba(128, 128, 128, 0.107);
-    font-size: 60px;
-    position: absolute;
-    top: 40%;
-    left: 36%;
-    align-self: center;
-    justify-self: center;
-}
 
 .entries {
     display: flex;
