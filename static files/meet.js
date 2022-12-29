@@ -75,7 +75,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
+let MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -669,6 +669,8 @@ let start_recording = (resource_id) => {
 }
 
 let get_resource_id = (self) => {
+    send_notification('Meeting recording', 'is still under development');
+    /*
     self.innerHTML = '<i class = "fas fa-record-vinyl"></i> Stop recording';
     self.style.color = "rgba(255, 0, 0, 0.838)";
     self.setAttribute('onclick','stop_recording()');
@@ -701,7 +703,7 @@ let get_resource_id = (self) => {
             }
         })
     })
-    
+    */
 }
 
 let stop_recording = () => {
