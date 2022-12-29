@@ -250,16 +250,15 @@ def getRoomMember(request):
     room_id = data['room_id']
     user_id = data['uid']
 
+    user = User.objects.get(id=user_id)
     room = Room.objects.get(room_id=room_id)
-    room_member = Room_member.objects.get(room=room)
-    user = room_member.user
+    room_member = Room_member.objects.get(room=room, user=user)
     profile_picture = account_info.objects.get(user=user).profile_picture.url
-    print(profile_picture)
+
     user_token = account_info.objects.get(user=user).user_token
     username = account_info.objects.get(user=user).username
-    print(username)
 
-    response = {'name':username,'profile_picture':profile_picture,'user_token':user_token}
+    response = {'name':username,'profile_picture':profile_picture,'user_token':user_token,'uid':user.id}
 
     return JsonResponse(response, safe=False)
 
@@ -346,7 +345,7 @@ def start_meeting(request):
     if request.method == "POST":
         room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
         room.room_id = secrets.token_urlsafe()
-        room.passcode = secrets.token_urlsafe(4).lower()
+        room.passcode = secrets.token_urlsafe(4)
         room.save()
         return JsonResponse({'meeting_id':room.room_id}, safe=False)
 

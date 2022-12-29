@@ -75,7 +75,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
+let MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -140,7 +140,7 @@ let joinAndDisplayLocalStream = async () => {
     handleJoinedUser(info);
 
     client.on('user-joined', (user) => {
-        fetch(`/getRoomMember/?room_id=${CHANNEL}$?uid=${user.uid}`,{
+        fetch(`/getRoomMember/?room_id=${CHANNEL}&uid=${user.uid}`,{
             method: 'GET'
         }).then((response) => {
             return response.json().then((data) => {
