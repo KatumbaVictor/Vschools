@@ -75,7 +75,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
+let MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
