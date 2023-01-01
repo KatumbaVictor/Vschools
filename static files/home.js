@@ -64,6 +64,7 @@ let input_focus = (self) => {
 
     if (self.value.length == 0) {
         button.style.color = 'rgba(128, 128, 128, 0.50)';
+        button.setAttribute('disabled','');
     }
 }
 
@@ -72,6 +73,7 @@ let input_blur = (self) => {
 
     if (self.value.length == 0) {
         button.style.color = 'white';
+        button.setAttribute('disabled','');
     }
 }
 
@@ -80,8 +82,10 @@ let check_passcode = (self) => {
 
     if (self.value.length > 0) {
         button.style.color = 'blue';
+        button.removeAttribute('disabled');
     }else {
         button.style.color = 'rgba(128, 128, 128, 0.45)';
+        button.setAttribute('disabled','');
     }
 }
 

@@ -41,7 +41,7 @@ var send_notification = (title, body) => {
 
     setTimeout(() => {
         notification.style.opacity = '1';
-    }, 1300)
+    }, 180)
 
     setTimeout(() => {
         if (notification.dataset.message == JSON.stringify(message)) {
@@ -264,7 +264,6 @@ let UserPublishedEvent = async (user, mediaType) => {
 
 let handleUserLeft = async (user) => {
     document.getElementById(user.uid.toString()).remove();
-    document.getElementById(`participant_${user.uid.toString()}`).remove();
 
     all_users = document.getElementById('hosts').children.length
     document.getElementById('meeting_tools').firstElementChild.innerHTML = `classroom (${all_users})`;

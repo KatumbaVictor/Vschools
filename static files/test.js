@@ -64,14 +64,6 @@ request_url = endpoint + canonical_uri + "?" + canonical_querystring
 
 */
 
-/*
-Notification.requestPermission((result) => {
-   console.log(result)
-   navigator.serviceWorker.ready.then((reg) => {
-      console.log(reg)
-      reg.showNotification('title',{'body':'body'});
-   })
-})
-*/
+var expression = /(https?:\\)?(wwww.)?[\w]+(.com|.tech|.org|.net|.me|.click|.online|.ug|.uk)(\[\w])*/;
 
-var expression = /(https?://)/
+console.log(expression.test('vschoolsmeet.asdaoid'))
