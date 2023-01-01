@@ -51,6 +51,13 @@ class ChatConsumer(WebsocketConsumer):
         data = json.loads(event['text'])
         self.send(text_data=json.dumps(data))
 
+        if 'message' in data:
+            room = Room.objects.get(room_id=self.room_id)
+            user = User.objects.get(id=int(data['id']))
+            room_member = Room_member.objects.get(room=room,user=user)
+            Room_message(room=room,room_member=room_member,
+                message=data['message'],time=timezone.now()).save()
+
     def user_info(self, event):
         data = json.loads(event['text'])
         self.send(text_data=json.dumps(data))

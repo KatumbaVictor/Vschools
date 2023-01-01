@@ -74,12 +74,4 @@ Notification.requestPermission((result) => {
 })
 */
 
-const CHANNEL = 'hellosdfakldjkflasdaf'
-
-fetch(`/get_token/?channel=${CHANNEL}`,{
-    method: 'GET'
-}).then(response => {
-    return response.json().then(data => {
-        console.log(data)
-    })
-})
+var expression = /(https?://)/

@@ -13,7 +13,7 @@
         <script src = "{% static 'AgoraRTC_N-4.10.2.js' %}" type = "text/javascript"></script>
         <script src = "{% static 'meet.js' %}" type = "text/javascript" defer></script>
     </head>
-    <body>
+    <body oncontextmenu="return false">
         <div id = "main" data-username = "{{ request.user.username }}" data-token = "{{ token }}">
             <div id = "navbar">
                 <h3>Vschools</h3>
@@ -59,7 +59,6 @@
                             <input type = "text" value = "{{ request.meeting_passcode }}" placeholder = "meeting passcode"/>
                             <button onclick = "copy_link(this)"><i class = "far fa-copy"></i></button>
                         </div>
-                        <button class = "start_recording" style = "background-color: rgba(0, 0, 255, 0.123); color: blue;" onclick = "open_chats()"><i class = "far fa-comments"></i> Live chat</button>
                         <button class = "start_recording" style = "background-color: rgba(255, 0, 0, 0.123); color: red;" onclick = "get_resource_id(this)"><i class = "fas fa-record-vinyl"></i> Record meeting</button>
                     </div>
                 </div>
@@ -69,6 +68,7 @@
                 <button data-name = "unmute" onclick = "handle_audio(this)"><i class = "fas fa-microphone-slash"></i></button>
                 <button data-name = "raise" onclick = "raise_hand(this)"><i class = "far fa-hand-paper"></i></button>
                 <button data-name = "share" onclick = "screen_sharing(this)"><i class = "fas fa-laptop"></i></button>
+                <button data-name = "chats" onclick = "open_chats()"><i class = "far fa-comments"></i></button>
                 <button style = "color: white; background-color: red; border: none;" onclick = "leaveAndRemoveLocalStream()" data-name = "leave"><i class = "fas fa-stop"></i></button>
             </div>
         </div>
@@ -79,6 +79,13 @@
             </div>
             <div class = "chats">
                 <i class = "fas fa-users background-icon"></i>
+                {% for item in room_chats %}
+                    <div class = "message_container">
+                        <img class = 'profile_picture' src = "{{ item.profile_picture.url }}"/>
+                        <p class = "user_name">{{ item.username }} <span>{{ item.time|timesince }} ago</span></p>
+                        <p class = "message">{{ item.message|urlize }}</p>
+                    </div>
+                {% endfor %}
             </div>
             <div class = "entries">
                 <input type = "file" onchange = "sendFile(this)" id = "photo" hidden/>

@@ -82,6 +82,11 @@ body {
     color: rgba(0,0,0,0.634);
     border:  1px solid rgba(0,0,0,0.234);
     margin-top: 10px;
+    transition: background-color .4s;
+}
+
+#controls button:hover {
+    background-color: rgba(128, 128, 128, 0.44);
 }
 
 #controls button::after  {
@@ -271,7 +276,7 @@ body {
 
 #livechat h3 {
     color: grey;
-    font-weight: lighter;
+    font-weight: normal;
     font-size: 16px;
     margin: 8px;
     width: 100%;

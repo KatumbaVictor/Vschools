@@ -308,7 +308,8 @@ def meet_page(request, meeting_id):
     room_name = Room.objects.get(room_id=meeting_id).room_name
 
     for item in room_chats:
-        item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture.url
+        item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture
+        item.username = account_info.objects.get(user=item.room_member.user).username
 
     context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture.url,
                 'meeting_link':'https://'+str(get_current_site(request))+'/meet/'+meeting_id,

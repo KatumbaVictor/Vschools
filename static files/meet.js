@@ -136,8 +136,8 @@ let createTracks = async () => {
 createTracks();
 
 let joinAndDisplayLocalStream = async () => {
-    var info = {'name':username,'uid':UID,'profile_picture':profile_picture}
-    handleJoinedUser(info);
+    handleJoinedUser({'name':username,'uid':UID,'profile_picture':profile_picture,
+        'user_token':user_token});
 
     client.on('user-joined', (user) => {
         fetch(`/getRoomMember/?room_id=${CHANNEL}&uid=${user.uid}`,{
@@ -191,16 +191,20 @@ let handleJoinedUser = (item) => {
     holder.setAttribute('id',item.uid.toString());
     holder.setAttribute('class','holder');
     holder.setAttribute('ondblclick','full_screen(this)');
-    document.getElementById('hosts').prepend(holder);
 
-    all_users += 1
+    if (item.user_token == room_name) {
+        document.getElementById('hosts').prepend(holder);
+    }else {
+        document.getElementById('hosts').appendChild(holder)
+    }
+
+    all_users = document.getElementById('hosts').children.length
     document.getElementById('meeting_tools').firstElementChild.innerHTML = `classroom (${all_users})`;
 
     holder.appendChild(name);
     holder.appendChild(profile_picture);
 
     var loader = container.firstElementChild;
-
 
     var player = holder.lastElementChild;
     
@@ -216,8 +220,8 @@ let handleJoinedUser = (item) => {
     }
 
     Array.from(document.getElementsByClassName('holder')).forEach((item) => {
-        item.style.width = "260px";
-        item.style.height = "260px";
+        item.style.width = "270px";
+        item.style.height = "270px";
     })
 
 }
@@ -262,7 +266,7 @@ let handleUserLeft = async (user) => {
     document.getElementById(user.uid.toString()).remove();
     document.getElementById(`participant_${user.uid.toString()}`).remove();
 
-    all_users -= 1
+    all_users = document.getElementById('hosts').children.length
     document.getElementById('meeting_tools').firstElementChild.innerHTML = `classroom (${all_users})`;
 }
 
@@ -608,6 +612,12 @@ let screen_sharing = (self) => {
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-name','screen');
             self.setAttribute('onclick','screen_sharing(this)');
+
+            var target_button = document.getElementById('controls').firstElementChild;
+
+            if (target_button.dataset.name == 'enable') {
+                client.publish(videoTrack);
+            }
         })
     })
 }
