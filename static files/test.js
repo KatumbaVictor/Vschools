@@ -64,6 +64,6 @@ request_url = endpoint + canonical_uri + "?" + canonical_querystring
 
 */
 
-var expression = /(https?:\\)?(wwww.)?[\w]+(.com|.tech|.org|.net|.me|.click|.online|.ug|.uk)(\[\w])*/;
+var expression = /(((https?:\/\/)|(www\.))?[^\s]+)/g;
 
-console.log(expression.test('vschoolsmeet.asdaoid'))
+console.log(expression.test('vickyman'))

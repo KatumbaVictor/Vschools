@@ -27,6 +27,9 @@ var whiteboard;
 var all_users = 0;
 var recording = false;
 
+var comment_holder = document.getElementById('livechat').children[1];
+comment_holder.scrollTop = comment_holder.scrollHeight;
+
 
 var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image/png','video/mp4',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -181,11 +184,17 @@ let UserUnpublishedEvent = async (user, mediaType) => {
 let handleJoinedUser = (item) => {
     var name = document.createElement('p');
     name.setAttribute('id',`name_${item.uid.toString()}`);
+    name.setAttribute('class','name')
     name.innerHTML = `<i class = 'fas fa-microphone-slash'></i> ${item.name} <span></span>`;
 
     var profile_picture = document.createElement('img');
     profile_picture.setAttribute('id',`profile_picture_${item.uid.toString()}`);
     profile_picture.setAttribute('src',item.profile_picture);
+
+    var hand = document.createElement('p');
+    hand.setAttribute('id',`hand_${item.uid.toString()}`);
+    hand.setAttribute('class','hand');
+    hand.innerHTML = '<i class = "fas fa-hand-paper"></i>';
 
     var holder = document.createElement('div');
     holder.setAttribute('id',item.uid.toString());
@@ -203,6 +212,7 @@ let handleJoinedUser = (item) => {
 
     holder.appendChild(name);
     holder.appendChild(profile_picture);
+    holder.appendChild(hand);
 
     var loader = container.firstElementChild;
 
@@ -397,17 +407,19 @@ let getSocketMessages = function(self){
         if (chats === false) {
             send_notification(response.name, response.message);
         }
+    }else if(response.lower_hand) {
+        document.getElementById(`hand_${response.id.toString()}`).style.opacity = "0";
     }else if (response.raise_hand) {
         if (response.id == UID) {
             send_notification('<i class = "fas fa-hand-paper"></i> You','are raising a hand');
             add_to_chat(response.profile_picture, username, '<i class = "fas fa-hand-paper"></i> You are raising a hand');
+
         }else {
             send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
             add_to_chat(response.profile_picture, response.username, '<i class = "fas fa-hand-paper"></i> is raising a hand');
         }
 
-        var item = document.createElement('i');
-        item.setAttribute('class','fas fa-hand');
+        document.getElementById(`hand_${response.id.toString()}`).style.opacity = "1";
     }else if (response.screen_sharing) {
         if (response.id == UID) {
             send_notification('You', 'have started screen sharing');
@@ -527,9 +539,6 @@ let handle_camera = async (self) => {
             }
 
             await videoTrack.setMuted(false);
-
-            var item = holder.children[2];
-            item.style.backgroundColor = "white";
 
         }else {
             await videoTrack.setMuted(true);
