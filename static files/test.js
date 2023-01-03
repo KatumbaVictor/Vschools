@@ -64,6 +64,13 @@ request_url = endpoint + canonical_uri + "?" + canonical_querystring
 
 */
 
-var expression = /(((https?:\/\/)|(www\.))?[^\s]+)/g;
+var string = 'hello victor';
 
-console.log(expression.test('vickyman'))
+var result = string.replace('victor',`<a href = "victor.com">victor.com</a>`);
+
+var final = document.createElement('p');
+final.innerHTML = result;
+
+document.body.append(result)
+
+console.log(result);

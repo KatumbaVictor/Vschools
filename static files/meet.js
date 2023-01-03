@@ -7,6 +7,7 @@ const APP_ID = '0eb3e08e01364927854ee79b9e513819';
 const notifications = document.getElementById('notifications');
 const container = document.getElementById('container');
 const room_name = document.getElementById('controls').dataset.room_name;
+const expression = /((ftp|http|https):\/\/)?(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 var authorization = document.getElementById('controls').dataset.authorization;
 var CHANNEL = window.location.pathname.split('/')[2];
 var connection_protocol;
@@ -36,6 +37,11 @@ var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 
 var send_notification = (title, body) => {
+    if (expression.test(body) == true) {
+        body = body.replace(expression, (url) => {
+            return `<a href = ${url} target="_blank">${url}</a>`;
+        })
+    }
     var notification = document.getElementById('notification');
     var message = `<span>${title}</span> ${body}`;
     notification.innerHTML = message;
@@ -385,6 +391,12 @@ let getCurrentTime = () => {
 let add_to_chat = (profile_picture, name, message) => {
     var time = getCurrentTime();
     var comment_holder = document.getElementById('livechat').children[1];
+
+    if (expression.test(message) == true) {
+        message = message.replace(expression, (url) => {
+            return `<a href = ${url} target="_blank">${url}</a>`;
+        })
+    }
 
     var container = `
         <div class = "message_container">
