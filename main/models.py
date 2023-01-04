@@ -33,6 +33,7 @@ class Room_member(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     role = models.CharField(max_length=30)
     time_joined = models.DateTimeField(blank=True, null=True)
+    raised_hand = models.BooleanField(default=False)
 
 class Room_recording(models.Model):
     room = models.OneToOneField(Room, on_delete=models.CASCADE, unique=True)
@@ -45,7 +46,6 @@ class Room_message(models.Model):
     file_type = models.CharField(max_length=30, blank=True, null=True)
     file_name = models.TextField(blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True)
-    raised_hand = models.BooleanField(default=False)
 
 class Attendence_report(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

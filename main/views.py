@@ -309,6 +309,7 @@ def meet_page(request, meeting_id):
 
     room_chats = Room_message.objects.filter(room=Room.objects.get(room_id=meeting_id))
     room_name = Room.objects.get(room_id=meeting_id).room_name
+    print(Room.objects.get(room_id=meeting_id).start_date)
 
     for item in room_chats:
         item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture
@@ -350,6 +351,7 @@ def start_meeting(request):
         room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
         room.room_id = secrets.token_urlsafe()
         room.passcode = secrets.token_urlsafe(4)
+        room.start_date = timezone.now()
         room.save()
         return JsonResponse({'meeting_id':room.room_id}, safe=False)
 

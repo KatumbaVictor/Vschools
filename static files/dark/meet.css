@@ -136,6 +136,9 @@ body {
     font-size: 12px;
     padding-bottom: 8px;
     width: 80px;
+    color: rgba(0,0,0,0.601);
+    font-size: 12px;
+    font-weight: normal;
 }
 
 #meeting_tools button:focus {
