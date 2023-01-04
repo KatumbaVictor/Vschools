@@ -58,21 +58,6 @@ class ChatConsumer(WebsocketConsumer):
             Room_message(room=room,room_member=room_member,
                 message=data['message'],time=timezone.now()).save()
 
-        if 'raise_hand' in data:
-            room = Room.objects.get(room_id=self.room_id)
-            user = User.objects.get(id=int(data['id']))
-            room_member = Room_member.objects.get(room=room,user=user)
-            room_member.raised_hand = True
-            room_member.save()
-
-        if 'lower_hand' in data:
-            room = Room.objects.get(room_id=self.room_id)
-            user = User.objects.get(id=int(data['id']))
-            room_member = Room_member.objects.get(room=room,user=user)
-            room_member.raised_hand = False
-            room_member.save()
-
-
     def user_info(self, event):
         data = json.loads(event['text'])
         self.send(text_data=json.dumps(data))

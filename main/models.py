@@ -27,14 +27,12 @@ class Room(models.Model):
     start_date = models.DateTimeField(blank=True, null=True)
     time_limit = models.IntegerField(default=2400)
     room_id = models.TextField(unique=True, null=True)
-    victor = models.TextField(unique=True, null=True)
 
 class Room_member(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     role = models.CharField(max_length=30)
     time_joined = models.DateTimeField(blank=True, null=True)
-    raised_hand = models.BooleanField(default=False)
 
 class Room_recording(models.Model):
     room = models.OneToOneField(Room, on_delete=models.CASCADE, unique=True)
