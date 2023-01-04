@@ -27,6 +27,7 @@ class Room(models.Model):
     start_date = models.DateTimeField(blank=True, null=True)
     time_limit = models.IntegerField(default=2400)
     room_id = models.TextField(unique=True, null=True)
+    victor = models.TextField(unique=True, null=True)
 
 class Room_member(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
