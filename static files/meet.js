@@ -84,7 +84,7 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
 }
 
-let MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
+let MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -219,6 +219,10 @@ let handleJoinedUser = (item) => {
     holder.appendChild(name);
     holder.appendChild(profile_picture);
     holder.appendChild(hand);
+
+    if (item.raise_hand) {
+        hand.style.opacity = "1";
+    }
 
     var loader = container.firstElementChild;
 

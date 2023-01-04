@@ -45,6 +45,7 @@ class Room_message(models.Model):
     file_type = models.CharField(max_length=30, blank=True, null=True)
     file_name = models.TextField(blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True)
+    raised_hand = models.BooleanField(default=False)
 
 class Attendence_report(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

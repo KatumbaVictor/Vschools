@@ -260,6 +260,9 @@ def getRoomMember(request):
 
     response = {'name':username,'profile_picture':profile_picture,'user_token':user_token,'uid':user.id}
 
+    if room_member.raised_hand:
+        response['raised_hand'] = True
+
     return JsonResponse(response, safe=False)
 
 
