@@ -36,6 +36,31 @@ body {
     font-weight: lighter;
 }
 
+#navbar button {
+    position: absolute;
+    border: none;
+    background: none;
+    top: 12px;
+    left: 20px;
+    font-size: 15px;
+    font-weight: lighter;
+    padding: 10px;
+    background-color: rgba(128,128,128,0.12);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.7);
+    transition: background-color .5s;
+    border: 1px solid rgba(128,128,128,0.331);
+}
+
+#navbar button:hover {
+    background-color: rgba(128,128,128,0.35);
+}
+
 form {
     width: 100%;
     display: grid;

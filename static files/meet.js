@@ -20,7 +20,7 @@ var messagesocket;
 var sid;
 var time_string;
 var video_track_playing = false; 
-var audio_track_playing = false;
+var audio_track_playing = false; 
 var time_limit;
 var room;
 var user_token = document.getElementById('meeting_info').dataset.user_token;
@@ -1031,16 +1031,17 @@ let getCredentials = () => {
     })
 }
 
-console.log(user_token)
-console.log(room_name)
-
 if (user_token == room_name) {
             create_whiteboard_room();
         }else {
             getCredentials();
         }
 
-let clicker = () => {
+let clicker = (self) => {
+    Array.from(document.getElementById('tools').children).forEach((item) => {
+        item.style.backgroundColor = 'unset';
+    })
+    self.style.backgroundColor = "rgba(0, 0, 0, 0.17)";
     room.setMemberState(
         {currentApplianceName: 'clicker',
          shapeType: 'pentagram',
@@ -1049,7 +1050,11 @@ let clicker = () => {
          textSize: 40,});
 }
 
-let eraser = () => {
+let eraser = (self) => {
+    Array.from(document.getElementById('tools').children).forEach((item) => {
+        item.style.backgroundColor = 'unset';
+    })
+    self.style.backgroundColor = "rgba(0, 0, 0, 0.17)";
   room.setMemberState(
       {currentApplianceName: 'eraser',
        shapeType: 'pentagram',
@@ -1058,7 +1063,11 @@ let eraser = () => {
        textSize: 40,});
 }
 
-let text = () => {
+let text = (self) => {
+    Array.from(document.getElementById('tools').children).forEach((item) => {
+        item.style.backgroundColor = 'unset';
+    })
+    self.style.backgroundColor = "rgba(0, 0, 0, 0.17)";
   room.setMemberState(
     {currentApplianceName: 'text',
      shapeType: 'pentagram',
@@ -1067,7 +1076,11 @@ let text = () => {
      textSize: 40,});
 }
 
-var pen = () => {
+var pen = (self) => {
+    Array.from(document.getElementById('tools').children).forEach((item) => {
+        item.style.backgroundColor = 'unset';
+    })
+    self.style.backgroundColor = "rgba(0, 0, 0, 0.17)";
   room.setMemberState(
       {currentApplianceName: 'pencil',
        shapeType: 'pentagram',
@@ -1076,21 +1089,17 @@ var pen = () => {
        textSize: 40,});
 }
 
-let hand = () => {
-  room.setMemberState(
+let hand = (self) => {
+    Array.from(document.getElementById('tools').children).forEach((item) => {
+        item.style.backgroundColor = 'unset';
+    })
+    self.style.backgroundColor = "rgba(0, 0, 0, 0.17)";
+    room.setMemberState(
       {currentApplianceName: 'hand',
        shapeType: 'pentagram',
        strokeColor: [255,182,200],
        strokeWidth: 12,
        textSize: 40,});
-}
-
-let redo = () => {
-  room.redo();
-}
-
-let undo = () => {
-    room.undo()
 }
 
 let clearBoard = () => {

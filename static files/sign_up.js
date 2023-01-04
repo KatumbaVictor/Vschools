@@ -9,3 +9,7 @@ form.addEventListener('submit',() => {
 function submit(){
     document.getElementById('form').lastElementChild.click();
 }
+
+function back() {
+    window.open('/login/','_self');
+}

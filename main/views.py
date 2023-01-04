@@ -265,6 +265,9 @@ def getRoomMember(request):
 
 @login_required(login_url='login')
 def meet_page(request, meeting_id):
+    if not Room.objects.filter(room_id=meeting_id).exists():
+        return redirect('home')
+
     appId = '0eb3e08e01364927854ee79b9e513819'
     appCertificate = 'f2fdb8604d8b47a9bc71dcd5606f1d7e'
 
