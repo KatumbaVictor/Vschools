@@ -25,8 +25,7 @@
         <div id = "container">
             <div id = "divone">
                 <h2>Vritual learning platform</h2>
-                <p class = "header">Learn from anywhere, get the best classroom experience from anywhere all over
-                        the globe at a location of your convenience
+                <p class = "header">Hello <span>{{ request.user.username }}</span> learn from anywhere, get the best classroom experience at a location of your convenience.
                 </p>
                 <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-link"></i> Start a meeting</button>
                 <div class = "join">

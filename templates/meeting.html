@@ -38,13 +38,13 @@
                     <div id="whiteboard" data-meeting_token = "{{ request.meeting_token }}">
                     </div>
                     <div id = "tools">
-                        <button onclick = "clicker(this)"><i class = "fas fa-mouse-pointer"></i></button>
-                        <button onclick = "eraser(this)"><i class = "fas fa-eraser"></i></button>
-                        <button onclick = "pen(this)" style = "background-color: rgba(0, 0, 0, 0.17);"><i class = "fas fa-pen"></i></button>
-                        <button onclick = "hand(this)"><i class = "far fa-hand-paper"></i></button>
-                        <button style = "font-weight: bold; font-size: 18px;" onclick = "text(this)">T</button>
-                        <button onclick = "upload_image()"><i class = "fas fa-image"></i></button>
-                        <button onclick = "clearBoard()"><i class = "fas fa-broom"></i></button>
+                        <button title = "pointer" onclick = "clicker(this)"><i class = "fas fa-mouse-pointer"></i></button>
+                        <button title = "eraser" onclick = "eraser(this)"><i class = "fas fa-eraser"></i></button>
+                        <button title = "pencil" onclick = "pen(this)" style = "background-color: rgba(0, 0, 0, 0.17);"><i class = "fas fa-pen"></i></button>
+                        <button title = "hand" onclick = "hand(this)"><i class = "far fa-hand-paper"></i></button>
+                        <button title = "text" style = "font-weight: bold; font-size: 18px;" onclick = "text(this)">T</button>
+                        <button title = "shapes"><i class = "fas fa-shapes"></i></button>
+                        <button title = "clear" onclick = "clearBoard()"><i class = "fas fa-broom"></i></button>
                     </div>
                 </div>
                 <div id = "meeting_info" data-user_token = "{{ request.user.user_token }}">

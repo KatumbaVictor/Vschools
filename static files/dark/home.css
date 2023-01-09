@@ -167,6 +167,10 @@ form {
     margin: 0;
 }
 
+.header span {
+    font-weight: bold;
+}
+
 .footer {
     font-weight: normal; 
     margin-top: 10px; 
