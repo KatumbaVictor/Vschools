@@ -88,28 +88,18 @@ let MessageSocket = `${connection_protocol}://${window.location.host}:8001/Messa
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
+var videoInputDevices;
+var audioInputDevices;
+
 AgoraRTC.getCameras().then((devices) => {
+    console.log(devices)
     videoInputDevices = devices;
-    if (videoInputDevices.length == 0) {
-        var button = document.getElementById('controls').firstElementChild;
-        button.innerHTML = '<i class = "fas fa-video-slash"></i>';
-        button.setAttribute('class','inactive');
-        button.setAttribute('data-name','enable');
-    }
 })
 
 AgoraRTC.getMicrophones().then((devices) => {
+    console.log(devices)
     audioInputDevices = devices;
-    if (audioInputDevices.length == 0) {
-        var button = document.getElementById('controls').children[1];
-        button.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
-        button.setAttribute('class','inactive');
-        button.setAttribute('data-name','unmute');
-    }
 })
-
-var videoInputDevices;
-var audioInputDevices;
 
 var videoTrack;
 var audioTrack;
@@ -123,9 +113,6 @@ let createTracks = async () => {
 
         await videoTrack.setMuted(true);
         await audioTrack.setMuted(true);
-
-        messagesocket = new WebSocket(MessageSocket);
-        messagesocket.addEventListener('message',getSocketMessages);
 
         joinAndDisplayLocalStream();
 
@@ -145,18 +132,11 @@ let createTracks = async () => {
 createTracks();
 
 let joinAndDisplayLocalStream = async () => {
-    handleJoinedUser({'name':username,'uid':UID,'profile_picture':profile_picture,
-        'user_token':user_token});
+    messagesocket = new WebSocket(MessageSocket);
+    messagesocket.addEventListener('message',getSocketMessages);
+    /*handleJoinedUser({'name':username,'uid':UID,'profile_picture':profile_picture,
+        'user_token':user_token});*/
 
-    client.on('user-joined', (user) => {
-        fetch(`/getRoomMember/?room_id=${CHANNEL}&uid=${user.uid}`,{
-            method: 'GET'
-        }).then((response) => {
-            return response.json().then((data) => {
-                handleJoinedUser(data);
-            })
-        })
-    })
     client.on('user-published',UserPublishedEvent);
 
     await client.join(APP_ID, CHANNEL, token, UID);
@@ -239,11 +219,11 @@ let handleJoinedUser = (item) => {
         loader.remove();
     }
 
-    Array.from(document.getElementsByClassName('holder')).forEach((item) => {
+    /*Array.from(document.getElementsByClassName('holder')).forEach((item) => {
         item.style.width = "270px";
         item.style.height = "270px";
     })
-
+    */
 }
 
 function view_users() {
@@ -422,6 +402,10 @@ let getSocketMessages = function(self){
 
         if (chats === false) {
             send_notification(response.name, response.message);
+        }
+    }else if (response.user_joined) {
+        if (document.getElementById(response.uid.toString()) == null) {
+            handleJoinedUser(response);
         }
     }else if(response.lower_hand) {
         document.getElementById(`hand_${response.id.toString()}`).style.opacity = "0";
@@ -1110,3 +1094,5 @@ let clearBoard = () => {
 let upload_image = () => {
     document.getElementById('photo').click();
 }
+
+localStorage.setItem('lastMeetingId',CHANNEL);

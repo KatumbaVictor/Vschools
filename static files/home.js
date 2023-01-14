@@ -31,6 +31,7 @@ function start_meeting(self){
     }).then((response) => {
         return response.json().then((data) => {
             window.open(`/meet/${data.meeting_id}`,'_self');
+            localStorage.clear();
         })
     })
 }
@@ -110,4 +111,14 @@ let recorded_meetings = () => {
 let settings = () => {
     page_options.style.display = "none";
     window.open('/settings/','_self');
+}
+
+if (localStorage.getItem('lastMeetingId') != null) {
+    var parent = document.getElementById('divone');
+
+    var new_child = document.createElement('a');
+    new_child.setAttribute('href',`/meet/${localStorage.getItem('lastMeetingId')}`);
+    new_child.innerHTML = 'Back to previous meeting <i class = "fas fa-arrow-right"></i>';
+
+    parent.replaceChild(new_child,parent.lastElementChild);
 }

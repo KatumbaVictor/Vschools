@@ -6,7 +6,6 @@ from asgiref.sync import async_to_sync
 from django.contrib.auth.models import User
 from main.models import Room, Room_member, account_info, Room_message, Room_recording
 from django.utils import timezone
-from agora_token_builder import RtcTokenBuilder
 
 class MeetingRecording(WebsocketConsumer):
     def connect(self):
@@ -32,6 +31,25 @@ class ChatConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(self.room_id, self.channel_name)
 
         self.accept()
+
+        room_members = Room_member.objects.filter(room=room)
+
+        for item in room_members:
+            item.username = account_info.objects.get(user=item.user).username
+            item.user_token = account_info.objects.get(user=item.user).user_token
+            item.profile_picture = account_info.objects.get(user=item.user).profile_picture.url
+
+            response = {'name':item.username,'profile_picture':item.profile_picture,
+            'user_token':item.user_token,'uid':item.user.id,'user_joined':True}
+
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_id,
+                {
+                    'type':'chat_message',
+                    'text': json.dumps(response)
+                }
+            )
+
 
     def disconnect(self, close_code):
         room = Room.objects.get(room_id=self.room_id)
