@@ -123,6 +123,9 @@ def whiteboardDetails(request):
 def UpdateWhiteboardDetails(request):
     return JsonResponse({'updated':True}, safe=False)
 
+def MeetingNotFound(request, meeting_id):
+    return render(request, "MeetingNotFound.html")
+
 @login_required(login_url='login')
 def settings_page(request):
     user = request.user

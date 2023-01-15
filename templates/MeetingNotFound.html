@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Meeting not found</title>
+        <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
+        <link id = "styles" rel = "stylesheet" href = "{% static 'dark/MeetingNotFound.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <button onclick="back()"><i class = "fas fa-arrow-left"></i></button>
+            <h1>Vschools</h1>
+        </div>
+        <div class = "holder">
+            <h2><i class = "fas fa-link"></i> Meeting not found</h2>
+            <p>The meeting you are trying to reach does not exist or it might have expired or it might be incorrect...</p>
+            <a href = "/">Return to home</a>
+        </div>
+    </body>
+</html>

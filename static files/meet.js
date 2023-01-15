@@ -117,14 +117,6 @@ let createTracks = async () => {
         joinAndDisplayLocalStream();
 
     } catch (error) {
-        var target_element = document.getElementById('container').firstElementChild;
-        target_element.firstElementChild.remove();
-
-        var child_one = document.createElement('i');
-        child_one.setAttribute('class','fas fa-exclamation-triangle');
-        target_element.prepend(child_one);
-
-        target_element.lastElementChild.innerHTML = "Failed to start Camera and Microphone";
         
     }
 }

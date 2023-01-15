@@ -41,6 +41,7 @@ urlpatterns = [
     path('whiteboardDetails/', whiteboardDetails, name = "whiteboardDetails"),
     path('start_meeting/',start_meeting, name = "start_meeting"),
     path('changeWhiteboardDetails/', changeWhtieboardDetails, name = "changeWhtieboardDetails"),
+    path('MeetingNotFound/<str:meeting_id>',MeetingNotFound),
     path('UpdateWhiteboardDetails/', UpdateWhiteboardDetails),
     path('recorded_meetings/', recorded_files, name = "recorded_files"),
     path('meeting_recording/<str:meeting_id>', meeting_recording, name = "meeting_recording"),
