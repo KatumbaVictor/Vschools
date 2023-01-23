@@ -126,9 +126,19 @@ createTracks();
 let joinAndDisplayLocalStream = async () => {
     messagesocket = new WebSocket(MessageSocket);
     messagesocket.addEventListener('message',getSocketMessages);
-    /*handleJoinedUser({'name':username,'uid':UID,'profile_picture':profile_picture,
-        'user_token':user_token});*/
+    handleJoinedUser({'name':username,'uid':UID,'profile_picture':profile_picture,
+        'user_token':user_token});
 
+    client.on('user-joined', (user) => {
+        fetch(`/getRoomMember/?room_id=${CHANNEL}$?uid=${user.uid}`,{
+            method: 'GET'
+        }).then((response) => {
+            return response.json().then((data) => {
+                handleJoinedUser(data);
+            })
+        })
+    })
+ 
     client.on('user-published',UserPublishedEvent);
 
     await client.join(APP_ID, CHANNEL, token, UID);
@@ -394,10 +404,6 @@ let getSocketMessages = function(self){
 
         if (chats === false) {
             send_notification(response.name, response.message);
-        }
-    }else if (response.user_joined) {
-        if (document.getElementById(response.uid.toString()) == null) {
-            handleJoinedUser(response);
         }
     }else if(response.lower_hand) {
         document.getElementById(`hand_${response.id.toString()}`).style.opacity = "0";

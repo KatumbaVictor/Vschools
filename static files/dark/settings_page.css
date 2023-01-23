@@ -5,10 +5,13 @@
 }
 
 body { 
-    padding: 69px 20px 20px 20px;
+    padding-top: 69px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#navbar {
+#navbar { 
     width: 100%;
     height: 60px; 
     position: absolute;
@@ -17,6 +20,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     background-color: white;
     box-shadow: 0 0 7px rgba(128, 128, 128, 0.541);
 }
@@ -28,6 +32,31 @@ body {
     font-family: 'Brush Script MT', cursive;
     font-weight: lighter;
 }
+
+#navbar button {
+    position: absolute;
+    border: none;
+    background: none;
+    top: 12px;
+    left: 20px;
+    font-size: 15px;
+    font-weight: lighter;
+    padding: 10px;
+    background-color: rgba(128,128,128,0.12);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.7);
+    transition: background-color .5s;
+}
+
+#navbar button:hover {
+    background-color: rgba(128,128,128,0.35);
+}
+
 
 .info_holder {
     display: flex;

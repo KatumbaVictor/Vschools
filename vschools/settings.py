@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech']
 
@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'storages',
+    'django_celery_results',
+    'django_celery_beat'
 ]
 
 
@@ -111,7 +113,6 @@ DATABASES = {
     }
 }
 '''
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -130,6 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+cache_backend = 'default'
 
 CACHES = {
     "default": {
@@ -208,14 +210,20 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_USER')
 
+
 CSRF_COOKIE_SECURE = True
 
 SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
 
+
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Kolkata'
+accept_content = ['application/json']
+result_serializer = 'json'
+task_serializer = 'json'
+timezone = 'Africa/Kampala'
+
+result_backend = 'django-db'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

@@ -37,6 +37,7 @@ urlpatterns = [
     path('getRoomMember/', getRoomMember, name = "getRoomMember"),
     path('join_session/', join_session, name = "join_session"),
     path('checkMeetingRecording/', checkMeetingRecording, name = "checkMeetingRecording"),
+    path('scheduledMeeting/<str:meeting_id>', scheduledMeeting, name = "scheduledMeeting"),
     path('meeting_ended/',meeting_ended, name = "meeting_ended"),
     path('whiteboardDetails/', whiteboardDetails, name = "whiteboardDetails"),
     path('start_meeting/',start_meeting, name = "start_meeting"),

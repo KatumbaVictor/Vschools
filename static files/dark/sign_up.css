@@ -104,7 +104,7 @@ form {
     border: 1px solid rgba(128, 128, 128, 0.64);
     color: grey;
     width: calc(100% - 12px);
-}
+} 
 
 .holder button {
     width: 100%;
@@ -117,84 +117,6 @@ form {
     background-color: blue;
     font-weight: 600;
     font-size: 15px;
-}
-
-.holder2 {
-    width: 100%;
-    padding-bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 15px;
-}
-
-.holder2 button {
-    color: rgba(30, 30, 30, 0.689);
-    font-weight: normal;
-    font-size: 13px;
-    border: none;
-    background-color: rgba(80, 80, 80, 0.151);
-    padding: 12px;
-    border-radius: 7px;
-    width: 200px;
-    margin-top: 20px;
-    border: 1px solid rgba(125, 125, 125, 0.151);
-}
-
-
-.holder2 h2 {
-    color: rgba(245, 245, 245, 0.664);
-    font-weight: lighter;
-    font-size: 24px;
-    margin: 0;
-    margin-bottom: 15px;
-    margin-top: 20px;
-}
-
-.holder2 p {
-    color: rgba(245, 245, 245, 0.356);
-    font-weight: normal;
-    font-size: 12px;
-    margin: 0;
-    margin-bottom: 15px;
-}
-
-.holder2 div {
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 330px;
-}
-
-.holder2 div i {
-    border: none;
-    background: none; 
-    padding: 10px;
-    color: rgba(245, 245, 245, 0.658);
-    background-color: rgba(128, 128, 128, 0.116);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.holder2 div i::after {
-    content: attr(data-description);
-    color: rgba(255, 255, 255, 0.39);
-    position: absolute;
-    bottom: -20px;
-    transform: translateX(-50%);
-    margin: 0;
-    left: 50%;
-    font-size: 12px;
-    font-weight: normal;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
 .premium {

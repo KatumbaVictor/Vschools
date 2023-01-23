@@ -11,14 +11,73 @@
     </head>
     <body oncontextmenu = "return false">
         <div id = "navbar">
+            <button onclick="back()"><i class = "fas fa-arrow-left"></i></button>
             <h1>Vschools</h1>
         </div>
         <div id = "divone">
-            <h2>Schedule your next meeting session</h2>
-            <p class = "header">Learn from anywhere, get the best classroom experience from anywhere all over
-                        the globe at a location of your convenience
+            <h2><i class = "far fa-calendar"></i> Schedule your next meeting session</h2>
+            <p class = "header">Learn from anywhere, get the best classroom experience from anywhere all over the globe at a location of your convenience
             </p>
-            <input type = "text" placeholder="Meeting title goes here..."/>
+            <form method = "POST">
+                {% csrf_token %}
+                <input type = "text" placeholder="Meeting title goes here..." name = "title" required/>
+                <input type = "text" placeholder = "Select meeting date..." name = "date" onfocus = "(this.type = 'date')" onblur = "(this.type = 'text')" required/>
+                <input type = "text" placeholder = "Select meeting start time..." name = "start_time" onfocus = "(this.type = 'time')" onblur = "(this.type = 'text')" required/>
+                <textarea placeholder="Write a short description about the meeting" name = "description" required></textarea>
+                <p>If the meeting is to be repeated, please fill in the fields below...</p>
+                <section>
+                  <input id='one' type='checkbox' />
+                  <label for='one'>
+                    <span></span>
+                      Mon
+                    <ins><i>Mon</i></ins>
+                  </label>
+                  
+                  <input id='two' type='checkbox' />
+                  <label for='two'>
+                    <span></span>
+                      Tue
+                    <ins><i>Tue</i></ins>
+                  </label>
+                  
+                  <input id='three' type='checkbox' />
+                  <label for='three'>
+                    <span></span>
+                     Wed
+                    <ins><i>Wed</i></ins>
+                  </label>
+                  
+                  <input id='four' type='checkbox' />
+                  <label for='four'>
+                    <span></span>
+                      Thur
+                    <ins><i>Thur</i></ins>
+                  </label>
+                  
+                  <input id='five' type='checkbox' />
+                  <label for='five'>
+                    <span></span>
+                      Fri
+                    <ins><i>Fri</i></ins>
+                  </label>
+
+                  <input id='six' type='checkbox' />
+                  <label for='six'>
+                    <span></span>
+                      Sat
+                    <ins><i>Sat</i></ins>
+                  </label>
+
+                  <input id='seven' type='checkbox' />
+                  <label for='seven'>
+                    <span></span>
+                      Sun
+                    <ins><i>Sun</i></ins>
+                  </label>
+
+                </section>
+                <button type = "submit">Schedule</button>
+            </form>
         </div>
     </body>
 </html> 

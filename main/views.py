@@ -17,6 +17,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str, force_text, DjangoUnicodeDecodeError
 from .utils import *
 from django.core.mail import EmailMessage 
+from .tasks import test_function
 import json
 import random
 import re
@@ -223,8 +224,12 @@ def new_password_page(request):
                 return redirect("get_started") 
     return render(request,"new_password.html")
 
+def scheduledMeeting(request, meeting_id):
+    return render(request, 'scheduledMeeting.html')
+
 @login_required(login_url='login')
 def schedule_meeting(request):
+    print(timezone.now())
     request.profile_picture = account_info.objects.get(user=request.user).profile_picture
     return render(request, 'schedule_meeting.html')
 
@@ -367,15 +372,7 @@ def logout_user(request):
     return redirect('login')
 
 def test_page(request):
-    x_forw_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    ip_address = None
-
-    if x_forw_for is not None:
-        ip_address = x_forw_for.split(',')[0]
-    else:
-        ip_address = request.META.get('REMOTE_ADDR')
-    print(ip_address)
-
+    test_function.delay()
     return render(request, "test.html")
 
 def meeting_ended(request):

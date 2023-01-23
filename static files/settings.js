@@ -5,7 +5,7 @@ function get_photo(){
     file_button.click();
 }
 
-function crop_photo(self){
+function crop_photo(self){ 
     if (self.files){
         var file_reader = new FileReader();
         file_reader.onloadend = function(response){
@@ -103,4 +103,8 @@ let change_username = (ev) => {
             }, 3000)
         })
     })
+}
+
+function back() {
+    window.open('/login/','_self');
 }
