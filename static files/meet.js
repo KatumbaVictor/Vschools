@@ -7,7 +7,7 @@ const APP_ID = '0eb3e08e01364927854ee79b9e513819';
 const notifications = document.getElementById('notifications');
 const container = document.getElementById('container');
 const room_name = document.getElementById('controls').dataset.room_name;
-const expression = /((ftp|http|https):\/\/)?(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
+const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 var authorization = document.getElementById('controls').dataset.authorization;
 var CHANNEL = window.location.pathname.split('/')[2];
 var connection_protocol;
@@ -27,6 +27,7 @@ var user_token = document.getElementById('meeting_info').dataset.user_token;
 var whiteboard;
 var all_users = 0;
 var recording = false;
+var MessageSocket;
 
 var comment_holder = document.getElementById('livechat').children[1];
 comment_holder.scrollTop = comment_holder.scrollHeight;
@@ -39,7 +40,7 @@ var file_types = ['audio/mpeg','audio/wav','application/pdf','image/jpeg','image
 var send_notification = (title, body) => {
     if (expression.test(body) == true) {
         body = body.replace(expression, (url) => {
-            return `<a href = ${url} target="_blank">${url}</a>`;
+            return `<a href = '${url}' target="_blank">${url}</a>`;
         })
     }
     var notification = document.getElementById('notification');
@@ -80,11 +81,11 @@ let getCookie = (name) => {
 
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
+    MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
 }else {
     connection_protocol = 'ws';
+    MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
 }
-
-let MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
 
 var client = AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
 
@@ -113,8 +114,6 @@ let createTracks = async () => {
 
         await videoTrack.setMuted(true);
         await audioTrack.setMuted(true);
-
-        joinAndDisplayLocalStream();
 
     } catch (error) {
         
@@ -380,7 +379,7 @@ let add_to_chat = (profile_picture, name, message) => {
 
     if (expression.test(message) == true) {
         message = message.replace(expression, (url) => {
-            return `<a href = ${url} target="_blank">${url}</a>`;
+            return `<a href = '${url}' target="_blank">${url}</a>`;
         })
     }
 
@@ -522,6 +521,7 @@ let handle_camera = async (self) => {
     var holder = document.getElementById(UID.toString());
     var profile_picture = document.getElementById(`profile_picture_${UID.toString()}`);
     var video = holder.lastElementChild.firstElementChild;
+
     if (videoInputDevices.length > 0) {
         if (videoTrack.muted){
             profile_picture.style.display = "none";
@@ -547,7 +547,7 @@ let handle_camera = async (self) => {
             video.style.display = "block";
         }
     }else {
-        post_message('You have no webcam attached to your device');
+        send_notification('<i class = "fas fa-exclamation-triangle"></i>','Failed to start camera');
     }
 }
 
@@ -577,7 +577,7 @@ let handle_audio = async (self) => {
             microphone.setAttribute('class','fas fa-microphone-slash');
         }
     }else {
-        post_message('You have no audio input device attached');
+        send_notification('<i class = "fas fa-exclamation-triangle"></i>','Failed to start microphone');
     }
 }
 
@@ -1094,3 +1094,5 @@ let upload_image = () => {
 }
 
 localStorage.setItem('lastMeetingId',CHANNEL);
+
+setTimeout(joinAndDisplayLocalStream, 6000);

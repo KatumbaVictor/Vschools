@@ -113,6 +113,7 @@ DATABASES = {
     }
 }
 '''
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -210,13 +211,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_USER')
 
-
 CSRF_COOKIE_SECURE = True
 
 SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
-
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 accept_content = ['application/json']

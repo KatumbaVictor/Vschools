@@ -54,6 +54,8 @@ body {
     justify-content: center;
     color: rgba(0, 0, 0, 0.7);
     transition: background-color .5s;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 }
 
 #navbar button:hover {
@@ -104,6 +106,8 @@ form {
     border: 1px solid rgba(128, 128, 128, 0.64);
     color: grey;
     width: calc(100% - 12px);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 } 
 
 .holder button {
@@ -117,6 +121,8 @@ form {
     background-color: blue;
     font-weight: 600;
     font-size: 15px;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.401);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 }
 
 .premium {

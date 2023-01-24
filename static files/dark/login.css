@@ -64,6 +64,8 @@
     align-self: center;
     color: blue;
     background-color: rgba(0, 0, 255, 0.26);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+    border:  1px solid rgba(0, 0, 255, 0.11);
 }
 
 .holder {
@@ -73,6 +75,8 @@
     width: 230px;
     background-color:rgba(0, 0, 255, 0.26);
     transition: background-color .3s;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+    border:  1px solid rgba(0, 0, 255, 0.11);
 }
 
 .holder:hover {
@@ -102,6 +106,8 @@
     position: relative;
     color: white;
     background-color: blue;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+    border:  1px solid rgba(0, 0, 255, 0.11);
 }
 
 #login p {

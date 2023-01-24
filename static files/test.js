@@ -64,13 +64,12 @@ request_url = endpoint + canonical_uri + "?" + canonical_querystring
 
 */
 
-var string = 'hello victor';
+var url = new URL('https://www.vschools.com')
 
-var result = string.replace('victor',`<a href = "victor.com">victor.com</a>`);
+var result = document.createElement('a');
+result.setAttribute('href','/vschoolsmeet');
+result.innerHTML = "victor";
 
-var final = document.createElement('p');
-final.innerHTML = result;
+document.body.appendChild(result)
 
-document.body.append(result)
-
-console.log(result);
+console.log(url)
