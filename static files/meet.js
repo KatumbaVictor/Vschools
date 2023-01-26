@@ -93,12 +93,10 @@ var videoInputDevices;
 var audioInputDevices;
 
 AgoraRTC.getCameras().then((devices) => {
-    console.log(devices)
     videoInputDevices = devices;
 })
 
 AgoraRTC.getMicrophones().then((devices) => {
-    console.log(devices)
     audioInputDevices = devices;
 })
 
@@ -129,10 +127,17 @@ let joinAndDisplayLocalStream = async () => {
         'user_token':user_token});
 
     client.on('user-joined', (user) => {
-        fetch(`/getRoomMember/?room_id=${CHANNEL}$?uid=${user.uid}`,{
+        var invite_link = `${window.location.protocol}//${window.location.host}/getRoomMember/`;
+
+        var url = new URL(invite_link);
+        url.searchParams.append('room_id',CHANNEL);
+        url.searchParams.append('uid',user.uid);
+
+        fetch(url,{
             method: 'GET'
         }).then((response) => {
             return response.json().then((data) => {
+                console.log(data);
                 handleJoinedUser(data);
             })
         })
@@ -272,11 +277,17 @@ let handleUserLeft = async (user) => {
 
 let leaveAndRemoveLocalStream = async () => {
     messagesocket.close();
-    videoTrack.stop();
-    audioTrack.stop();
-    videoTrack.close();
-    audioTrack.close()
     client.leave();
+
+    if (videoTrack != undefined) {
+        videoTrack.stop();
+        videoTrack.close();
+    }
+
+    if (audioTrack != undefined) {
+        audioTrack.stop();
+        audioTrack.close();
+    }
 
     if (recording == true) {
         stop_recording();
@@ -284,11 +295,6 @@ let leaveAndRemoveLocalStream = async () => {
 
     window.open('/','_self');
 }
-
-function countWords(str) {
-    const arr = str.split(' ');
-    return arr.filter(word => word !== '').length;
-  }
 
 function getImage() {
     document.getElementById('photo').click();
