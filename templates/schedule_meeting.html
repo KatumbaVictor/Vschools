@@ -11,7 +11,7 @@
     </head>
     <body oncontextmenu = "return false">
         <div id = "navbar">
-            <button onclick="back()"><i class = "fas fa-arrow-left"></i></button>
+            <button title = "Back to home" onclick="back()"><i class = "fas fa-arrow-left"></i></button>
             <h1>Vschools</h1>
         </div>
         <div id = "divone">
@@ -24,7 +24,7 @@
                 <input type = "text" placeholder = "Select meeting date..." name = "date" onfocus = "(this.type = 'date')" onblur = "(this.type = 'text')" required/>
                 <input type = "text" placeholder = "Select meeting start time..." name = "start_time" onfocus = "(this.type = 'time')" onblur = "(this.type = 'text')" required/>
                 <textarea placeholder="Write a short description about the meeting" name = "description" required></textarea>
-                <p>If the meeting is to be repeated, please fill in the fields below...</p>
+                <p>(Optional) Repeat this meeting every</p>
                 <section>
                   <input id='one' type='checkbox' />
                   <label for='one'>

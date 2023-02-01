@@ -78,8 +78,8 @@ body {
     width: 135px;
     height: 135px;
     border-radius: 50%;
-    padding: 6px;
-    border: 2px solid rgba(120,120,120,0.4);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 }
 
 .info div {
@@ -221,7 +221,8 @@ input[type="password"] {
     color: grey;
     margin-left: 20px;
     margin-right: 20px;
-    border: 1px solid rgba(128, 128, 128, 0.64);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 }
 
 input[type="text"] {
@@ -233,7 +234,8 @@ input[type="text"] {
     color: grey;
     margin-left: 20px;
     margin-right: 20px;
-    border: 1px solid rgba(128, 128, 128, 0.64);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 }
 
 .holder button {
@@ -241,13 +243,14 @@ input[type="text"] {
     background-color: rgba(19, 19, 19, 0.651);
     color: white;
     padding: 12px 0 12px 10px;
-    border: 1px solid rgba(128, 128, 128, 0.096);
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 6px;
     background-color: blue;
     font-weight: 600;
     font-size: 15px;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.401);
+    border: 1px solid rgba(128, 128, 128, 0.34);
 }
 
 form {

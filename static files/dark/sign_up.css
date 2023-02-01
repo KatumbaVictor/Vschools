@@ -102,8 +102,6 @@ form {
     margin-bottom: 11px;
     padding: 12px 0 12px 10px;
     border-radius: 6px;
-    color: blue;
-    border: 1px solid rgba(128, 128, 128, 0.64);
     color: grey;
     width: calc(100% - 12px);
     box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
@@ -121,8 +119,8 @@ form {
     background-color: blue;
     font-weight: 600;
     font-size: 15px;
-    box-shadow: 0 0 4px rgba(128, 128, 128, 0.401);
     border: 1px solid rgba(128, 128, 128, 0.34);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
 }
 
 .premium {

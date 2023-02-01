@@ -100,9 +100,10 @@ input[type='text'], input[type='date'], input[type='time'], textarea, select {
     margin-bottom: 11px;
     padding: 12px 10px 12px 10px;
     border-radius: 6px;
-    color: blue;
-    border: 1px solid rgba(128, 128, 128, 0.64);
     color: grey;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+    border: 1px solid rgba(128, 128, 128, 0.34);
+    font-size: 14px;
 }
 
 #divone button {
@@ -117,6 +118,7 @@ input[type='text'], input[type='date'], input[type='time'], textarea, select {
     font-weight: 600;
     font-size: 15px;
     margin-bottom: 40px;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
 }
 
 
