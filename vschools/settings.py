@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = False
 
 ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech']
 
@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'main',
     'storages',
     'django_celery_results',
-    'django_celery_beat'
+    'django_celery_beat',
+    'compressor'
 ]
 
 
@@ -61,6 +62,10 @@ CHANNEL_LAYERS = {
 
 
 MIDDLEWARE = [
+    'django.middleware.gzip.GZipMiddleware',
+    'htmlmin.middleware.HtmlMinifyMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
+
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -173,49 +178,45 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static files')]
 
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 
-AWS_DEFAULT_ACL = config('AWS_DEFAULT_ACL')
+    'compressor.finders.CompressorFinder'
+)
 
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl':'max-age=86400'
+COMPRESS_ENABLED = True
+COMPRESS_CSS_HASHING_METHOD = 'content'
+COMPRESS_FILTERS = {
+    'css':[
+        'compressor.filters.css_default.CssAbsoluteFilter',
+        'compressor.filters.cssmin.rCSSMinFilter',
+    ],
+    'js':[
+        'compressor.filters.jsmin.JSMinFilter',
+    ]
 }
 
-AWS_LOCATION = 'static'
-
-AWS_QUERYSTRING_AUTH = False
-
-AWS_HEADERS = {
-    'Access-Control-Allow-Origin':'*',
-}
-
-AWS_S3_CUSTOM_DOMAIN = config('AWS_S3_CUSTOM_DOMAIN')
-
-'''
-MEDIA_URL = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
-
-MEDIA_ROOT = MEDIA_URL
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-'''
+HTML_MINIFY = True
+KEEP_COMMENTS_ON_MINIFYING = True
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
-EMAIL_FROM_USER = 'vschoolspremium@gmail.com'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_USER')
+EMAIL_HOST_USER = 'vschoolspremium@gmail.com'
+EMAIL_HOST_PASSWORD = 'eomzxbomxhhdlnai'
+
 
 CSRF_COOKIE_SECURE = True
-
 SECURE_SSL_REDIRECT = True
-
 SESSION_COOKIE_SECURE = True
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 accept_content = ['application/json']

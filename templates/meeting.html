@@ -1,18 +1,25 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html> 
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Meet</title>
+        {% compress css %}
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'dark/meet.css' %}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% endcompress %}
+
         <script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
+        {% compress js %}
         <script src = "{% static 'AgoraRTC_N-4.10.2.js' %}" type = "text/javascript"></script>
         <script src = "{% static 'meet.js' %}" type = "text/javascript" defer></script>
+        {% endcompress %}
     </head>
-    <body oncontextmenu = "return false">
+    <body>
         <div id = "main" data-username = "{{ request.user.username }}" data-token = "{{ token }}">
             <div id = "navbar">
                 <h3>Vschools</h3>
@@ -79,7 +86,7 @@
                 <button data-name = "unmute" onclick = "handle_audio(this)"><i class = "fas fa-microphone-slash"></i></button>
                 <button data-name = "raise" onclick = "raise_hand(this)"><i class = "far fa-hand-paper"></i></button>
                 <button data-name = "share" onclick = "screen_sharing(this)"><i class = "fas fa-laptop"></i></button>
-                <button data-name = "chats" onclick = "open_chats()"><i class = "far fa-comments"></i></button>
+                <button data-name = "chats" onclick = "open_chats(this)" id = "chats_button"><i class = "far fa-comments"></i></button>
                 <button style = "color: white; background-color: red; border: none;" onclick = "leaveAndRemoveLocalStream()" data-name = "leave"><i class = "fas fa-stop"></i></button>
             </div>
         </div>
@@ -102,7 +109,7 @@
                 <input type = "file" onchange = "sendFile(this)" id = "photo" hidden/>
                 <button onclick = "getImage()"><i class = "fas fa-paperclip"></i></button>
                 <input type = "text" placeholder = "Enter your message here..." onkeypress = "add_comment_by_enter(event)"/>
-                <button onclick = "add_comment(this)"><i class = "far fa-paper-plane"></i></button>
+                <button onclick = "add_comment(this)" title = "Send message"><i class = "far fa-paper-plane"></i></button>
             </div>
         </div>
         <p id = "recording"><i class = "fas fa-record-vinyl"></i> Rec</p>

@@ -1,7 +1,7 @@
 const form = document.getElementById('form');
 form.addEventListener('submit',() => {
     var button = form.lastElementChild;
-    button.innerHTML = "SUBMITTING....";
+    button.innerHTML = "Submiting....";
     button.setAttribute('disabled','');
     button.style.color = 'rgba(255, 255, 255, 0.889)';
 })

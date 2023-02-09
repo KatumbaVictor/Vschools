@@ -1,15 +1,19 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html>  
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Verify your e-mail</title>
+        {% compress css %}
         <link rel = "stylesheet" id = "styles" href = "{% static 'dark/verify_email_page.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% endcompress %}
     </head>
-    <body oncontextmenu="return false">
+    <body>
         <div id = "navbar">
             <h1>Vschools</h1>
         </div>

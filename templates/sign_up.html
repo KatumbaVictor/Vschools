@@ -1,16 +1,23 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
-        <title>Vschools | sign up</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | Sign up</title>
+        {% compress css %}
         <link rel = "stylesheet" href = "{% static 'dark/sign_up.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% endcompress %}
+
+        {% compress js %}
         <script src = "{% static 'sign_up.js' %}" defer></script>
+        {% endcompress %}
     </head>
-    <body>
+    <body> 
         <div id = "navbar">
             <button title = "Back to home" onclick="back()"><i class = "fas fa-arrow-left"></i></button>
             <h1>Vschools</h1>

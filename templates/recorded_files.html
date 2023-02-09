@@ -1,12 +1,17 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Recorded files</title>
+        {% compress css %}
         <link rel = "stylesheet" href = "{% static 'dark/uploaded_files.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% endcompress %}
     </head>
     <body>
         <div id = "navbar">

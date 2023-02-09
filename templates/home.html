@@ -1,17 +1,24 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Home</title>
+        {% compress css %}
         <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
         <link id = "styles" rel = "stylesheet" href = "{% static 'dark/home.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
+        {% endcompress %}
+
+        {% compress js %}
         <script src = "{% static 'home.js' %}" type = "text/javascript" defer></script>
+        {% endcompress %}
     </head>
-    <body oncontextmenu="return false">
+    <body>
         <div id = "navbar">
             <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
             <button onclick = "options()"><i class = "fas fa-bars"></i></button>
@@ -29,8 +36,8 @@
                 </p>
                 <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-link"></i> Start a meeting</button>
                 <div class = "join">
-                    <form style = "flex-direction: row;" onsubmit = "join_meeting(event)">
-                        <input type = "text" oninput = "check_passcode(this)" onfocus="input_focus(this)" placeholder = "Enter meeting passcode" onblur = "input_blur(this)" required/>
+                    <form style = "flex-direction: row;" onsubmit = "join_meeting(event)" autocomplete="off">
+                        <input type = "text" id = "passcode_field" oninput = "check_passcode(this)" onfocus="input_focus(this)" placeholder = "Enter meeting passcode" onblur = "input_blur(this)" required/>
                         <button type = "submit" disabled>Join</button>
                     </form>
                 </div>

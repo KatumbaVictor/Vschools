@@ -868,7 +868,8 @@ let search_user = (self) => {
     })
 }
 
-function open_chats(){
+function open_chats(self){
+    self.innerHTML = '<i class = "fas fa-comments"></i>'
     chats = true;
     document.getElementById('livechat').style.display = "block";
 }
@@ -929,6 +930,7 @@ function Cancel(self) {
 function close_comments(){
     document.getElementById('livechat').style.display = "none";
     chats = false;
+    document.getElementById('chats_button').innerHTML = '<i class = "far fa-comments"></i>'
 }
 
 let start_meeting = (self) => {

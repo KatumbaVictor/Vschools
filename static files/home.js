@@ -1,5 +1,7 @@
+var passcode_field = document.getElementById('passcode_field');
 const page_options = document.getElementById('options');
 page_options.style.display = "none";
+
 
 let getCookie = (name) => {
     let cookieValue = null;
@@ -48,6 +50,7 @@ let join_meeting = (self) => {
         return response.json().then(data => {
             if (data.meeting_id){
                 button.innerHTML = "joining";
+                button.setAttribute('disabled','');
                 button.style.color = 'rgba(0, 0, 200, 0.44)';
                 window.open(`/meet/${data.meeting_id}`,'_self');
             }else {
@@ -121,4 +124,12 @@ if (localStorage.getItem('lastMeetingId') != null) {
     new_child.innerHTML = 'Back to previous meeting <i class = "fas fa-arrow-right"></i>';
 
     parent.replaceChild(new_child,parent.lastElementChild);
+}
+
+passcode_field.onpaste = (e) => {
+    var button = passcode_field.parentElement.lastElementChild;
+    button.removeAttribute('disabled');
+    setTimeout(() => {
+        button.click();
+    }, 300)
 }

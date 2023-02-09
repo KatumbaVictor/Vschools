@@ -373,7 +373,7 @@ def logout_user(request):
 
 def test_page(request):
     test_function.delay()
-    return render(request, "test.html")
+    return render(request, "change_password.html")
 
 def meeting_ended(request):
     return render(request, "meeting_ended.html")

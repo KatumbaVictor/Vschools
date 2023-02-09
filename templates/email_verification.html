@@ -1,22 +1,29 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html>
     <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Accounts</title>
+
+        {% compress css %}
         <link rel = "stylesheet" href = "{% static 'email_verification.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% endcompress %}
     </head>
-    <body oncontextmenu="return false">
+    <body>
+        <div id = "navbar">
+            <button title = "Back" onclick="(window.open('/reset','_self'))"><i class = "fas fa-arrow-left"></i></button>
+            <h1>Vschools</h1>
+        </div>
         <div id = "container">
-            <div id = "card">
-                <h2><i class = "fas fa-envelope"></i> E-mail verification</h2>
-                <p id = "info">Please login into the e-mail you've entered and follow the link
-                    that has been sent to it.
-                </p>
-
-                <p id = "footer">Vschools premium</p>
-            </div>
+            <h2><i class = "far fa-envelope"></i> Password reset sent</h2>
+            <p>Please follow the link sent to your e-mail and reset your password
+            </p>
+            <p style = "font-family: 'Brush Script MT', cursive; font-weight: lighter;
+                color: rgba(0, 0, 0, 0.441); font-size: 25px; margin-top: 30px;">premium</p>
         </div>
     </body>
 </html>

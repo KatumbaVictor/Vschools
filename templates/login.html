@@ -1,16 +1,23 @@
 {% load static %}
 
+{% load compress %}
+
 <!DOCTYPE html> 
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Login</title>
+        {% compress css %}
         <link rel = "stylesheet" id = "styles" href = "{% static 'dark/login.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% endcompress %}
+
+        {% compress js %}
         <script src = "{% static 'login.js' %}" defer></script>
+        {% endcompress %}
     </head>
-    <body oncontextmenu="return false">
+    <body>
         <div id = "navbar">
             <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
         </div>
