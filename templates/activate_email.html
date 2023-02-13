@@ -1,11 +1,14 @@
 {% autoescape off %}
 
-Hi {{ user.username }}
+Hi {{ username }},
 
-Please use the link below to activate your account, this is to confirm that you are the owner of this
-email address
+We're so happy that you signed up for Vschools. To start exploring the site and its tools, please first
+follow the link below to verify your e-mail address 
 
-http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+https://{{domain}}/verify-email/{{ email_token }}
+
+Regards,
+The vschoolsmeet.tech team
 
 {% endautoescape %}
 

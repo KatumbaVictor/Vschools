@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.http import JsonResponse
 from main.models import (account_info, Room, Room_member, Room_message, 
         whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording)
@@ -13,10 +12,6 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str, force_text, DjangoUnicodeDecodeError
-from .utils import *
-from django.core.mail import EmailMessage 
 from .tasks import test_function
 import json
 import random
@@ -68,9 +63,13 @@ def login_page(request):
 
     if request.method == 'POST':
         user = authenticate(username=request.POST['username'],password=request.POST['password'])
+        
         if user is not None:
-            login(request, user)
-            return redirect('home')
+            if account_info.objects.get(user=user).email_verified:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect('verify_email_page')
         else:
             messages.info(request, """Dear user your details are incorrect please check them and try again
                         or follow the forgot password link if you have forgoten your password.""")
@@ -159,7 +158,7 @@ def verify_email(request, token):
         obj = account_info.objects.get(email_token=token)
         obj.email_verified = True
         obj.save()
-        return redirect('get_started')
+        return redirect('email_verified')
     except Exception as e:
         print('invalid token')    
 
@@ -189,40 +188,22 @@ def sign_up_page(request):
                 room.save()
                 MeetingWhiteboard(room=room).save()
 
-                verification_link = 'https://' + str(get_current_site(request))+'/verify/'+email_token
+                template = render_to_string('activate_email.html',{'domain':str(get_current_site(request)),
+                        'email_token':email_token, 'username':last_name})
 
-                message = 'Please click this link to verify your email ' + verification_link
+                email = EmailMessage(
+                    'Please verify your e-mail',
+                    template,
+                    settings.EMAIL_HOST_USER,
+                    [email]
+                )
                 
-                send_email_token(email, email_token, message)
+                email.fail_silently = False
+                email.send()
                 
                 return redirect('verify_email_page')
 
     return render(request,"sign_up.html")
-
-def new_password_page(request):
-    if request.method == "POST":
-        if request.POST["password1"] == request.POST["password2"]:
-            username = request.session['vschools_first_name'] + " " + request.session["vschools_last_name"]
-            first_name = request.session['vschools_first_name'] 
-            last_name = request.session["vschools_last_name"]
-            #new_user=User.objects.create_user(username=username,email=request.session['vschools_email'],
-                                        #password=request.POST['password2'])
-
-            new_user=User.objects.create_user(username=username,first_name=first_name,last_name=last_name,email=request.session['vschools_email'],
-                                        password=request.POST['password2'])
-            new_user.save()
-
-            account_info(user=new_user,datejoined=date.today()).save()
-
-            user = authenticate(username=username,password=request.POST["password2"])
-
-            if user is not None:
-                login(request, user)
-                del request.session["vschools_first_name"]
-                del request.session["vschools_last_name"]
-                del request.session["vschools_email"]
-                return redirect("get_started") 
-    return render(request,"new_password.html")
 
 def scheduledMeeting(request, meeting_id):
     return render(request, 'scheduledMeeting.html')
@@ -241,7 +222,6 @@ def recorded_files(request):
     return render(request, 'recorded_files.html', context)
 
 def meeting_recording(request, meeting_id):
-    print("meeting id is "+meeting_id)
     room = Room.objects.get(room_id=meeting_id)
     room_members = Room_member.objects.filter(room=room)
 
@@ -362,10 +342,6 @@ def start_meeting(request):
         room.start_date = timezone.now()
         room.save()
         return JsonResponse({'meeting_id':room.room_id}, safe=False)
-
-@login_required(login_url='login')
-def get_started_page(request):
-    return render(request, "get_started.html")
 
 def logout_user(request):
     logout(request)

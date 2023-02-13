@@ -26,7 +26,6 @@ body {
 }
 
 #navbar h1{
-    margin-left: 30px;
     color: blue;
     font-size: 30px;
     font-family: 'Brush Script MT', cursive;
@@ -45,7 +44,7 @@ p {
     color: rgba(0, 0, 0, 0.53);
     font-size: 13px;
     text-align: center;
-    font-style: italic;
+    
     text-align: center;
 }
 
@@ -56,4 +55,20 @@ img {
 
 .footer {
     margin-top: 50px;
+}
+
+a {
+    margin-top: 15px;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    width: 260px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    background-color: rgb(173,216,230);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+    border:  1px solid rgba(0, 0, 255, 0.11);
+    color: black;
 }

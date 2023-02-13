@@ -2,14 +2,13 @@
 
 {% load compress %}
 
-<!DOCTYPE html>  
-<html lang="en">
+<!DOCTYPE html>
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Vschools | Verify your e-mail</title>
+        <title>Vschools | E-mail verified</title>
         {% compress css %}
-        <link rel = "stylesheet" id = "styles" href = "{% static 'dark/verify_email_page.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'dark/password_changed.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
         {% endcompress %}
     </head>
@@ -17,12 +16,11 @@
         <div id = "navbar">
             <h1>Vschools</h1>
         </div>
+        <div id = "card">
+            <h2><i class = "far fa-envelope"></i> Please verify your e-mail</h2>
+            <p id = "info">Please follow the link sent to your e-mail to verify first</p>
 
-        <h2>Hello user please verify your e-mail...</h2>
-        <p style = "max-width: 300px;">Please click on the link that has been sent to your e-mail
-            to verify it and continue...
-        </p>
-        <img src = "{% static 'mail_sent.svg' %}"/>
-        <p class = "footer" style = "color: rgba(0, 0, 0, 0.653); font-size: 13px;"><i class = "far fa-copyright"></i> 2023 | Vschools premium | All Rights Reserved.</p>
+            <p id = "footer">premium</p>
+        </div>
     </body>
 </html>
