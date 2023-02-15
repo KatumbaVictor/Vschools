@@ -9,8 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Recorded files</title>
         {% compress css %}
-        <link rel = "stylesheet" href = "{% static 'dark/uploaded_files.css' %}"/>
-        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/uploaded_files.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         {% endcompress %}
     </head>
     <body>
@@ -30,7 +30,7 @@
             {% endfor %}
         {% else %}
             <div class = "no_recordings">
-                <img src = "{% static 'online_learning.svg' %}"/>
+                <img src = "{% static 'images/online_learning.svg' %}"/>
                 <p class = "last_text">Meetings you've recorded appear here</p>
             </div>
         {% endif %}

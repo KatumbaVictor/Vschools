@@ -1,0 +1,27 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Katumba Victor">
+        <title>Vschools | Reset sent</title>
+        {% compress css %}
+        <link rel = "stylesheet" href = "{% static 'css/reset_sent.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+        {% endcompress %}
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+        </div>
+        <div id = "card">
+            <h2>Password reset link sent</h2>
+            <p id = "info">Please follow the link sent to your email and reset your password</p>
+
+            <p id = "footer">premium</p>
+        </div>
+    </body>
+</html>

@@ -5,13 +5,12 @@
     <head>
         <meta charset="UTF-8"/>
         <title>Vschools | Meet</title>
-        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
-        <link rel = "stylesheet" href = "{% static 'dark/meet.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/meet.css' %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
-        <script src = "{% static 'qr_code/qrcode.js' %}"></script>
-        <script src = "{% static 'AgoraRTC_N-4.10.2.js' %}" type = "text/javascript"></script>
-        <script src = "{% static 'unauthenticated.js' %}" type = "text/javascript" defer></script>
+        <script src = "{% static 'js/AgoraRTC_N-4.10.2.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/unauthenticated.js' %}" type = "text/javascript" defer></script>
     </head>
     <body>
         <div id = "main" data-username = "{{ request.user.username }}" data-token = "{{ token }}">

@@ -172,7 +172,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -185,6 +185,8 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder'
 )
 
+
+COMPRESS_OFFLINE = True
 COMPRESS_ENABLED = True
 COMPRESS_CSS_HASHING_METHOD = 'content'
 COMPRESS_FILTERS = {
@@ -217,7 +219,6 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
-
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 accept_content = ['application/json']

@@ -147,8 +147,8 @@ def settings_page(request):
 def password_changed(request):
     return render(request,"password_changed.html")
 
-def email_verification_page(request):
-    return render(request, "email_verification.html")
+def email_verified(request):
+    return render(request, "email_verified.html")
 
 def verify_email_page(request):
     return render(request, 'verify_email_page.html')

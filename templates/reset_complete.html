@@ -1,0 +1,30 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Vschools | reset complete</title>
+        {% compress css %}
+        <link rel = "stylesheet" href = "{% static 'css/reset_complete.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+        {% endcompress %}
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Vschools</h1>
+        </div>
+        <div id = "card">
+            <h2><i class = "fas fa-key"></i> Password changed</h2>
+            <p id = "info">Hello user your password has been successfully 
+                changed, proceed to the login page below.
+            </p>
+
+            <a href = "{% url 'login' %}">Take me to login</a>
+
+            <p id = "footer">premium</p>
+        </div>
+    </body>
+</html>

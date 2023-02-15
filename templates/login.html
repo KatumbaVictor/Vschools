@@ -11,12 +11,12 @@
         <meta name="description" content="Best virtual meeting experience with tools such as realtime whiteboard, meeting recording and so on">
         <title>Vschools | Login</title>
         {% compress css %}
-        <link rel = "stylesheet" id = "styles" href = "{% static 'dark/login.css' %}"/>
-        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <link rel = "stylesheet" id = "styles" href = "{% static 'css/login.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         {% endcompress %}
 
         {% compress js %}
-        <script src = "{% static 'login.js' %}" defer></script>
+        <script src = "{% static 'js/login.js' %}" defer></script>
         {% endcompress %}
     </head>
     <body>
@@ -43,7 +43,7 @@
                     <p>live</p>
                 </div>
                 <div class = "divtwo">
-                    <a style = "margin-left: 25px;" href = "/sign_up/">Create account</a>
+                    <a style = "margin-left: 25px;" href = "{% url 'sign_up' %}">Create account</a>
                     <a style = "margin-right: 25px;" href = "{% url 'reset_password' %}">Forgot password</a>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     Get the best meeting experience from anywhere all over
                     the globe at a location of your convenience...
                 </p>
-                <img src = "{% static 'selfie.svg' %}"/>
+                <img src = "{% static 'images/selfie.svg' %}"/>
                 <p class = "footer">Quality meetings</p>
             </div>
             <p class = "premium">premium</p>
