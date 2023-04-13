@@ -10,14 +10,15 @@
         <meta name="author" content="Katumba Victor">
         <meta name="description" content="Best virtual meeting experience with tools such as realtime whiteboard, meeting recording and so on">
         <title>Vschools | Login</title>
-        {% compress css %}
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+    
         <link rel = "stylesheet" id = "styles" href = "{% static 'css/login.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
-        {% endcompress %}
+        
 
-        {% compress js %}
+        
         <script src = "{% static 'js/login.js' %}" defer></script>
-        {% endcompress %}
+        
     </head>
     <body>
         <div id = "navbar">
@@ -40,7 +41,12 @@
                         </div>
                         <button class = "btn" type = "submit" onclick = "login(this)">LOG IN</button>
                     </form>
-                    <p>live</p>
+                    <p class = "live">live</p>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class = "wrong_details"><i class = 'fas fa-exclamation-triangle'></i> Wrong log in details</p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class = "divtwo">
                     <a style = "margin-left: 25px;" href = "{% url 'sign_up' %}">Create account</a>
@@ -59,18 +65,5 @@
             </div>
             <p class = "premium">premium</p>
         </div>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div id = "forgot_password">
-                    <div>
-                        <p><i class = "fas fa-exclamation-triangle"></i> Wrong log in details, please try again or click the forgot password link
-                            for help
-                        </p>
-                        <button onclick = "close_item()">Ok</button>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
     </body>
 </html>

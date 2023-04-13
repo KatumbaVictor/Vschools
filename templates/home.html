@@ -10,15 +10,16 @@
         <meta name="author" content="Katumba Victor">
         <meta name="description" content="Start a meeting and invite participants or join an ongoing meeting with a meeting passcode or invite link and get a good meeting experience">
         <title>Vschools | Home</title>
-        {% compress css %}
-        <link rel="shortcut icon" href="{% static 'images/selfie.svg' %}" type="image/svg"/>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+
+        
         <link id = "styles" rel = "stylesheet" href = "{% static 'css/home.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
-        {% endcompress %}
 
-        {% compress js %}
+
+        
         <script src = "{% static 'js/home.js' %}" type = "text/javascript" defer></script>
-        {% endcompress %}
+        
     </head>
     <body>
         <div id = "navbar">
@@ -43,14 +44,20 @@
                         <button type = "submit" disabled>Join</button>
                     </form>
                 </div>
-                <p style = "font-size: 25px; color: grey; font-family: 'Brush Script MT', cursive; margin: 0; margin-top: 25px; align-self: center;">premium</p>
+                <p class = 'schedule'><a href = "{% url 'schedule' %}"><i class = "far fa-calendar"></i> Schedule and plan</a> for a future meeting.</p>
             </div>
             <div id = "divtwo">
                 <img src = "{% static 'images/conversation.svg' %}"/>
                 <p>Quality meetings</p>
             </div>
         </div>
-        <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = "margin-top: 40px; text-decoration: underline; font-size: 13px;"><i class = "fab fa-instagram"></i> Follow us on instagram</a>
+        <div class = "links">
+            <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = ""><i class = "fab fa-instagram"></i></a>
+            <a href = "#" target = "_blank" style = ""><i class = "fab fa-twitter"></i></a>
+            <a href = "#" target = "_blank" style = ""><i class = "fab fa-facebook"></i></a>
+            <a href = "#" target = "_blank" style = ""><i class = "fab fa-linkedin"></i></a>
+        </div>
+        
         <p class = "footer"><i class = "far fa-copyright"></i> 2023 | Vschools premium | All Rights Reserved.</p>
         <p id = "notification"><i class = "fas fa-exclamation-triangle"></i> No meeting found with the given passcode</p>
     </body>

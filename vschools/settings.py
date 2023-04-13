@@ -13,10 +13,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os.path
 from decouple import config
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech']
+ALLOWED_HOSTS = ['*']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'storages',
     'django_celery_results',
     'django_celery_beat',
-    'compressor'
+    'compressor',
+    'axes'
 ]
 
 
@@ -60,6 +61,10 @@ CHANNEL_LAYERS = {
     },
 }
 
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend'
+]
 
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
@@ -74,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 
@@ -102,11 +108,11 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vschools_db',
-        'USER':'database_user',
-        'PASSWORD':'victorious5@gmail.com',
-        'HOST':'localhost',
-        'PORT':'5432'
+        'NAME': config("DATABASE_NAME"),
+        'USER': config("DATABASE_USER"),
+        'PASSWORD': config("DATABASE_PASSWORD"),
+        'HOST': config("DATABASE_HOST"),
+        'PORT': config("DATABASE_PORT")
     }
 }
 
@@ -137,8 +143,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-cache_backend = 'default'
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -149,6 +153,9 @@ CACHES = {
     }
 }
 
+cache_backend = 'default'
+AXES_CACHE = 'default'
+AXES_LOCKOUT_TEMPLATE = 'lockout.html'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -172,7 +179,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -185,6 +192,8 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder'
 )
 
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=20)
 
 COMPRESS_OFFLINE = True
 COMPRESS_ENABLED = True
@@ -208,10 +217,12 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'vschoolspremium@gmail.com'
-EMAIL_HOST_PASSWORD = 'eomzxbomxhhdlnai'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
 
 CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 
@@ -219,6 +230,9 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 accept_content = ['application/json']

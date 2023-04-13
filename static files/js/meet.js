@@ -5,7 +5,7 @@ const token = document.getElementById('main').dataset.token;
 const profile_picture = document.getElementById('controls').dataset.profile_picture;
 const APP_ID = '0eb3e08e01364927854ee79b9e513819';
 const notifications = document.getElementById('notifications');
-const container = document.getElementById('container');
+const container = document.getElementById('container'); 
 const room_name = document.getElementById('controls').dataset.room_name;
 const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 var authorization = document.getElementById('controls').dataset.authorization;
@@ -94,10 +94,22 @@ var audioInputDevices;
 
 AgoraRTC.getCameras().then((devices) => {
     videoInputDevices = devices;
+    devices.forEach((item) => {
+        var target_element = document.getElementById('cameras').firstElementChild;
+        var option = document.createElement('option');
+        option.innerHTML = item.label;
+        target_element.appendChild(option);
+    })
 })
 
 AgoraRTC.getMicrophones().then((devices) => {
     audioInputDevices = devices;
+    devices.forEach((item) => {
+        var target_element = document.getElementById('microphones').firstElementChild;
+        var option = document.createElement('option');
+        option.innerHTML = item.label;
+        target_element.appendChild(option);
+    })
 })
 
 var videoTrack;
@@ -159,6 +171,11 @@ let joinAndDisplayLocalStream = async () => {
     client.on('user-unpublished',UserUnpublishedEvent);
 }
 
+let transcribe = (self) => {
+    self.innerHTML = '<i class = "fas fa-closed-captioning"></i>'
+    send_notification('English', 'subtitles have been turned on');
+}
+
 let UserUnpublishedEvent = async (user, mediaType) => {
     await client.unsubscribe(user, mediaType);
     var holder = document.getElementById(user.uid.toString());
@@ -195,6 +212,7 @@ let handleJoinedUser = (item) => {
 
     if (item.user_token == room_name) {
         document.getElementById('hosts').prepend(holder);
+        name.innerHTML = `<i class = 'fas fa-microphone-slash'></i> ${item.name} <span>(meeting host)</span>`;
     }else {
         document.getElementById('hosts').appendChild(holder)
     }
@@ -206,7 +224,7 @@ let handleJoinedUser = (item) => {
     holder.appendChild(profile_picture);
     holder.appendChild(hand);
 
-    if (item.raise_hand) {
+    if (item.hand_raised == true) {
         hand.style.opacity = "1";
     }
 
@@ -301,6 +319,13 @@ function getImage() {
 }
 
 function sendFile(self) {
+    if (self.files) {
+        var item = {'profile_picture':profile_picture,'id':UID,
+        'name':username,'fileType':self.files[0].type,'fileName':self.files[0].name};
+    }
+}
+
+function sendFiles(self) {
     if (self.files) {
         var form = new FormData();
         form.append("image",self.files[0]);
@@ -570,6 +595,9 @@ let handle_audio = async (self) => {
             microphone.style.color = 'blue';
             microphone.setAttribute('class','fas fa-microphone');
 
+            send_notification('<i class = "fas fa-microphone"></i> Your microphone',
+                 'has been unmuted to everyone in the meeting');
+
             if (audio_track_playing == false) {
                 audio_track_playing == true;
                 client.publish(audioTrack);
@@ -804,6 +832,17 @@ function copy_link(self){
     self.innerHTML = '<i class = "fas fa-copy"></i>';
     var link = self.parentElement.firstElementChild.value;
     navigator.clipboard.writeText(link);
+    send_notification('<i class = "fas fa-link"></i> Meeting invite link', 'successfully copied to clipboard');
+    setTimeout(() => {
+        self.innerHTML = '<i class = "far fa-copy"></i>';
+    }, 2000)
+}
+
+function copy_passcode(self){
+    self.innerHTML = '<i class = "fas fa-copy"></i>';
+    var link = self.parentElement.firstElementChild.value;
+    navigator.clipboard.writeText(link);
+    send_notification('Meeting passcode', 'successfully copied to clipboard');
     setTimeout(() => {
         self.innerHTML = '<i class = "far fa-copy"></i>';
     }, 2000)

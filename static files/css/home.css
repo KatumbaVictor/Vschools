@@ -63,10 +63,23 @@ body {
     padding: 20px;
 }
 
-#divone a {
+.schedule {
     margin-top: 20px;
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(100,100,100);
+    text-align: center;
     font-style: italic;
+}
+
+.schedule a {
+    color: blue;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.schedule a:hover {
+    text-decoration: underline;
 }
 
 #divtwo {
@@ -104,6 +117,7 @@ h2 {
     align-self: center;
     margin: 0;
     font-size: 32px;
+    text-align: center;
 }
 
 p {
@@ -176,7 +190,6 @@ form {
     align-self: center; 
     padding: 20px;
     text-align: center; 
-    font-style: italic;
     margin: 0;
 }
 
@@ -192,23 +205,27 @@ form {
     padding: 20px;
     text-align: center; 
     font-size: 13px;
-    font-style: italic;
     color: grey;
 }
 
 #notification {
-    color: red;
-    background-color: rgba(255, 0, 0, 0.123);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.683);
+    background-color: rgba(255, 0, 0, 0.224);
+    border: 1px solid rgba(255, 0, 0, 0.234);
+    color: black;
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     padding: 12px;
-    border-radius: 6px;
-    font-weight: normal;
+    border-radius: 9px;
+    font-weight: 600;
     font-size: 14px;
     opacity: 0;
     transition: opacity .4s;
+    width: 250px;
+    text-align: center;
 }
 
 #options {
@@ -237,6 +254,24 @@ form {
     width: 100%;
     transition: color .2s;
     text-align: left;
+}
+
+.links {
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    
+}
+
+.links a {
+    text-decoration: underline; font-size: 13px;
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 18px;
+    color: blue;
 }
 
 @media screen and (max-width: 1030px) {

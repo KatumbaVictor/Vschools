@@ -1,0 +1,27 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Katumba Victor">
+        <title>Vschools | Secure</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        <link id = "styles" rel = "stylesheet" href = "{% static 'css/lockout.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+        </div>
+        <h2><i class = "fas fa-user-slash"></i> Account locked</h2>
+        <p style = "max-width: 300px;">
+            Hello user, your account has been temporarily locked due to many login attempts, please try again later
+        </p>
+        <a href = "{% url 'login' %}" class = "back"><i class = "fas fa-arrow-left"></i> Back to login</a>
+        <a href = "{% url 'reset_password' %}" class = "reset">Forgot password??</a>
+    </body>
+</html>

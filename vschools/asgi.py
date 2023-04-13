@@ -19,7 +19,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{config("PROJECT_NAME")}.setti
 django.setup()
 
 from channels.auth import AuthMiddlewareStack
-from main.consumers import ChatConsumer, MeetingRecording
+from main.consumers import ChatConsumer, SignalingConsumer
 from channels.routing import ProtocolTypeRouter, URLRouter
 
 application = ProtocolTypeRouter({
@@ -29,7 +29,7 @@ application = ProtocolTypeRouter({
             URLRouter(
                 [
                     url(r'^MessageSocket/(?P<room_name>[\w.@+-]+)/$', ChatConsumer.as_asgi()),
-                    url(r'^MeetingRecording/(?P<room_name>[\w.@+-]+)/$', MeetingRecording.as_asgi()),
+                    url(r'^signaling-service/(?P<room_name>[\w.@+-]+)/$', SignalingConsumer.as_asgi()),
                 ]
             )
         )

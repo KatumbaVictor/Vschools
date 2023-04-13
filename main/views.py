@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse
+from django.http import JsonResponse, StreamingHttpResponse
 from main.models import (account_info, Room, Room_member, Room_message, 
         whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording)
 from datetime import date, timedelta, datetime
@@ -24,7 +24,41 @@ import base64
 import http.client
 import boto3
 import os
+from aiortc import RTCPeerConnection, RTCSessionDescription
 
+from django_celery_beat.models import PeriodicTask, CrontabSchedule
+
+async def newPeer(request):
+    '''
+    offer = request.GET['offer']
+
+    client_offer = RTCSessionDescription(sdp=offer, type='offer')
+    peerConnection = RTCPeerConnection()
+
+    async def getIceCandidate(candidate):
+        print(candidate)
+
+    peerConnection.on('icecandidate', getIceCandidate)
+
+    await peerConnection.setRemoteDescription(client_offer)
+
+    answer = await peerConnection.createAnswer()
+    await peerConnection.setLocalDescription(answer)
+
+    answer = peerConnection.localDescription
+    print(answer)
+
+    return JsonResponse({'answer':peerConnection.localDescription.sdp}, safe=False)
+    '''
+
+    def eventStream():
+        yield 'hello how are you'
+
+    response = StreamingHttpResponse(eventStream(),content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no'
+
+    return response
 
 def getToken(request):
     appId = '0eb3e08e01364927854ee79b9e513819'
@@ -62,7 +96,7 @@ def login_page(request):
         return redirect('home')
 
     if request.method == 'POST':
-        user = authenticate(username=request.POST['username'],password=request.POST['password'])
+        user = authenticate(request=request,username=request.POST['username'],password=request.POST['password'])
         
         if user is not None:
             if account_info.objects.get(user=user).email_verified:
@@ -71,8 +105,7 @@ def login_page(request):
             else:
                 return redirect('verify_email_page')
         else:
-            messages.info(request, """Dear user your details are incorrect please check them and try again
-                        or follow the forgot password link if you have forgoten your password.""")
+            messages.info(request, "<i class = 'fas fa-exclamation-circle'></i> Wrong log in details")
 
     return render(request, "login.html")
 
@@ -214,6 +247,29 @@ def schedule_meeting(request):
     request.profile_picture = account_info.objects.get(user=request.user).profile_picture
     return render(request, 'schedule_meeting.html')
 
+def scheduleOneTimeMeeting(request):
+
+    if request.method == "POST":
+        meeting_title = request.POST['title']
+        meeting_date = request.POST['date']
+        meeting_start_time = request.POST['start_time']
+        reminder = request.POST['reminder']
+        meeting_description = request.POST['description']
+
+        print(meeting_title)
+        print(meeting_date)
+        print(meeting_start_time)
+        print(reminder)
+        print(meeting_description)
+
+    return render(request, "schedule_onetime_meeting.html")
+
+def scheduleMonthlyMeeting(request):
+    return render(request, "schedule_monthly_meeting.html")
+
+def scheduleAnnualMeeting(request):
+    return render(request, "schedule_annual_meeting.html")
+
 @login_required(login_url='login')
 def recorded_files(request):
     files = RecordedFiles.objects.filter(user=request.user)
@@ -221,17 +277,8 @@ def recorded_files(request):
 
     return render(request, 'recorded_files.html', context)
 
-def meeting_recording(request, meeting_id):
-    room = Room.objects.get(room_id=meeting_id)
-    room_members = Room_member.objects.filter(room=room)
-
-    for item in room_members:
-        item.username = account_info.objects.get(user = item.user).username
-        item.profile_picture = account_info.objects.get(user=item.user).profile_picture
-
-    context = {'room_members':room_members}
-
-    return render(request, 'meeting_recording.html',context)
+def meeting_recording(request):
+    return render(request, 'meeting_recording.html')
 
 def getRoomMember(request):
     data = request.GET
@@ -246,7 +293,8 @@ def getRoomMember(request):
     user_token = account_info.objects.get(user=user).user_token
     username = account_info.objects.get(user=user).username
 
-    response = {'name':username,'profile_picture':profile_picture,'user_token':user_token,'uid':user.id}
+    response = {'name':username,'profile_picture':profile_picture,
+        'user_token':user_token,'uid':user.id,'hand_raised':room_member.hand_raised}
 
     return JsonResponse(response, safe=False)
 
@@ -312,6 +360,7 @@ def meet_page(request, meeting_id):
     request.meeting_description = Room.objects.get(room_id=meeting_id).description
     request.meeting_passcode = Room.objects.get(room_id=meeting_id).passcode
     request.room_name = room_name
+    request.roomId = Room.objects.get(room_id=meeting_id).id
 
     return render(request, "meeting.html",context)
 
@@ -347,9 +396,16 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-def test_page(request):
-    test_function.delay()
-    return render(request, "change_password.html")
+async def test_page(request):
+    '''
+    peerConnection = RTCPeerConnection()
+    await peerConnection.createOffer()
+
+    offer = peerConnection.localDescription
+    print(offer)
+    '''
+
+    return render(request, "test.html")
 
 def meeting_ended(request):
     return render(request, "meeting_ended.html")

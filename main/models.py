@@ -7,7 +7,7 @@ from datetime import date
 class account_info(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE, unique=True)
     datejoined = models.DateField(blank=True)
-    profile_picture = models.ImageField(blank=True, upload_to='profile_pics', default='no_profile_Pic.jpeg')
+    profile_picture = models.ImageField(blank=True, upload_to='profile_pics', default='no_profile_Pic.svg')
     description = models.TextField(blank=True)
     link = models.TextField(blank=True,null=True)
     user_token = models.TextField(unique=True)
@@ -33,6 +33,7 @@ class Room_member(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     role = models.CharField(max_length=30)
     time_joined = models.DateTimeField(blank=True, null=True)
+    hand_raised = models.BooleanField(default=False)
 
 class Room_recording(models.Model):
     room = models.OneToOneField(Room, on_delete=models.CASCADE, unique=True)

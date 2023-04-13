@@ -8,14 +8,15 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Vschools | Scheduler</title>
-        {% compress css %}
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        
         <link rel = "stylesheet" href = "{% static 'css/schedule.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
-        {% endcompress %}
+        
 
-        {% compress js %}
+        
         <script src = "{% static 'js/schedule.js' %}" type = "text/javascript" defer></script>
-        {% endcompress %}
+        
     </head>
     <body>
         <div id = "navbar">
@@ -28,11 +29,42 @@
             </p>
             <form method = "POST">
                 {% csrf_token %}
-                <input type = "text" placeholder="Meeting title goes here..." name = "title" required/>
-                <input type = "text" placeholder = "Select meeting date..." name = "date" onfocus = "(this.type = 'date')" onblur = "(this.type = 'text')" required/>
-                <input type = "text" placeholder = "Select meeting start time..." name = "start_time" onfocus = "(this.type = 'time')" onblur = "(this.type = 'text')" required/>
+                <div class = "holder">
+                    <i class = "fas fa-pen"></i>
+                    <input type = "text" placeholder="Meeting title goes here..." name = "title" required/>
+                </div>
+
+                <div class = "holder">
+                    <i class = "far fa-calendar"></i>
+                    <input type = "text" placeholder = "Select meeting date..." name = "date" onfocus = "(this.type = 'date')" onblur = "(this.type = 'text')" required/>
+                </div>
+
+                <div class = "holder">
+                    <i class = "far fa-clock"></i>
+                    <input type = "text" placeholder = "Select meeting start time..." name = "start_time" onfocus = "(this.type = 'time')" onblur = "(this.type = 'text')" required/>
+                </div>
+
+                <div class = "holder">
+                    <i class = "far fa-calendar"></i>
+                    <select>
+                        <option>Don't repeat</option>
+                        <option>Repeat every week</option>
+                        <option>Repeat every month</option>
+                        <option>Repeat every year</option>
+                    </select>
+                </div>
+
+                <div class = "holder">
+                    <i class = "far fa-bell"></i>
+                    <select>
+                        <option>Email reminder</option>
+                        <option>Don't remind</option>
+                    </select>
+                </div>
+
                 <textarea placeholder="Write a short description about the meeting" name = "description" required></textarea>
-                <p>(Optional) Repeat this meeting every</p>
+
+                <p>(Optional) Days in a week</p>
                 <section>
                   <input id='one' type='checkbox' />
                   <label for='one'>
