@@ -86,8 +86,6 @@ if (window.location.protocol == 'https:'){
     MessageSocket = `${connection_protocol}://${window.location.host}/MessageSocket/${CHANNEL}/`;
 }
 
-console.log(messagesocket)
-
 let joinAndDisplayLocalStream = async () => {
 
     Array.from(document.getElementsByTagName('button')).forEach(item => {
