@@ -1,5 +1,7 @@
 var passcode_field = document.getElementById('passcode_field');
 const page_options = document.getElementById('options');
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
 page_options.style.display = "none";
 
 
@@ -26,7 +28,7 @@ function start_meeting(self){
         method: 'POST',
         headers:{
             'Content-Type': 'application/json',
-            "X-CSRFToken": getCookie('csrftoken'),
+            "X-CSRFToken": csrftoken,
             'X-Requested-With':'XMLHttpRequest'
         },
         body: JSON.stringify({'start_meeting':'True'})

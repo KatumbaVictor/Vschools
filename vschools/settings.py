@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech']
+ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 

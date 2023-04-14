@@ -37,6 +37,7 @@
                 <h2>Virtual quality meetings</h2>
                 <p class = "header">Hello <span>{{ request.user.username }}</span> meet from anywhere and get the best classroom experience at a location of your convenience.
                 </p>
+                {% csrf_token %}
                 <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-link"></i> Start a meeting</button>
                 <div class = "join">
                     <form style = "flex-direction: row;" onsubmit = "join_meeting(event)" autocomplete="off">
