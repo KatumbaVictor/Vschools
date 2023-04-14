@@ -12,7 +12,7 @@ import django
 
 from django.core.asgi import get_asgi_application
 from channels.security.websocket import AllowedHostsOriginValidator, OriginValidator
-from django.conf.urls import url
+from django.urls import re_path
 from decouple import config
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{config("PROJECT_NAME")}.settings')
@@ -28,7 +28,7 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter(
                 [
-                    url(r'^MessageSocket/(?P<room_name>[\w.@+-]+)/$', ChatConsumer.as_asgi()),
+                    re_path(r'^MessageSocket/(?P<room_name>[\w.@+-]+)/$', ChatConsumer.as_asgi()),
                 ]
             )
         )
