@@ -6,6 +6,7 @@ const notifications = document.getElementById('notifications');
 const container = document.getElementById('container'); 
 const room_name = document.getElementById('controls').dataset.room_name;
 const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 const localStream = new MediaStream();
 var CHANNEL = window.location.pathname.split('/')[2];
 var connection_protocol;
@@ -627,7 +628,7 @@ let start_whiteboard = (room_token, room_uid) => {
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
-                    "X-CSRFToken": getCookie('csrftoken'),
+                    "X-CSRFToken": csrftoken,
                     'X-Requested-With':'XMLHttpRequest'
                 },
                 body: JSON.stringify({'room_token':data,'room_uuid':room_uid,'room_id':CHANNEL})

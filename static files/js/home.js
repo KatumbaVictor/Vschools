@@ -4,22 +4,6 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 page_options.style.display = "none";
 
-
-let getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== ''){
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')){
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
 function start_meeting(self){
     self.innerHTML = '<i class = "fas fa-link"></i> Starting meeting...';
     self.style.color = 'rgba(255, 255, 255, 0.889)';
