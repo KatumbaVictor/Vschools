@@ -366,14 +366,13 @@ def meet_page(request, meeting_id):
 
 def changeWhtieboardDetails(request):
     if request.method == 'POST':
-        if request.is_ajax:
-            data = json.loads(request.body)
-            room = Room.objects.get(room_id=data['room_id'])
-            item = MeetingWhiteboard.objects.get(room=room)
-            item.room_token = data['room_token']
-            item.room_uuid = data['room_uuid']
-            item.save()
-            return render(request, 'meeting.html')
+        data = json.loads(request.body)
+        room = Room.objects.get(room_id=data['room_id'])
+        item = MeetingWhiteboard.objects.get(room=room)
+        item.room_token = data['room_token']
+        item.room_uuid = data['room_uuid']
+        item.save()
+        return render(request, 'meeting.html')
 
 @login_required(login_url='login')
 def home_page(request):
