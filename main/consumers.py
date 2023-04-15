@@ -51,13 +51,13 @@ class ChatConsumer(WebsocketConsumer):
         if 'raise_hand' in data:
             user = User.objects.get(id=int(data['id']))
             room_member = Room_member.objects.get(room=room,user=user)
-            room_member.hand_raised = True
+            #room_member.hand_raised = True
             room_member.save()
 
         if 'lower_hand' in data:
             user = User.objects.get(id=int(data['id']))
             room_member = Room_member.objects.get(room=room,user=user)
-            room_member.hand_raised = False
+            #room_member.hand_raised = False
             room_member.save()
 
     def user_info(self, event):

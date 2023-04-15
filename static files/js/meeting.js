@@ -784,7 +784,6 @@ var janus = new Janus({
    server: `https://vschoolsmeet.tech:8089/janus`,
    iceServers: [{urls:"stun:stun.l.google.com:19302"}],
    success: function () {
-      console.log('started')
       setTimeout(start(), 6000);
    },
    error: function(error) {
@@ -846,7 +845,7 @@ let start = () => {
       },
 
     iceState: (state) => {
-        console.log('state changed to', state);
+        console.log('ICE state changed to', state);
     },
 
     mediaState: (medium, on, mid) => {
@@ -903,12 +902,8 @@ let start = () => {
                     var list = msg["publishers"];
                     list.forEach((item) => {
                         var id = item['id'];
-                        var streams = item['streams'];
                         var display = item['display'];
-                        streams.forEach((stream) => {
-                            stream['id'] = id;
-                        })
-                        remoteFeed(streams, display);
+                        remoteFeed(display);
                   })
               }
 
@@ -919,12 +914,8 @@ let start = () => {
                     var list = msg["publishers"];
                     list.forEach((item) => {
                         var id = item['id'];
-                        var streams = item['streams'];
                         var display = item['display'];
-                        streams.forEach((stream) => {
-                            stream['id'] = id;
-                        })
-                        remoteFeed(streams, display);
+                        remoteFeed(display);
                     })
                 }else if (msg["leaving"]) {
                     // A user has left the video room
@@ -948,22 +939,23 @@ let start = () => {
    })
 }
 
-let remoteFeed = (streams, display) => {
+let remoteFeed = (display) => {
     var stream = new MediaStream();
     var subscription = [];
     var info = JSON.parse(display);
     janus.attach({
         plugin: "janus.plugin.videoroom",
         success: (handle) => {
-            streams.forEach((item) => {
+            /*streams.forEach((item) => {
                 subscription.push({feed: item.id, mid: item.mid});
-            })
+            })*/
 
             let subscribe = {
                request: "join",
                room: roomId,
                ptype: "subscriber",
-               streams: subscription,
+               //streams: subscription
+               feed: info.id,
                private_id: privateID
             };
 
@@ -979,7 +971,7 @@ let remoteFeed = (streams, display) => {
         },
 
         iceState: (state) => {
-            console.log('state changed to ',state);
+            console.log('ICE state changed to ',state);
         },
 
         onremotetrack: (track, mid, added, metadata) => {
