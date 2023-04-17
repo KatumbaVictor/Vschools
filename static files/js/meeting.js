@@ -867,13 +867,15 @@ let start = () => {
     onlocaltrack: (track, added) => {
          // A local track to display has just been added (getUserMedia worked!) or removed
         localTracks.push(track);
-        track.enabled = false;
-        localStream.addTrack(track)
+        //track.enabled = false;
+        localStream.addTrack(track);
 
         if (track.kind == 'audio') {
             audioTrack = track;
+            pluginHandle.muteAudio();
         }else if (track.kind == 'video') {
             videoTrack = track;
+            pluginHandle.muteVideo();
         }else {
             screenTrack = track;
         }
@@ -987,7 +989,7 @@ let remoteFeed = (display) => {
         },
 
         webrtcState: (on) => {
-            console.log(`Peer connection state is ${(on ? "up" : "down")}  now`);
+            console.log(`Peer connection state is ${(on ? "up" : "down")} now`);
         },
 
         onremotetrack: (track, mid, added, metadata) => {
@@ -995,7 +997,7 @@ let remoteFeed = (display) => {
         // You can query metadata to get some more information on why track was added or removed
         // metadata fields:
         //   - reason: 'created' | 'ended' | 'mute' | 'unmute'
-            console.log(`Track ${(added ? "added" : "removed")}  Reason ${metadata.reason}`);
+            console.log(`Track ${(added ? "added" : "removed")} Reason ${metadata.reason}`);
             var id = info.id;
             var mediaType = track.kind
 
