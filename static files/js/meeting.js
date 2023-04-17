@@ -920,7 +920,7 @@ let start = () => {
                 }else if (msg["leaving"]) {
                     // A user has left the video room
                     var user_id = msg["leaving"];
-                    var holder = document.getElementById(msg['id'].toString());
+                    var holder = document.getElementById(user_id.toString());
                     holder.remove();
                }else if (msg['unpublished']) {
                   var user_id = msg["unpublished"];
@@ -955,7 +955,7 @@ let remoteFeed = (display) => {
                room: roomId,
                ptype: "subscriber",
                //streams: subscription
-               feed: info.id,
+               feed: Number(info.id),
                private_id: privateID
             };
 
