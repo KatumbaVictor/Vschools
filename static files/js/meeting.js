@@ -140,7 +140,6 @@ let handleJoinedUser = (item) => {
     video.setAttribute('autoplay','');
     video.setAttribute('muted','muted');
     video.setAttribute('id',`video_${item.uid.toString()}`);
-    video.srcObject = item.stream;
 
     if (item.user_token == room_name) {
         document.getElementById('hosts').prepend(holder);
@@ -155,7 +154,9 @@ let handleJoinedUser = (item) => {
     holder.appendChild(name);
     holder.appendChild(profile_picture);
     holder.appendChild(hand);
-    holder.appendChild(video)
+    holder.appendChild(video);
+
+    Janus.attachMediaStream(video, item.stream);
 
     if (item.hand_raised == true) {
         hand.style.opacity = "1";
@@ -431,9 +432,11 @@ let handle_audio = async (self) => {
         microphone.style.color = 'blue';
         microphone.setAttribute('class','fas fa-microphone');
 
+        audioTrack.enabled = true;
         pluginHandle.unmuteAudio();
 
     }else {
+        audioTrack.enabled = false;
         pluginHandle.muteAudio();
         self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
         self.setAttribute('class','inactive');
@@ -996,30 +999,14 @@ let remoteFeed = (display) => {
             var id = info.id;
             var mediaType = track.kind
 
-            if (track.kind == 'video') {
-                track.onmute = () => {
-                    console.log('video track muted');
-                }
-
-                track.onunmute = () => {
-                    console.log('video track unmuted');
-                }
-            }else if (track.kind == 'audio') {
-                track.onmute = () => {
-                    console.log('audio track muted');
-                }
-
-                track.onunmute = () => {
-                    console.log('audio track unmuted');
-                }
-            }
-
             if (added) {
                 if (metadata.reason == 'unmute') {
                     UserPublishedEvent(id, mediaType);
                 }else if (metadata.reason == 'created') {
                     stream.addTrack(track);
                 }else if (metadata.reason == 'mute') {
+                    UserUnpublishedEvent(id, mediaType);
+                }else if (metadata.reason == 'ended') {
                     UserUnpublishedEvent(id, mediaType);
                 }
             }else {
