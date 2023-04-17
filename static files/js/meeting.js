@@ -404,7 +404,6 @@ let handle_camera = (self) => {
 
     if (pluginHandle.isVideoMuted()){
         //pluginHandle.unmuteVideo();
-        videoTrack.enabled = true;
         pluginHandle.unmuteVideo();
         profile_picture.style.display = "none";
         self.innerHTML = '<i class = "fas fa-video"></i>';
@@ -413,7 +412,6 @@ let handle_camera = (self) => {
         video.style.visibility = 'visible';
     }else {
         //pluginHandle.muteVideo();
-        videoTrack.enabled = false;
         pluginHandle.muteVideo();
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
@@ -433,12 +431,9 @@ let handle_audio = async (self) => {
         self.setAttribute('data-name','mute');
         microphone.style.color = 'blue';
         microphone.setAttribute('class','fas fa-microphone');
-
-        audioTrack.enabled = true;
         pluginHandle.unmuteAudio();
 
     }else {
-        audioTrack.enabled = false;
         pluginHandle.muteAudio();
         self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
         self.setAttribute('class','inactive');
@@ -970,9 +965,8 @@ let remoteFeed = (display) => {
                request: "join",
                room: roomId,
                ptype: "subscriber",
-               //streams: subscription
                feed: Number(info.id),
-               private_id: Number(privateID)
+               //private_id: Number(privateID)
             };
 
             handle.send({ message: subscribe });
