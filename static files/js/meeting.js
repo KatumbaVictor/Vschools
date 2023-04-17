@@ -787,7 +787,7 @@ var janus = new Janus({
       setTimeout(start(), 6000);
    },
    error: function(error) {
-      console.log(error)
+      console.log(error);
    }
 })
 
@@ -974,11 +974,17 @@ let remoteFeed = (display) => {
             console.log('ICE state changed to ',state);
         },
 
+        webrtcState: (on) => {
+            console.log(`Peer connection state is ${(on ? "up" : "down")}  now`);
+        },
+
         onremotetrack: (track, mid, added, metadata) => {
         // A remote track (working PeerConnection!) with a specific mid has just been added or removed
         // You can query metadata to get some more information on why track was added or removed
         // metadata fields:
         //   - reason: 'created' | 'ended' | 'mute' | 'unmute'
+            console.log('remote track event')
+            console.log(`Track ${(added ? "added" : "removed")}  Reason ${metadata.reason}`);
             var id = info.id;
             var mediaType = track.kind
 
@@ -1006,6 +1012,10 @@ let remoteFeed = (display) => {
                      }
                 })
             }
+        },
+
+        error: (error) => {
+            console.log(error);
         }
     })
 }
