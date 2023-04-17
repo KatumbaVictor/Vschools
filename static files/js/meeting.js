@@ -410,6 +410,7 @@ let handle_camera = (self) => {
         self.setAttribute('class','control_buttons');
         self.setAttribute('data-name','disable');
         video.style.visibility = 'visible';
+        self.setAttribute('title','Unmute your video');
     }else {
         //pluginHandle.muteVideo();
         pluginHandle.muteVideo();
@@ -418,6 +419,7 @@ let handle_camera = (self) => {
         self.setAttribute('data-name','enable');
         video.style.visibility = 'hidden';
         profile_picture.style.display = "block";
+        self.setAttribute('title','Mute your video');
     }
 }
 
