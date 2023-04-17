@@ -1002,15 +1002,7 @@ let remoteFeed = (display) => {
             var mediaType = track.kind
 
             if (added) {
-                if (metadata.reason == 'unmute') {
-                    UserPublishedEvent(id, mediaType);
-                }else if (metadata.reason == 'created') {
-                    stream.addTrack(track);
-                }else if (metadata.reason == 'mute') {
-                    UserUnpublishedEvent(id, mediaType);
-                }else if (metadata.reason == 'ended') {
-                    UserUnpublishedEvent(id, mediaType);
-                }
+                UserPublishedEvent(id, mediaType);
             }else {
                 UserUnpublishedEvent(id, mediaType);
             }
