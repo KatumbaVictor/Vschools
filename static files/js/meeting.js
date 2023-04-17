@@ -187,7 +187,6 @@ let UserPublishedEvent = (uid, mediaType) => {
         setTimeout(UserPublishedEvent(uid, mediaType), 2000);
     }else {
         if (mediaType === 'video'){
-            user.videoTrack.play(holder);
             var player = holder.lastElementChild;
             var video = holder.lastElementChild.firstElementChild;
             var image = document.getElementById(`profile_picture_${uid.toString()}`);
@@ -201,7 +200,6 @@ let UserPublishedEvent = (uid, mediaType) => {
         }
 
         if (mediaType === 'audio'){
-            user.audioTrack.play();
             var name = document.getElementById(`name_${uid.toString()}`);
             var microphone = name.firstElementChild;
             microphone.setAttribute('class','fas fa-microphone');
@@ -985,14 +983,18 @@ let remoteFeed = (display) => {
         // You can query metadata to get some more information on why track was added or removed
         // metadata fields:
         //   - reason: 'created' | 'ended' | 'mute' | 'unmute'
-            console.log('remote track event')
             console.log(`Track ${(added ? "added" : "removed")}  Reason ${metadata.reason}`);
             var id = info.id;
             var mediaType = track.kind
 
             if (added) {
-                UserPublishedEvent(id, mediaType);
-                stream.addTrack(track);
+                if (metadata.reason == 'unmute') {
+                    UserPublishedEvent(id, mediaType);
+                }else if (metadata.reason == 'created') {
+                    stream.addTrack(track);
+                }else if (metadata.reason == 'mute') {
+                    UserUnpublishedEvent(id, mediaType);
+                }
             }else {
                 UserUnpublishedEvent(id, mediaType);
             }
