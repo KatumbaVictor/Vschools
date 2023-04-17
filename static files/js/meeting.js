@@ -183,7 +183,7 @@ let UserPublishedEvent = (uid, mediaType) => {
     var holder = document.getElementById(uid.toString());
     var video = document.getElementById(`video_${uid.toString()}`);
 
-    if (holder == null) {
+    if (holder == null || video == null) {
         setTimeout(UserPublishedEvent(uid, mediaType), 2000);
     }else {
         if (mediaType === 'video'){
@@ -857,7 +857,6 @@ let start = () => {
     onlocaltrack: (track, added) => {
          // A local track to display has just been added (getUserMedia worked!) or removed
         localTracks.push(track);
-        track.enabled = false;
         localStream.addTrack(track)
     },
 
