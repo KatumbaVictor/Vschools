@@ -404,7 +404,7 @@ let handle_camera = (self) => {
 
     if (pluginHandle.isVideoMuted()){
         //pluginHandle.unmuteVideo();
-        //pluginHandle.unmuteVideo();
+        pluginHandle.unmuteVideo();
         let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: true };
         pluginHandle.send({ message: publish });
 
@@ -417,7 +417,7 @@ let handle_camera = (self) => {
     }else {
         let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
         pluginHandle.send({ message: publish });
-        //pluginHandle.muteVideo();
+        pluginHandle.muteVideo();
 
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
