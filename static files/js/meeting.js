@@ -29,6 +29,10 @@ var MessageSocket;
 var pluginHandle;
 var localTracks = [];
 
+var videoTrack;
+var audioTrack;
+var screenTrack;
+
 var comment_holder = document.getElementById('livechat').children[1];
 comment_holder.scrollTop = comment_holder.scrollHeight;
 
@@ -396,6 +400,8 @@ let handle_camera = (self) => {
     var video = document.getElementById(`video_${UID.toString()}`);
 
     if (pluginHandle.isVideoMuted()){
+        //pluginHandle.unmuteVideo();
+        videoTrack.enabled = true;
         pluginHandle.unmuteVideo();
         profile_picture.style.display = "none";
         self.innerHTML = '<i class = "fas fa-video"></i>';
@@ -403,6 +409,8 @@ let handle_camera = (self) => {
         self.setAttribute('data-name','disable');
         video.style.visibility = 'visible';
     }else {
+        //pluginHandle.muteVideo();
+        videoTrack.enabled = false;
         pluginHandle.muteVideo();
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
@@ -859,6 +867,14 @@ let start = () => {
         localTracks.push(track);
         track.enabled = false;
         localStream.addTrack(track)
+
+        if (track.kind == 'audio') {
+            audioTrack = track;
+        }else if (track.kind == 'video') {
+            videoTrack = track;
+        }else {
+            screenTrack = track;
+        }
     },
 
     onremotetrack: (track, mid, added, metadata) => {
