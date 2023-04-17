@@ -857,6 +857,7 @@ let start = () => {
     onlocaltrack: (track, added) => {
          // A local track to display has just been added (getUserMedia worked!) or removed
         localTracks.push(track);
+        track.enabled = false;
         localStream.addTrack(track)
     },
 
@@ -868,7 +869,6 @@ let start = () => {
     },
 
     onmessage: (msg, jsep) => {
-        console.log(msg)
         let event = msg["videoroom"];
         if (event) {
             if (event === 'joined') {
@@ -938,15 +938,11 @@ let start = () => {
 
 let remoteFeed = (display) => {
     var stream = new MediaStream();
-    var subscription = [];
     var info = JSON.parse(display);
     var handle;
     janus.attach({
         plugin: "janus.plugin.videoroom",
         success: (plugin) => {
-            /*streams.forEach((item) => {
-                subscription.push({feed: item.id, mid: item.mid});
-            })*/
             handle = plugin;
 
             let subscribe = {
@@ -955,7 +951,7 @@ let remoteFeed = (display) => {
                ptype: "subscriber",
                //streams: subscription
                feed: Number(info.id),
-               private_id: privateID
+               private_id: Number(privateID)
             };
 
             handle.send({ message: subscribe });
