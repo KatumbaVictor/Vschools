@@ -943,12 +943,14 @@ let remoteFeed = (display) => {
     var stream = new MediaStream();
     var subscription = [];
     var info = JSON.parse(display);
+    var handle;
     janus.attach({
         plugin: "janus.plugin.videoroom",
-        success: (handle) => {
+        success: (plugin) => {
             /*streams.forEach((item) => {
                 subscription.push({feed: item.id, mid: item.mid});
             })*/
+            handle = plugin;
 
             let subscribe = {
                request: "join",
