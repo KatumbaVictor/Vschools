@@ -138,7 +138,7 @@ let handleJoinedUser = (item) => {
 
     var video = document.createElement('video');
     video.setAttribute('autoplay','');
-    video.setAttribute('muted','');
+    video.setAttribute('muted','muted');
     video.setAttribute('id',`video_${item.uid.toString()}`);
     video.srcObject = item.stream;
 
@@ -786,8 +786,7 @@ var roomOptions = {
 }
 
 var janus = new Janus({
-   //server: 'http://localhost:8088/janus'
-   server: `https://vschoolsmeet.tech:8089/janus`,
+   server: 'https://vschoolsmeet.tech:8089/janus',
    iceServers: [{urls:"stun:stun.l.google.com:19302"}],
    success: function () {
       setTimeout(start(), 6000);
@@ -942,7 +941,6 @@ let start = () => {
          }
 
          if(jsep) {
-            // Received an answer from the server
             pluginHandle.handleRemoteJsep({ jsep: jsep });
          }
       },
@@ -997,6 +995,24 @@ let remoteFeed = (display) => {
             console.log(`Track ${(added ? "added" : "removed")}  Reason ${metadata.reason}`);
             var id = info.id;
             var mediaType = track.kind
+
+            if (track.kind == 'video') {
+                track.onmute = () => {
+                    console.log('video track muted');
+                }
+
+                track.onunmute = () => {
+                    console.log('video track unmuted');
+                }
+            }else if (track.kind == 'audio') {
+                track.onmute = () => {
+                    console.log('audio track muted');
+                }
+
+                track.onunmute = () => {
+                    console.log('audio track unmuted');
+                }
+            }
 
             if (added) {
                 if (metadata.reason == 'unmute') {
