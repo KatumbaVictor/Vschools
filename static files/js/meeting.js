@@ -201,7 +201,9 @@ let UserPublishedEvent = (uid, mediaType) => {
             player.style.flexDirection = "column";
             player.style.alignItems = "center";
             player.style.justifyItems = "center";
-            video.style.visibility = "visible";
+            if (video != null) {
+                video.style.visibility = "visible";
+            }
         }
 
         if (mediaType === 'audio'){
