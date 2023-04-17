@@ -404,22 +404,27 @@ let handle_camera = (self) => {
 
     if (pluginHandle.isVideoMuted()){
         //pluginHandle.unmuteVideo();
-        pluginHandle.unmuteVideo();
+        //pluginHandle.unmuteVideo();
+        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: true };
+        pluginHandle.send({ message: publish });
+
         profile_picture.style.display = "none";
         self.innerHTML = '<i class = "fas fa-video"></i>';
         self.setAttribute('class','control_buttons');
         self.setAttribute('data-name','disable');
         video.style.visibility = 'visible';
-        self.setAttribute('title','Unmute your video');
+        self.setAttribute('title','Mute your video');
     }else {
+        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
+        pluginHandle.send({ message: publish });
         //pluginHandle.muteVideo();
-        pluginHandle.muteVideo();
+
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
         self.setAttribute('data-name','enable');
         video.style.visibility = 'hidden';
         profile_picture.style.display = "block";
-        self.setAttribute('title','Mute your video');
+        self.setAttribute('title','Unmute your video');
     }
 }
 
@@ -428,6 +433,9 @@ let handle_audio = async (self) => {
     var microphone = document.getElementById(`name_${UID.toString()}`).firstElementChild;
     
     if (pluginHandle.isAudioMuted()){
+        let publish = { request: "configure", audio: true, video: pluginHandle.isVideoMuted() };
+        pluginHandle.send({ message: publish });
+
         self.innerHTML = '<i class = "fas fa-microphone"></i>';
         self.setAttribute('class','control_buttons');
         self.setAttribute('data-name','mute');
@@ -436,6 +444,9 @@ let handle_audio = async (self) => {
         pluginHandle.unmuteAudio();
 
     }else {
+        let publish = { request: "configure", audio: false, video: pluginHandle.isVideoMuted() };
+        pluginHandle.send({ message: publish });
+
         pluginHandle.muteAudio();
         self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
         self.setAttribute('class','inactive');
