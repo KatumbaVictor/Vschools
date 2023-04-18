@@ -1008,7 +1008,7 @@ let remoteFeed = (display) => {
         //   - reason: 'created' | 'ended' | 'mute' | 'unmute'
             console.log(`Track ${(added ? "added" : "removed")} Reason ${metadata.reason}`);
             var id = info.id;
-            var mediaType = track.kind
+            var mediaType = track.kind;
 
             if (added) {
                 UserPublishedEvent(id, mediaType);
