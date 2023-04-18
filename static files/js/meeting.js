@@ -874,7 +874,7 @@ let start = () => {
 
     oncleanup: () => {
         Janus.log("Got a cleanup notification: we are unpublished now");
-    }
+    },
 
     onlocaltrack: (track, added) => {
          // A local track to display has just been added (getUserMedia worked!) or removed
@@ -1041,7 +1041,7 @@ let remoteFeed = (display) => {
 
         oncleanup: () => {
             Janus.log("Cleaned up feed, stopped receiving tracks from feed");
-        }
+        },
 
         error: (error) => {
             Janus.error("WebRTC error:", error);
