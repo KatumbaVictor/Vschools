@@ -1016,6 +1016,9 @@ let remoteFeed = (display) => {
             var mediaType = track.kind;
 
             if (added) {
+                if (metadata.reason == 'created') {
+                    stream.addTrack(track);
+                }
                 UserPublishedEvent(id, mediaType);
             }else {
                 UserUnpublishedEvent(id, mediaType);
