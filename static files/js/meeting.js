@@ -403,22 +403,15 @@ let handle_camera = (self) => {
     var video = document.getElementById(`video_${UID.toString()}`);
 
     if (pluginHandle.isVideoMuted()){
-        //pluginHandle.unmuteVideo();
-        pluginHandle.unmuteVideo();
-        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: true };
-        pluginHandle.send({ message: publish });
-
         profile_picture.style.display = "none";
         self.innerHTML = '<i class = "fas fa-video"></i>';
         self.setAttribute('class','control_buttons');
         self.setAttribute('data-name','disable');
         video.style.visibility = 'visible';
         self.setAttribute('title','Mute your video');
+        pluginHandle.unmuteVideo();
     }else {
         pluginHandle.muteVideo();
-        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
-        pluginHandle.send({ message: publish });
-
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
         self.setAttribute('data-name','enable');
@@ -433,26 +426,22 @@ let handle_audio = async (self) => {
     var microphone = document.getElementById(`name_${UID.toString()}`).firstElementChild;
     
     if (pluginHandle.isAudioMuted()){
-        let publish = { request: "configure", audio: true, video: pluginHandle.isVideoMuted() };
-        pluginHandle.send({ message: publish });
-
         self.innerHTML = '<i class = "fas fa-microphone"></i>';
         self.setAttribute('class','control_buttons');
         self.setAttribute('data-name','mute');
         microphone.style.color = 'blue';
         microphone.setAttribute('class','fas fa-microphone');
         pluginHandle.unmuteAudio();
+        self.setAttribute('title','Mute your microphone');
 
     }else {
-        let publish = { request: "configure", audio: false, video: pluginHandle.isVideoMuted() };
-        pluginHandle.send({ message: publish });
-
         pluginHandle.muteAudio();
         self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
         self.setAttribute('class','inactive');
         self.setAttribute('data-name','unmute');
         microphone.style.color = 'red';
         microphone.setAttribute('class','fas fa-microphone-slash');
+        self.setAttribute('title','Unmute your microphone');
     }
 }
 
@@ -586,6 +575,7 @@ let raise_hand = (self) => {
     self.setAttribute('onclick','lower_hand(this)');
     self.setAttribute('data-name','unraise');
     messagesocket.send(JSON.stringify({'raise_hand':true,'username':username,'id':UID,'profile_picture':profile_picture}));
+    self.setAttribute('title','Lower your hand');
 }
 
 let lower_hand = (self) => {
@@ -593,6 +583,7 @@ let lower_hand = (self) => {
     self.setAttribute('onclick','raise_hand(this)');
     self.setAttribute('data-name','raise');
     messagesocket.send(JSON.stringify({'lower_hand':true,'username':username,'id':UID}));
+    self.setAttribute('title','Raise your hand');
 }
 
 function close_comments(){
@@ -910,7 +901,7 @@ let start = () => {
                         {type: 'data'}
                     ],
                     success: (jsep) => {
-                        let publish = { request: "configure", audio: false, video: false };
+                        let publish = { request: "configure", audio: true, video: true };
                         pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
