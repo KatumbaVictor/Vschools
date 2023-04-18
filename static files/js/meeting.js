@@ -415,9 +415,9 @@ let handle_camera = (self) => {
         video.style.visibility = 'visible';
         self.setAttribute('title','Mute your video');
     }else {
+        pluginHandle.muteVideo();
         let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
         pluginHandle.send({ message: publish });
-        pluginHandle.muteVideo();
 
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
@@ -882,10 +882,10 @@ let start = () => {
 
         if (track.kind == 'audio') {
             audioTrack = track;
-            pluginHandle.muteAudio();
+            
         }else if (track.kind == 'video') {
             videoTrack = track;
-            pluginHandle.muteVideo();
+            
         }else {
             screenTrack = track;
         }
@@ -910,7 +910,7 @@ let start = () => {
                         {type: 'data'}
                     ],
                     success: (jsep) => {
-                        let publish = { request: "configure", audio: true, video: true };
+                        let publish = { request: "configure", audio: false, video: false };
                         pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
