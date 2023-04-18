@@ -769,6 +769,7 @@ localStorage.setItem('lastMeetingId',CHANNEL);
 var localDescription;
 
 const roomId = Number(document.getElementById('navbar').dataset.roomid);
+var opaqueId = "meet-"+Janus.randomString(12);
 var privateID = null;
 
 Janus.init({
@@ -803,13 +804,12 @@ var janus = new Janus({
 let start = () => {
     janus.attach({
         plugin: "janus.plugin.videoroom",
+        opaqueId: opaqueId,
         success: (handle) => {
             pluginHandle = handle;
             handle.send({
                 'message': { request: 'exists', 'room': roomId },
                 success: (response) => {
-                    messagesocket = new WebSocket(MessageSocket);
-                    messagesocket.addEventListener('message',getSocketMessages);
                     if (response['exists'] == true) {
                         var info = {'id':UID,'profile_picture':profile_picture,'name':username,
                             'user_token':user_token};
@@ -849,6 +849,8 @@ let start = () => {
                             })
                         }
                     }
+                    messagesocket = new WebSocket(MessageSocket);
+                    messagesocket.addEventListener('message',getSocketMessages);
             }
          })
       },
@@ -861,9 +863,18 @@ let start = () => {
         console.log("Janus " + (on ? "started" : "stopped") + " receiving our " + medium + " (mid=" + mid + ")");
     },
 
+    slowLink: (uplink, lost, mid) => {
+        Janus.warn("Janus reports problems " + (uplink ? "sending" : "receiving") +
+                              " packets on mid " + mid + " (" + lost + " lost packets)");
+    },
+
     webrtcState: (on) => {
         console.log(`Peer connection state is ${(on ? "up" : "down")}  now`);
     },
+
+    oncleanup: () => {
+        Janus.log("Got a cleanup notification: we are unpublished now");
+    }
 
     onlocaltrack: (track, added) => {
          // A local track to display has just been added (getUserMedia worked!) or removed
@@ -901,6 +912,7 @@ let start = () => {
                         {type: 'data'}
                     ],
                     success: (jsep) => {
+                        Janus.debug("Got publisher SDP!", jsep);
                         let publish = { request: "configure", audio: true, video: true };
                         pluginHandle.send({ message: publish, jsep: jsep });
 
@@ -912,7 +924,7 @@ let start = () => {
                         handleJoinedUser(info);
                     },
                     error: (error) => {
-                        console.log(error);
+                        Janus.error("WebRTC error:", error);
                     }
                 })
 
@@ -962,6 +974,7 @@ let remoteFeed = (display) => {
     var handle;
     janus.attach({
         plugin: "janus.plugin.videoroom",
+        opaqueId: opaqueId,
         success: (plugin) => {
             handle = plugin;
 
@@ -970,7 +983,7 @@ let remoteFeed = (display) => {
                room: roomId,
                ptype: "subscriber",
                feed: Number(info.id),
-               //private_id: Number(privateID)
+               private_id: privateID
             };
 
             handle.send({ message: subscribe });
@@ -1020,14 +1033,18 @@ let remoteFeed = (display) => {
                      },
 
                      error: function(error) {
-                        console.log(error);
+                        Janus.error("WebRTC error:", error);
                      }
                 })
             }
         },
 
+        oncleanup: () => {
+            Janus.log("Cleaned up feed, stopped receiving tracks from feed");
+        }
+
         error: (error) => {
-            console.log(error);
+            Janus.error("WebRTC error:", error);
         }
     })
 }
