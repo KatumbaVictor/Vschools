@@ -774,7 +774,7 @@ var privateID = null;
 Janus.init({
    debug: "all",
    callback: function () {
-      console.log('initialized')
+      console.log('initialized');
    }
 })
 
