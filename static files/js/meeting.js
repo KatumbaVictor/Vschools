@@ -938,6 +938,7 @@ let start = () => {
               }
 
             }else if (event === 'event') {
+                console.log(msg);
                 if (msg["joining"]) {
                     // A user has joined the video room
                 }else if (msg["publishers"]) {
@@ -1022,6 +1023,7 @@ let remoteFeed = (display) => {
         },
 
         onmessage: (msg, jsep) => {
+            console.log(msg);
             if (jsep) {
                 handle.createAnswer({
                     jsep: jsep,
