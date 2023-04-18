@@ -797,7 +797,7 @@ var janus = new Janus({
       setTimeout(start(), 6000);
    },
    error: function(error) {
-      console.log(error);
+      Janus.error(error);
    }
 })
 
@@ -879,15 +879,14 @@ let start = () => {
     onlocaltrack: (track, added) => {
          // A local track to display has just been added (getUserMedia worked!) or removed
         localTracks.push(track);
-        //track.enabled = false;
         localStream.addTrack(track);
 
         if (track.kind == 'audio') {
             audioTrack = track;
-            
+            pluginHandle.muteAudio();
         }else if (track.kind == 'video') {
             videoTrack = track;
-            
+            pluginHandle.muteVideo();
         }else {
             screenTrack = track;
         }
@@ -964,7 +963,7 @@ let start = () => {
          }
       },
       error: (error) => {
-         console.log(error)
+         Janus.error(error);
       }
    })
 }
@@ -1018,8 +1017,9 @@ let remoteFeed = (display) => {
             if (added) {
                 if (metadata.reason == 'created') {
                     stream.addTrack(track);
+                }else if (metadata.reason == 'unmute') {
+                    UserPublishedEvent(id, mediaType);
                 }
-                UserPublishedEvent(id, mediaType);
             }else {
                 UserUnpublishedEvent(id, mediaType);
             }
@@ -1030,7 +1030,11 @@ let remoteFeed = (display) => {
             if (jsep) {
                 handle.createAnswer({
                     jsep: jsep,
-                    tracks: [{type: 'data'}],
+                    tracks: [
+                        {type: 'audio', capture: false, recv: true},
+                        {type: 'video', capture: false, recv: true},
+                        {type: 'data'}
+                    ],
 
                     success: function(jsep) {
                         let body = { request: "start", room: roomId };
