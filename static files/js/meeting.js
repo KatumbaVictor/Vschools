@@ -946,7 +946,6 @@ let start = () => {
               }
 
             }else if (event === 'event') {
-                console.log(msg);
                 if (msg["joining"]) {
                     // A user has joined the video room
                 }else if (msg["publishers"]) {
@@ -963,6 +962,9 @@ let start = () => {
                     holder.remove();
                }else if (msg['unpublished']) {
                   var user_id = msg["unpublished"];
+               }else if (msg['streams']) {
+                    var streams = msg['streams'];
+                    console.log(streams);
                }
             }
          }
