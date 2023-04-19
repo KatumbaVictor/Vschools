@@ -32,6 +32,7 @@ var localTracks = [];
 var videoTrack;
 var audioTrack;
 var screenTrack;
+var localDescription;
 
 var comment_holder = document.getElementById('livechat').children[1];
 comment_holder.scrollTop = comment_holder.scrollHeight;
@@ -409,15 +410,19 @@ let handle_camera = (self) => {
         self.setAttribute('data-name','disable');
         video.style.visibility = 'visible';
         self.setAttribute('title','Mute your video');
+        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: true };
+        pluginHandle.send({ message: publish });
         pluginHandle.unmuteVideo();
     }else {
-        pluginHandle.muteVideo();
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
         self.setAttribute('class','inactive');
         self.setAttribute('data-name','enable');
         video.style.visibility = 'hidden';
         profile_picture.style.display = "block";
         self.setAttribute('title','Unmute your video');
+        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
+        pluginHandle.send({ message: publish });
+        pluginHandle.muteVideo();
     }
 }
 
@@ -433,7 +438,8 @@ let handle_audio = async (self) => {
         microphone.setAttribute('class','fas fa-microphone');
         pluginHandle.unmuteAudio();
         self.setAttribute('title','Mute your microphone');
-
+        let publish = { request: "configure", audio: true, video: pluginHandle.isVideoMuted() };
+        pluginHandle.send({ message: publish });
     }else {
         pluginHandle.muteAudio();
         self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
@@ -442,6 +448,8 @@ let handle_audio = async (self) => {
         microphone.style.color = 'red';
         microphone.setAttribute('class','fas fa-microphone-slash');
         self.setAttribute('title','Unmute your microphone');
+        let publish = { request: "configure", audio: false, video: pluginHandle.isVideoMuted() };
+        pluginHandle.send({ message: publish });
     }
 }
 
@@ -912,7 +920,8 @@ let start = () => {
                     ],
                     success: (jsep) => {
                         Janus.debug("Got publisher SDP!", jsep);
-                        let publish = { request: "configure", audio: true, video: true };
+                        localDescription = jsep;
+                        let publish = { request: "configure", audio: false, video: false };
                         pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
