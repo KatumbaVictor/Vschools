@@ -411,7 +411,7 @@ let handle_camera = (self) => {
         video.style.visibility = 'visible';
         self.setAttribute('title','Mute your video');
         let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: true };
-        pluginHandle.send({ message: publish });
+        pluginHandle.send({ message: publish, jsep: localDescription });
         pluginHandle.unmuteVideo();
     }else {
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
@@ -421,7 +421,7 @@ let handle_camera = (self) => {
         profile_picture.style.display = "block";
         self.setAttribute('title','Unmute your video');
         let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
-        pluginHandle.send({ message: publish });
+        pluginHandle.send({ message: publish, jsep: localDescription });
         pluginHandle.muteVideo();
     }
 }
@@ -921,8 +921,8 @@ let start = () => {
                     success: (jsep) => {
                         Janus.debug("Got publisher SDP!", jsep);
                         localDescription = jsep;
-                        let publish = { request: "configure", audio: false, video: false };
-                        pluginHandle.send({ message: publish, jsep: jsep });
+                        //let publish = { request: "configure", audio: false, video: false };
+                        //pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
                         var profile_picture = document.getElementById('controls').dataset.profile_picture;
