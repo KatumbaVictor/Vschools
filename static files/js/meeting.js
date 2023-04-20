@@ -914,7 +914,7 @@ let start = () => {
                     success: (jsep) => {
                         Janus.debug("Got publisher SDP!", jsep);
                         localDescription = jsep;
-                        let publish = { request: "publish", audio: true, video: true };
+                        let publish = { request: "configure", audio: true, video: true };
                         pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
@@ -1023,6 +1023,8 @@ let remoteFeed = (display) => {
                     stream.addTrack(track);
                 }else if (metadata.reason == 'unmute') {
                     UserPublishedEvent(id, mediaType);
+                }else {
+                    UserUnpublishedEvent(id, mediaType);
                 }
             }else {
                 UserUnpublishedEvent(id, mediaType);
@@ -1035,8 +1037,6 @@ let remoteFeed = (display) => {
                 handle.createAnswer({
                     jsep: jsep,
                     tracks: [
-                        {type: 'audio', capture: false, recv: true},
-                        {type: 'video', capture: false, recv: true},
                         {type: 'data'}
                     ],
 

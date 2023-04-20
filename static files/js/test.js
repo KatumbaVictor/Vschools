@@ -959,14 +959,3 @@ function updateSimulcastSvcButtons(feed, substream, temporal) {
       $('#tl' + index + '-0').removeClass('btn-primary btn-success').addClass('btn-primary');
    }
 }
-Footer
-© 2023 GitHub, Inc.
-Footer navigation
-
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-    Contact GitHub
-    Prici
