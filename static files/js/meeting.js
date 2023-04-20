@@ -914,7 +914,7 @@ let start = () => {
                     success: (jsep) => {
                         Janus.debug("Got publisher SDP!", jsep);
                         localDescription = jsep;
-                        let publish = { request: "configure", audio: true, video: true };
+                        let publish = { request: "publish", audio: true, video: true };
                         pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
