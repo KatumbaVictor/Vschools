@@ -410,8 +410,6 @@ let handle_camera = (self) => {
         self.setAttribute('data-name','disable');
         video.style.visibility = 'visible';
         self.setAttribute('title','Mute your video');
-        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: true };
-        pluginHandle.send({ message: publish, jsep: localDescription });
         pluginHandle.unmuteVideo();
     }else {
         self.innerHTML = '<i class = "fas fa-video-slash"></i>';
@@ -420,8 +418,6 @@ let handle_camera = (self) => {
         video.style.visibility = 'hidden';
         profile_picture.style.display = "block";
         self.setAttribute('title','Unmute your video');
-        let publish = { request: "configure", audio: pluginHandle.isAudioMuted(), video: false };
-        pluginHandle.send({ message: publish, jsep: localDescription });
         pluginHandle.muteVideo();
     }
 }
@@ -438,8 +434,6 @@ let handle_audio = async (self) => {
         microphone.setAttribute('class','fas fa-microphone');
         pluginHandle.unmuteAudio();
         self.setAttribute('title','Mute your microphone');
-        let publish = { request: "configure", audio: true, video: pluginHandle.isVideoMuted() };
-        pluginHandle.send({ message: publish });
     }else {
         pluginHandle.muteAudio();
         self.innerHTML = '<i class = "fas fa-microphone-slash"></i>';
@@ -448,8 +442,6 @@ let handle_audio = async (self) => {
         microphone.style.color = 'red';
         microphone.setAttribute('class','fas fa-microphone-slash');
         self.setAttribute('title','Unmute your microphone');
-        let publish = { request: "configure", audio: false, video: pluginHandle.isVideoMuted() };
-        pluginHandle.send({ message: publish });
     }
 }
 
@@ -921,8 +913,8 @@ let start = () => {
                     success: (jsep) => {
                         Janus.debug("Got publisher SDP!", jsep);
                         localDescription = jsep;
-                        //let publish = { request: "configure", audio: false, video: false };
-                        //pluginHandle.send({ message: publish, jsep: jsep });
+                        let publish = { request: "configure", audio: true, video: true };
+                        pluginHandle.send({ message: publish, jsep: jsep });
 
                         var username = document.getElementById('main').dataset.username;
                         var profile_picture = document.getElementById('controls').dataset.profile_picture;
@@ -938,23 +930,36 @@ let start = () => {
 
                 if (msg['publishers']) {
                     var list = msg["publishers"];
-                    list.forEach((item) => {
+                    /*list.forEach((item) => {
                         var id = item['id'];
                         var display = item['display'];
                         remoteFeed(display);
-                  })
-              }
+                    })*/
+
+                    for (let f in list) {
+                        var id = list[f]['id'];
+                        var display = list[f]['display'];
+                        var streams = list[f]['streams']
+                        console.log(streams);
+                    }
+               }
 
             }else if (event === 'event') {
                 if (msg["joining"]) {
                     // A user has joined the video room
                 }else if (msg["publishers"]) {
                     var list = msg["publishers"];
-                    list.forEach((item) => {
+                    /*list.forEach((item) => {
                         var id = item['id'];
                         var display = item['display'];
                         remoteFeed(display);
-                    })
+                    })*/
+                    for (let f in list) {
+                        var id = list[f]['id'];
+                        var display = list[f]['display'];
+                        var streams = list[f]['streams']
+                        console.log(streams);
+                    }
                 }else if (msg["leaving"]) {
                     // A user has left the video room
                     var user_id = msg["leaving"];
