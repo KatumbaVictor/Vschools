@@ -904,6 +904,7 @@ let start = () => {
         if (event) {
             if (event === 'joined') {
                 privateID = msg["private_id"];
+                console.log(privateID)
                 pluginHandle.createOffer({
                     tracks: [
                         {type: 'audio', capture: true, recv: false},
@@ -930,18 +931,11 @@ let start = () => {
 
                 if (msg['publishers']) {
                     var list = msg["publishers"];
-                    /*list.forEach((item) => {
+                    list.forEach((item) => {
                         var id = item['id'];
                         var display = item['display'];
                         remoteFeed(display);
-                    })*/
-
-                    for (let f in list) {
-                        var id = list[f]['id'];
-                        var display = list[f]['display'];
-                        var streams = list[f]['streams']
-                        console.log(streams);
-                    }
+                    })
                }
 
             }else if (event === 'event') {
@@ -949,17 +943,11 @@ let start = () => {
                     // A user has joined the video room
                 }else if (msg["publishers"]) {
                     var list = msg["publishers"];
-                    /*list.forEach((item) => {
+                    list.forEach((item) => {
                         var id = item['id'];
                         var display = item['display'];
                         remoteFeed(display);
-                    })*/
-                    for (let f in list) {
-                        var id = list[f]['id'];
-                        var display = list[f]['display'];
-                        var streams = list[f]['streams']
-                        console.log(streams);
-                    }
+                    })
                 }else if (msg["leaving"]) {
                     // A user has left the video room
                     var user_id = msg["leaving"];
