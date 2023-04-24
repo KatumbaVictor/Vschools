@@ -13,10 +13,9 @@
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/meet.css' %}"/>
-        <script src = "{% static 'js/adapter.js' %}"></script>
-        <script src = "{% static 'js/janus.js' %}"></script>
+        <script src = "{% static 'js/AgoraRTC_N-4.10.2.js' %}"></script>
         <script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
-        <script src = "{% static 'js/meeting.js' %}" type = "text/javascript" defer></script>
+        <script src = "{% static 'js/meet.js' %}" type = "text/javascript" defer></script>
     </head>
     <body>
         <div id = "main" data-username = "{{ request.user.username }}" data-token = "{{ token }}">
