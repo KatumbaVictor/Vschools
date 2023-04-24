@@ -72,7 +72,6 @@
                             <select>
                             </select>
                         </div>
-                        <button class = "start_recording" style = "background-color: rgba(255, 0, 0, 0.123); color: red;" onclick = "get_resource_id(this)"><i class = "fas fa-record-vinyl"></i> Record meeting</button>
                     </div>
                 </div>
             </div>
@@ -81,7 +80,7 @@
                 <button data-name = "unmute" onclick = "handle_audio(this)" title = "Unmute your microphone"><i class = "fas fa-microphone-slash"></i></button>
                 <button data-name = "raise" onclick = "raise_hand(this)" title = "Raise your hand"><i class = "far fa-hand-paper"></i></button>
                 <button data-name = "share" onclick = "screen_sharing(this)" title = "Share your screen"><i class = "fas fa-laptop"></i></button>
-                <button data-name = "chats" onclick = "open_chats(this)" id = "chats_button"><i class = "far fa-comments"></i></button>
+                <button data-name = "chats" onclick = "open_chats(this)" id = "chats_button" title = "Chat messages"><i class = "far fa-comments"></i></button>
                 <button style = "color: white; background-color: red; border: none;" onclick = "leaveAndRemoveLocalStream()" data-name = "leave" title = "Leave meeting"><i class = "fas fa-stop"></i></button>
             </div>
         </div>

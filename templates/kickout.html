@@ -9,22 +9,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="author" content="Katumba Victor">
         <meta name="description" content="You have successfully verified your e-mail and can hereby proceed to the login page">
-        <title>Vschools | E-mail verified successfully</title>
+        <title>Vschools | Kicked out</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
-        <link rel = "stylesheet" id = "styles" href = "{% static 'css/email_verified.css' %}"/>
+        <link rel = "stylesheet" id = "styles" href = "{% static 'css/kickout.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
     </head>
     <body>
-        <div id = "navbar">
-            <h1>Vschools</h1>
-        </div>
-
-        <h2>E-mail successfully verified</h2>
-        <p style = "max-width: 300px;">Hello user your e-mail has been successfully 
-                verified, please proceed to the login page below.
+        <h2>Oops, you've been removed from the meeting by host</h2>
+        <p style = "max-width: 300px;">Dear User, you've been removed from the meeting by the meeting host, please contact them for more details.
         </p>
-        <img src = "{% static 'images/mail_sent.svg' %}"/>
-        <a href = "{% url 'login' %}">Proceed to login</a>
+        <img src = "{% static 'images/user-removed.jpg' %}"/>
+        <a href = "{% url 'home' %}">Proceed to home</a>
         <p class = "footer" style = "color: rgba(0, 0, 0, 0.653); font-size: 13px;"><i class = "far fa-copyright"></i> 2023 | Vschools premium | All Rights Reserved.</p>
     </body>
 </html>

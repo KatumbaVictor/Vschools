@@ -440,11 +440,8 @@ let getSocketMessages = function(self){
     }else if (response.raise_hand) {
         if (response.id == UID) {
             send_notification('<i class = "fas fa-hand-paper"></i> You','are raising a hand');
-            add_to_chat(response.profile_picture, username, '<i class = "fas fa-hand-paper"></i> You are raising a hand');
-
         }else {
             send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
-            add_to_chat(response.profile_picture, response.username, '<i class = "fas fa-hand-paper"></i> is raising a hand');
         }
 
         document.getElementById(`hand_${response.id.toString()}`).style.opacity = "1";
@@ -559,6 +556,7 @@ let handle_camera = async (self) => {
             self.innerHTML = '<i class = "fas fa-video"></i>';
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-name','disable');
+            self.setAttribute('title','Mute your video');
 
             if (video_track_playing == false) {
                 videoTrack.play(holder);
@@ -576,6 +574,7 @@ let handle_camera = async (self) => {
             self.setAttribute('data-name','enable');
             profile_picture.style.display = "block";
             video.style.display = "block";
+             self.setAttribute('title','Unmute your video');
         }
     }else {
         send_notification('<i class = "fas fa-exclamation-triangle"></i>','Failed to start camera');
@@ -594,9 +593,7 @@ let handle_audio = async (self) => {
             self.setAttribute('data-name','mute');
             microphone.style.color = 'blue';
             microphone.setAttribute('class','fas fa-microphone');
-
-            send_notification('<i class = "fas fa-microphone"></i> Your microphone',
-                 'has been unmuted to everyone in the meeting');
+            self.setAttribute('title','Mute your microphone');
 
             if (audio_track_playing == false) {
                 audio_track_playing == true;
@@ -609,6 +606,7 @@ let handle_audio = async (self) => {
             self.setAttribute('data-name','unmute');
             microphone.style.color = 'red';
             microphone.setAttribute('class','fas fa-microphone-slash');
+            self.setAttribute('title','Unmute your microphone');
         }
     }else {
         send_notification('<i class = "fas fa-exclamation-triangle"></i>','Failed to start microphone');
@@ -642,6 +640,7 @@ let screen_sharing = (self) => {
         self.setAttribute('data-name','end');
         client.unpublish(videoTrack);
         client.publish(localScreenTrack);
+        self.setAttribute('title','Stop screen sharing');
         self.setAttribute('onclick',() => {
             client.unpublish(localScreenTrack);
         })
@@ -652,6 +651,7 @@ let screen_sharing = (self) => {
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-name','screen');
             self.setAttribute('onclick','screen_sharing(this)');
+            self.setAttribute('title','Share your screen');
 
             var target_button = document.getElementById('controls').firstElementChild;
 
@@ -940,6 +940,7 @@ let raise_hand = (self) => {
     self.setAttribute('onclick','lower_hand(this)');
     self.setAttribute('data-name','unraise');
     messagesocket.send(JSON.stringify({'raise_hand':true,'username':username,'id':UID,'profile_picture':profile_picture}));
+    self.setAttribute('title','Lower your hand');
 }
 
 let lower_hand = (self) => {
@@ -947,6 +948,7 @@ let lower_hand = (self) => {
     self.setAttribute('onclick','raise_hand(this)');
     self.setAttribute('data-name','raise');
     messagesocket.send(JSON.stringify({'lower_hand':true,'username':username,'id':UID}));
+    self.setAttribute('title','Raise your hand');
 }
 
 function options(){

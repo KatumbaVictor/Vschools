@@ -186,6 +186,9 @@ def email_verified(request):
 def verify_email_page(request):
     return render(request, 'verify_email_page.html')
 
+def kickout_page(request):
+    return render(request, 'kickout.html')
+
 def verify_email(request, token):
     try:
         obj = account_info.objects.get(email_token=token)

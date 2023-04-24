@@ -37,6 +37,7 @@ urlpatterns = [
     path('settings/',settings_page, name = "settings"),
     path('schedule-meeting/', schedule_meeting, name = "schedule"),
     path('getRoomMember/', getRoomMember, name = "getRoomMember"),
+    path('kickout/', kickout_page),
     path('join_session/', join_session, name = "join_session"),
     path('checkMeetingRecording/', checkMeetingRecording, name = "checkMeetingRecording"),
     path('scheduledMeeting/<str:meeting_id>', scheduledMeeting, name = "scheduledMeeting"),
