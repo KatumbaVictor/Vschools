@@ -5,15 +5,34 @@
     <head>
         <title>Test page 1</title>
         <link rel = "stylesheet" href = "{% static 'css/test.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
 	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <script src = "{% static 'js/adapter.js' %}"></script>
-        <script src = "{% static 'js/janus.js' %}"></script>
         <script src = "{% static 'js/test.js' %}" defer></script>
     </head>
     <body>
-        <div id = "container" data-id = "{{ reuest.user.id }}">
-            
+        <div id = "container">
+            <div id = "divone">
+                <h2>Saints Tabernacle church, kalambi</h2>
+                <p style = "font-style: italic; color: rgba(255,255,255,0.9); font-size: 17px;"><span>1 John 5:4</span> For everyone born of GOD overcomes the world. This is the victory that has overcome the world, even our faith.</p>
+                <p style = "font-style: italic; color: rgba(255,255,255,0.9); font-size: 17px; margin-top: 0;"><span>Our vision</span> is to spread the gospel of our Lord Jesus christ as it is written in the bible</p>
+                <div>
+                    <p data-name = "Mityana road"><i class = "fas fa-map-marker"></i></p>
+                    <p data-name = "saintschurch.com"><i class = "fas fa-envelope"></i></p>
+                    <p data-name = "saints church"><i class = "fab fa-facebook"></i></p>
+                    <p data-name = "tabernacle"><i class = "fab fa-instagram"></i></p>
+                </div>
+            </div>
         </div>
-        <textarea id="emoji-textarea"></textarea>
+        <h2 style = "align-self: center; font-size: 36px; width: 200px; font-weight: lighter; border-bottom: 2px solid blue; padding-bottom: 20px; text-align: center;">Our pastors</h2>
+        <div class = "parent">
+            <div style = "align-items: center;">
+                <img src = "{% static 'images/pastor_steve.jpg' %}"/>
+                <p>Pastor Stephen Katumba (Senior pastor)</p>
+            </div>
+            <div style = "align-items: center;">
+                <img src = "{% static 'images/pastor_richard.jpg' %}"/>
+                <p>Pastor Richard Ssenyunzi</p>
+            </div>
+        </div>
     </body> 
 </html> 

@@ -3,11 +3,10 @@ from django.contrib.auth.models import User
 from datetime import date
 
 
-
 class account_info(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE, unique=True)
     datejoined = models.DateField(blank=True)
-    profile_picture = models.ImageField(blank=True, upload_to='profile_pics', default='no_profile_Pic.svg')
+    profile_picture = models.ImageField(blank=True, upload_to='profile_pics', default='no_profile_Pic.jpeg')
     description = models.TextField(blank=True)
     link = models.TextField(blank=True,null=True)
     user_token = models.TextField(unique=True)
@@ -47,16 +46,20 @@ class Room_message(models.Model):
     file_name = models.TextField(blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True)
 
-class Attendence_report(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time_joined = models.DateTimeField(blank=True, null=True)
-    time_left = models.DateTimeField(blank=True, null=True)
 
-class meeting_schedule(models.Model):
-    uer = models.ForeignKey(User, on_delete=models.CASCADE)
-    meeting_title = models.TextField()
-    meeting_time = models.DateTimeField()
+
+class scheduledMeeting(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    meetingTitle = models.CharField(max_length=50)
+    meetingDescription = models.CharField(max_length=50)
+    Frequency = models.CharField(max_length=50)
+    start_date = models.DateTimeField(blank=True, null=True)
+    start_time = models.TimeField(blank=True, null=True)
+    MeetingEndTime = models.TimeField(blank=True, null=True)
+    DaysOfWeek = models.JSONField(blank=True, null=True)
+    WeeksOfMonth = models.JSONField(blank=True, null=True)
+    tokenValue = models.CharField(max_length=50, unique=True)
+
 
 class MeetingWhiteboard(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

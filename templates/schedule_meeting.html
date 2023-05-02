@@ -4,120 +4,88 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head> 
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Vschools | Scheduler</title>
+        <meta name="author" content="Katumba Victor">
+        <meta name="description" content="Schedule and plan for a future meeting">
+        <title>Vschools | Schedule</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
-        
-        <link rel = "stylesheet" href = "{% static 'css/schedule.css' %}"/>
-        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
-        
-
-        
-        <script src = "{% static 'js/schedule.js' %}" type = "text/javascript" defer></script>
-        
+        <link id = "styles" rel = "stylesheet" href = "{% static 'css/schedule.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        <script src = "{% static 'js/schedule.js' %}" defer></script>
     </head>
     <body>
-        <div id = "navbar">
-            <button title = "Back to home" onclick="back()"><i class = "fas fa-arrow-left"></i></button>
-            <h1>Vschools</h1>
-        </div>
-        <div id = "divone">
-            <h2><i class = "far fa-calendar"></i> Schedule your next meeting session</h2>
-            <p class = "header">Learn from anywhere, get the best classroom experience from anywhere all over the globe at a location of your convenience
-            </p>
-            <form method = "POST">
-                {% csrf_token %}
-                <div class = "holder">
-                    <i class = "fas fa-pen"></i>
-                    <input type = "text" placeholder="Meeting title goes here..." name = "title" required/>
-                </div>
-
-                <div class = "holder">
-                    <i class = "far fa-calendar"></i>
-                    <input type = "text" placeholder = "Select meeting date..." name = "date" onfocus = "(this.type = 'date')" onblur = "(this.type = 'text')" required/>
-                </div>
-
-                <div class = "holder">
-                    <i class = "far fa-clock"></i>
-                    <input type = "text" placeholder = "Select meeting start time..." name = "start_time" onfocus = "(this.type = 'time')" onblur = "(this.type = 'text')" required/>
-                </div>
-
-                <div class = "holder">
-                    <i class = "far fa-calendar"></i>
-                    <select>
-                        <option>Don't repeat</option>
+        <header>
+            <nav id = "navbar">
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+                <button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
+            </nav>
+        </header>
+        <div id = "container">
+            <div id = "divone">
+                <h2>Schedule for a meeting.</h2>
+                <p class = "header">Fill in the details below to schedule and plan for future meeting...
+                </p>
+                <form method = "POST" onsubmit="submitSchedule(event)">
+                    {% csrf_token %}
+                    <input type = "text" oninput = "setTitle(this)" placeholder="Meeting title" required/>
+                    <textarea oninput="setDescription(this)" placeholder="Meeting description..." required></textarea>
+                    <select onchange = "getFrequency(this)" id = 'frequency'>
+                        <option>One time meeting</option>
+                        <option>Repeat every day</option>
                         <option>Repeat every week</option>
                         <option>Repeat every month</option>
-                        <option>Repeat every year</option>
                     </select>
-                </div>
+                    <input type = "text" id = "date_input" onfocus="(this.type = 'date')" onblur = "(this.type = 'text')" placeholder="Meeting start date" onchange = "getSelectedDate(this)" required/>
+                    <input type = "text" onfocus="(this.type = 'time')" onblur = "(this.type = 'text')" placeholder="Meeting start time" onchange = "getStartTime(this)" required/>
+                    <input type = "text" onfocus="(this.type = 'time')" onblur = "(this.type = 'text')" placeholder="Meeting end time" onchange = "getMeetingEndTime(this)" required/>
+                    <p style = "font-style: italic; margin-bottom: 0; margin-top: 20px; display: none;">Day(s) of the week</p>
+                    <div class = "holder" id = "daysOfWeek">
+                        <input onchange = "handleDay(this)" data-name = "Monday" type = "checkbox" id = "day_1"/>
+                        <label for='day_1'>Mon</label>
 
-                <div class = "holder">
-                    <i class = "far fa-bell"></i>
-                    <select>
-                        <option>Email reminder</option>
-                        <option>Don't remind</option>
-                    </select>
-                </div>
+                        <input onchange = "handleDay(this)" data-name = "Tuesday" type = "checkbox" id = "day_2"/>
+                        <label for='day_2'>Tue</label>
 
-                <textarea placeholder="Write a short description about the meeting" name = "description" required></textarea>
+                        <input onchange = "handleDay(this)" data-name = "Wednesday" type = "checkbox" id = "day_3"/>
+                        <label for='day_3'>Wed</label>
 
-                <p>(Optional) Days in a week</p>
-                <section>
-                  <input id='one' type='checkbox' />
-                  <label for='one'>
-                    <span></span>
-                      Mon
-                    <ins><i>Mon</i></ins>
-                  </label>
-                  
-                  <input id='two' type='checkbox' />
-                  <label for='two'>
-                    <span></span>
-                      Tue
-                    <ins><i>Tue</i></ins>
-                  </label>
-                  
-                  <input id='three' type='checkbox' />
-                  <label for='three'>
-                    <span></span>
-                     Wed
-                    <ins><i>Wed</i></ins>
-                  </label>
-                  
-                  <input id='four' type='checkbox' />
-                  <label for='four'>
-                    <span></span>
-                      Thur
-                    <ins><i>Thur</i></ins>
-                  </label>
-                  
-                  <input id='five' type='checkbox' />
-                  <label for='five'>
-                    <span></span>
-                      Fri
-                    <ins><i>Fri</i></ins>
-                  </label>
+                        <input onchange = "handleDay(this)" data-name = "Thursday" type = "checkbox" id = "day_4"/>
+                        <label for='day_4'>Thur</label>
 
-                  <input id='six' type='checkbox' />
-                  <label for='six'>
-                    <span></span>
-                      Sat
-                    <ins><i>Sat</i></ins>
-                  </label>
+                        <input onchange = "handleDay(this)" data-name = "Friday" type = "checkbox" id = "day_5"/>
+                        <label for='day_5'>Fri</label>
 
-                  <input id='seven' type='checkbox' />
-                  <label for='seven'>
-                    <span></span>
-                      Sun
-                    <ins><i>Sun</i></ins>
-                  </label>
+                        <input onchange = "handleDay(this)" data-name = "Saturday" type = "checkbox" id = "day_6"/>
+                        <label for='day_6'>Sat</label>
 
-                </section>
-                <button type = "submit">Schedule</button>
-            </form>
+                        <input onchange = "handleDay(this)" data-name = "Sunday" type = "checkbox" id = "day_0"/>
+                        <label for='day_0'>Sun</label>
+                    </div>
+
+                    <p style = "font-style: italic; margin-bottom: 0; display: none;">Week(s) of the month</p>
+                    <div class = "holder" id = "weeksOfMonth">
+                        <input type = "checkbox" onchange = "handleWeek(this)" data-name = "Week one" id = "week_1"/>
+                        <label for='week_1'>Week one</label>
+
+                        <input type = "checkbox" onchange = "handleWeek(this)" data-name = "Week two" id = "week_2"/>
+                        <label for='week_2'>Week two</label>
+
+                        <input type = "checkbox" onchange = "handleWeek(this)" data-name = "Week three" id = "week_3"/>
+                        <label for='week_3'>Week three</label>
+
+                        <input type = "checkbox" onchange = "handleWeek(this)" data-name = "Week four" id = "week_4"/>
+                        <label for='week_4'>Week four</label>
+                    </div>
+                    <button type = "submit" id = "submit_button"><i class = "far fa-calendar"></i> Schedule</button>
+                </form>
+            </div>
+            <div id = "divtwo">
+                <img src = "{% static 'images/schedule.png' %}"/>
+                <p>Scheduling will help you plan ahead and prepare for future and recurring meetings.</p>
+            </div>
         </div>
+        <p class = "footer"><i class = "far fa-copyright"></i> 2023 | Vschools premium | All Rights Reserved.</p>
     </body>
-</html> 
+</html>

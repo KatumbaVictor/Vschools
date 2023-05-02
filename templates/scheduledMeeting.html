@@ -3,24 +3,67 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Vschools | Scheduler</title>
+        <title>Vschools | Scheduled</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         <link rel = "stylesheet" href = "{% static 'css/scheduledMeeting.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <script src = "{% static 'js/schedule.js' %}" type = "text/javascript" defer></script>
     </head>
-    <body oncontextmenu="return false">
-        <div id = "navbar">
-            <button onclick="back()"><i class = "fas fa-arrow-left"></i></button>
-            <h1>Vschools</h1>
-        </div>
-        <h2><i class = "far fa-calendar"></i> Meeting title goes here</h2>
-        <p>This meeting is scheduled to start at exactly 3:00pm with GOD almighty 
-            today and we shall see what to do...
-        </p>
-        <h3>Meeting host - Katumba Victor</h3>
-        <h3>Start time - 3:00pm</h3>
-        <a href = "/">Return to home</a>
+    <body>
+        <header>
+            <nav id = "navbar">
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+                <button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
+            </nav>
+        </header>
+
+        <main>
+            <div id = "container">
+                <div id = "divone">
+                    <h2>{{ meetingTitle }}</h2>
+                    <p class = "header">{{ meetingDescription }}</p>
+                    <p class = "info"><i class = "far fa-calendar"></i> Start date <span>{{ start_date.date }}</span></p>
+                    <p class = "info">Starts at <span>{{ start_time }}</span></p>
+                    <p class = "info">Ends at <span>{{ meetingEndTime }}</span></p>
+                    <p class = "info">Meeting held every 
+                        <span>
+                            {% for item in daysOfWeek %}
+                                {{ item }}
+                            {% endfor %}
+                        </span>
+                    </p>
+
+                    {% if weeksOfMonth %}
+                        <p class = "info">
+                            <span>
+                                {% for item in weeksOfMonth %}
+                                    {{ item }}
+                                {% endfor %}
+                            </span>
+                            of Every month
+                        </p>
+                    {% endif %}
+                    <div class = "invite_link">
+                        <input type = "text" value = "https://{{ invite_link }}" placeholder = "Meeting invite link"/>
+                        <button onclick = "copy_link(this)" title = "Copy invite link"><i class = "far fa-copy"></i></button>
+                    </div>
+                    <p style = "color: grey; font-size: 14px; text-align: center; font-style: italic;">You can copy the meeting invite link above and shre it with the concerned people</p>
+                </div>
+            </div>
+        </main>
+        
+        <script>
+            let copy_link = (self) => {
+                var link = self.previousElementSibling.value;
+                navigator.clipboard.writeText(link);
+                self.innerHTML = '<i class = "fas fa-check"></i>';
+                self.style.color = 'green';
+                setTimeout(() => {
+                    self.innerHTML = '<i class = "far fa-copy"></i>';
+                    self.style.color = 'unset';
+                }, 3000)
+            }
+        </script>
+
     </body>
 </html>

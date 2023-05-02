@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, StreamingHttpResponse
 from main.models import (account_info, Room, Room_member, Room_message, 
-        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording)
+        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording, scheduledMeeting)
 from datetime import date, timedelta, datetime
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -18,7 +18,7 @@ import random
 import re
 import secrets
 import time
-import uuid
+import uuid 
 from agora_token_builder import RtcTokenBuilder
 import base64
 import http.client
@@ -28,37 +28,7 @@ from aiortc import RTCPeerConnection, RTCSessionDescription
 
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
 
-async def newPeer(request):
-    '''
-    offer = request.GET['offer']
 
-    client_offer = RTCSessionDescription(sdp=offer, type='offer')
-    peerConnection = RTCPeerConnection()
-
-    async def getIceCandidate(candidate):
-        print(candidate)
-
-    peerConnection.on('icecandidate', getIceCandidate)
-
-    await peerConnection.setRemoteDescription(client_offer)
-
-    answer = await peerConnection.createAnswer()
-    await peerConnection.setLocalDescription(answer)
-
-    answer = peerConnection.localDescription
-    print(answer)
-
-    return JsonResponse({'answer':peerConnection.localDescription.sdp}, safe=False)
-    '''
-
-    def eventStream():
-        yield 'hello how are you'
-
-    response = StreamingHttpResponse(eventStream(),content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-
-    return response
 
 def getToken(request):
     appId = '0eb3e08e01364927854ee79b9e513819'
@@ -111,30 +81,22 @@ def login_page(request):
 
 def update_username(request):
     data = json.loads(request.body)
-    first_name = data['first_name']
-    last_name = data['last_name']
-    username = first_name + ' ' + last_name
+    username = data['username']
     user = User.objects.get(id=request.user.id)
-    user.first_name = first_name
-    user.last_name = last_name
-    user.save()
 
     item = account_info.objects.get(user=user)
-    item.first_name = first_name
-    item.last_name = last_name
     item.username = username
     item.save()
-    return JsonResponse({'first_name':first_name,'last_name':last_name,'username':username}, safe=False)
+    return JsonResponse({'username':username}, safe=False)
 
 def update_password(request):
     data = json.loads(request.body)
-    current_password = data['current_password']
     password_one = data['password_one']
     password_two = data['password_two']
     user = User.objects.get(id=request.user.id)
     
     if password_one == password_two:
-        user.set_password('password_two')
+        user.set_password(password_two)
         user.save()
     
     return JsonResponse({'password_changed':True})
@@ -185,6 +147,9 @@ def email_verified(request):
 
 def verify_email_page(request):
     return render(request, 'verify_email_page.html')
+
+def welcome_page(request):
+    return render(request, 'welcome.html')
 
 def kickout_page(request):
     return render(request, 'kickout.html')
@@ -241,37 +206,65 @@ def sign_up_page(request):
 
     return render(request,"sign_up.html")
 
-def scheduledMeeting(request, meeting_id):
-    return render(request, 'scheduledMeeting.html')
+def scheduled_meetings(request):
+    room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
+    meetings = scheduledMeeting.objects.filter(room=room)[::-1]
+    context = {'meetings':meetings}
+    return render(request, 'scheduled_meetings.html', context)
+
+def scheduled_meeting(request, meeting_id):
+    meeting = scheduledMeeting.objects.get(tokenValue=meeting_id)
+
+    context = {'meetingTitle':meeting.meetingTitle, 'meetingDescription':meeting.meetingDescription,
+                'start_date':meeting.start_date, 'start_time':meeting.start_time, 'meetingEndTime':meeting.MeetingEndTime,
+                'invite_link':str(get_current_site(request))+'/scheduled-meeting/'+meeting_id,
+                'daysOfWeek':json.loads(meeting.DaysOfWeek)}
+
+    if meeting.WeeksOfMonth is not None:
+        context['weeksOfMonth'] = json.loads(meeting.WeeksOfMonth)
+
+    return render(request, 'scheduledMeeting.html', context)
 
 @login_required(login_url='login')
 def schedule_meeting(request):
-    print(timezone.now())
     request.profile_picture = account_info.objects.get(user=request.user).profile_picture
+
+    if request.method == 'POST':
+        room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
+        meetingTitle = request.POST.get('meetingTitle')
+        meetingDescription = request.POST.get('meetingDescription')
+        frequency = request.POST['frequency']
+        startDate = request.POST['startDate']
+        startTime = request.POST['startTime']
+        meetingEndingTime = request.POST['meetingEndTime']
+        tokenValue = secrets.token_urlsafe()
+
+        daysOfWeek = request.POST.get('daysOfWeek', None)
+        weeksOfMonth = request.POST.get('weeksOfMonth', None)
+
+        date_obj = datetime.strptime(startDate,'%Y-%m-%d').date()
+        start_time_obj = datetime.strptime(startTime, '%H:%M').time()
+        ending_time_obj = datetime.strptime(meetingEndingTime, '%H:%M').time()
+
+        print(request.POST)
+
+        scheduledMeeting(room=room, meetingTitle=meetingTitle, meetingDescription=meetingDescription,
+                        Frequency=frequency, start_date=date_obj, start_time=start_time_obj,
+                        MeetingEndTime=ending_time_obj, DaysOfWeek=daysOfWeek, WeeksOfMonth=weeksOfMonth,
+                        tokenValue=tokenValue).save()
+
+        response = {'tokenValue':tokenValue}
+
+        return JsonResponse(response, safe=False)
+
+
     return render(request, 'schedule_meeting.html')
 
-def scheduleOneTimeMeeting(request):
+def schedule_weekly_meeting(request):
+    return render(request, "schedule_weekly_meeting.html")
 
-    if request.method == "POST":
-        meeting_title = request.POST['title']
-        meeting_date = request.POST['date']
-        meeting_start_time = request.POST['start_time']
-        reminder = request.POST['reminder']
-        meeting_description = request.POST['description']
-
-        print(meeting_title)
-        print(meeting_date)
-        print(meeting_start_time)
-        print(reminder)
-        print(meeting_description)
-
-    return render(request, "schedule_onetime_meeting.html")
-
-def scheduleMonthlyMeeting(request):
+def schedule_monthly_meeting(request):
     return render(request, "schedule_monthly_meeting.html")
-
-def scheduleAnnualMeeting(request):
-    return render(request, "schedule_annual_meeting.html")
 
 @login_required(login_url='login')
 def recorded_files(request):
@@ -380,6 +373,10 @@ def changeWhtieboardDetails(request):
 @login_required(login_url='login')
 def home_page(request):
     request.user.username = account_info.objects.get(user=request.user).username
+
+    room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
+    meetings = scheduledMeeting.objects.filter(room=room)
+    request.meetings = meetings
 
     context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
                 'user_token':account_info.objects.get(user=request.user).user_token,'current_time':timezone.now()}

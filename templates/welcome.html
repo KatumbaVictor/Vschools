@@ -1,0 +1,24 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>  
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Katumba Victor">
+        <meta name="description" content="You are welcome to Vschools">
+        <title>Vschools | Welcome here!!!</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        <link rel = "stylesheet" id = "styles" href = "{% static 'css/welcome.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+    </head>
+    <body>
+        <div>
+            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            <h2>You're welcome to Vschools dear user &#x1F60A;</h2>
+            <a href = "{% url 'login' %}">Proceed to login</a>
+        </div>
+    </body>
+</html>

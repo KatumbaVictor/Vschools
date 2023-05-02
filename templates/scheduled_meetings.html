@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Vschools | Scheduled</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        <link rel = "stylesheet" href = "{% static 'css/scheduled_meetings.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body>
+        <header>
+            <nav id = "navbar">
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+                <button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
+            </nav>
+        </header>
+
+        <main>
+            <div id = "container">
+                <div id = "divone">
+                    <h2>Your scheduled meetings</h2>
+                    {% for item in meetings %}
+                        <a href = "{% url 'scheduledMeeting' item.tokenValue %}" class = "info"><span>{{ item.meetingTitle }}</span> - {{ item.start_date.date }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+
+    </body>
+</html>

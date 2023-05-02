@@ -8,58 +8,65 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Start a meeting and invite participants or join an ongoing meeting with a meeting passcode or invite link and get a good meeting experience">
+        <meta name="description" content="Start or join a meeting">
         <title>Vschools | Home</title>
-        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
-
-        
-        <link id = "styles" rel = "stylesheet" href = "{% static 'css/home.css' %}" type="text/css"/>
+        <link rel="shortcut icon" href="{% static 'images/whiteboard.svg' %}" type="image/svg"/>
+        <link rel = "stylesheet" href = "{% static 'css/home.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
-
-
-        
         <script src = "{% static 'js/home.js' %}" type = "text/javascript" defer></script>
-        
     </head>
     <body>
-        <div id = "navbar">
-            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-            <button onclick = "options()"><i class = "fas fa-bars"></i></button>
-            <img src = "{{ profile_picture.url }}"/>
-        </div>
-        <div id = "options">
-            <button onclick = "settings()"><i class = "fas fa-user"></i> Your profile</button>
-            <button onclick = "recorded_meetings()"><i class = "fas fa-record-vinyl"></i> Recorded meetings</button>
-            <button onclick = "logout()" style = "border: none;"><i class = "fas fa-sign-out-alt"></i> Logout</button>
-        </div> 
-        <div id = "container">
-            <div id = "divone">
-                <h2>Virtual quality meetings</h2>
-                <p class = "header">Hello <span>{{ request.user.username }}</span> meet from anywhere and get the best classroom experience at a location of your convenience.
-                </p>
-                {% csrf_token %}
-                <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-link"></i> Start a meeting</button>
-                <div class = "join">
-                    <form style = "flex-direction: row;" onsubmit = "join_meeting(event)" autocomplete="off">
-                        <input type = "text" id = "passcode_field" oninput = "check_passcode(this)" onfocus="input_focus(this)" placeholder = "Enter meeting passcode" onblur = "input_blur(this)" required/>
-                        <button type = "submit" disabled>Join</button>
-                    </form>
+        <header>
+            <nav id = "navbar" data-user_token = "{{ user_token }}">
+                <img src = "{{ profile_picture.url }}" alt = "{{ request.user }} profile picture"/>
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+                <button onclick = "(document.getElementById('options').style.display = 'flex')"><i class = "fas fa-ellipsis-h"></i></button>
+            </nav>
+        </header>
+
+        <main>
+            <div id = "options">
+                <div>
+                    <button onclick="settings()">Profile</button>
+                    {% if request.meetings %}
+                        <button onclick="scheduled_meetings()">Scheduled meetings</button>
+                    {% endif %}
+                    <button onclick="logout()">Logout</button>
+                    <button style = "border: none" onclick="(document.getElementById('options').style.display = 'none')">Cancel</button>
                 </div>
-                <p class = 'schedule'><a href = "{% url 'schedule' %}"><i class = "far fa-calendar"></i> Schedule and plan</a> for a future meeting.</p>
+            </div> 
+            <div id = "container">
+                <div id = "divone">
+                    <h2>Virtual quality meetings</h2>
+                    <p class = "header">Hello <span>{{ request.user.username }}</span> meet from anywhere and get the best classroom experience at a location of your convenience.
+                    </p>
+                    {% csrf_token %}
+                    <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-plus"></i> Start a meeting</button>
+                    <div class = "join">
+                        <form style = "flex-direction: row;" onsubmit = "join_meeting(event)" autocomplete="off">
+                            <input type = "text" id = "passcode_field" oninput = "check_passcode(this)" onfocus="input_focus(this)" placeholder = "Enter meeting passcode" onblur = "input_blur(this)" required/>
+                            <button type = "submit" disabled>Join</button>
+                        </form>
+                    </div>
+                    <p class = 'schedule'><a href = "{% url 'schedule' %}"><i class = "far fa-calendar"></i> Schedule and plan</a> for a future meeting.</p>
+                </div>
+                <div id = "divtwo">
+                    <img src = "{% static 'images/conversation.svg' %}"/>
+                    <p>Quality meetings</p>
+                </div>
             </div>
-            <div id = "divtwo">
-                <img src = "{% static 'images/conversation.svg' %}"/>
-                <p>Quality meetings</p>
+        </main>
+
+        <footer>
+            <div class = "links">
+                <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = ""><i class = "fab fa-instagram"></i></a>
+                <a href = "#" target = "_blank" style = ""><i class = "fab fa-twitter"></i></a>
+                <a href = "#" target = "_blank" style = ""><i class = "fab fa-facebook"></i></a>
+                <a href = "#" target = "_blank" style = ""><i class = "fab fa-linkedin"></i></a>
             </div>
-        </div>
-        <div class = "links">
-            <a href = "https://www.instagram.com/katumba_victor/" target = "_blank" style = ""><i class = "fab fa-instagram"></i></a>
-            <a href = "#" target = "_blank" style = ""><i class = "fab fa-twitter"></i></a>
-            <a href = "#" target = "_blank" style = ""><i class = "fab fa-facebook"></i></a>
-            <a href = "#" target = "_blank" style = ""><i class = "fab fa-linkedin"></i></a>
-        </div>
-        
-        <p class = "footer"><i class = "far fa-copyright"></i> 2023 | Vschools premium | All Rights Reserved.</p>
-        <p id = "notification"><i class = "fas fa-exclamation-triangle"></i> No meeting found with the given passcode</p>
+            
+            <p class = "footer"><i class = "far fa-copyright"></i> 2023 | Vschools premium | All Rights Reserved.</p>
+            <p id = "notification"><i class = "fas fa-exclamation-triangle"></i> No meeting found with the given passcode</p>
+        </footer>
     </body>
 </html>

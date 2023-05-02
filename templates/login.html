@@ -11,14 +11,9 @@
         <meta name="description" content="Best virtual meeting experience with tools such as realtime whiteboard, meeting recording and so on">
         <title>Vschools | Login</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
-    
         <link rel = "stylesheet" id = "styles" href = "{% static 'css/login.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
-        
-
-        
         <script src = "{% static 'js/login.js' %}" defer></script>
-        
     </head>
     <body>
         <div id = "navbar">
@@ -42,11 +37,6 @@
                         <button class = "btn" type = "submit" onclick = "login(this)">LOG IN</button>
                     </form>
                     <p class = "live">live</p>
-                    {% if messages %}
-                        {% for message in messages %}
-                            <p class = "wrong_details"><i class = 'fas fa-exclamation-triangle'></i> Wrong log in details</p>
-                        {% endfor %}
-                    {% endif %}
                 </div>
                 <div class = "divtwo">
                     <a style = "margin-left: 25px;" href = "{% url 'sign_up' %}">Create account</a>
@@ -65,5 +55,10 @@
             </div>
             <p class = "premium">premium</p>
         </div>
+        {% if messages %}
+            {% for message in messages %}
+                <p class = "wrong_details"><i class = 'fas fa-exclamation-triangle'></i> Wrong log in details</p>
+            {% endfor %}
+        {% endif %}
     </body>
 </html>

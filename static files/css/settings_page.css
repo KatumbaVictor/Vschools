@@ -1,34 +1,31 @@
 * {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     outline: none;
-    page-break-inside: avoid;
 }
 
-body { 
-    padding-top: 69px;
+body {
+    padding-top: 67px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} 
 
 #navbar { 
     width: 100%;
-    height: 60px; 
+    height: 60px;
     position: absolute;
-    top: 0;
-    left: 0; 
+    top: 0; 
+    left: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     background-color: white;
-    box-shadow: 0 0 7px rgba(128, 128, 128, 0.541);
 }
 
 #navbar h1{
-    color: blue;
     font-size: 30px;
-    font-family: 'Brush Script MT', cursive;
+    color: blue;
     font-weight: lighter;
 }
 
@@ -48,55 +45,195 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.8);
     transition: background-color .5s;
 }
 
 #navbar button:hover {
-    background-color: rgba(128,128,128,0.35);
+    background-color: rgba(128,128,128,0.30);
 }
 
-
-.info_holder {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    padding: 20px;
-    margin-bottom: 20px;
-    width: 450px;
-}
-
-.info {
+#divone {
+    width: 500px;
+    margin: 7px;
+    border-radius: 9px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
-.info img {
-    width: 135px;
-    height: 135px;
-    border-radius: 50%;
-    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
+#divone textarea {
+    width: calc(100% - 20px);
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.141);
     border: 1px solid rgba(128, 128, 128, 0.34);
+    padding: 10px;
+    font-size: 14px;
+    margin: 7px 0 7px 0;
 }
 
-.info div {
+#divone button {
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background: none;
+    border: none;
+    margin-top: 12px;
+    border-radius: 9px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: white;
+    background-color: blue;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+}
+
+.schedule {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(100,100,100);
+    text-align: center;
+    font-style: italic;
+}
+
+.schedule a {
+    color: blue;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.schedule a:hover {
+    text-decoration: underline;
+}
+
+#divtwo {
+    width: 410px;
     display: flex;
+    margin: 8px;
     flex-direction: column;
     align-items: center;
-    margin-left: 15px;
-    justify-self: center;
+    border-radius: 8px;
 }
 
-.info div h1 {
-    color: grey;
-    font-size: 26px;
+#divtwo img {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(128,128,128,0.345);
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.141);
+}
+
+#divtwo p {
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.71);;
+    margin-top: 20px;
+    width: 200px;
+    align-self: center;
+    text-align: center;
+    font-style: italic;
+    font-size: 14px;
+}
+
+input {
+    width: calc(100% - 20px);
+    height: 20px;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.141);
+    border: 1px solid rgba(128, 128, 128, 0.34);
+    margin-bottom: 16px;
+    padding: 10px;
+    margin: 7px 0 7px 0;
+    border-radius: 7px;
+}
+
+h2 {
+    color: rgba(0, 0, 0, 0.71);
     font-weight: lighter;
+    align-self: center;
+    margin: 0;
+    font-size: 32px;
+    text-align: center;
+}
+
+#divone p {
+    font-weight: normal;
+    color: grey;
+    margin-top: 0;
+}
+
+#parent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-top: 1px solid rgba(128,128,128,0.345);
+    /*border-bottom: 1px solid rgba(128,128,128,0.345);*/
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.header {
+    font-weight: normal; 
+    width: 100%; 
+    align-self: center; 
+    padding: 20px;
+    text-align: center; 
     margin: 0;
 }
 
-.info div button {
+.header span {
+    font-weight: bold;
+}
+
+.footer {
+    font-weight: normal; 
+    margin-top: 10px; 
+    height: 30px;
+    align-self: center; 
+    padding: 20px;
+    text-align: center; 
+    font-size: 13px;
+    color: grey;
+}
+
+@media screen and (max-width: 1030px) {
+    body {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    #divone {
+        width: 100%;
+    }
+
+    #container {
+        width: calc(100% - 28px);
+    }
+}
+
+
+#notification {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 16px 0 16px 0;
+    border-radius: 9px;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity .4s;
+    width: 250px;
+    text-align: center;
+}
+
+#divtwo button {
     border: none;
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
@@ -106,22 +243,6 @@ body {
     background: none;
     background-color: rgba(0, 0, 255, 0.11);
     font-weight: 600;
-}
-
-.info p {
-    color: grey;
-    font-size: 14px;
-    margin: 0;
-    margin-bottom: 20px; 
-    font-style: italic;
-}
-
-#container{
-    width: 300px;
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 100px;
 }
 
 #buttons {
@@ -152,8 +273,12 @@ body {
     background-color: rgba(128, 128, 128, 0.241);
 }
 
+#container {
+    
+}
+
 #main {
-    width: 100%;
+    width: 300px;
     height: 400px;
 }
 
@@ -170,125 +295,8 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-color: rgba(0, 0, 0, 0.815);
     display: none;
-}
-
-.parent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.137);
-}
- 
-.holder {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 20px;
-    max-width: 500px;
-}
-
-.holder h2 {
-    color: rgba(0, 0, 0, 0.71);
-    font-weight: lighter;
-    font-size: 19px;
-    margin: 0;
-    margin: 20px 20px 15px 20px;
-
-}
-
-.holder p {
-    color: grey;
-    font-weight: normal;
-    font-size: 13px;
-    margin: 0;
-    margin-bottom: 15px;
-    margin-left: 20px;
-    margin-right: 20px;
-    font-style: italic;
-}
-
-input[type="password"] {
-    margin-bottom: 11px;
-    padding: 12px 0 12px 10px; 
-    border-radius: 6px;
-    transition: .7s box-shadow;
-    transition: background-color .3s;
-    color: grey;
-    margin-left: 20px;
-    margin-right: 20px;
-    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
-    border: 1px solid rgba(128, 128, 128, 0.34);
-}
-
-input[type="text"] {
-    margin-bottom: 11px;
-    padding: 12px 0 12px 10px;
-    border-radius: 6px;
-    transition: .7s box-shadow; 
-    transition: background-color .3s;
-    color: grey;
-    margin-left: 20px;
-    margin-right: 20px;
-    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
-    border: 1px solid rgba(128, 128, 128, 0.34);
-}
-
-.holder button {
-    border: none;
-    background-color: rgba(19, 19, 19, 0.651);
-    color: white;
-    padding: 12px 0 12px 10px;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 6px;
-    background-color: blue;
-    font-weight: 600;
-    font-size: 15px;
-    box-shadow: 0 0 4px rgba(128, 128, 128, 0.401);
-    border: 1px solid rgba(128, 128, 128, 0.34);
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.form-controller {
-    color: grey; 
-    display: flex;
-    flex-direction: row;
-    margin-right: 20px;
-    margin-left: 20px;
-    margin-bottom: 10px;
-}
-
-input[type="checkbox"] {
-    margin: 0;
-    appearance: none;
-    font: inherit;
-    color: whitesmoke;
-    width: 20px;
-    height: 20px;
-    border: 1px solid rgba(245, 245, 245, 0.644);
-    display: grid;
-    place-content: center;
-    margin-right: 3px;
-}
-
-input[type="checkbox"]::before{
-    content: "";
-    width: 10px;
-    height: 10px;
-    background-color: rgba(255, 255, 255, 0.719);
-    transform: scale(0);
-    transition: 120ms transform ease-in-out;
-}
-
-input[type="checkbox"]:checked::before{
-    transform: scale(1);
 }

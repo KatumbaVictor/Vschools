@@ -165,10 +165,10 @@ let joinAndDisplayLocalStream = async () => {
         }
     })
  
-    client.on('token-privilege-will-expire',renew_client_token);
-    client.on('token-privilege-did-expire',rejoin_session);
-    client.on('user-left',handleUserLeft);
-    client.on('user-unpublished',UserUnpublishedEvent);
+    client.on('token-privilege-will-expire', renew_client_token);
+    client.on('token-privilege-did-expire', rejoin_session);
+    client.on('user-left', handleUserLeft);
+    client.on('user-unpublished', UserUnpublishedEvent);
 }
 
 let transcribe = (self) => {
