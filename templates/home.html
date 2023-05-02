@@ -28,7 +28,7 @@
             <div id = "options">
                 <div>
                     <button onclick="settings()">Profile</button>
-                    {% if request.meetings %}
+                    {% meetings %}
                         <button onclick="scheduled_meetings()">Scheduled meetings</button>
                     {% endif %}
                     <button onclick="logout()">Logout</button>

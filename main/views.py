@@ -376,10 +376,11 @@ def home_page(request):
 
     room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
     meetings = scheduledMeeting.objects.filter(room=room)
-    request.meetings = meetings
 
     context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
-                'user_token':account_info.objects.get(user=request.user).user_token,'current_time':timezone.now()}
+                'user_token':account_info.objects.get(user=request.user).user_token,'current_time':timezone.now(),
+                'meetings':meetings}
+                
     return render(request, "home.html", context) 
 
 def start_meeting(request):
