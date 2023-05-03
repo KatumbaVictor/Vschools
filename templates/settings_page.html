@@ -27,7 +27,7 @@
         <main>
             <div id = "parent">
                 <div id = "divtwo">
-                    <img src = "{{ user.profile_picture.url }}"/>
+                    <img src = "{{ user.profile_picture.url }}" alt = "Your profile picture"/>
                     <p>Click below to update your profile photo</p>
                     <input type="file" id = "photo" onchange = "crop_photo(this)" accept="image/*" hidden/>
                     <button onclick = "get_photo()"><i class = "fas fa-camera"></i> Choose image</button>

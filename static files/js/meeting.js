@@ -638,8 +638,8 @@ let start_whiteboard = (room_token, room_uid) => {
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
-                    "X-CSRFToken": csrftoken,
-                    'X-Requested-With':'XMLHttpRequest'
+                    'X-Requested-With':'XMLHttpRequest',
+                    "X-CSRFToken": csrftoken
                 },
                 body: JSON.stringify({'room_token':data,'room_uuid':room_uid,'room_id':CHANNEL})
                 })

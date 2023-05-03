@@ -182,7 +182,7 @@ p {
 }
 
 .join input {
-    width: 87%;
+    width: 250px;
     margin-left: 10px;
     color: grey;
     border: none;
@@ -195,6 +195,8 @@ p {
     color: white;
     font-weight: 600;
     transition: color 0.4s;
+    float: right;
+    margin-right: 15px;
 }
 
 .header {
@@ -215,7 +217,7 @@ p {
     margin-top: 10px; 
     height: 30px;
     align-self: center; 
-    padding: 20px;
+    padding: 20px 0 20px 0;
     text-align: center; 
     font-size: 13px;
     color: grey;
@@ -303,11 +305,7 @@ footer {
 }
 
 @media screen and (max-width: 1030px) {
-    #divone {
+    main {
         width: 100%;
-    }
-
-    #container {
-        width: calc(100% - 28px);
     }
 }

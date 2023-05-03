@@ -201,12 +201,8 @@ h2 {
 }
 
 @media screen and (max-width: 1030px) {
-    #divone {
-        width: 100%;
-    }
-
-    #container {
-        width: calc(100% - 28px);
+    main {
+        width: calc(100% - 20px);
     }
 }
 
