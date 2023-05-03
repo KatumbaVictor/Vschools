@@ -201,11 +201,6 @@ h2 {
 }
 
 @media screen and (max-width: 1030px) {
-    body {
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-
     #divone {
         width: 100%;
     }

@@ -246,8 +246,6 @@ def schedule_meeting(request):
         start_time_obj = datetime.strptime(startTime, '%H:%M').time()
         ending_time_obj = datetime.strptime(meetingEndingTime, '%H:%M').time()
 
-        print(request.POST)
-
         scheduledmeeting(room=room, meetingTitle=meetingTitle, meetingDescription=meetingDescription,
                         Frequency=frequency, start_date=date_obj, start_time=start_time_obj,
                         MeetingEndTime=ending_time_obj, DaysOfWeek=daysOfWeek, WeeksOfMonth=weeksOfMonth,
@@ -341,7 +339,6 @@ def meet_page(request, meeting_id):
 
     room_chats = Room_message.objects.filter(room=Room.objects.get(room_id=meeting_id))
     room_name = Room.objects.get(room_id=meeting_id).room_name
-    print(Room.objects.get(room_id=meeting_id).start_date)
 
     for item in room_chats:
         item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture

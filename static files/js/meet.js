@@ -29,6 +29,8 @@ var all_users = 0;
 var recording = false;
 var MessageSocket;
 
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
 var comment_holder = document.getElementById('livechat').children[1];
 comment_holder.scrollTop = comment_holder.scrollHeight;
 
@@ -379,7 +381,7 @@ function sendFiles(self) {
 
         if (file_types.includes(self.files[0].type)) {
             xhr.open('POST',window.location);
-            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
             xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
             xhr.send(form);
         }else {
@@ -785,7 +787,7 @@ let stop_recording = () => {
                 }
 
                 xhr.open('POST',window.location);
-                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
                 xhr.send(form);
             })
@@ -1025,7 +1027,7 @@ let start_whiteboard = (room_token, room_uid) => {
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
-                    "X-CSRFToken": getCookie('csrftoken'),
+                    "X-CSRFToken": csrftoken,
                     'X-Requested-With':'XMLHttpRequest'
                 },
                 body: JSON.stringify({'room_token':data,'room_uuid':room_uid,'room_id':CHANNEL})
