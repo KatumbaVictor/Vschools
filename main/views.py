@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, StreamingHttpResponse
 from main.models import (account_info, Room, Room_member, Room_message, 
-        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording, scheduledMeeting)
+        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording, scheduledmeeting)
 from datetime import date, timedelta, datetime
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -208,12 +208,12 @@ def sign_up_page(request):
 
 def scheduled_meetings(request):
     room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
-    meetings = scheduledMeeting.objects.filter(room=room)[::-1]
+    meetings = scheduledmeeting.objects.filter(room=room)[::-1]
     context = {'meetings':meetings}
     return render(request, 'scheduled_meetings.html', context)
 
 def scheduled_meeting(request, meeting_id):
-    meeting = scheduledMeeting.objects.get(tokenValue=meeting_id)
+    meeting = scheduledmeeting.objects.get(tokenValue=meeting_id)
 
     context = {'meetingTitle':meeting.meetingTitle, 'meetingDescription':meeting.meetingDescription,
                 'start_date':meeting.start_date, 'start_time':meeting.start_time, 'meetingEndTime':meeting.MeetingEndTime,
@@ -248,7 +248,7 @@ def schedule_meeting(request):
 
         print(request.POST)
 
-        scheduledMeeting(room=room, meetingTitle=meetingTitle, meetingDescription=meetingDescription,
+        scheduledmeeting(room=room, meetingTitle=meetingTitle, meetingDescription=meetingDescription,
                         Frequency=frequency, start_date=date_obj, start_time=start_time_obj,
                         MeetingEndTime=ending_time_obj, DaysOfWeek=daysOfWeek, WeeksOfMonth=weeksOfMonth,
                         tokenValue=tokenValue).save()
@@ -375,12 +375,12 @@ def home_page(request):
     request.user.username = account_info.objects.get(user=request.user).username
 
     room = Room.objects.get(room_name=account_info.objects.get(user=request.user).user_token)
-    meetings = scheduledMeeting.objects.filter(room=room)
+    meetings = scheduledmeeting.objects.filter(room=room)
 
     context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
                 'user_token':account_info.objects.get(user=request.user).user_token,'current_time':timezone.now(),
                 'meetings':meetings}
-                
+
     return render(request, "home.html", context) 
 
 def start_meeting(request):

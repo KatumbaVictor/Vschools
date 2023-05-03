@@ -48,7 +48,7 @@ class Room_message(models.Model):
 
 
 
-class scheduledMeeting(models.Model):
+class scheduledmeeting(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     meetingTitle = models.CharField(max_length=50)
     meetingDescription = models.CharField(max_length=50)
