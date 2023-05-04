@@ -276,19 +276,16 @@ def meeting_recording(request):
 
 def getRoomMember(request):
     data = request.GET
-    room_id = data['room_id']
     user_id = data['uid']
 
     user = User.objects.get(id=user_id)
-    room = Room.objects.get(room_id=room_id)
-    room_member = Room_member.objects.get(room=room, user=user)
     profile_picture = account_info.objects.get(user=user).profile_picture.url
 
     user_token = account_info.objects.get(user=user).user_token
     username = account_info.objects.get(user=user).username
 
     response = {'name':username,'profile_picture':profile_picture,
-        'user_token':user_token,'uid':user.id,'hand_raised':room_member.hand_raised}
+        'user_token':user_token,'uid':user.id}
 
     return JsonResponse(response, safe=False)
 

@@ -27,6 +27,10 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+ADMINS = [
+    ('Katumba Victor','katumbavictor5@gmail.com')
+]
+
 ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
@@ -115,7 +119,6 @@ DATABASES = {
         'PORT': config("DATABASE_PORT")
     }
 }
-
 '''
 DATABASES = {
     'default': {
@@ -124,7 +127,6 @@ DATABASES = {
     }
 }
 '''
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -154,6 +156,7 @@ CACHES = {
 }
 
 cache_backend = 'default'
+
 AXES_CACHE = 'default'
 AXES_LOCKOUT_TEMPLATE = 'lockout.html'
 
@@ -194,6 +197,10 @@ STATICFILES_FINDERS = (
 
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=20)
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = '/login'
 
 COMPRESS_OFFLINE = True
 COMPRESS_ENABLED = True

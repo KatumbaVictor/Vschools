@@ -65,22 +65,6 @@ var send_notification = (title, body) => {
     } ,5000)
 }
 
-let getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== ''){
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')){
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
     MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
@@ -144,7 +128,7 @@ let joinAndDisplayLocalStream = async () => {
         var invite_link = `${window.location.protocol}//${window.location.host}/getRoomMember/`;
 
         var url = new URL(invite_link);
-        url.searchParams.append('room_id',CHANNEL);
+        //url.searchParams.append('room_id',CHANNEL);
         url.searchParams.append('uid',user.uid);
 
         fetch(url,{
