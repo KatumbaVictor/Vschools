@@ -159,6 +159,11 @@ cache_backend = 'default'
 
 AXES_CACHE = 'default'
 AXES_LOCKOUT_TEMPLATE = 'lockout.html'
+AXES_IPWARE_PROXY_COUNT = 1
+AXES_IPWARE_META_PRECEDENCE_ORDER = [
+    'HTTP_CF_CONNECTING_IP',
+    'REMOTE_ADDR'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
