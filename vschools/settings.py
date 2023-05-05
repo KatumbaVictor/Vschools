@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     'compressor',
-    'axes'
 ]
 
 
@@ -64,11 +63,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesStandaloneBackend',
-    'django.contrib.auth.backends.ModelBackend'
-]
 
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
@@ -83,7 +77,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'axes.middleware.AxesMiddleware',
 ]
 
 
@@ -157,14 +150,6 @@ CACHES = {
 
 cache_backend = 'default'
 
-AXES_CACHE = 'default'
-AXES_LOCKOUT_TEMPLATE = 'lockout.html'
-AXES_IPWARE_PROXY_COUNT = 1
-AXES_IPWARE_META_PRECEDENCE_ORDER = [
-    'HTTP_CF_CONNECTING_IP',
-    'REMOTE_ADDR'
-]
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -199,9 +184,6 @@ STATICFILES_FINDERS = (
 
     'compressor.finders.CompressorFinder'
 )
-
-AXES_FAILURE_LIMIT = 5
-AXES_COOLOFF_TIME = timedelta(minutes=20)
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
