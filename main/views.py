@@ -154,6 +154,18 @@ def welcome_page(request):
 def kickout_page(request):
     return render(request, 'kickout.html')
 
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+def about_page(request):
+    return render(request, 'about.html')
+
+def terms_of_service(request):
+    return render(request, 'terms_of_service.html')
+
+def cookie_policy(request):
+    return render(request, 'cookie_policy.html')
+
 def verify_email(request, token):
     try:
         obj = account_info.objects.get(email_token=token)

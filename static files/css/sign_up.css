@@ -54,7 +54,6 @@ body {
     justify-content: center;
     color: rgba(0, 0, 0, 0.7);
     transition: background-color .5s;
-    box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
     border: 1px solid rgba(128, 128, 128, 0.34);
 }
 

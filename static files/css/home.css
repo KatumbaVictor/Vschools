@@ -248,14 +248,40 @@ footer {
     align-items: center;
 }
 
+.policies {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.policies a {
+    font-size: 13px;
+    color: grey;
+    margin: 0;
+    margin-left: 7px;
+    margin-right: 7px;
+    text-decoration: none;
+}
+
+.policies p {
+    font-size: 13px;
+    color: grey;
+    margin: 0;
+    margin-left: 7px;
+    margin-right: 7px;
+    font-weight: 500;
+}
+
 .links {
     width: 250px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 40px;
-    
+    margin-top: 30px;
 }
 
 .links a {
