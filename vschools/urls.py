@@ -34,6 +34,7 @@ urlpatterns = [
     path('terms-of-service/', terms_of_service, name = "terms_of_service"),
     path('privacy-policy/', privacy_policy, name = "privacy_policy"),
     path('cookie-policy/', cookie_policy, name = "cookie_policy"),
+    path('disclaimer/', disclaimer_page, name = "disclaimer"),
     path('settings/',settings_page, name = "settings"),
     path('schedule-meeting/', schedule_meeting, name = "schedule"),
     path('scheduled-meetings/', scheduled_meetings, name = "scheduled_meetings"),

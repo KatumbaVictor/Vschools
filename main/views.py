@@ -166,6 +166,9 @@ def terms_of_service(request):
 def cookie_policy(request):
     return render(request, 'cookie_policy.html')
 
+def disclaimer_page(request):
+    return render(request, 'disclaimer.html')
+
 def verify_email(request, token):
     try:
         obj = account_info.objects.get(email_token=token)
