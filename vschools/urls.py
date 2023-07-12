@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -22,6 +22,11 @@ from main.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+    path('auth/webauthn/', include('djoser.webauthn.urls')),
+    path('payments/', include('payments.urls')),
+    path('chat/', include('vschoolschat.urls')),
     path('login/',login_page, name = "login"),
     path('', home_page, name = "home"),
     path('get_token/', getToken, name = "getToken"),
@@ -41,6 +46,7 @@ urlpatterns = [
     path('getRoomMember/', getRoomMember, name = "getRoomMember"),
     path('welcome/', welcome_page, name = "welcome"),
     path('kickout/', kickout_page),
+    #url(r'^files', include('db_file_storage.urls')),
     path('join_session/', join_session, name = "join_session"),
     path('checkMeetingRecording/', checkMeetingRecording, name = "checkMeetingRecording"),
     path('scheduled-meeting/<str:meeting_id>', scheduled_meeting, name = "scheduledMeeting"),
@@ -73,3 +79,4 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
+handler404 = 'main.views.handle_404'

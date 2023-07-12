@@ -19,8 +19,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{config("PROJECT_NAME")}.setti
 django.setup()
 
 from channels.auth import AuthMiddlewareStack
-from main.consumers import ChatConsumer
+from main.consumers import ChatConsumer, DialogueConsumer
 from channels.routing import ProtocolTypeRouter, URLRouter
+from django.urls import path
 
 application = ProtocolTypeRouter({
     'http':get_asgi_application(),
@@ -29,6 +30,7 @@ application = ProtocolTypeRouter({
             URLRouter(
                 [
                     re_path(r'^MessageSocket/(?P<room_name>[\w.@+-]+)/$', ChatConsumer.as_asgi()),
+                    re_path(r'^ChatSocket/(?P<room_name>\w+)/$', DialogueConsumer.as_asgi()),
                 ]
             )
         )

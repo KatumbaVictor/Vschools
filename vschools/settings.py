@@ -31,15 +31,21 @@ ADMINS = [
     ('Katumba Victor','katumbavictor5@gmail.com')
 ]
 
-ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1']
+MANAGERS = ADMINS
+
+ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1','localhost',
+                'dialogue.vschoolsmeet.tech']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
+ROOT_HOSTCONF = 'vschools.hosts'
+DEFAULT_HOST = 'www'
 
 ASGI_APPLICATION = f'{config("PROJECT_NAME")}.asgi.application'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,10 +54,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'storages',
     'django_celery_results',
     'django_celery_beat',
     'compressor',
+    'django_redis',
+    'db_file_storage',
+    'payments',
+    'axes',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'djoser.webauthn',
+    'django_hosts'
 ]
 
 
@@ -59,15 +73,17 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://127.0.0.1:6379'],
+            'hosts': [('localhost', 6379)]
         },
     },
 }
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'htmlmin.middleware.MarkRequestMiddleware',
+    'axes.middleware.AxesMiddleware',
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -77,8 +93,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    "django.contrib.auth.backends.ModelBackend"
+]
+
+DJOSER = {
+    'LOGIN_FIELD':'email',
+    'SEND_ACTIVATION_EMAIL': True,
+    'LOGOUT_ON_PASSWORD_CHANGE': True,
+    'ACTIVATION_URL': 'verify-email/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'reset/{uid}/{token}',
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
+    'USERNAME_RESET_SHOW_EMAIL_NOT_FOUND': True,
+    'USER_CREATE_PASSWORD_RETYPE': True
+}
 
 TEMPLATES = [
     {
@@ -95,6 +129,20 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': {
+        'rest_framework.authentication.TokenAuthenticatioin',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    }
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+}
 
 WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 
@@ -120,6 +168,10 @@ DATABASES = {
     }
 }
 '''
+#DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
+
+#DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -147,6 +199,9 @@ CACHES = {
         }
     }
 }
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 cache_backend = 'default'
 
@@ -189,7 +244,14 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 LOGOUT_REDIRECT_URL = '/login'
 
-COMPRESS_OFFLINE = True
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=20)
+AXES_LOCKOUT_TEMPLATE = 'lockout.html'
+
+PAYMENT_HOST = 'localhost:8000'
+PAYMENT_USES_SSL = False
+
+COMPRESS_OFFLINE = False
 COMPRESS_ENABLED = True
 COMPRESS_CSS_HASHING_METHOD = 'content'
 COMPRESS_FILTERS = {

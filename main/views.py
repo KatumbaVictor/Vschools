@@ -22,12 +22,17 @@ import uuid
 from agora_token_builder import RtcTokenBuilder
 import base64
 import http.client
-import boto3
 import os
-from aiortc import RTCPeerConnection, RTCSessionDescription
-
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
 
+
+def register(request):
+    registration_challenge = secrets.token_urlsafe(32)
+    request.session['registration_challenge'] = registration_challenge
+    return JsonResponse({'challenge':registration_challenge})
+
+def register_verify(request):
+    registration_challenge = request.session.get('registration_challenge')
 
 
 def getToken(request):
@@ -138,6 +143,9 @@ def settings_page(request):
             item.save()
     
     return render(request,"settings_page.html",context)
+
+def handle_404(request, exception):
+    return render(request, '404.html', status=404)
 
 def password_changed(request):
     return render(request,"password_changed.html")
@@ -406,14 +414,6 @@ def logout_user(request):
     return redirect('login')
 
 async def test_page(request):
-    '''
-    peerConnection = RTCPeerConnection()
-    await peerConnection.createOffer()
-
-    offer = peerConnection.localDescription
-    print(offer)
-    '''
-
     return render(request, "test.html")
 
 def meeting_ended(request):

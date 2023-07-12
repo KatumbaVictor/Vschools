@@ -31,6 +31,10 @@
                     {% if meetings %}
                         <button onclick="scheduled_meetings()">Scheduled meetings</button>
                     {% endif %}
+                    {% if request.user.is_staff %}
+                        <button onclick="(window.open('/admin','_self'))">Admin panel</button>
+                    {% endif %}
+                    <button onclick = "(window.open('/chat/dialogue/{{ user_token }}','_self'))">Dialogue</button>
                     <button onclick="logout()">Logout</button>
                     <button style = "border: none" onclick="(document.getElementById('options').style.display = 'none')">Cancel</button>
                 </div>
@@ -69,7 +73,8 @@
             <div class = "links">
                 <a href = "https://www.instagram.com/vschools_meet/" target = "_blank"><i class = "fab fa-instagram"></i></a>
                 <a href = "https://www.linkedin.com/in/vschools-meet-4a9a78157/" target = "_blank"><i class = "fab fa-linkedin"></i></a>
-                <a href = "#" target = "_blank"><i class = "fab fa-facebook"></i></a>
+                <a href = "https://www.facebook.com/profile.php?id=100092488212217&mibextid=ZbWKwL" target = "_blank"><i class = "fab fa-facebook"></i></a>
+                <a href = "https://twitter.com/VschoolsM97310" target = "_blank"><i class = "fab fa-twitter"></i></a>
             </div>
             
             <p id = "notification"><i class = "fas fa-exclamation-triangle"></i> No meeting found with the given passcode</p>

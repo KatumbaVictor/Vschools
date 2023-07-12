@@ -48,7 +48,7 @@ body {
     align-items: center;
     justify-content: center;
     color: rgba(0, 0, 0, 0.9);
-    transition: background-color .5s;
+    transition: background-color .5s ease;
 }
 
 #navbar button:hover {
@@ -224,12 +224,11 @@ p {
 }
 
 #notification {
-    color: white;
     background-color: rgb(255, 220, 220);
-    border: 1px solid rgba(255, 0, 0, 0.234);
+    border: 1px solid rgba(255, 0, 0, 0.10);
     color: black;
     position: fixed;
-    bottom: 20px;
+    top: 66%;
     left: 50%;
     transform: translateX(-50%);
     padding: 12px;

@@ -1,0 +1,43 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Katumba Victor">
+        <meta name="description" content="About us">
+        <title>Dialogue | Vschools</title>
+        <link rel="shortcut icon" href="{% static 'images/whiteboard.svg' %}" type="image/svg"/>
+        <link rel = "stylesheet" href = "{% static 'css/chat.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        <script src = "{% static 'js/chat.js' %}" type = "text/javascript" defer></script>
+    </head>
+    <body>
+    	<header>
+            <nav id = "navbar" data-profilePic = "{{ profile_picture.url }}" data-username = "{{ username }}" data-usertoken = "{{ user_token }}">
+            	<button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            </nav>
+        </header>
+
+        <main>
+            <div id = "divone">
+                <p>Hello, you're welcome to Vschools dialogue, you can copy the link below to 
+                    invite others to the chat.</p>
+                <input type = "text" placeholder = "Chat invite link...." value = "vschoolsmeet.tech/chat/dialogue/{{ user_token }}"/>
+                <button>Copy link <i class = "far fa-copy"></i></button>
+            </div>
+        </main>
+
+        <footer>
+            <div>
+                <input type = "text" placeholder = "Enter message here..." onkeypress = "SendWithEnter(event)"/>
+                <button id = "sendButton" onclick = "postMessage(this)"><i class = "far fa-paper-plane"></i></button>
+            </div>
+            <p>Conversations with friends and family</p>
+        </footer>
+    </body>
+</html>
