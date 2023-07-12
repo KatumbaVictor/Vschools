@@ -168,7 +168,6 @@ DATABASES = {
     }
 }
 '''
-#DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
 #DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
