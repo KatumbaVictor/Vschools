@@ -184,3 +184,25 @@ footer p {
     font-size: 12px;
     font-weight: bold;
 }
+
+@media screen and (max-width: 1030px) {
+    main {
+        width: 100%;
+    }
+
+    #divone {
+        width: calc(100% - 32px);
+    }
+
+    .message {
+        width: calc(100% - 80px);
+    }
+
+    footer {
+        width: 100%;
+    }
+
+    footer div {
+        width: calc(100% - 30px);
+    }
+}

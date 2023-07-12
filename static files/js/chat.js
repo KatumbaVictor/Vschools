@@ -80,3 +80,13 @@ let unlikeButton = (self) => {
     self.firstElementChild.setAttribute('class','far fa-thumbs-up');
     self.setAttribute('onclick','likeButton(this)');
 }
+
+let copyLink = (self) => {
+    self.innerHTML = 'Copied link <i class = "fas fa-copy"></i>'
+    var link = self.parentElement.children[1].value;
+    navigator.clipboard.writeText(link);
+
+    setTimeout(() => {
+        self.innerHTML = 'Copy link <i class = "far fa-copy"></i>'
+    }, 3000)
+}
