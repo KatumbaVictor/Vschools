@@ -69,10 +69,14 @@ let getImage = (data) => {
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
         <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${formattedTime}</span></p>
-        <img src = "${data.fileSource}" class = "image_post"/>
+        <img src = "${data.fileSource}" class = "image_post" ondblclick = "ShowFullImage(this)"/>
     `
 
     parent.appendChild(container)
+}
+
+let ShowFullImage = (self) => {
+    self.requestFullscreen()
 }
 
 let getMessage = (data) => {
