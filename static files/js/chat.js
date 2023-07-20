@@ -108,7 +108,7 @@ let postMessage = (self) => {
 let postFile = (self) => {
     if (self.files) {
         const reader = new FileReader();
-        reader.onloadend = (event) => {
+        reader.onload = (event) => {
             const binaryData = event.target.result;
             console.log(binaryData)
 
@@ -118,6 +118,22 @@ let postFile = (self) => {
             socket.send(binaryData)
 
         }
+
+        reader.onprogress = (event) => {
+            if (event.lengthComputable) {
+                document.getElementById('progress').style.display = "flex";
+                const progress = Math.trunc((event.loaded / event.total)) * 100;
+                const targetElement = document.getElementById('progress').children[1].firstElementChild;
+                console.log(progress)
+                targetElement.style.width = `${progress}%`;
+                document.getElementById('progress').lastElementChild.innerHTML = `${progress}%`
+            }
+        }
+
+        reader.onloadend = () => {
+            document.getElementById('progress').style.display = "none";
+        }
+
         reader.readAsArrayBuffer(self.files[0])
     }
 }
