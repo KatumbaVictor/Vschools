@@ -12,6 +12,7 @@ from django.conf import settings
 from main.utils import *
 import numpy
 import secrets
+import base64
 
 class DialogueConsumer(WebsocketConsumer):
     def connect(self):
@@ -22,14 +23,27 @@ class DialogueConsumer(WebsocketConsumer):
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(self.room_name, self.channel_name)
 
-    def receive(self, text_data):
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_name,
-            {
-                'type':'chat_message',
-                'text': text_data
-            }
-        )
+    def receive(self, text_data=None, bytes_data=None):
+        if text_data:
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_name,
+                {
+                    'type':'chat_message',
+                    'text': text_data
+                }
+            )
+
+        if bytes_data:
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_name,
+                {
+                    'type':'send_binary',
+                    'text': bytes_data
+                }
+            )
+
+    def send_binary(self, event):
+        self.send(bytes_data=event['text'])
 
     def chat_message(self, event):
         data = json.loads(event['text'])

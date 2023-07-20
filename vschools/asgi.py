@@ -30,7 +30,7 @@ application = ProtocolTypeRouter({
             URLRouter(
                 [
                     re_path(r'^MessageSocket/(?P<room_name>[\w.@+-]+)/$', ChatConsumer.as_asgi()),
-                    re_path(r'^ChatSocket/(?P<room_name>\w+)/$', DialogueConsumer.as_asgi()),
+                    re_path(r'^ChatSocket/(?P<room_name>[\w.@+-]+)/$', DialogueConsumer.as_asgi()),
                 ]
             )
         )
