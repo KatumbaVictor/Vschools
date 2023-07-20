@@ -1,6 +1,6 @@
 const username = document.getElementById('navbar').dataset.username;
 const profile_picture = document.getElementById('navbar').getAttribute('data-profilePic');
-const room_name = document.getElementById('navbar').dataset.usertoken;
+const room_name = window.location.pathname.split('/').pop();
 var connection_protocol;
 var socketUrl;
 var files = [];
