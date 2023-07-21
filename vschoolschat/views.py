@@ -9,5 +9,5 @@ def chat_page(request, user_token):
     #profile_picture = account_info.objects.get(user=request.user).profile_picture
 	context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
 				'username':account_info.objects.get(user=request.user).username,
-				'user_token':account_info.objects.get(user=request.user).user_token}
+				'user_token':user_token}
 	return render(request, 'chat.html', context)

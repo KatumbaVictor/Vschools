@@ -7,6 +7,7 @@ body {
     /*padding: 67px 23px 20px 23px;*/
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding-top: 67px;
     padding-bottom: 100px;
 } 
@@ -17,7 +18,6 @@ main {
     align-items: center;
     align-self: center;
     max-width: 800px;
-    padding-bottom: 60px;
 }
 
 #navbar { 
@@ -202,6 +202,54 @@ main {
     margin-right: 10px;
 }
 
+audio {
+    margin-top: 52px;
+    width: 100%;
+}
+
+#audio_panel {
+    position: fixed;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    z-index: 20;
+    font-weight: normal;
+    font-size: 13px;
+    text-align: center;
+    background-color: rgb(173,216,230);
+    color: black;
+    max-width: 200px;
+    border-radius: 8px;
+    display: none;
+    opacity: 1;
+    transition: opacity 1s;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+    border:  1px solid rgba(0, 0, 255, 0.11);
+    width: 300px;
+}
+
+#audio_panel h2 {
+    margin: 0;
+    font-size: 18px;
+    margin-top: 6px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+#audio_panel button {
+    margin-top: 15px;
+    padding: 8px;
+    width: calc(100% - 20px);
+    border: none;
+    background-color: rgba(0, 0, 128, 0.51);
+    border: 1px solid rgba(128, 128, 128, 0.20);
+    box-shadow: 0 0 3px rgba(128, 128, 128, 0.341);
+    font-weight: 400;
+    border-radius: 8px;
+    color: white;
+}
+
 footer {
     width: 100%;
     height: 100px;
@@ -214,6 +262,7 @@ footer {
     position: fixed;
     bottom: 0; 
     left: 0; 
+    z-index: 10;
 }
 
 footer div {

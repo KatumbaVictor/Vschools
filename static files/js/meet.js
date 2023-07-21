@@ -376,18 +376,10 @@ function sendFiles(self) {
 
 let getCurrentTime = () => {
     var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    if (minutes < 10){
-        minutes = '0'+minutes;
-    }
-    if (hours < 10){
-        hours = '0'+hours;
-    }
+    var options = {hour12: true, hour: 'numeric', minute: 'numeric'};
+    var formattedTime = date.toLocaleTimeString('en-US', options);
 
-    var time = `${hours}:${minutes}`;
-
-    return time;
+    return formattedTime;
 }
 
 let add_to_chat = (profile_picture, name, message) => {

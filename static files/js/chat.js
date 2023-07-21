@@ -1,10 +1,13 @@
 const username = document.getElementById('navbar').dataset.username;
 const profile_picture = document.getElementById('navbar').getAttribute('data-profilePic');
+const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 const room_name = window.location.pathname.split('/').pop();
 var connection_protocol;
 var socketUrl;
 var files = [];
 var file_details = [];
+var mediaRecorder;
+var mediaStream;
 
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
@@ -30,7 +33,14 @@ socket.onmessage = (e) => {
         var item = file_details[index];
         item['fileSource'] = URL.createObjectURL(e.data);
 
-        getImage(item);
+        console.log(item)
+
+        if (item.file_info === 'image') {
+            getImage(item);
+        }else if (item.file_info === 'audio') {
+            getAudio(item);
+            console.log('it is audio')
+        }
 
     }else {
         var response = JSON.parse(e.data);
@@ -64,7 +74,7 @@ var formattedTime = date.toLocaleTimeString('en-US', options);
 
 let getImage = (data) => {
     var container = document.createElement('div');
-    var parent = document.getElementsByTagName('main')[0];
+    var parent = document.getElementById('container')
     container.setAttribute('class','message');
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
@@ -72,7 +82,29 @@ let getImage = (data) => {
         <img src = "${data.fileSource}" class = "image_post" ondblclick = "ShowFullImage(this)"/>
     `
 
-    parent.appendChild(container)
+    var body = document.body;
+    body.appendChild(container)
+    setTimeout(() => {window.scrollTo(0, document.body.scrollHeight);}, 1000);
+}
+
+let getAudio = (data) => {
+    var container = document.createElement('div');
+    var parent = document.getElementById('container')
+    container.setAttribute('class','message');
+    container.innerHTML = `
+        <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
+        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${formattedTime}</span></p>
+        
+        <audio controls>
+            <source src = "${data.fileSource}" type = "audio/wav">
+        </audio>
+    `
+    console.log(data.fileSource)
+
+    var body = document.body;
+    body.appendChild(container)
+
+    setTimeout(() => {window.scrollTo(0, document.body.scrollHeight);}, 1000);
 }
 
 let ShowFullImage = (self) => {
@@ -83,13 +115,22 @@ let getMessage = (data) => {
     var container = document.createElement('div');
     var parent = document.getElementsByTagName('main')[0];
     container.setAttribute('class','message');
+
+    if (expression.test(data.text_value) == true) {
+        data.text_value = data.text_value.replace(expression, (url) => {
+            return `<a href = '${url}' target="_blank">${url}</a>`;
+        })
+    }
+
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
         <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${formattedTime}</span></p>
         <p class = "right">${data.text_value}</p>
     `
 
-    parent.appendChild(container)
+    var body = document.body;
+    body.appendChild(container)
+    window.scrollTo(0, document.body.scrollHeight);
 }
 
 let postMessage = (self) => {
@@ -136,6 +177,41 @@ let postFile = (self) => {
 
         reader.readAsArrayBuffer(self.files[0])
     }
+}
+
+let listenAudio = () => {
+    document.getElementById('audio_panel').style.display = "block";
+
+    recordedChunks = [];
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then((stream) => {
+        mediaStream = stream;
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        }
+
+        mediaRecorder.onstop = () => {
+            var blob = new Blob(recordedChunks, {type:'audio/wav'});
+            var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'audio'};
+            socket.send(JSON.stringify(file_data));
+
+            socket.send(recordedChunks[0])
+            console.log(recordedChunks[0]);
+        }
+
+        mediaRecorder.start();
+    })
+}
+
+let sendAudio = () => {
+    mediaRecorder.stop();
+    mediaStream.getTracks().forEach((item) => {item.stop()})
+    document.getElementById('audio_panel').style.display = "none"
 }
 
 let getFile = () => {
