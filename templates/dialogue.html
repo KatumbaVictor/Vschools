@@ -1,0 +1,50 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Katumba Victor">
+        <meta name="description" content="Vschools chat platform">
+        <title>Dialogue | Vschools</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        <link rel = "stylesheet" href = "{% static 'css/dialogue.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+    </head>
+    <body>
+    	<header>
+            <nav id = "navbar" style = "margin-right: auto;">
+            	<button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            </nav>
+        </header>
+
+        <main>
+            <h2>Welcome to Vschools dialogue!!</h2>
+            <p>Welcome to our vibrant chat community, where connections come alive! We're thrilled to have you here as you step into this virtual gathering space, prepare to emmbark on an exciting journey of sharing ideas, laughter and profound conversations</p>
+
+            <div id = "divone">
+                <a href = "/chat/search">Join conversation</a>
+                {% if request.user.is_authenticated %}
+                    <a href = "/chat/dialogue/{{ user_token }}">Start conversation</a>
+                {% else %}
+                    <a href = "/login">Start conversation</a>
+                {% endif %}
+            </div>
+        </main>
+
+        <footer>
+            <div class = "policies">
+                <p>Vschools <i class = "far fa-copyright"></i> 2023</p>
+                <a href = "{% url 'about' %}">About</a>
+                <a href = "{% url 'privacy_policy' %}">Privacy policy</a>
+                <a href = "{% url 'terms_of_service' %}">Terms of service</a>
+                <a href = "{% url 'cookie_policy' %}">Cookie policy</a>
+                <a href = "{% url 'disclaimer' %}">Disclaimer</a>
+            </div>
+        </footer>
+    </body>
+</html>

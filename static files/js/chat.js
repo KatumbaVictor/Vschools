@@ -8,6 +8,7 @@ var files = [];
 var file_details = [];
 var mediaRecorder;
 var mediaStream;
+var audioInputDevices;
 
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
@@ -16,6 +17,11 @@ if (window.location.protocol == 'https:'){
     connection_protocol = 'ws';
     socketUrl = `${connection_protocol}://${window.location.host}/ChatSocket/${room_name}/`;
 }
+
+navigator.mediaDevices.enumerateDevices()
+.then(devices => {
+    audioInputDevices = devices.filter(device => device.kind === 'audioinput');
+})
 
 const socket = new WebSocket(socketUrl);
 
@@ -179,33 +185,62 @@ let postFile = (self) => {
     }
 }
 
-let listenAudio = () => {
-    document.getElementById('audio_panel').style.display = "block";
+let showAlert = (data) => {
+    var item = document.getElementById('alert');
+    item.innerHTML = data;
+    item.style.opacity = "1";
+    setTimeout(() => {
+        item.style.opacity = "0";
+    },4000)
+}
 
-    recordedChunks = [];
-
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then((stream) => {
-        mediaStream = stream;
-        mediaRecorder = new MediaRecorder(stream);
-
-        mediaRecorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-                recordedChunks.push(event.data);
-            }
+let checkPermission = () => {
+    console.log('hello')
+    navigator.permissions.query({name:'microphone'})
+    .then(permissionStatus => {
+        if (permissionStatus.state === 'granted') {
+            console.log('yes')
+            return true
+        }else if (permissionStatus.state === 'prompt') {
+            var data = 'Allow microphone permission first';
+            showAlert(data);
+        }else {
+            var data = '<i class = "fas fa-microphone-slash"></i> Microphone permission is denied';
+            showAlert(data);
         }
-
-        mediaRecorder.onstop = () => {
-            var blob = new Blob(recordedChunks, {type:'audio/wav'});
-            var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'audio'};
-            socket.send(JSON.stringify(file_data));
-
-            socket.send(recordedChunks[0])
-            console.log(recordedChunks[0]);
-        }
-
-        mediaRecorder.start();
     })
+}
+
+let listenAudio = () => {
+    recordedChunks = [];
+    
+    if (audioInputDevices.length > 0) {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+            mediaStream = stream;
+            mediaRecorder = new MediaRecorder(stream);
+
+            document.getElementById('audio_panel').style.display = "block";
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            }
+
+            mediaRecorder.onstop = () => {
+                var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'audio'};
+                socket.send(JSON.stringify(file_data));
+
+                socket.send(recordedChunks[0])
+            }
+
+            mediaRecorder.start();
+        })
+    }else {
+        var data = '<i class = "fas fa-microphone-slash"></i> No microphone is connected to your device';
+        showAlert(data);
+    }
 }
 
 let sendAudio = () => {
