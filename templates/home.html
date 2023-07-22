@@ -34,7 +34,7 @@
                     {% if request.user.is_staff %}
                         <button onclick="(window.open('/admin','_self'))">Admin panel</button>
                     {% endif %}
-                    <button onclick = "(window.open('/chat/dialogue/{{ user_token }}','_self'))">Dialogue</button>
+                    <button onclick = "(window.open('/chat','_self'))">Dialogue</button>
                     <button onclick="logout()">Logout</button>
                     <button style = "border: none" onclick="(document.getElementById('options').style.display = 'none')">Cancel</button>
                 </div>
