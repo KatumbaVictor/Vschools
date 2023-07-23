@@ -2,6 +2,7 @@ const username = document.getElementById('navbar').dataset.username;
 const profile_picture = document.getElementById('navbar').getAttribute('data-profilePic');
 const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 const room_name = window.location.pathname.split('/').pop();
+const userID = document.getElementById('divone').dataset.id;
 var connection_protocol;
 var socketUrl;
 var files = [];
@@ -28,24 +29,18 @@ const socket = new WebSocket(socketUrl);
 socket.onmessage = (e) => {
     if (e.data instanceof Blob) {
         var data = e.data;
-
-        var imageURL = URL.createObjectURL(e.data);
-        var image = document.createElement('img');
-        image.setAttribute('src', imageURL);
-        
         files.push(data);
 
         var index = files.indexOf(data);
         var item = file_details[index];
         item['fileSource'] = URL.createObjectURL(e.data);
 
-        console.log(item)
-
-        if (item.file_info === 'image') {
-            getImage(item);
-        }else if (item.file_info === 'audio') {
-            getAudio(item);
-            console.log('it is audio')
+        if (item.id != userID) {
+            if (item.file_info === 'image') {
+                getImage(item);
+            }else if (item.file_info === 'audio') {
+                getAudio(item);
+            }
         }
 
     }else {
@@ -53,6 +48,7 @@ socket.onmessage = (e) => {
         if (response.text_value) {
             getMessage(response)
         }else if (response.file_info) {
+            var item = response.file_info;
             file_details.push(response)
         }
     }
@@ -105,7 +101,6 @@ let getAudio = (data) => {
             <source src = "${data.fileSource}" type = "audio/wav">
         </audio>
     `
-    console.log(data.fileSource)
 
     var body = document.body;
     body.appendChild(container)
@@ -157,10 +152,15 @@ let postFile = (self) => {
         const reader = new FileReader();
         reader.onload = (event) => {
             const binaryData = event.target.result;
-            console.log(binaryData)
 
-            var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'image'};
+            var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'image',
+                            id:userID};
             socket.send(JSON.stringify(file_data));
+
+            var blob = new Blob([binaryData], {type: file.type});
+            file_data['fileSource'] = URL.createObjectURL(blob);
+
+            getImage(file_data);
 
             socket.send(binaryData)
 
@@ -171,7 +171,7 @@ let postFile = (self) => {
                 document.getElementById('progress').style.display = "flex";
                 const progress = Math.trunc((event.loaded / event.total)) * 100;
                 const targetElement = document.getElementById('progress').children[1].firstElementChild;
-                console.log(progress)
+                
                 targetElement.style.width = `${progress}%`;
                 document.getElementById('progress').lastElementChild.innerHTML = `${progress}%`
             }
@@ -229,10 +229,13 @@ let listenAudio = () => {
             }
 
             mediaRecorder.onstop = () => {
-                var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'audio'};
+                var file_data = {'username':username,'profile_picture':profile_picture,'file_info':'audio', id: userID};
                 socket.send(JSON.stringify(file_data));
 
-                socket.send(recordedChunks[0])
+                socket.send(recordedChunks[0]);
+
+                file_data['fileSource'] = URL.createObjectURL(recordedChunks[0]);
+                getAudio(file_data);
             }
 
             mediaRecorder.start();
