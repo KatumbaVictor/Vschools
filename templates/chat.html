@@ -24,7 +24,7 @@
         </header>
 
         <main>
-            <div id = "divone" data-id = {{ request.user.id }}>
+            <div id = "divone" data-id = "{{ request.user.id }}">
                 <p>Hello, you're welcome to Vschools dialogue, you can copy the link below to 
                     invite others to the conversation.</p>
                 <input type = "text" placeholder = "Chat invite link...." value = "https://vschoolsmeet.tech/chat/dialogue/{{ user_token }}"/>
