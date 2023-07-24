@@ -11,8 +11,10 @@
         <meta name="description" content="You are welcome to Vschools">
         <title>Vschools | Welcome here!!!</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
         <link rel = "stylesheet" id = "styles" href = "{% static 'css/welcome.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+        {% endcompress %}
     </head>
     <body>
         <div>

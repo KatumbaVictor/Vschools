@@ -159,7 +159,6 @@ DATABASES = {
         'PORT': config("DATABASE_PORT")
     }
 }
-
 '''
 DATABASES = {
     'default': {
@@ -168,7 +167,6 @@ DATABASES = {
     }
 }
 '''
-
 #DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
 # Password validation

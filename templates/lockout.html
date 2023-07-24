@@ -10,8 +10,10 @@
         <meta name="author" content="Katumba Victor">
         <title>Vschools | Secure</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
         <link id = "styles" rel = "stylesheet" href = "{% static 'css/lockout.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        {% endcompress %}
     </head>
     <body>
         <div id = "navbar">

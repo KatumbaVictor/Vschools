@@ -11,8 +11,10 @@
         <meta name="description" content="Vschools chat platform">
         <title>Dialogue | Vschools</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
         <link rel = "stylesheet" href = "{% static 'css/dialogue.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        {% endcompress %}
     </head>
     <body>
     	<header>

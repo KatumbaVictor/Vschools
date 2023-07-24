@@ -11,9 +11,13 @@
         <meta name="description" content="Best virtual meeting experience with tools such as realtime whiteboard, meeting recording and so on">
         <title>Vschools | Login</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
         <link rel = "stylesheet" id = "styles" href = "{% static 'css/login.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
+        {% endcompress %}
+        {% compress js %}
         <script src = "{% static 'js/login.js' %}" defer></script>
+        {% endcompress %}
     </head>
     <body> 
         <div id = "navbar">
