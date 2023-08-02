@@ -34,11 +34,12 @@ ADMINS = [
 MANAGERS = ADMINS
 
 ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1','localhost',
-                'dialogue.vschoolsmeet.tech']
+                'dialogue.vschoolsmeet.tech', 'dialogue.localhost','www.localhost']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
-ROOT_HOSTCONF = 'vschools.hosts'
+ROOT_HOSTCONF = f'{config("PROJECT_NAME")}.hosts'
 DEFAULT_HOST = 'www'
+PARENT_HOST = 'localhost'
 
 ASGI_APPLICATION = f'{config("PROJECT_NAME")}.asgi.application'
 
@@ -65,7 +66,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'djoser.webauthn',
-    'django_hosts'
+    'django_hosts',
+    'webpush'
 ]
 
 
@@ -151,22 +153,11 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config("DATABASE_NAME"),
-        'USER': config("DATABASE_USER"),
-        'PASSWORD': config("DATABASE_PASSWORD"),
-        'HOST': config("DATABASE_HOST"),
-        'PORT': config("DATABASE_PORT")
-    }
-}
-'''
-DATABASES = {
-    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-'''
+
 #DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
 # Password validation
@@ -186,6 +177,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+WEBPUSH_SETTINGS = {
+    'VAPID_PUBLIC_KEY': 'BCA2I2ypilTvhTaHxbqzbCGDdBgkmLaM0ydsZXNpnoIPdIzf4Va8poLm-GlGJcMN4t8I29yOtCGSrvdA7EUMxJY',
+    'VAPID_PRIVATE_KEY': 'fgjnXLr1f0yZbbqoHrfCK7Bf1EO97lYODuPyNEws-_U',
+    'VAPID_ADMIN_EMAIL': 'katumbavictor5@gmail.com'
+}
 
 CACHES = {
     "default": {
@@ -249,7 +246,7 @@ PAYMENT_HOST = 'localhost:8000'
 PAYMENT_USES_SSL = False
 
 COMPRESS_OFFLINE = False
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False
 COMPRESS_CSS_HASHING_METHOD = 'content'
 COMPRESS_FILTERS = {
     'css':[
@@ -273,17 +270,32 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
 
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    COMPRESS_ENABLED = True
+
+    PARENT_HOST = 'vschoolsmeet.tech'
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config("DATABASE_NAME"),
+            'USER': config("DATABASE_USER"),
+            'PASSWORD': config("DATABASE_PASSWORD"),
+            'HOST': config("DATABASE_HOST"),
+            'PORT': config("DATABASE_PORT")
+        }
+    }
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 accept_content = ['application/json']

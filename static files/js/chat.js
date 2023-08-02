@@ -70,9 +70,13 @@ let getCurrentTime = () => {
     return time;
 }
 
-var date = new Date();
-var options = {hour12: true, hour: 'numeric', minute: 'numeric'};
-var formattedTime = date.toLocaleTimeString('en-US', options);
+let getTime = () => {
+    var date = new Date();
+    var options = {hour12: true, hour: 'numeric', minute: 'numeric'};
+    var formattedTime = date.toLocaleTimeString('en-US', options);
+
+    return formattedTime;
+}
 
 let getImage = (data) => {
     var container = document.createElement('div');
@@ -80,7 +84,7 @@ let getImage = (data) => {
     container.setAttribute('class','message');
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
-        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${formattedTime}</span></p>
+        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${getTime()}</span></p>
         <img src = "${data.fileSource}" class = "image_post" ondblclick = "ShowFullImage(this)"/>
     `
 
@@ -95,7 +99,7 @@ let getAudio = (data) => {
     container.setAttribute('class','message');
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
-        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${formattedTime}</span></p>
+        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${getTime()}</span></p>
         
         <audio controls>
             <source src = "${data.fileSource}" type = "audio/wav">
@@ -125,7 +129,7 @@ let getMessage = (data) => {
 
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
-        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${formattedTime}</span></p>
+        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${getTime()}</span></p>
         <p class = "right">${data.text_value}</p>
     `
 
@@ -282,3 +286,19 @@ let copyLink = (self) => {
         self.innerHTML = 'Copy link <i class = "far fa-copy"></i>'
     }, 3000)
 }
+
+navigator.serviceWorker.register('/static/js/worker.js', { type: 'module' })
+.then((registration) => {
+    return registration.pushManager.getSubscription();
+})
+.then(subscription => {
+    if (!subscription) {
+        return registration.pushManager.subscribe({ userVisibleOnly: true });
+    }
+})
+.then(subscription => {
+    console.log(subscription.endpoint)
+})
+.catch(error => {
+    console.error(error);
+})

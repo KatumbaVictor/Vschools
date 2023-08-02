@@ -1,5 +1,5 @@
 var main = document.getElementsByTagName('main')[0]
-var url = new URL(`${window.location.protocol}//${window.location.host}/chat/getUser`);
+var url = new URL(`${window.location.protocol}//${window.location.host}/getUser`);
 
 let getUser = (self) => {
 	var name = self.value;
@@ -22,7 +22,7 @@ let getUser = (self) => {
 	            	container.setAttribute('class','user');
 	            	container.innerHTML = `
 		                <img src = "${item.profile_picture}" class = "profile_picture" alt = "profile photo"/>
-		                <p style = "margin-bottom: 0;" class = "username">${item.username} <a href = "/chat/dialogue/${item.user_token}">join chatroom</a></p>
+		                <p style = "margin-bottom: 0;" class = "username">${item.username} <a href = "/dialogue/${item.user_token}">join chatroom</a></p>
 	            	`
 	            	main.appendChild(container)
 	            })

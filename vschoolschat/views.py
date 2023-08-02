@@ -2,10 +2,13 @@ from django.shortcuts import render
 from main.models import account_info
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from webpush import send_user_notification
+from django.contrib.auth import authenticate, login, logout
+from django_hosts.resolvers import reverse
 
 # Create your views here.
 
-@login_required(login_url='login')
+@login_required(login_url=reverse('login', host='www'))
 def chat_page(request, user_token):
     #profile_picture = account_info.objects.get(user=request.user).profile_picture
 	context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
@@ -34,3 +37,6 @@ def guest_page(request):
 		context['user_token'] = account_info.objects.get(user=request.user).user_token
 
 	return render(request, 'dialogue.html', context)
+
+def logout_view(request):
+	logout(request)

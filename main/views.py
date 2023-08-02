@@ -414,7 +414,7 @@ def logout_user(request):
     return redirect('login')
 
 async def test_page(request):
-    return render(request, "test.html")
+    return render(request, "404.html")
 
 def meeting_ended(request):
     return render(request, "meeting_ended.html")

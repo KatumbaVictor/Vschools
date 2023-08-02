@@ -15,6 +15,7 @@
         <link rel = "stylesheet" href = "{% static 'css/chat.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
         {% endcompress %}
+
         {% compress js %}
         <script src = "{% static 'js/chat.js' %}" type = "text/javascript" defer></script>
         {% endcompress %}
@@ -22,7 +23,7 @@
     <body>
     	<header>
             <nav id = "navbar" data-profilePic = "{{ profile_picture.url }}" data-username = "{{ username }}" data-usertoken = "{{ user_token }}" style = "margin-right: auto;">
-            	<button title = "Back to home" onclick="(window.open('/chat','_self'))"><i class = "fas fa-arrow-left"></i></button>
+            	<button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
                 <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
             </nav>
         </header>
@@ -31,7 +32,7 @@
             <div id = "divone" data-id = "{{ request.user.id }}">
                 <p>Hello, you're welcome to Vschools dialogue, you can copy the link below to 
                     invite others to the conversation.</p>
-                <input type = "text" placeholder = "Chat invite link...." value = "https://vschoolsmeet.tech/chat/dialogue/{{ user_token }}"/>
+                <input type = "text" placeholder = "Chat invite link...." value = "https://dialogue.vschoolsmeet.tech/dialogue/{{ user_token }}"/>
                 <button onclick = "copyLink(this)">Copy link <i class = "far fa-copy"></i></button>
             </div>
             <div id = "progress">
@@ -57,7 +58,7 @@
                     margin-left: 10px;" title = "Send file"><i class = "fas fa-camera"></i></button>
                 <button id = "sendButton" ondblclick="listenAudio()" style = "margin-right: auto;
                     margin-left: 10px;" title = "Double tap to send audio"><i class = "fas fa-microphone"></i></button>
-                <input type = "text" placeholder = "Enter message here..." onkeypress = "SendWithEnter(event)"/>
+                <input type = "text" placeholder = "Enter message here..." onkeypress = "SendWithEnter(event)" autofocus/>
                 <button id = "sendButton" onclick = "postMessage(this)" style = "margin-left: auto;
                     margin-right: 10px;" title = "Send message"><i class = "far fa-paper-plane"></i></button>
             </div>

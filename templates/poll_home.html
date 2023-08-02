@@ -1,0 +1,41 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Katumba Victor">
+        <meta name="description" content="Vschools polls platform">
+        <title>Polls | Vschools</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
+        <link rel = "stylesheet" href = "{% static 'css/polls_home.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        {% endcompress %}
+    </head>
+    <body>
+        <header>
+            <nav id = "navbar" data-profilePic = "{{ profile_picture.url }}" data-username = "{{ username }}" data-usertoken = "{{ user_token }}" style = "margin-right: auto;">
+                <button title = "Back to home" onclick="(window.open('/chat','_self'))"><i class = "fas fa-arrow-left"></i></button>
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            </nav>
+        </header>
+
+        <main>
+            <div id = "divone">
+                <h2>Make a difference with your vote!</h2>
+                <p>Welcome to Vschools Polls, the platform where your voice matters! We believe in the power of collective opinions, Here, you can participate in a wide range of thought-provoking polls on various topics.
+                </p>
+                <button class = "join"><i class = "fas fa-plus"></i> Start poll</button>
+            </div>
+            <img src = "/static/images/mail_sent.svg"/>
+        </main>
+
+        <footer>
+            
+        </footer>
+    </body>
+</html>
