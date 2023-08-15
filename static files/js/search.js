@@ -1,9 +1,8 @@
 var main = document.getElementsByTagName('main')[0]
-var url = new URL(`${window.location.protocol}//${window.location.host}/getUser`);
+var url = new URL(`${window.location.protocol}//${window.location.host}/chat/getUser`);
 
 let getUser = (self) => {
 	var name = self.value;
-	console.log(name)
 	url.searchParams.append('name',name)
 
 	if (name.length > 0) {
@@ -16,15 +15,14 @@ let getUser = (self) => {
         	method: 'GET'
 	    }).then((response) => {
 	        return response.json().then((data) => {
-	            console.log(data);
 	            data.forEach((item) => {
-	            	var container = document.createElement('div')
+	            	var container = document.createElement('div');
 	            	container.setAttribute('class','user');
 	            	container.innerHTML = `
 		                <img src = "${item.profile_picture}" class = "profile_picture" alt = "profile photo"/>
-		                <p style = "margin-bottom: 0;" class = "username">${item.username} <a href = "/dialogue/${item.user_token}">join chatroom</a></p>
+		                <p style = "margin-bottom: 0;" class = "username">${item.username} <a href = "/chat/dialogue/${item.user_token}">join chatroom</a></p>
 	            	`
-	            	main.appendChild(container)
+	            	main.appendChild(container);
 	            })
 	        })
 	    })

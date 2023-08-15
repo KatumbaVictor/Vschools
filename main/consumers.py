@@ -13,6 +13,7 @@ import numpy
 import secrets
 import base64
 from webpush import send_user_notification, send_group_notification
+from vschoolschat.models import ChatUser
 
 class DialogueConsumer(WebsocketConsumer):
     def connect(self):
@@ -20,8 +21,34 @@ class DialogueConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(self.room_name, self.channel_name)
         self.accept()
 
+        participants = []
+
+        for item in ChatUser.objects.filter(room_name=self.room_name):
+            user_detail = account_info.objects.get(user=item.user)
+            details  = {'username': user_detail.username,
+                    'profile_picture':user_detail.profile_picture.url,
+                    'id':item.user.id}
+            participants.append(details)
+
+        self.send(json.dumps({'users': participants}))
+
+        item = ChatUser(user=self.scope['user'], room_name=self.room_name, time_joined=timezone.now())
+        item.save()
+
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(self.room_name, self.channel_name)
+        ChatUser.objects.filter(user=self.scope['user'], room_name=self.room_name).delete()
+
+        #Send notification that user has left the chat room
+        username = account_info.objects.get(user=self.scope['user']).username
+        message = {'username':username,'user_left':True,'id':self.scope['user'].id}
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_name,
+            {
+                'type':'chat_message',
+                'text': json.dumps(message)
+            }
+        )
 
     def receive(self, text_data=None, bytes_data=None):
         if text_data:

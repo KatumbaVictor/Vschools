@@ -1,4 +1,10 @@
 const username = document.getElementById('navbar').dataset.username;
+
+var string = `${window.location.protocol}//${window.location.host}`;
+var url = new URL(string);
+var host = url.host.replace('dialogue.','');
+
+//const profile_picture = `${window.location.protocol}//${host}${document.getElementById('navbar').getAttribute('data-profilePic')}`;
 const profile_picture = document.getElementById('navbar').getAttribute('data-profilePic');
 const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 const room_name = window.location.pathname.split('/').pop();
@@ -46,12 +52,77 @@ socket.onmessage = (e) => {
     }else {
         var response = JSON.parse(e.data);
         if (response.text_value) {
-            getMessage(response)
+            getMessage(response);
         }else if (response.file_info) {
             var item = response.file_info;
             file_details.push(response)
+        }else if (response.joined) {
+            if (response.id != userID) {
+                showNotification(`${response.username} has joined`);
+                var container = document.createElement('div');
+                container.setAttribute('class','user');
+                container.setAttribute('id',`user_${response.id}`)
+                container.innerHTML = `
+                    <img src = '${response.profile_picture}'/>
+                    <p>${response.username}</p>
+                `
+                var parent = document.getElementsByClassName('chats')[0];
+                parent.append(container);
+
+                var heading = document.getElementById('header').firstElementChild;
+                heading.innerHTML = `${parent.children.length} Participants`
+
+                var button = document.getElementsByClassName('people')[0];
+                button.innerHTML = `${parent.children.length} participants`;
+                
+            }
+        }else if (response.recording_audio) {
+            if (response.id != userID) {
+                showNotification(`${response.username} is recording audio...`);
+            }
+        }else if (response.typing) {
+            if (response.id != userID) {
+                showNotification(`${response.username} is typing...`);
+            }
+        }else if (response.user_left) {
+            showAlert(`${response.username} has left`);
+            document.getElementById(`user_${response.id}`).remove();
+
+            var parent = document.getElementsByClassName('chats')[0];
+
+            if (parent.children.length === 1) {
+                var heading = document.getElementById('header').firstElementChild;
+                heading.innerHTML = '1 Participant'
+
+                var button = document.getElementsByClassName('people')[0];
+                button.innerHTML = '1 participant';
+            }
+        }else if (response.users) {
+            var parent = document.getElementsByClassName('chats')[0];
+
+            response.users.forEach((item) => {
+                var container = document.createElement('div');
+                container.setAttribute('class','user');
+                container.setAttribute('id',`user_${item.id}`)
+                container.innerHTML = `
+                    <img src = '${item.profile_picture}'/>
+                    <p>${item.username}</p>
+                `
+                parent.append(container);
+
+                var heading = document.getElementById('header').firstElementChild;
+                heading.innerHTML = `${parent.children.length} Participants`
+
+                var button = document.getElementsByClassName('people')[0];
+                button.innerHTML = `${parent.children.length} participants`;
+            })
         }
     }
+}
+
+socket.onopen = () => {
+    var item = {'username':username,'joined':true, 'id':userID,'profile_picture':profile_picture};
+    socket.send(JSON.stringify(item));
 }
 
 let getCurrentTime = () => {
@@ -136,6 +207,12 @@ let getMessage = (data) => {
     var body = document.body;
     body.appendChild(container)
     window.scrollTo(0, document.body.scrollHeight);
+
+    if (data.id != userID) {
+        if ('vibrate' in navigator) {
+            navigator.vibrate([200, 100, 200]);
+        }
+    }
 }
 
 let postMessage = (self) => {
@@ -145,7 +222,8 @@ let postMessage = (self) => {
     if (text_value.length > 0) {
         self.parentElement.children[3].value = "";
 
-        var item = {'profile_picture':profile_picture, 'username': username, 'text_value':text_value};
+        var item = {'profile_picture':profile_picture, 'username': username, 'text_value':text_value,
+                    'id': userID};
 
         socket.send(JSON.stringify(item));
     }
@@ -191,11 +269,23 @@ let postFile = (self) => {
 
 let showAlert = (data) => {
     var item = document.getElementById('alert');
+    item.style.backgroundColor = 'rgb(255, 220, 220)';
     item.innerHTML = data;
     item.style.opacity = "1";
     setTimeout(() => {
         item.style.opacity = "0";
     },4000)
+}
+
+let showNotification = (data) => {
+    var item = document.getElementById('alert');
+    item.style.backgroundColor = 'rgb(173,216,230)'
+    item.innerHTML = data;
+    item.style.opacity = "1";
+    setTimeout(() => {
+        item.style.opacity = "0";
+    },5000)
+
 }
 
 let checkPermission = () => {
@@ -215,6 +305,13 @@ let checkPermission = () => {
     })
 }
 
+let typeNotifier = (self) => {
+    if (self.value.length === 3) {
+        var indicator = {'username':username,'typing':true,'id':userID};
+        socket.send(JSON.stringify(indicator));
+    }
+}
+
 let listenAudio = () => {
     recordedChunks = [];
     
@@ -225,6 +322,9 @@ let listenAudio = () => {
             mediaRecorder = new MediaRecorder(stream);
 
             document.getElementById('audio_panel').style.display = "block";
+
+            var indicator = {'username':username,'recording_audio':true,'id':userID}
+            socket.send(JSON.stringify(indicator));
 
             mediaRecorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
@@ -282,12 +382,23 @@ let copyLink = (self) => {
     var link = self.parentElement.children[1].value;
     navigator.clipboard.writeText(link);
 
+    showNotification('<i class = "fas fa-copy"></i> Link copied to clipboard');
+
     setTimeout(() => {
         self.innerHTML = 'Copy link <i class = "far fa-copy"></i>'
     }, 3000)
 }
 
-navigator.serviceWorker.register('/static/js/worker.js', { type: 'module' })
+let view_users = () => {
+    document.getElementById('participants').style.display = "flex";
+}
+
+let close = () => {
+    alert('hello')
+    document.getElementById('participants').style.display = "none";
+}
+
+/*navigator.serviceWorker.register('/static/js/worker.js', { type: 'module' })
 .then((registration) => {
     return registration.pushManager.getSubscription();
 })
@@ -301,4 +412,4 @@ navigator.serviceWorker.register('/static/js/worker.js', { type: 'module' })
 })
 .catch(error => {
     console.error(error);
-})
+})*/

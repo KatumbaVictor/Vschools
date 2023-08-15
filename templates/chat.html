@@ -23,16 +23,16 @@
     <body>
     	<header>
             <nav id = "navbar" data-profilePic = "{{ profile_picture.url }}" data-username = "{{ username }}" data-usertoken = "{{ user_token }}" style = "margin-right: auto;">
-            	<button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
+            	<button title = "Back to home" onclick="(window.open('/chat','_self'))" style = "position: fixed; top: 12px; left: 20px;"><i class = "fas fa-arrow-left"></i></button>
                 <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
             </nav>
         </header>
 
         <main>
             <div id = "divone" data-id = "{{ request.user.id }}">
-                <p>Hello, you're welcome to Vschools dialogue, you can copy the link below to 
+                <p>Hello <span>{{ username.upper }}</span>, you're welcome to Vschools dialogue, you can copy the link below to 
                     invite others to the conversation.</p>
-                <input type = "text" placeholder = "Chat invite link...." value = "https://dialogue.vschoolsmeet.tech/dialogue/{{ user_token }}"/>
+                <input type = "text" placeholder = "Chat invite link...." value = "https://vschoolsmeet.tech/chat/dialogue/{{ user_token }}"/>
                 <button onclick = "copyLink(this)">Copy link <i class = "far fa-copy"></i></button>
             </div>
             <div id = "progress">
@@ -47,8 +47,27 @@
                 <button onclick = "sendAudio(this)">Send audio</button>
             </div>
             <p id = "alert">
-                <i class = "fas fa-exclamation-triangle"></i> You can't hide from GOD's eye
+                <i class = "fas fa-exclamation-triangle"></i>
             </p>
+            <div id = "participants" onclick = "close()">
+                <div id = "users">
+                    <div id = "header">
+                      <h3>1 Participant</h3>
+                      <button onclick = "close()" title = 'Close'><i class = "fas fa-times"></i></button>
+                    </div>
+                    <div class = "chats">
+                        <i class = "fas fa-users background-icon"></i>
+                        <div class = 'user'>
+                            <img src = '{{ profile_picture.url }}'/>
+                            <p>{{ username }}</p>
+                        </div>
+                    </div>
+                    <div class = "entries">
+                        <input type = "text" placeholder = "Search user here..."/>
+                        <button onclick = "close()" title = "Search user"><i class = "fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <footer>
@@ -58,11 +77,11 @@
                     margin-left: 10px;" title = "Send file"><i class = "fas fa-camera"></i></button>
                 <button id = "sendButton" ondblclick="listenAudio()" style = "margin-right: auto;
                     margin-left: 10px;" title = "Double tap to send audio"><i class = "fas fa-microphone"></i></button>
-                <input type = "text" placeholder = "Enter message here..." onkeypress = "SendWithEnter(event)" autofocus/>
+                <input type = "text" placeholder = "Enter message here..." onkeypress = "SendWithEnter(event)" oninput = "typeNotifier(this)" autofocus/>
                 <button id = "sendButton" onclick = "postMessage(this)" style = "margin-left: auto;
                     margin-right: 10px;" title = "Send message"><i class = "far fa-paper-plane"></i></button>
             </div>
-            <p>Conversations with friends and family</p>
+            <p><button onclick = "view_users()" title = "Click to see all participants in the conversation" class = 'people'>1 participant</button>conversations with friends and family</p>
         </footer>
     </body>
 </html>

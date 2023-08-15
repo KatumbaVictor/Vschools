@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'djoser',
     'djoser.webauthn',
     'django_hosts',
-    'webpush'
+    'webpush',
+    'vschoolschat'
 ]
 
 
@@ -194,6 +195,8 @@ CACHES = {
     }
 }
 
+SESSION_COOKIE_DOMAIN = '.localhost'
+CSRF_COOKIE_DOMAIN = '.localhost'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 

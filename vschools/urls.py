@@ -26,6 +26,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path('auth/webauthn/', include('djoser.webauthn.urls')),
     path('payments/', include('payments.urls')),
+    path('chat/', include('vschoolschat.urls')),
     path('login/',login_page, name = "login"),
     path('', home_page, name = "home"),
     path('get_token/', getToken, name = "getToken"),

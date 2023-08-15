@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from main.models import account_info
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from django_hosts.resolvers import reverse
 
 # Create your views here.
 
-@login_required(login_url=reverse('login', host='www'))
+@login_required(login_url='login')
 def chat_page(request, user_token):
     #profile_picture = account_info.objects.get(user=request.user).profile_picture
 	context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture,
@@ -38,5 +38,27 @@ def guest_page(request):
 
 	return render(request, 'dialogue.html', context)
 
+def invite(request):
+	return render(request, "invite_page.html")
+
 def logout_view(request):
 	logout(request)
+	return redirect('login')
+
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        user = authenticate(request=request,username=request.POST['username'],password=request.POST['password'])
+        
+        if user is not None:
+            if account_info.objects.get(user=user).email_verified:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect('verify_email_page')
+        else:
+            messages.info(request, "<i class = 'fas fa-exclamation-circle'></i> Wrong log in details")
+
+    return render(request, "login.html")

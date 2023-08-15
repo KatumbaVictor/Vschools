@@ -296,7 +296,7 @@ footer {
     position: fixed;
     left: 0;
     top: 0;
-    background-color: rgba(128, 128, 128, 0.341);
+    background-color: rgba(128, 128, 128, 0.541);
     box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
     border: 1px solid rgba(128, 128, 128, 0.34);
     width: 100%;
@@ -306,6 +306,7 @@ footer {
     align-items: center;
     justify-content: center;
     display: none;
+    animation: fade-in 0.4s;
 }
 
 #options div {
@@ -328,6 +329,16 @@ footer {
     padding: 14px 0 14px 0;
     width: calc(100% - 34px);
     color: rgba(0, 0, 0, 0.61);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @media screen and (max-width: 1030px) {

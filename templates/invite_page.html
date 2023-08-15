@@ -9,32 +9,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="author" content="Katumba Victor">
         <meta name="description" content="Vschools chat platform">
-        <title>Search | Vschools</title>
+        <title>Invite user | Vschools</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
-        <link rel = "stylesheet" href = "{% static 'css/search.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/invite.css' %}" type="text/css"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
         {% endcompress %}
+
         {% compress js %}
-        <script src = "{% static 'js/search.js' %}" type = "text/javascript" defer></script>
+        <script src = "{% static 'js/invite.js' %}" type = "text/javascript" defer></script>
         {% endcompress %}
     </head>
     <body>
-    	<header>
+        <header>
             <nav id = "navbar" style = "margin-right: auto;">
-            	<button title = "Back to home" onclick="(window.open('/chat','_self'))"><i class = "fas fa-arrow-left"></i></button>
+                <button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
                 <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
             </nav>
         </header>
-
-        <main>
-            <div id = "divone">
-                <p>Search for a user whose chat room you want to join</p>
-                <input type = "text" placeholder = "Search user here...." oninput="getUser(this)"/>
-            </div>
-            <div id = "divtwo">
-                <i class = "fas fa-users"></i>
-            </div>
-        </main>
+        
     </body>
 </html>

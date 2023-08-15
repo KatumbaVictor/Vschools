@@ -8,6 +8,8 @@ urlpatterns = [
 	path('search/', search_page, name='search_user'),
 	path('getUser/',getUser),
 	path('webpush/', include('webpush.urls')),
+	path('invite/', invite),
 	path('logout/', logout_view),
-	path('', guest_page)
+	path('login/',login_page, name = "login"),
+	path('', guest_page, name = 'home')
 ]
