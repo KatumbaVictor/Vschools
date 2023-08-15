@@ -210,7 +210,7 @@ let getMessage = (data) => {
 
     if (data.id != userID) {
         if ('vibrate' in navigator) {
-            navigator.vibrate([200, 100, 200]);
+            navigator.vibrate(100);
         }
     }
 }

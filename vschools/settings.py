@@ -195,8 +195,6 @@ CACHES = {
     }
 }
 
-SESSION_COOKIE_DOMAIN = '.localhost'
-CSRF_COOKIE_DOMAIN = '.localhost'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
@@ -286,8 +284,6 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     COMPRESS_ENABLED = True
-
-    PARENT_HOST = 'vschoolsmeet.tech'
 
     DATABASES = {
         'default': {
