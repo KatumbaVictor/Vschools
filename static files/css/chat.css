@@ -49,7 +49,6 @@ main {
 }
 
 #navbar button {
-    position: fixed;
     border: none;
     background: none;
     font-size: 12px;
@@ -71,7 +70,7 @@ main {
 }
 
 #divone {
-    width: 400px;
+    width: 500px;
     padding: 0 10px 15px 10px;
     border-radius: 13px;
     background-color: rgba(0, 0, 255, 0.103);
@@ -103,6 +102,7 @@ main {
     height: 40px;
     color: white;
     font-weight: 600;
+    box-shadow: 0 0 3px rgba(128, 128, 128, 0.441);
 }
 
 #progress {
@@ -159,7 +159,7 @@ main {
 }
 
 .message {
-    width: 420px;
+    width: 520px;
     background-color: rgba(128, 128, 128, 0.11);
     padding-bottom: 13px;
     border-radius: 13px;
@@ -173,6 +173,36 @@ main {
 .message span {
     font-weight: normal;
     font-size: 11px;
+    font-style: italic;
+}
+
+.message div {
+    margin-top: 16px;
+    margin-left: 55px;
+    margin-right: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(128, 128, 128, 0.31);
+    display: flex;
+    flex-direction: row;
+}
+
+.message div button {
+    margin-right: 10px;
+    font-size: 12px;
+    background-color: rgba(128, 128, 128, 0.21);
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(128, 128, 128, 0.25);
+    transition: background-color .4s;
+    box-shadow: 0 0 3px rgba(128, 128, 128, 0.441);
+}
+
+.message div button:hover {
+    background-color: rgba(128, 128, 128, 0.31);
 }
 
 .profile_picture {
@@ -270,6 +300,7 @@ audio {
     text-align: center;
     box-shadow: 0 0 4px rgba(128, 128, 128, 0.481);
     z-index: 10;
+    max-width: 270px;
 }
 
 #participants {
@@ -425,7 +456,7 @@ footer div {
     border: 1px solid rgba(128, 128, 128, 0.20);
     box-shadow: 0 0 3px rgba(128, 128, 128, 0.341);
     height: 40px;
-    width: 400px;
+    width: 500px;
     border-radius: 13px;
     margin-top: 15px;
 }

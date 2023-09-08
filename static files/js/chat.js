@@ -16,6 +16,7 @@ var file_details = [];
 var mediaRecorder;
 var mediaStream;
 var audioInputDevices;
+var userLocation;
 
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
@@ -70,10 +71,10 @@ socket.onmessage = (e) => {
                 parent.append(container);
 
                 var heading = document.getElementById('header').firstElementChild;
-                heading.innerHTML = `${parent.children.length} Participants`
+                heading.innerHTML = `${parent.children.length - 1} Participants`
 
                 var button = document.getElementsByClassName('people')[0];
-                button.innerHTML = `${parent.children.length} participants`;
+                button.innerHTML = `${parent.children.length - 1} participants`;
                 
             }
         }else if (response.recording_audio) {
@@ -111,11 +112,17 @@ socket.onmessage = (e) => {
                 parent.append(container);
 
                 var heading = document.getElementById('header').firstElementChild;
-                heading.innerHTML = `${parent.children.length} Participants`
+                heading.innerHTML = `${parent.children.length - 1} Participants`
 
                 var button = document.getElementsByClassName('people')[0];
-                button.innerHTML = `${parent.children.length} participants`;
+                button.innerHTML = `${parent.children.length - 1} participants`;
             })
+        }else if (response.delete) {
+            var element = document.getElementById(`${response.messageID}`);
+            element.remove();
+        }else if (response.update) {
+            var element = document.getElementById(`${response.messageID}`).children[2];
+            element.innerHTML = response.message;
         }
     }
 }
@@ -175,7 +182,7 @@ let getAudio = (data) => {
         <audio controls>
             <source src = "${data.fileSource}" type = "audio/wav">
         </audio>
-    `
+`
 
     var body = document.body;
     body.appendChild(container)
@@ -191,6 +198,14 @@ let getMessage = (data) => {
     var container = document.createElement('div');
     var parent = document.getElementsByTagName('main')[0];
     container.setAttribute('class','message');
+    container.setAttribute('id',data.messageID);
+
+    var message_time = getTime();
+
+    if (data.location) {
+        message_time += ` | ${data.location}`;
+    }
+
 
     if (expression.test(data.text_value) == true) {
         data.text_value = data.text_value.replace(expression, (url) => {
@@ -200,9 +215,22 @@ let getMessage = (data) => {
 
     container.innerHTML = `
         <img src = "${data.profile_picture}" class = "profile_picture" alt = "profile photo"/>
-        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${getTime()}</span></p>
+        <p style = "margin-bottom: 0;" class = "username">${data.username} <span>${message_time}</span></p>
         <p class = "right">${data.text_value}</p>
     `
+
+    if (data.id === userID) {
+        container.innerHTML += `
+            <div>
+                <button title = "Delete message" onclick = "deleteMessage('${data.messageID}')">
+                    <i class = "fas fa-trash"></i>
+                </button>
+                <button title = "Edit message" onclick = "editMessage(this, '${data.messageID}')">
+                    <i class = "fas fa-pen"></i>
+                </button>
+            </div>
+        `
+    }
 
     var body = document.body;
     body.appendChild(container)
@@ -215,17 +243,52 @@ let getMessage = (data) => {
     }
 }
 
+let deleteMessage = (messageID) => {
+    var item = {'delete':true, 'messageID':messageID, 'userID':userID};
+    socket.send(JSON.stringify(item));
+    showAlert('<i class = "fas fa-trash"></i> Your message has been successfully deleted');
+}
+
+let editMessage = (self, messageID) => {
+    var element = document.getElementById(messageID).children[2];
+    element.setAttribute('contenteditable','');
+    showNotification('<i class = "fas fa-pen"></i> Click and edit your message.');
+
+    self.innerHTML = '<i class = "fas fa-paper-plane"></i>';
+    self.setAttribute('onclick',`updateMessage(this, '${messageID}')`);
+    self.setAttribute('title','Update message');
+}
+
+let updateMessage = (self, messageID) => {
+    var element = document.getElementById(messageID).children[2];
+    element.removeAttribute('contenteditable');
+    showNotification('Your message has been successfully updated.');
+    self.innerHTML = '<i class = "fas fa-pen"></i>';
+    self.setAttribute('onclick',`editMessage(this, '${messageID}')`);
+    self.setAttribute('title','Edit message');
+
+    var item = {'update':true, 'messageID':messageID, 'message': element.innerHTML};
+    socket.send(JSON.stringify(item));
+}
+
 let postMessage = (self) => {
     var text_value = self.parentElement.children[3].value;
     var parent = document.getElementsByTagName('main')[0];
+    var messageID = (Math.random() * 10).toString(36).replace('.','');
     
     if (text_value.length > 0) {
         self.parentElement.children[3].value = "";
 
         var item = {'profile_picture':profile_picture, 'username': username, 'text_value':text_value,
-                    'id': userID};
+                    'id': userID, 'messageID':messageID};
+
+        if (userLocation != undefined) {
+            item.location = userLocation;
+        }
 
         socket.send(JSON.stringify(item));
+    }else {
+        showAlert('<i class = "fas fa-exclamation-triangle"></i> You cannot send an empty message');
     }
 }
 
@@ -397,6 +460,48 @@ let close = () => {
     alert('hello')
     document.getElementById('participants').style.display = "none";
 }
+
+let detachLocation = (self) => {
+    self.setAttribute('onclick','getLocation(this)');
+    showNotification('Location detached');
+}
+
+let getLocation = (self) => {
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            const url = new URL(`${window.location.protocol}//${window.location.host}/chat/reverse-geocode/`);
+
+            url.searchParams.append('latitude', latitude);
+            url.searchParams.append('longitude', longitude);
+
+            const request = new Request(url, {
+                method: 'GET'
+            })
+
+            fetch(request)
+                .then((response) => {
+                    return response.json().then((data) => {
+                        var address = data.address;
+                        showNotification('Your location will be attached to your messages');
+                        self.style.color = "blue";
+                        userLocation = address;
+                        self.setAttribute('onclick','detachLocation(this)');
+                    })
+                })
+        })
+    }
+}
+
+window.addEventListener('offline', () => {
+    showAlert('<i class = "fas fa-exclamation-triangle"></i> You are currently offline, Please check your internet connection');
+})
+
+window.addEventListener('online', () => {
+    showNotification('You are now back online, your internet connection has been restored.');
+})
 
 /*navigator.serviceWorker.register('/static/js/worker.js', { type: 'module' })
 .then((registration) => {

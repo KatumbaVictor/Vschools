@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from webpush import send_user_notification
 from django.contrib.auth import authenticate, login, logout
 from django_hosts.resolvers import reverse
+from geopy.geocoders import Nominatim
+import reverse_geocode as rg
 
 # Create your views here.
 
@@ -45,6 +47,15 @@ def logout_view(request):
 	logout(request)
 	return redirect('login')
 
+@login_required(login_url='login')
+def fingerprint_page(request):
+	user = account_info.objects.get(user=request.user)
+	context = {'user':user}
+	return render(request, 'fingerprint.html', context)
+
+def faceid_page(request):
+	return render(request, 'faceid.html')
+
 def login_page(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -62,3 +73,19 @@ def login_page(request):
             messages.info(request, "<i class = 'fas fa-exclamation-circle'></i> Wrong log in details")
 
     return render(request, "login.html")
+
+def reverse_geocode(request):
+	if request.method == 'GET':
+		latitude = request.GET['latitude']
+		longitude = request.GET['longitude']
+
+		geolocator = Nominatim(user_agent='vschoolschat')
+		location = geolocator.reverse((f"{latitude}, {longitude}"), exactly_one=True)
+
+		city = location.raw.get('address').get('city','')
+		state = location.raw.get('address').get('state','')
+		country = location.raw.get('address').get('country','')
+
+		address = (f"{city}, {state}, {country}")
+
+		return JsonResponse({'address':address})

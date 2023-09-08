@@ -11,5 +11,8 @@ urlpatterns = [
 	path('invite/', invite),
 	path('logout/', logout_view),
 	path('login/',login_page, name = "login"),
+	path('reverse-geocode/', reverse_geocode, name = "reverse_geocode"),
+	path('add-fingerprint/', fingerprint_page),
+	path('add-faceid/', faceid_page),
 	path('', guest_page, name = 'home')
 ]
