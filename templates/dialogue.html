@@ -2,15 +2,15 @@
 
 {% load compress %}
 
-{% load hosts %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Vschools chat platform">
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Join our chat platform and connect with friends and colleagues in real-time. Start conversations, share updates, and have fun chatting online.">
+        <meta name="keywords" content="Chat website, online chat, real-time chat, chat with friends, chat with colleagues, vschools">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
         <title>Dialogue | Vschools</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
@@ -21,7 +21,6 @@
     <body>
     	<header>
             <nav id = "navbar" style = "margin-right: auto;">
-            	<button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
                 <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
             </nav>
         </header>
@@ -38,16 +37,16 @@
                     <a href = "/login">Start conversation</a>
                 {% endif %}
             </div>
-        </main>
+        </main> 
 
         <footer>
             <div class = "policies">
                 <p>Vschools <i class = "far fa-copyright"></i> 2023</p>
-                <a href = "{% host_url 'about' %}">About</a>
-                <a href = "{% host_url 'privacy_policy' %}">Privacy policy</a>
-                <a href = "{% host_url 'terms_of_service' %}">Terms of service</a>
-                <a href = "{% host_url 'cookie_policy' %}">Cookie policy</a>
-                <a href = "{% host_url 'disclaimer' %}">Disclaimer</a>
+                <a href = "{% url 'about' %}" target="_blank">About</a>
+                <a href = "{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>
+                <a href = "{% url 'terms_of_service' %}" target="_blank">Terms of service</a>
+                <a href = "{% url 'cookie_policy' %}" target="_blank">Cookie policy</a>
+                <a href = "{% url 'disclaimer' %}" target="_blank">Disclaimer</a>
             </div>
         </footer>
     </body>

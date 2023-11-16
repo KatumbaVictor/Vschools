@@ -1,39 +1,24 @@
 var passcode_field = document.getElementById('passcode_field');
 const page_options = document.getElementById('options');
-page_options.style.display = "none";
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-
-let getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== ''){
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')){
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+//page_options.style.display = "none";
 
 function start_meeting(self){
-    self.innerHTML = '<i class = "fas fa-link"></i> Starting meeting...';
+    self.innerHTML = '<i class = "fas fa-plus"></i> Starting meeting...';
     self.style.color = 'rgba(255, 255, 255, 0.889)';
 
     fetch('/start_meeting/',{
         method: 'POST',
         headers:{
             'Content-Type': 'application/json',
-            "X-CSRFToken": getCookie('csrftoken'),
+            "X-CSRFToken": csrftoken,
             'X-Requested-With':'XMLHttpRequest'
         },
         body: JSON.stringify({'start_meeting':'True'})
     }).then((response) => {
         return response.json().then((data) => {
             window.open(`/meet/${data.meeting_id}`,'_self');
-            localStorage.clear();
         })
     })
 }
@@ -57,7 +42,7 @@ let join_meeting = (self) => {
                 document.getElementById('notification').style.opacity = "1";
                 setTimeout(() => {
                     document.getElementById('notification').style.opacity = "0";
-                }, 2000)
+                },4000)
             }
         })
     })
@@ -106,24 +91,15 @@ let logout = () => {
     window.open('/logout/','_self');
 }
 
-let recorded_meetings = () => {
+let scheduled_meetings = () => {
+    var user_token = document.getElementById('navbar').dataset.user_token;
     page_options.style.display = "none";
-    window.open('/recorded_meetings/','_self');
+    window.open(`/scheduled-meetings/`,'_self');
 }
 
 let settings = () => {
     page_options.style.display = "none";
     window.open('/settings/','_self');
-}
-
-if (localStorage.getItem('lastMeetingId') != null) {
-    var parent = document.getElementById('divone');
-
-    var new_child = document.createElement('a');
-    new_child.setAttribute('href',`/meet/${localStorage.getItem('lastMeetingId')}`);
-    new_child.innerHTML = 'Back to previous meeting <i class = "fas fa-arrow-right"></i>';
-
-    parent.replaceChild(new_child,parent.lastElementChild);
 }
 
 passcode_field.onpaste = (e) => {

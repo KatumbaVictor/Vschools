@@ -7,12 +7,13 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Best virtual meeting experience with tools such as realtime whiteboard, meeting recording and so on">
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Log in to your account on our virtual meeting and chat platform. Connect with colleagues and friends, join virtual meetings, and start chatting in real-time.">
+        <meta name="keywords" content="Login, virtual meetings, chat platform, online meetings, real-time chat">
         <title>Vschools | Login</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
-        <link rel = "stylesheet" id = "styles" href = "{% static 'css/login.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/login.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         {% endcompress %}
         {% compress js %}
@@ -20,9 +21,10 @@
         {% endcompress %}
     </head>
     <body> 
-        <div id = "navbar">
+        <nav id = "navbar">
             <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-        </div>
+        </nav>
+
         <div id = "login">
             <p style = "text-align: center; color: grey;">Free high quality virtual meetings</p>
             <form method = "POST" autocomplete="off" id = "form">
@@ -36,7 +38,7 @@
                     <i class = "fas fa-lock"></i>
                     <input type = "password" id = "password" placeholder="Enter password" name = "password" required/>
                 </div>
-                <button class = "btn" type = "submit" onclick = "login(this)">LOG IN</button>
+                <button class = "waves-effect waves-light btn" type = "submit" onclick = "login(this)">LOG IN</button>
             </form>
             <p class = "live">live</p>
         </div>
@@ -49,5 +51,16 @@
                 <p class = "wrong_details"><i class = 'fas fa-exclamation-triangle'></i> Wrong log in details</p>
             {% endfor %}
         {% endif %}
+
+        <footer>
+            <div class = "policies">
+                <p>Vschools <i class = "far fa-copyright"></i> 2023</p>
+                <a href = "{% url 'about' %}" target="_blank">About</a>
+                <a href = "{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>
+                <a href = "{% url 'terms_of_service' %}" target="_blank">Terms of service</a>
+                <a href = "{% url 'cookie_policy' %}" target="_blank">Cookie policy</a>
+                <a href = "{% url 'disclaimer' %}" target="_blank">Disclaimer</a>
+            </div>
+        </footer>
     </body>
 </html>

@@ -1,0 +1,41 @@
+{% load static %}
+
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Vschools Meet">
+        <title>Biometric authentication - Vschools</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
+        <link rel = "stylesheet" href = "{% static 'css/webauthn-verify.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        {% endcompress %}
+
+        {% compress js %} 
+        <script src = "{% static 'js/base64url.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/helpers.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/webauthn-verification.js' %}" type = "text/javascript" defer></script>
+        {% endcompress %}
+    </head>
+    <body>
+        <header>
+            <nav id = "navbar" data-id="{{ request.user.id }}">
+                <h1>Vschools</h1>
+            </nav>
+        </header>
+
+        <main>
+            {% csrf_token %}
+            <div>
+                <i class = "fas fa-shield-alt"></i>
+            </div>
+            <h2>Biometric authentication</h2>
+            <p>Please verify your identity using your biometric authentication method.</p>
+            <button onclick = "authenticate()">Continue</button>
+        </main>
+    </body>
+</html>

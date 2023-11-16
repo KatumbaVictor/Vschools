@@ -6,8 +6,6 @@
 body { 
     background-color: white;
     padding-top: 75px;
-    padding-left: 20px;
-    padding-right: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,13 +59,6 @@ body {
     background-color: rgba(128,128,128,0.35);
 }
 
-form {
-    width: 100%;
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
 .holder {
     display: flex;
     flex-direction: column;
@@ -91,8 +82,11 @@ form {
     font-size: 13px;
     margin: 0;
     margin-bottom: 15px;
-    font-style: italic;
     text-align: center;
+}
+
+.row {
+    margin: 0 !important;
 }
 
 .holder input {

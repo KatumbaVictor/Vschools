@@ -21,6 +21,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: white;
+    box-shadow: 0 0 7px rgba(128, 128, 128, 0.741);
 }
 
 #navbar h1{
@@ -170,7 +171,7 @@ h2 {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    border-top: 1px solid rgba(128,128,128,0.345);
+    /*border-top: 1px solid rgba(128,128,128,0.345);*/
     /*border-bottom: 1px solid rgba(128,128,128,0.345);*/
     padding-top: 20px;
     padding-bottom: 20px;

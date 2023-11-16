@@ -34,6 +34,7 @@ main {
     font-size: 30px;
     color: blue;
     font-weight: lighter;
+    font-family: 'Brush Script MT', cursive;
 }
 
 #navbar button {

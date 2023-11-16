@@ -22,10 +22,15 @@ from main.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('authn/', include('djoser.urls')),
-    #path('auth/', include('djoser.urls.jwt')),
-    path('webauthn/', include('djoser.webauthn.urls')),
     path('webpush/', include('webpush.urls')),
+    path('passkeys/', include('passkeys.urls')),
+    path('webauthn-registration', webauthn_registration),
+    path('webauthn-registration-complete/', webauthn_registration_complete),
+    path('webauthn-verify/', webauthn_verify),
+    path('webauthn-registration-options/',webauthn_registration_options),
+    path('webauthn-authentication-options/',webauthn_authentication_options),
+    path('webauthn-verify-registration/', verify_webauthn_registration),
+    path('webauthn-authenticate/',webauthn_authentication),
     path('payments/', include('payments.urls')),
     path('chat/', include('vschoolschat.urls')),
     path('login/',login_page, name = "login"),

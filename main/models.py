@@ -15,6 +15,7 @@ class account_info(models.Model):
     first_name = models.TextField(null=True, blank=True)
     last_name = models.TextField(null=True, blank=True)
     username = models.TextField(null=True, blank=True)
+    webauthn_challenge = models.TextField(blank=True, null=True)
 
 class Room(models.Model):
     room_name = models.TextField(unique=True)
@@ -74,4 +75,6 @@ class RecordedFiles(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     fileUrl = models.TextField()
 
-
+class credentials(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    challenge = models.TextField()

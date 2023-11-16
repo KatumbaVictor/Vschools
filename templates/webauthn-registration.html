@@ -1,0 +1,56 @@
+{% load static %}
+
+{% load compress %}
+ 
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Register your biometric data securely with our platform. We proritize your privacy and security. Biometric registration enables seamless and secure access to our services.">
+        <title>Biometric Registration - Vschools</title>
+        <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
+        {% compress css %}
+        <link rel = "stylesheet" href = "{% static 'css/materialize.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'css/webauthn-registration.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}" type="text/css"/>
+        {% endcompress %}
+
+        {% compress js %} 
+        <script src = "{% static 'js/jquery.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/base64url.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/helpers.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/materialize.js' %}"></script>
+        <script src = "{% static 'js/webauthn-registration.js' %}" type = "text/javascript" defer></script>
+        {% endcompress %}
+    </head>
+    <body>
+        <header>
+            <nav id = "navbar"style = "margin-right: auto;" data-username = "{{ user.username }}" data-email = "{{ user.user.email }}">
+                <button onclick="(window.open('/chat','_self'))" style = "position: fixed; top: 12px; left: 20px;" class = "waves-effect waves-light tooltipped" data-position="right" data-tooltip="Back to home"><i class = "fas fa-arrow-left"></i></button>
+                <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
+            </nav>
+        </header>
+
+        <main>
+            {% csrf_token %}
+            <img src = "{% static 'images/biometric.png' %}"/>
+            <h2>Add biometric security</h2>
+            <p id = "text">Add your biometric data for faster and more secure authentication.</p>
+            <button onclick = "create_credential()" id = "submit_button" class = "waves-effect waves-light modal-trigger" data-target="model1" style = "box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);"><i class = "fas fa-shield-alt"></i> Add</button>
+
+            <div class = "wrapper" id="modelWrapper">
+                <div class="modal" id = "model1">
+                    <div class="modal-content">
+                        <h2>Registering biometric data...</h2>
+                        <div class="progress" style="margin-top: 20px;">
+                            <div class="indeterminate"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </body>
+</html>

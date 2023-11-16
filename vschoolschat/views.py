@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django_hosts.resolvers import reverse
 from geopy.geocoders import Nominatim
 import reverse_geocode as rg
+import json
 
 # Create your views here.
 
@@ -51,6 +52,11 @@ def logout_view(request):
 def fingerprint_page(request):
 	user = account_info.objects.get(user=request.user)
 	context = {'user':user}
+
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		print(data)
+
 	return render(request, 'fingerprint.html', context)
 
 def faceid_page(request):
@@ -89,3 +95,11 @@ def reverse_geocode(request):
 		address = (f"{city}, {state}, {country}")
 
 		return JsonResponse({'address':address})
+
+def test_me(request):
+	if request.method == "POST":
+		print(request.body)
+		data = json.loads(request.body)
+		print(data)
+
+		return JsonResponse(data, safe=False)

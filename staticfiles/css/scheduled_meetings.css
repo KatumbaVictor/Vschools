@@ -1,0 +1,137 @@
+* {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    outline: none;
+}
+
+body {
+    padding-top: 67px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 
+
+#navbar { 
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    top: 0; 
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    background-color: white;
+}
+
+#navbar h1{
+    font-size: 30px;
+    color: blue;
+    font-weight: lighter;
+}
+
+#navbar button {
+    position: absolute;
+    border: none;
+    background: none;
+    top: 12px;
+    left: 20px;
+    font-size: 15px;
+    font-weight: lighter;
+    padding: 10px;
+    background-color: rgba(128,128,128,0.12);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.8);
+    transition: background-color .5s;
+}
+
+#navbar button:hover {
+    background-color: rgba(128,128,128,0.30);
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid rgba(128,128,128,0.345);
+    /*border-bottom: 1px solid rgba(128,128,128,0.345);*/
+    width: 80%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+h2 {
+    color: rgba(0, 0, 0, 0.71);
+    font-weight: lighter;
+    align-self: center;
+    margin: 0;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header {
+    font-weight: normal;
+    color: grey;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#divone {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info {
+    border: 1px solid rgba(120,120,120,0.13);
+    width: 100%;
+    text-align: center;
+    padding: 8px 0 8px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 255, 0.072);
+    color: black;
+    text-decoration: none;
+}
+
+.info span {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.invite_link {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 16px);
+    border: 1px solid rgba(120,120,120,0.5);
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.invite_link input {
+    width: 87%;
+    border: none;
+    color: grey;
+}
+
+.invite_link button {
+    margin-left: auto;
+    border: none;
+    background: none;
+}

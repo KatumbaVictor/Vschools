@@ -7,15 +7,18 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Enter your Username, email and password to register and hold or join high quality virtual meetings">
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Sign up for a free account on our chat platform Vschools Dialogue, join a vibrant communnity, connect with friends and colleagues, and start chatting online.">
+        <meta name="keywords" content="sign up, registration, Vschools, chat platform, chat with friends, chat with colleagues">
         <title>Vschools | Create account</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
+        <link rel = "stylesheet" href = "{% static 'css/materialize.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/sign_up.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         {% endcompress %}
         {% compress js %}
+        <script src = "{% static 'js/materialize.js' %}"></script>
         <script src = "{% static 'js/sign_up.js' %}" defer></script>
         {% endcompress %}
     </head>
@@ -31,11 +34,46 @@
             </p>
             <form method = "POST" autocomplete="off" id = "form">
                 {% csrf_token %}
-                <input type = "text" placeholder = "Enter first name" name = "first_name" autofocus required/>
-                <input type = "text" placeholder = "Enter last name" name = "last_name" required/>
-                <input type = "email" name = "email" placeholder = "Enter your e-mail" required/>
-                <input type = "password" min = "8" max = "32" name = "password_one" placeholder = "Enter password here" required/>
-                <input type = "password" min = "8" max = "32" name = "password_two" placeholder = "Confirm password" required/>
+                <div class="row">
+                    <form class="col s12">
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="first_name" name = "first_name" type="text" class="validate" required>
+                          <label for="first_name">First Name</label>
+                          <span class="helper-text" data-error="First name is requred" data-success="right">Enter first name</span>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="last_name" type="text" name="last_name" class="validate" class="validate" required>
+                          <label for="last_name">Last Name</label>
+                          <span class="helper-text" data-error="Your last name is required" data-success="right">Enter last name</span>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <input id="password" min="8" max="32" type="password" name="password_one" class="validate" class="validate" required>
+                          <label for="password">Enter your password</label>
+                          <span class="helper-text" data-error="wrong" data-success="right">Enter password</span>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <input id="password_two" name = "password_two" class="validate" type="password" class="validate" required>
+                          <label for="password_two">Confirm password</label>
+                          <span class="helper-text" data-error="wrong" data-success="right">Confirm your password</span>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <input id="email" type="email" class="validate" required>
+                          <label for="email">Email</label>
+                          <span class="helper-text" data-error="wrong" class="validate" data-success="right">Enter your email</span>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 <button type = "submit">Submit</button>
             </form>
         </div>

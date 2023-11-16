@@ -2,26 +2,39 @@
 
 {% load compress %}
 
-<!DOCTYPE html>  
+<!DOCTYPE html>   
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
+        <meta name="author" content="Vschools Meet">
         <meta name="description" content="You are welcome to Vschools">
+        <meta name="keywords" content="welcome, website, information, services, vschools">
         <title>Vschools | Welcome here!!!</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
         <link rel = "stylesheet" id = "styles" href = "{% static 'css/welcome.css' %}"/>
         <link rel = "stylesheet" href = "{% static 'css/fonts/css/all.min.css' %}"/>
         {% endcompress %}
+        {% compress js %}
+        <script src = "{% static 'js/welcome.js' %}" defer></script>
+        {% endcompress %}
     </head>
     <body>
-        <div>
-            <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-            <h2>You're welcome to Vschools dear user &#x1F60A;</h2>
-            <a href = "{% url 'login' %}">Proceed to login</a>
-            <p>Hope you have fun</p>
-        </div>
+        <header>
+            <nav id = "navbar" data-user_token = "{{ user_token }}">
+                <h1>Vschools</h1>
+            </nav>
+        </header>
+
+        <main>
+            <h2 style = "align-self: center;">Welcome to Vschools</h2>
+            <p>We are delighted to have you as part of our online community. Before you begin exploring all the exciting features and content our website has to offer, we would like to ensure that you understand and agree to our <a href="{% url 'terms_of_service' %}" target="_blank">Terms and conditions</a>, <a href="{% url 'cookie_policy' %}" target="_blank">Cookie policy</a>, <a href="{% url 'disclaimer' %}" target="_blank">Disclaimer</a> and <a href="{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>.
+            <p>Our <a href="{% url 'terms_of_service' %}" target="_blank">Terms and conditions</a> outline the rules and guidelines that govern your use of this website. They cover important topics such as your rights and responsibilities, privacy practices, and more. It's crucial to review these terms carefully as they establish the foundation of our relationship with you and other users. Our <a href="{% url 'disclaimer' %}" target="_blank">Disclaimer</a> provides clarity on the scope and limitations of the content and services we offer, emphasizing the importance of responsible usage. Our <a href="{% url 'cookie_policy' %}" target="_blank">Cookie policy</a> explains the usage of cookies to enhance your browsing experience. It's a testament to our dedication to providing you with a personalized, user-friendly experience.</p>
+            <p>Your commitment to these guidelines is essential for maintaining a safe and enjoyable community for all users. If you have any questions or require futher clarification regarding our terms, please feel free to contact our support team. We value your trust and look forward to providing you with a positive online experience. Welcome to Vschools.</p>
+            <p>By clicking "I Agree" below, you acknowledge that you have read and accepted our <a href="{% url 'terms_of_service' %}" target="_blank">Terms and conditions</a>, <a href="{% url 'cookie_policy' %}" target="_blank">Cookie policy</a>, <a href="{% url 'disclaimer' %}" target="_blank">Disclaimer</a> and our <a href="{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>. We value your trust and want to provide you with the best possible experience on our platform.</p>
+            <label><input type="checkbox" onchange="handleCheckbox(this)" /> I Agree to the terms and conditions as stated above.</label>
+            <button onclick = "agree()" id = "agreeButton" disabled>Continue</button>
+        </main>
     </body>
 </html>

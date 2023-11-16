@@ -1,0 +1,125 @@
+* {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    outline: none;
+}
+
+body {
+    padding: 67px 23px 20px 23px;
+    display: flex;
+    flex-direction: column;
+} 
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    max-width: 800px;
+    border-bottom: 1px solid rgba(128,128,128,0.345);
+    padding-bottom: 40px;
+}
+
+#navbar { 
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    background-color: white;
+    box-shadow: 0 0 7px rgba(128, 128, 128, 0.741);
+}
+
+#navbar h1{
+    font-size: 30px;
+    color: blue;
+    font-weight: lighter;
+}
+
+#navbar button {
+    position: absolute;
+    border: none;
+    background: none;
+    top: 12px;
+    left: 20px;
+    font-size: 15px;
+    font-weight: lighter;
+    padding: 10px;
+    background-color: rgba(128,128,128,0.12);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.7);
+    transition: background-color .5s;
+    border: 1px solid rgba(128, 128, 128, 0.14);
+}
+
+#navbar button:hover {
+    background-color: rgba(128,128,128,0.20);
+}
+
+h2 {
+    font-weight: 400;
+    font-size: 27px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#divone {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    border-radius: 13px;
+    background-color: rgba(0, 0, 255, 0.103);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#divone a {
+    font-weight: 600;
+    width: 130px;
+    margin: 12px;
+    font-size: 13px;
+    background-color: blue;
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
+    text-align: center;
+}
+
+.policies {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.policies a {
+    font-size: 13px;
+    color: grey;
+    margin: 0;
+    margin-left: 7px;
+    margin-right: 7px;
+    text-decoration: none;
+}
+
+.policies p {
+    font-size: 13px;
+    color: grey;
+    margin: 0;
+    margin-left: 7px;
+    margin-right: 7px;
+    font-weight: 500;
+}

@@ -7,8 +7,10 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Our privacy policy">
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Read our privacy policy to understand how we collect, use and protect your personal information. We are committed to your privacy and data security.">
+        <meta name="keywords" content="Privacy Policy, data protection, personal information, data security">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
         <title>Privacy policy | Vschools</title>
         <link rel="shortcut icon" href="{% static 'images/whiteboard.svg' %}" type="image/svg"/>
         {% compress css %}
@@ -19,7 +21,6 @@
     <body> 
     	<header>
             <nav id = "navbar" data-user_token = "{{ user_token }}">
-            	<button title = "Back to home" onclick="(window.open('/','_self'))"><i class = "fas fa-arrow-left"></i></button>
                 <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
             </nav>
         </header>

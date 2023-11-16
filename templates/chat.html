@@ -7,8 +7,9 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Vschools chat platform">
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Join a real-time chat on our platform. Connect with friends and colleagues, send messages, share files and have fun chatting online.">
+        <meta name="keywords" content="Chat, real-time chat, online chat, chat with friends, chat with colleagues, Vschools">
         <title>Dialogue | Vschools</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
@@ -25,7 +26,7 @@
             <nav id = "navbar" data-profilePic = "{{ profile_picture.url }}" data-username = "{{ username }}" data-usertoken = "{{ user_token }}" style = "margin-right: auto;">
             	<button title = "Back to home" onclick="(window.open('/chat','_self'))" style = "position: fixed; top: 12px; left: 20px;"><i class = "fas fa-arrow-left"></i></button>
                 <h1 style = "font-family: 'Brush Script MT', cursive;">Vschools</h1>
-                <button title = "Attach your location" onclick = "getLocation(this)" style = "position: fixed; top: 12px; right: 20px;"><i class = "fas fa-map-marker"></i></button>
+                <button title = "Turn on notifications" onclick = "notifications(this)" style = "position: fixed; top: 12px; right: 20px;"><i class = "fas fa-bell-slash"></i></button>
             </nav>
         </header>
 

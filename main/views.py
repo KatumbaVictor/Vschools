@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, StreamingHttpResponse
 from main.models import (account_info, Room, Room_member, Room_message, 
-        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording, scheduledmeeting)
+        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording, scheduledmeeting, credentials)
 from datetime import date, timedelta, datetime
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -24,6 +24,8 @@ import base64
 import http.client
 import os
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
+from django.views.decorators.csrf import csrf_exempt
+from webauthn import *
 
 
 def register(request):
@@ -67,8 +69,8 @@ def checkMeetingRecording(request):
         return JsonResponse({'MeetingRecording':False}, safe=False)
 
 def login_page(request):
-    if request.user.is_authenticated:
-        return redirect('home')
+    #if request.user.is_authenticated:
+    #    return redirect('home')
 
     if request.method == 'POST':
         user = authenticate(request=request,username=request.POST['username'],password=request.POST['password'])
@@ -86,6 +88,7 @@ def login_page(request):
 
 def update_username(request):
     data = json.loads(request.body)
+    print(data)
     username = data['username']
     user = User.objects.get(id=request.user.id)
 
@@ -198,6 +201,8 @@ def sign_up_page(request):
         email = request.POST['email']
         username = first_name + " " + last_name
 
+        print(request.POST)
+
         if not any([email == item.email for item in User.objects.all()]):
             if password_one == password_two:
                 user = User.objects.create_user(email,email,password_two)
@@ -224,6 +229,8 @@ def sign_up_page(request):
                 
                 email.fail_silently = False
                 email.send()
+
+                print('email-sent')
                 
                 return redirect('verify_email_page')
 
@@ -409,6 +416,18 @@ def start_meeting(request):
         room.save()
         return JsonResponse({'meeting_id':room.room_id}, safe=False)
 
+@login_required(login_url='login')
+def webauthn_verify(request):
+    return render(request, 'webauthn-verify.html')
+
+@login_required(login_url='login')
+def webauthn_registration(request):
+    return render(request, 'webauthn-registration.html')
+
+@login_required(login_url='login')
+def webauthn_registration_complete(request):
+    return render(request, 'webauthn-registration-complete.html')
+
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -419,7 +438,36 @@ async def test_page(request):
 def meeting_ended(request):
     return render(request, "meeting_ended.html")
 
+def webauthn_registration_options(request):
+    item=generate_registration_options(rp_id=settings.FIDO_SERVER_ID,rp_name='Vschools Meet',user_id=str(request.user.id),
+                                    user_name=account_info.objects.get(user=request.user).username)
 
+    registration_response = json.loads(options_to_json(item))
 
+    target_user = account_info.objects.get(user=request.user)
+    target_user.webauthn_challenge = registration_response['challenge']
+    target_user.save()
 
+    return JsonResponse({'publicKey':registration_response}, safe=False)
 
+def verify_webauthn_registration(request):
+    data = request.POST
+    print(data)
+    user = account_info.objects.get(user=request.user)
+
+    item = verify_registration_response(credential=json.loads(data['credential']),expected_challenge=base64url_to_bytes(user.webauthn_challenge),expected_rp_id=settings.FIDO_SERVER_ID,
+                                expected_origin='https://'+settings.FIDO_SERVER_ID,require_user_verification=True)
+    print(item)
+
+def webauthn_authentication_options(request):
+    item=generate_authentication_options(rp_id=settings.FIDO_SERVER_ID)
+    return JsonResponse({'publicKey':json.loads(options_to_json(item))}, safe=False)
+
+def webauthn_authentication(request):
+    data = json.loads(request.body)
+    user = account_info.objects.get(user=request.user)
+
+    item = verify_authentication_response(credential=base64url_to_bytes(data['credential']),expected_challenge=user.webauthn_challenge,expected_rp_id=settings.FIDO_SERVER_ID,
+                                    expected_origin='https://'+settings.FIDO_SERVER_ID,credential_public_key=data['credential']['publicKey'],
+                                    credential_current_sign_count=1,require_user_verification=True)
+    print(item)

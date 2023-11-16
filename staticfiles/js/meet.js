@@ -5,7 +5,7 @@ const token = document.getElementById('main').dataset.token;
 const profile_picture = document.getElementById('controls').dataset.profile_picture;
 const APP_ID = '0eb3e08e01364927854ee79b9e513819';
 const notifications = document.getElementById('notifications');
-const container = document.getElementById('container');
+const container = document.getElementById('container'); 
 const room_name = document.getElementById('controls').dataset.room_name;
 const expression = /((ftp|http|https):\/\/)(www\.)?([\w]+)(\.[\w]+)+(\/[\w]+)*/g;
 var authorization = document.getElementById('controls').dataset.authorization;
@@ -28,6 +28,8 @@ var whiteboard;
 var all_users = 0;
 var recording = false;
 var MessageSocket;
+
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 var comment_holder = document.getElementById('livechat').children[1];
 comment_holder.scrollTop = comment_holder.scrollHeight;
@@ -63,22 +65,6 @@ var send_notification = (title, body) => {
     } ,5000)
 }
 
-let getCookie = (name) => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== ''){
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')){
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-
 if (window.location.protocol == 'https:'){
     connection_protocol = 'wss';
     MessageSocket = `${connection_protocol}://${window.location.host}:8001/MessageSocket/${CHANNEL}/`;
@@ -94,10 +80,22 @@ var audioInputDevices;
 
 AgoraRTC.getCameras().then((devices) => {
     videoInputDevices = devices;
+    devices.forEach((item) => {
+        var target_element = document.getElementById('cameras').firstElementChild;
+        var option = document.createElement('option');
+        option.innerHTML = item.label;
+        target_element.appendChild(option);
+    })
 })
 
 AgoraRTC.getMicrophones().then((devices) => {
     audioInputDevices = devices;
+    devices.forEach((item) => {
+        var target_element = document.getElementById('microphones').firstElementChild;
+        var option = document.createElement('option');
+        option.innerHTML = item.label;
+        target_element.appendChild(option);
+    })
 })
 
 var videoTrack;
@@ -130,7 +128,7 @@ let joinAndDisplayLocalStream = async () => {
         var invite_link = `${window.location.protocol}//${window.location.host}/getRoomMember/`;
 
         var url = new URL(invite_link);
-        url.searchParams.append('room_id',CHANNEL);
+        //url.searchParams.append('room_id',CHANNEL);
         url.searchParams.append('uid',user.uid);
 
         fetch(url,{
@@ -153,10 +151,15 @@ let joinAndDisplayLocalStream = async () => {
         }
     })
  
-    client.on('token-privilege-will-expire',renew_client_token);
-    client.on('token-privilege-did-expire',rejoin_session);
-    client.on('user-left',handleUserLeft);
-    client.on('user-unpublished',UserUnpublishedEvent);
+    client.on('token-privilege-will-expire', renew_client_token);
+    client.on('token-privilege-did-expire', rejoin_session);
+    client.on('user-left', handleUserLeft);
+    client.on('user-unpublished', UserUnpublishedEvent);
+}
+
+let transcribe = (self) => {
+    self.innerHTML = '<i class = "fas fa-closed-captioning"></i>'
+    send_notification('English', 'subtitles have been turned on');
 }
 
 let UserUnpublishedEvent = async (user, mediaType) => {
@@ -195,6 +198,7 @@ let handleJoinedUser = (item) => {
 
     if (item.user_token == room_name) {
         document.getElementById('hosts').prepend(holder);
+        name.innerHTML = `<i class = 'fas fa-microphone-slash'></i> ${item.name} <span>(meeting host)</span>`;
     }else {
         document.getElementById('hosts').appendChild(holder)
     }
@@ -206,7 +210,7 @@ let handleJoinedUser = (item) => {
     holder.appendChild(profile_picture);
     holder.appendChild(hand);
 
-    if (item.raise_hand) {
+    if (item.hand_raised == true) {
         hand.style.opacity = "1";
     }
 
@@ -302,6 +306,13 @@ function getImage() {
 
 function sendFile(self) {
     if (self.files) {
+        var item = {'profile_picture':profile_picture,'id':UID,
+        'name':username,'fileType':self.files[0].type,'fileName':self.files[0].name};
+    }
+}
+
+function sendFiles(self) {
+    if (self.files) {
         var form = new FormData();
         form.append("image",self.files[0]);
         form.append("uid",UID);
@@ -354,7 +365,7 @@ function sendFile(self) {
 
         if (file_types.includes(self.files[0].type)) {
             xhr.open('POST',window.location);
-            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
             xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
             xhr.send(form);
         }else {
@@ -365,18 +376,10 @@ function sendFile(self) {
 
 let getCurrentTime = () => {
     var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    if (minutes < 10){
-        minutes = '0'+minutes;
-    }
-    if (hours < 10){
-        hours = '0'+hours;
-    }
+    var options = {hour12: true, hour: 'numeric', minute: 'numeric'};
+    var formattedTime = date.toLocaleTimeString('en-US', options);
 
-    var time = `${hours}:${minutes}`;
-
-    return time;
+    return formattedTime;
 }
 
 let add_to_chat = (profile_picture, name, message) => {
@@ -415,11 +418,8 @@ let getSocketMessages = function(self){
     }else if (response.raise_hand) {
         if (response.id == UID) {
             send_notification('<i class = "fas fa-hand-paper"></i> You','are raising a hand');
-            add_to_chat(response.profile_picture, username, '<i class = "fas fa-hand-paper"></i> You are raising a hand');
-
         }else {
             send_notification(`<i class = "fas fa-hand-paper"></i> ${response.username}`,'is raising a hand');
-            add_to_chat(response.profile_picture, response.username, '<i class = "fas fa-hand-paper"></i> is raising a hand');
         }
 
         document.getElementById(`hand_${response.id.toString()}`).style.opacity = "1";
@@ -534,6 +534,7 @@ let handle_camera = async (self) => {
             self.innerHTML = '<i class = "fas fa-video"></i>';
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-name','disable');
+            self.setAttribute('title','Mute your video');
 
             if (video_track_playing == false) {
                 videoTrack.play(holder);
@@ -551,6 +552,7 @@ let handle_camera = async (self) => {
             self.setAttribute('data-name','enable');
             profile_picture.style.display = "block";
             video.style.display = "block";
+             self.setAttribute('title','Unmute your video');
         }
     }else {
         send_notification('<i class = "fas fa-exclamation-triangle"></i>','Failed to start camera');
@@ -569,6 +571,7 @@ let handle_audio = async (self) => {
             self.setAttribute('data-name','mute');
             microphone.style.color = 'blue';
             microphone.setAttribute('class','fas fa-microphone');
+            self.setAttribute('title','Mute your microphone');
 
             if (audio_track_playing == false) {
                 audio_track_playing == true;
@@ -581,6 +584,7 @@ let handle_audio = async (self) => {
             self.setAttribute('data-name','unmute');
             microphone.style.color = 'red';
             microphone.setAttribute('class','fas fa-microphone-slash');
+            self.setAttribute('title','Unmute your microphone');
         }
     }else {
         send_notification('<i class = "fas fa-exclamation-triangle"></i>','Failed to start microphone');
@@ -614,6 +618,7 @@ let screen_sharing = (self) => {
         self.setAttribute('data-name','end');
         client.unpublish(videoTrack);
         client.publish(localScreenTrack);
+        self.setAttribute('title','Stop screen sharing');
         self.setAttribute('onclick',() => {
             client.unpublish(localScreenTrack);
         })
@@ -624,6 +629,7 @@ let screen_sharing = (self) => {
             self.setAttribute('class','control_buttons');
             self.setAttribute('data-name','screen');
             self.setAttribute('onclick','screen_sharing(this)');
+            self.setAttribute('title','Share your screen');
 
             var target_button = document.getElementById('controls').firstElementChild;
 
@@ -757,7 +763,7 @@ let stop_recording = () => {
                 }
 
                 xhr.open('POST',window.location);
-                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
                 xhr.send(form);
             })
@@ -804,6 +810,17 @@ function copy_link(self){
     self.innerHTML = '<i class = "fas fa-copy"></i>';
     var link = self.parentElement.firstElementChild.value;
     navigator.clipboard.writeText(link);
+    send_notification('<i class = "fas fa-link"></i> Meeting invite link', 'successfully copied to clipboard');
+    setTimeout(() => {
+        self.innerHTML = '<i class = "far fa-copy"></i>';
+    }, 2000)
+}
+
+function copy_passcode(self){
+    self.innerHTML = '<i class = "fas fa-copy"></i>';
+    var link = self.parentElement.firstElementChild.value;
+    navigator.clipboard.writeText(link);
+    send_notification('Meeting passcode', 'successfully copied to clipboard');
     setTimeout(() => {
         self.innerHTML = '<i class = "far fa-copy"></i>';
     }, 2000)
@@ -901,6 +918,7 @@ let raise_hand = (self) => {
     self.setAttribute('onclick','lower_hand(this)');
     self.setAttribute('data-name','unraise');
     messagesocket.send(JSON.stringify({'raise_hand':true,'username':username,'id':UID,'profile_picture':profile_picture}));
+    self.setAttribute('title','Lower your hand');
 }
 
 let lower_hand = (self) => {
@@ -908,6 +926,7 @@ let lower_hand = (self) => {
     self.setAttribute('onclick','raise_hand(this)');
     self.setAttribute('data-name','raise');
     messagesocket.send(JSON.stringify({'lower_hand':true,'username':username,'id':UID}));
+    self.setAttribute('title','Raise your hand');
 }
 
 function options(){
@@ -980,12 +999,13 @@ let start_whiteboard = (room_token, room_uid) => {
         }).then(response => {
         return response.json().then(data => {
             start_whiteboard(data, room_uid);
+            console.log(csrftoken);
             fetch('/changeWhiteboardDetails/',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
-                    "X-CSRFToken": getCookie('csrftoken'),
-                    'X-Requested-With':'XMLHttpRequest'
+                    'X-Requested-With':'XMLHttpRequest',
+                    "X-CSRFToken": csrftoken
                 },
                 body: JSON.stringify({'room_token':data,'room_uuid':room_uid,'room_id':CHANNEL})
                 })

@@ -14,5 +14,6 @@ urlpatterns = [
 	path('reverse-geocode/', reverse_geocode, name = "reverse_geocode"),
 	path('add-fingerprint/', fingerprint_page),
 	path('add-faceid/', faceid_page),
-	path('', guest_page, name = 'home')
+	path('', guest_page, name = 'home'),
+	path('test/', test_me)
 ]

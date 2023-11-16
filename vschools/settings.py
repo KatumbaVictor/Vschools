@@ -14,6 +14,7 @@ from pathlib import Path
 import os.path
 from decouple import config
 from datetime import timedelta
+import passkeys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +35,9 @@ ADMINS = [
 MANAGERS = ADMINS
 
 ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1','localhost',
-                'dialogue.vschoolsmeet.tech', 'dialogue.localhost','www.localhost']
+                'dialogue.vschoolsmeet.tech', 'dialogue.localhost','www.localhost','fc12-102-85-0-205.ngrok-free.app']
+
+CSRF_TRUSTED_ORIGINS = ['https://vschoolsmeet.tech','http://localhost:8000']
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 ROOT_HOSTCONF = f'{config("PROJECT_NAME")}.hosts'
@@ -62,13 +65,9 @@ INSTALLED_APPS = [
     'db_file_storage',
     'payments',
     'axes',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
-    'djoser.webauthn',
-    'django_hosts',
     'webpush',
-    'vschoolschat'
+    'vschoolschat',
+    'passkeys'
 ]
 
 
@@ -101,21 +100,13 @@ MIDDLEWARE = [
 
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
-    "django.contrib.auth.backends.ModelBackend"
+    "django.contrib.auth.backends.ModelBackend",
+    'passkeys.backend.PasskeyModelBackend'
 ]
 
-DJOSER = {
-    'LOGIN_FIELD':'email',
-    'SEND_ACTIVATION_EMAIL': True,
-    'LOGOUT_ON_PASSWORD_CHANGE': True,
-    'ACTIVATION_URL': 'verify-email/{uid}/{token}',
-    'PASSWORD_RESET_CONFIRM_URL': 'reset/{uid}/{token}',
-    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
-    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'USERNAME_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'USER_CREATE_PASSWORD_RETYPE': True
-}
+FIDO_SERVER_ID = 'vschoolsmeet.tech'
+FIDO_SERVER_NAME = "Vschools Meet"
+KEY_ATTACHMENT = passkeys.Attachment.PLATFORM
 
 TEMPLATES = [
     {
@@ -275,6 +266,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
+
+
 if not DEBUG:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_HTTPONLY = True
@@ -288,6 +281,8 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     COMPRESS_ENABLED = True
+    FIDO_SERVER_ID = 'vschoolsmeet.tech'
+    PARENT_HOST = 'vschoolsmeet.tech'
 
     DATABASES = {
         'default': {

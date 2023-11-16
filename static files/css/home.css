@@ -28,6 +28,7 @@ body {
     font-size: 30px;
     color: blue;
     font-weight: lighter;
+    font-family: 'Brush Script MT', cursive;
 }
 
 #navbar button {
@@ -239,6 +240,7 @@ p {
     transition: opacity .4s;
     width: 250px;
     text-align: center;
+    box-shadow: 0 0 4px rgba(128, 128, 128, 0.781);
 }
 
 footer {

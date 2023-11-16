@@ -7,8 +7,9 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="author" content="Katumba Victor">
-        <meta name="description" content="Start or join a meeting">
+        <meta name="author" content="Vschools Meet">
+        <meta name="description" content="Experience seamless virtual meetings with our platform. connect with colleagues and clients from anywhere, anytime, with HD video and collaboration tools.">
+        <meta name="keywords" content="Virtual meetings, online meetings, video conferencing, collaboration, remote work">
         <title>Vschools | Home</title>
         <link rel="shortcut icon" href="{% static 'images/profile_pic.svg' %}" type="image/svg"/>
         {% compress css %}
@@ -39,6 +40,7 @@
                         <button onclick="(window.open('/admin','_self'))">Admin panel</button>
                     {% endif %}
                     <button onclick = "(window.open('/chat','_self'))">Dialogue</button>
+
                     <button onclick="logout()">Logout</button>
                     <button style = "border: none" onclick="(document.getElementById('options').style.display = 'none')">Cancel</button>
                 </div>
