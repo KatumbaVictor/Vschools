@@ -78,6 +78,10 @@ span {
     font-weight: 500;
 }
 
+main h2 {
+    align-self: center;
+}
+
 main button {
     margin-top: 15px;
     border: none;

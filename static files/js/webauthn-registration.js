@@ -40,7 +40,7 @@ const complete_registration = (data) => {
             .then(credentialInfo => {
                 var item = publicKeyCredentialToJSON(credentialInfo);
 
-                form.append('credential', JSON.stringify(item))
+                form.append('credential', JSON.stringify(item));
 
                 fetch('/webauthn-verify-registration/',{
                     method: 'POST',

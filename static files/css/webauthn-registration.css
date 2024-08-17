@@ -38,12 +38,14 @@ main {
     box-shadow: 0 0 4px rgba(128, 128, 128, 0.341);
     border-bottom: 1px solid rgba(128,128,128,0.345);
     box-shadow: 0 0 4px rgba(128, 128, 128, 0.241);
+    margin-right: auto;
 }
 
 #navbar h1{
     font-size: 30px;
     color: blue;
     font-weight: lighter;
+    font-family: 'Brush Script MT', cursive;
     margin: unset !important;
 }
 
@@ -62,6 +64,7 @@ main {
     align-items: center !important;
     justify-content: center !important;
     color: rgba(0, 0, 0, 0.9);
+    position: fixed; top: 12px; left: 20px;
     margin: 0 !important;
 }
 

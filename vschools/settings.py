@@ -14,7 +14,7 @@ from pathlib import Path
 import os.path
 from decouple import config
 from datetime import timedelta
-import passkeys
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,7 +35,7 @@ ADMINS = [
 MANAGERS = ADMINS
 
 ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1','localhost',
-                'dialogue.vschoolsmeet.tech', 'dialogue.localhost','www.localhost','fc12-102-85-0-205.ngrok-free.app']
+                'dialogue.vschoolsmeet.tech', 'dialogue.localhost','www.localhost']
 
 CSRF_TRUSTED_ORIGINS = ['https://vschoolsmeet.tech','http://localhost:8000']
 
@@ -62,12 +62,16 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'compressor',
     'django_redis',
-    'db_file_storage',
     'payments',
     'axes',
     'webpush',
-    'vschoolschat',
-    'passkeys'
+    'csp',
+    'cspreports',
+    'meta',
+    #'maintenance_mode',
+    'hijack',
+    'employee_portal',
+    'employer_portal'
 ]
 
 
@@ -95,18 +99,33 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_hosts.middleware.HostsResponseMiddleware'
+    'django_hosts.middleware.HostsResponseMiddleware',
+    'csp.middleware.CSPMiddleware',
+    'hijack.middleware.HijackUserMiddleware',
+    #'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
     "django.contrib.auth.backends.ModelBackend",
-    'passkeys.backend.PasskeyModelBackend'
 ]
 
 FIDO_SERVER_ID = 'vschoolsmeet.tech'
 FIDO_SERVER_NAME = "Vschools Meet"
-KEY_ATTACHMENT = passkeys.Attachment.PLATFORM
+
+# Content Security Policy settings
+CSP_DEFAULT_SRC = ("'self'")
+CSP_SCRIPT_SRC = ("'self'")
+CSP_STYLE_SRC = ("'self'")
+CSP_IMG_SRC = ("'self'")
+CSP_FONT_SRC = ("'self'")
+CSP_CONNECT_SRC = ("'self'")
+CSP_FORM_ACTION = ("'self'")
+CSP_MEDIA_SRC = ("'self'")
+CSP_UPGRADE_INSECURE_REQUESTS = True
+CSP_BLOCK_ALL_MIXED_CONTENT = True
+CSP_REPORT_URI = reverse_lazy('report_csp')
+CSP_REPORTS_EMAIL_ADMINS = False
 
 TEMPLATES = [
     {
@@ -124,24 +143,6 @@ TEMPLATES = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': {
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthenticatioin',
-    }
-}
-
-'''
-SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-}
-'''
-
-SIMPLE_JWT = {}
-
 WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 
 # Database
@@ -153,8 +154,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-#DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -188,7 +187,7 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
-}
+} 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
@@ -217,6 +216,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 
+# Meta tag information settings
+META_SITE_DOMAIN = 'careerconnect.com'
+META_SITE_PROTOCOL = 'https'
+META_SITE_NAME = 'Career Connect'
+META_IMAGE_URL = STATIC_URL
+META_USE_OG_PROPERTIES = True
+META_USE_SCHEMAORG_PROPERTIES = True
+META_SCHEMAORG_TYPE = 'Organization'
+META_OG_NAMESPACES = ['og:','og:image','og:title','og:description','og:type','og:url','og:locale','og:site_name']
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -230,13 +239,13 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder'
 )
 
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login'
-LOGOUT_REDIRECT_URL = '/login'
+LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/accounts/user-login'
 
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=20)
 AXES_LOCKOUT_TEMPLATE = 'lockout.html'
+AXES_ENABLE_ADMIN = True
 
 PAYMENT_HOST = 'localhost:8000'
 PAYMENT_USES_SSL = False
@@ -254,19 +263,27 @@ COMPRESS_FILTERS = {
     ]
 }
 
-HTML_MINIFY = True
-KEEP_COMMENTS_ON_MINIFYING = True
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
+CSRF_FAILURE_VIEW = 'main.views.handle_403'
 
+'''
+#Maintenance mode settings
+MAINTENANCE_MODE = None
+MAINTENANCE_MODE_IGNORE_STAFF = True
+MAINTENANCE_MODE_IGNORE_SUPERUSER = True
+MAINTENANCE_MODE_TEMPLATE = 'error-pages/503.html'
+MAINTENANCE_MODE_STATUS_CODE = 503
+MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
+MAINTENANCE_MODE_RETRY_AFTER = 3600
+'''
 
 if not DEBUG:
     CSRF_COOKIE_SECURE = True
@@ -280,19 +297,44 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
     COMPRESS_ENABLED = True
     FIDO_SERVER_ID = 'vschoolsmeet.tech'
     PARENT_HOST = 'vschoolsmeet.tech'
 
+    HTML_MINIFY = True
+    KEEP_COMMENTS_ON_MINIFYING = True
+
+    CSP_REPORTS_EMAIL_ADMINS = True
+
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+            'ENGINE': config("DATABASE_ENGINE"),
             'NAME': config("DATABASE_NAME"),
             'USER': config("DATABASE_USER"),
             'PASSWORD': config("DATABASE_PASSWORD"),
             'HOST': config("DATABASE_HOST"),
             'PORT': config("DATABASE_PORT")
         }
+    }
+
+    LOGGING = {
+        'version':1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': 'debug.log',
+            }
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+        },
     }
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'

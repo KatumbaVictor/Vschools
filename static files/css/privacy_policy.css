@@ -65,8 +65,11 @@ main {
 h2 {
     font-weight: 400;
     font-size: 27px;
-    
     margin-bottom: 0;
+}
+
+h2:first-child {
+    align-self: center;
 }
 
 h3 {

@@ -16,7 +16,7 @@ main {
     max-width: 800px;
     border-bottom: 1px solid rgba(128,128,128,0.345);
     padding-bottom: 40px;
-}
+} 
 
 #navbar { 
     width: 100%;
@@ -30,6 +30,7 @@ main {
     z-index: 5;
     background-color: white;
     box-shadow: 0 0 7px rgba(128, 128, 128, 0.741);
+    margin-right: auto;
 }
 
 #navbar h1{

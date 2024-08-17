@@ -13,7 +13,6 @@ import numpy
 import secrets
 import base64
 from webpush import send_user_notification, send_group_notification
-from vschoolschat.models import ChatUser
 
 class DialogueConsumer(WebsocketConsumer):
     def connect(self):
