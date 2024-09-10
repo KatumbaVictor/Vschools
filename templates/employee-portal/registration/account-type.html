@@ -25,8 +25,9 @@
   
         <form method = "POST" class="flex bg-white px-6 mb-10 border border-gray-100 shadow rounded-lg flex-col items-center max-w-xl mx-auto w-full sm:w-auto py-12">
             {% csrf_token %}
+            {{ wizard.management_form }}
             
-            <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">1). What type of account are you signing up for?</h2>
+            <h2 class="mb-4 text-2xl font-semibold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">1). What type of account are you signing up for?</h2>
 
             <p class="mb-5 text-gray-500 dark:text-gray-400 bg-gray-50 p-4 rounded-lg mt-5">At CareerConnect, we connect job seekers to top employers looking for skilled professionals.
                 By signing up, you'll gain access to exclusive job opportunities, career resources and networking events designed to help you achieve your career goals.
@@ -89,7 +90,7 @@
                 </li>
             </ol>
 
-            <input type="radio" id="employer" name="account_type" value="employer" class="hidden peer" />
+            <input type="radio" id="employer" name="account_type-account_type" value="employer" class="hidden peer" />
             <label for="employer" class="inline-flex items-center justify-between mt-4 w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                 <div class="block">
                     <div class="w-full text-lg font-semibold">I'm an employer</div>
@@ -100,7 +101,7 @@
                 </svg>
             </label>    
 
-            <input type="radio" id="employee" name="account_type" value="job_seeker" class="hidden peer" />
+            <input type="radio" id="employee" name="account_type-account_type" value="job_seeker" class="hidden peer" />
             <label for="employee" class="inline-flex items-center justify-between mt-4 w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                 <div class="block">
                     <div class="w-full text-lg font-semibold">I'm a job seeker</div>
@@ -122,6 +123,28 @@
 
 
             <button class="py-3 mt-4 mb-4 rounded-lg text-center font-medium text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">Next</button>
+
+            {% if wizard.form.errors %}
+                {% for field in wizard.form %}
+                    {% if field.errors %}
+                        <div id="alert-2" class="flex items-center w-full p-4 mt-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                          <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                          </svg>
+                          <span class="sr-only">Info</span>
+                          <div class="ms-3 text-sm font-medium">
+                              {{ field.label }} {{ field.errors }}
+                          </div> 
+                          <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-2" aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                          </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
             <div class="text-sm font-medium text-gray-900 dark:text-white">
                 Already have an account? <a href = "{% url 'login' %}" class="text-blue-600 hover:underline dark:text-blue-500">Login here</a>

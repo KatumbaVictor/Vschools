@@ -65,8 +65,8 @@ INSTALLED_APPS = [
     'payments',
     'axes',
     'webpush',
-    'csp',
-    'cspreports',
+    #'csp',
+    #'cspreports',
     'meta',
     #'maintenance_mode',
     'hijack',
@@ -100,7 +100,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
-    'csp.middleware.CSPMiddleware',
+    #'csp.middleware.CSPMiddleware',
     'hijack.middleware.HijackUserMiddleware',
     #'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
@@ -114,6 +114,7 @@ FIDO_SERVER_ID = 'vschoolsmeet.tech'
 FIDO_SERVER_NAME = "Vschools Meet"
 
 # Content Security Policy settings
+'''
 CSP_DEFAULT_SRC = ("'self'")
 CSP_SCRIPT_SRC = ("'self'")
 CSP_STYLE_SRC = ("'self'")
@@ -126,6 +127,7 @@ CSP_UPGRADE_INSECURE_REQUESTS = True
 CSP_BLOCK_ALL_MIXED_CONTENT = True
 CSP_REPORT_URI = reverse_lazy('report_csp')
 CSP_REPORTS_EMAIL_ADMINS = False
+'''
 
 TEMPLATES = [
     {

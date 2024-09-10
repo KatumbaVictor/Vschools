@@ -36,6 +36,7 @@ django-axes==6.0.1
 django-celery-beat==2.5.0
 django-celery-results==2.5.1
 django-compressor==4.3.1
+django-countries==7.6.1
 django-csp==3.7
 django-csp-reports==1.9.0
 django-formtools==2.5.1

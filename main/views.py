@@ -1,34 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, StreamingHttpResponse
-from main.models import (account_info, Room, Room_member, Room_message, 
-        whiteboard_files, MeetingWhiteboard, RecordedFiles, Room_recording, scheduledmeeting, credentials)
-from datetime import date, timedelta, datetime
-from django.core.mail import EmailMessage
 from django.conf import settings
-from django.template.loader import render_to_string
-from django.utils import timezone
-from django.contrib.sites.shortcuts import get_current_site
-from .tasks import test_function
-import json
-import random
-import re
-import secrets
-import time
-import uuid 
-from agora_token_builder import RtcTokenBuilder
-import base64
-import http.client
-import os
-from django_celery_beat.models import PeriodicTask, CrontabSchedule
-from webauthn import *
-
-
-
-
+from django.urls import reverse
+from .forms import AccountTypeForm
 
 
 meta = {
@@ -53,20 +29,6 @@ meta = {
         }
     }
 
-
-def getToken(request):
-    appId = '0eb3e08e01364927854ee79b9e513819'
-    appCertificate = 'f2fdb8604d8b47a9bc71dcd5606f1d7e'
-    channelName = request.GET.get('channel')
-    uid = request.user.id
-    expirationTimeInSeconds = 3600 * 24 
-    currentTimeStamp = time.time()
-    privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds
-    role = 1
-
-    token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
-
-    return JsonResponse({'token':token}, safe=False)
 
 def login_page(request):
     if request.method == 'POST':
@@ -121,90 +83,29 @@ def community_guidelines(request):
 def cookie_policy(request):
     return render(request, 'cookie_policy.html')
 
-def disclaimer_page(request):
-    return render(request, 'disclaimer.html')
-
-def verify_email(request, token):
-    try:
-        obj = account_info.objects.get(email_token=token)
-        obj.email_verified = True
-        obj.save()
-        return redirect('email_verified')
-    except Exception as e:
-        print('invalid token')    
-
 def sign_up_page(request):
     if request.user.is_authenticated:
         return redirect('home')
         
     if request.method == "POST":
-        print(request.POST)
+        form = AccountTypeForm(request.POST)
+
+        if form.is_valid():
+            print(form.cleaned_data)
+            account_type = form.cleaned_data['account_type']
+            if account_type == 'employer':
+                return redirect('/employer-portal/sign-up')
+            else:
+                return redirect('/employee-portal/sign-up')
+    else:
+        form = AccountTypeForm()
+
+    context = {'form':AccountTypeForm()}
+
+    return render(request, 'sign_up.html', context)
+
 
     return render(request,"sign_up.html")
-
-@login_required(login_url='login')
-def meet_page(request, meeting_id):
-    if not Room.objects.filter(room_id=meeting_id).exists():
-        return redirect('home')
-
-    appId = '0eb3e08e01364927854ee79b9e513819'
-    appCertificate = 'f2fdb8604d8b47a9bc71dcd5606f1d7e'
-
-    channelName = meeting_id
-    expirationTimeInSeconds = 3600 * 24
-    currentTimeStamp = time.time()
-    privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds
-    role = 1
-
-    token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, request.user.id, role, privilegeExpiredTs)
-
-    user_details = {}
-
-    user_details['profile_picture'] = account_info.objects.get(user=request.user).profile_picture
-
-    if request.method == 'POST':
-        if request.FILES:
-            if request.user.is_authenticated:
-                room = Room.objects.get(room_id=meeting_id)
-                room_member = Room_member.objects.get(id=int(request.POST['uid']))
-                item = Room_message(room=room,room_member=room_member,
-                    file=request.FILES['image'],file_type=request.POST['fileType'],
-                    file_name=request.POST['fileName'],time=timezone.now())
-                item.save()
-                return JsonResponse({'fileUrl':item.file.url}, safe=False)
-        else:
-            try:
-                video_file_name = request.POST['video_file_name']
-
-                RecordedFiles(User=request.user, fileUrl=video_file_name).save()
-            except:
-                pass
-
-    customer_key = "a0a3bcfe4bf24cb48e5ace72855058cc"
-    customer_secret = "35c8f03349184c40932e03d531c06de5"
-    credentials = customer_key + ":" + customer_secret
-    base64_credentials = base64.b64encode(credentials.encode("utf8"))
-    credential = base64_credentials.decode("utf8")
-
-    room_chats = Room_message.objects.filter(room=Room.objects.get(room_id=meeting_id))
-    room_name = Room.objects.get(room_id=meeting_id).room_name
-
-    for item in room_chats:
-        item.profile_picture = account_info.objects.get(user=item.room_member.user).profile_picture
-        item.username = account_info.objects.get(user=item.room_member.user).username
-
-    context = {'profile_picture':account_info.objects.get(user=request.user).profile_picture.url,
-                'meeting_link':'https://'+str(get_current_site(request))+'/meet/'+meeting_id,
-                'authorization': credential,'room_chats':room_chats, 'token':token}
-
-    request.user.username = account_info.objects.get(user=request.user).username
-    request.user.user_token = account_info.objects.get(user=request.user).user_token
-    request.meeting_description = Room.objects.get(room_id=meeting_id).description
-    request.meeting_passcode = Room.objects.get(room_id=meeting_id).passcode
-    request.room_name = room_name
-    request.roomId = Room.objects.get(room_id=meeting_id).id
-
-    return render(request, "meeting.html",context)
 
 @login_required(login_url='login')
 def home_page(request):
@@ -231,58 +132,15 @@ def services_page(request):
 def FAQ_page(request):
     return render(request, 'FAQ.html')
 
-@login_required(login_url='login')
-def webauthn_verify(request):
-    return render(request, 'webauthn-verify.html')
-
-@login_required(login_url='login')
-def webauthn_registration(request):
-    return render(request, 'webauthn-registration.html')
-
-@login_required(login_url='login')
-def webauthn_registration_complete(request):
-    return render(request, 'webauthn-registration-complete.html')
-
 def test_page(request):
     return render(request, "test.html")
 
 def guest_page(request):
     return render(request, "guest.html")
 
-def webauthn_registration_options(request):
-    item=generate_registration_options(rp_id=settings.FIDO_SERVER_ID,rp_name='Vschools Meet',user_id=str(request.user.id),
-                                    user_name=account_info.objects.get(user=request.user).username)
-
-    registration_response = json.loads(options_to_json(item))
-
-    target_user = account_info.objects.get(user=request.user)
-    target_user.webauthn_challenge = registration_response['challenge']
-    target_user.save()
-
-    return JsonResponse({'publicKey':registration_response}, safe=False)
-
-def verify_webauthn_registration(request):
-    data = request.POST
-    print(data)
-    user = account_info.objects.get(user=request.user)
-
-    item = verify_registration_response(credential=json.loads(data['credential']),expected_challenge=base64url_to_bytes(user.webauthn_challenge),expected_rp_id=settings.FIDO_SERVER_ID,
-                                expected_origin='https://'+settings.FIDO_SERVER_ID,require_user_verification=True)
-    print(item)
-
-def webauthn_authentication_options(request):
-    item=generate_authentication_options(rp_id=settings.FIDO_SERVER_ID)
-    return JsonResponse({'publicKey':json.loads(options_to_json(item))}, safe=False)
-
-def webauthn_authentication(request):
-    data = json.loads(request.body)
-    user = account_info.objects.get(user=request.user)
-
-    item = verify_authentication_response(credential=base64url_to_bytes(data['credential']),expected_challenge=user.webauthn_challenge,expected_rp_id=settings.FIDO_SERVER_ID,
-                                    expected_origin='https://'+settings.FIDO_SERVER_ID,credential_public_key=data['credential']['publicKey'],
-                                    credential_current_sign_count=1,require_user_verification=True)
-    print(item)
-
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+def verify_email(request):
+    return render(request, 'otp.html')

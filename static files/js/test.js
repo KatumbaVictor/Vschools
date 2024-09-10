@@ -1,11 +1,21 @@
-var editor = CodeMirror.fromTextArea(document.getElementById('editor'),
-    {
-        mode: 'python',
-        lineNumbers: true,
-        theme: 'dracula',
-        indentUnit: 2,
-        smartIndent: true
-    }
-)
+var image = document.getElementById('image');
+//var croppedImageElement = document.getElementById('croppedImage');
 
-editor.save()
+
+var cropper = new Cropper(image, {
+    aspectRatio: 1,
+    viewMode: 1
+})
+
+
+document.getElementById('crop').addEventListener('click', function () {
+    var croppedCanvas = cropper.getCroppedCanvas();
+    if (croppedCanvas) {
+        var croppedImageDataUrl = croppedCanvas.toDataURL('image/png');
+        console.log(croppedImageDataUrl)
+    }
+})
+
+document.getElementById('modal-button').addEventListener('click', function() {
+    document.getElementById('logout-modal').style.visibility = "visible"
+})
