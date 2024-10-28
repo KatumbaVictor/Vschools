@@ -295,9 +295,9 @@
                   </ol>
                 </nav>
                 
-                <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Post a Job, hire talent.</h2>
+                <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Account profile settings.</h2>
 
-                <p class="mb-3 text-gray-500 dark:text-gray-400 mt-5 p-4 rounded-lg bg-gray-50">Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.</p>
+                <p class="mb-3 text-gray-500 dark:text-gray-400 mt-5 p-4 rounded-lg bg-gray-50">In this section, you can update and manage all aspects of your personal profile. Keeping your profile current ensures that you are presenting the most accurate and relevant information to potential employers and recruiters. By maintaining a complete and up-to-date profile, you increase your visibility and improve your chances of being matched with opportunities that align with your skills and professional goals. Make sure to review your details regularly to stay competitive and stand out in the job market.</p>
 
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mt-4">
                     <ul class="flex flex-wrap -mb-px">
@@ -331,54 +331,87 @@
                     </ul>
                 </div>
 
-                <h5 class="text-1xl font-normal dark:text-white mt-5">Fullname and biography</h5>
-
-                <p class="mb-3 text-gray-500 dark:text-gray-400 mt-5">Update your profile photo below.</p>
-
-                <div class="flex items-center">
-                    <div class="w-full max-w-screen-xl mx-auto md:py-8">
-                        <div class="sm:flex sm:items-center sm:justify-between">
-                            <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-400">
-                                <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-                            </div>
-                        </div>
+                <div class="grid grid-cols-2 gap-4 mb-4 mt-10">
+                    <div>
+                        <h5 class="text-xl font-bold dark:text-white">Manage Username</h5>
+                        <p class="mb-6 text-gray-500 dark:text-gray-400">
+                            Your username is unique to your account. Update it as needed to ensure it represents you accurately. Changes will apply throughout your profile.
+                        </p>
                     </div>
-                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Upload</button>
+
+                    <div class='mb-6 flex-col'>
+                        <div class="mb-6">
+                            <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+                            <input type="text" id="default-input" placeholder="Update your first name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                        <div class="mb-6">
+                            <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+                            <input type="text" id="default-input" placeholder="Update your last name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                        <button type="button" class="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center" disabled>Update username</button>
+                    </div>
                 </div>
 
-                <form>
-                    <div class="grid gap-6 mb-6 md:grid-cols-2">
-                        <div>
-                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-                            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
-                        </div>
-                        <div>
-                            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
-                            <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required />
-                        </div>
-                        <div>
-                            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                            <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter company name" required />
-                        </div>  
-                        <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
-                            <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
+                <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                <div class="grid grid-cols-2 gap-4 mb-4 mt-10">
+                    <div>
+                        <h5 class="text-xl font-bold dark:text-white">Edit your biography</h5>
+                        <p class="mb-6 text-gray-500 dark:text-gray-400">
+                            Update your biography to reflect your current achievements and skills.This information helps others understand your background.
+                        </p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
+                        <textarea id="message" name="personal_information-biography" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Edit your bio here..."></textarea>
+                        <button type="button" class="mt-6 text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center" disabled>Update biography</button>
+                    </div> 
+                </div>
+
+                <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                <div class="grid grid-cols-2 gap-4 mb-4 mt-10">
+                    <div>
+                        <h5 class="text-xl font-bold dark:text-white">Profile picture</h5>
+                        <p class="mb-6 text-gray-500 dark:text-gray-400">
+                            Update your profile picture to maintain a professional appearance. Changes will be reflected accross your account.
+                        </p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="id_personal_information-profile_picture" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Update profile photo</label>
+                        <div class="flex mt-4 items-center w-full">
+                            <input type="file" name="personal_information-profile_picture" id="id_personal_information-profile_picture" accept="image/*" hidden/>
+                            <button type="button" id="upload-button" data-modal-target="cropper-modal" data-modal-toggle="cropper-modal" hidden>Upload picture</button>
+                            <img src="/media/no_profile_Pic.jpeg" id="profile-picture" class="mr-3 border border-gray-300 rounded-full h-14 sm:h-9" alt="Profile picture" />
+                            <button type="button" id="select-image" class="text-gray-900 bg-gray-100 text-center inline-flex items-center focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                <svg class="w-6 h-6 mr-1 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M7.5 4.586A2 2 0 0 1 8.914 4h6.172a2 2 0 0 1 1.414.586L17.914 6H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1.086L7.5 4.586ZM10 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
+                                </svg>
+                                Upload photo
+                            </button>
                         </div>
                     </div>
+                </div>
+
+                <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                <div class="grid grid-cols-2 gap-4 mb-4 mt-10">
+                    <div>
+                        <h5 class="text-xl font-bold dark:text-white">Email address</h5>
+                        <p class="mb-6 text-gray-500 dark:text-gray-400">
+                            Update your email address to ensure that you receive important notifications and updates. Changes will apply to your account communications.
+                        </p>
+                    </div>
+
                     <div class="mb-6">
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                        <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
-                    </div> 
-                    <div class="mb-6">
-                        <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                        <input type="password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
-                    </div> 
-                    <div class="mb-6"> 
-                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
-                        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Edit your bio here..."></textarea>
-                    </div> 
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
-                </form>
+                        <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" id="default-input" placeholder="Update your email address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <button type="button" class="mt-6 text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center" disabled>Update email address</button>
+                    </div>
+                </div>
+
 
                 <footer class="bg-white dark:bg-gray-900">
                     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">

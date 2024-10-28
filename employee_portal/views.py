@@ -3,7 +3,9 @@ from formtools.wizard.views import SessionWizardView
 from .forms import (PersonalInformationForm, EducationalBackgroundForm,
              WorkExperienceForm, CareerPrefencesForm)
 from django.conf import settings
+from django_countries import countries
 from django.core.files.storage import FileSystemStorage
+from cities_light.models import City
 import os
 
 
@@ -24,6 +26,15 @@ class SignUpWizardView(SessionWizardView):
 
     def get_template_names(self):
         return [Templates[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+
+        if self.steps.current == 'personal_information':
+            context['countries'] = countries
+            context['cities'] = City.objects.all()
+
+        return context
 
     def done(self, form_list, **kwargs):
         for form in form_list:

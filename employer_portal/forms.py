@@ -1,5 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django_countries.fields import CountryField
+
 
 class CompanyInformationForm(forms.Form):
 	company_name = forms.CharField(max_length=255, required=True)
@@ -41,7 +43,7 @@ class CompanyInformationForm(forms.Form):
 
 
 class BillingInformationForm(forms.Form):
-	country = forms.CharField(max_length=100)
+	country = CountryField().formfield()
 	billing_address_1 = forms.CharField(max_length=255)
 	billing_address_2 = forms.CharField(max_length=255)
 	billing_email = forms.EmailField(required=True)

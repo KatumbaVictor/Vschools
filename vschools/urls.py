@@ -48,8 +48,6 @@ urlpatterns = [
     path('contact/', contact_page, name="contact"),
     path('verify-email', verify_email, name="verify_email"),
     path('hijack/', include('hijack.urls')),
-    path('maintenance-mode/', include('maintenance_mode.urls')),
-    #path('csp-violation-endpoint/', include('cspreports.urls')),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('reset',auth_views.PasswordResetView.as_view(template_name="password-reset/forgot_password.html"), 
         name = "reset_password"),

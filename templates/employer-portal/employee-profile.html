@@ -117,23 +117,21 @@
             </div>
         </nav>
 
-        <div class="bg-gray-50 mt-14">
+        <div class="bg-gray-50 mt-10">
             <div class="container mx-auto py-8">
                 <div class="grid grid-cols-4 sm:grid-cols-12 gap-5 px-4">
-                    <div class="col-span-4 sm:col-span-9">
+                    <div class="col-span-4 sm:col-span-9 shadow rounded-lg">
                         <div class="bg-white rounded-lg p-6">
-                            <div class="flex flex-col items-center">
-                                <div class="relative inline-flex items-center border border-gray-200 justify-center w-20 h-20 overflow-hidden bg-gray-200 rounded-full dark:bg-gray-600 border border-gray-200">
-                                    <span class="font-medium text-3xl text-gray-600 dark:text-gray-300">JL</span>
-                                </div>
-                                <h1 class="text-xl font-bold mt-4">Jonathan Osteen</h1>
-                                <p class="text-gray-700">Software Developer</p>
-                                <div class="mt-6 flex flex-wrap gap-4 justify-center">
-                                    <a href="#" class="text-center text-white bg-blue-700 rounded-lg text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 text-base py-2 px-4 font-bold">Contact</a>
-                                    <a href="#" class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Resume</a>
+                            <div class="flex flex-col items-center col-span-1 pb-4">
+                                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{% static 'images/profile_pic.svg' %}" alt="Bonnie image"/>
+                                <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+                                <div class="flex mt-4 md:mt-6">
+                                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add friend</a>
+                                    <a href="#" class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Message</a>
                                 </div>
                             </div>
-                            <hr class="my-6 border-t border-gray-300">
+                            <hr class="my-4 border-t border-gray-300">
                             <div class="flex flex-col">
                                 <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Skills</span>
                                 <ul>

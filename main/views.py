@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.urls import reverse
 from .forms import AccountTypeForm
+from django_countries import countries
 
 
 meta = {
@@ -133,7 +134,8 @@ def FAQ_page(request):
     return render(request, 'FAQ.html')
 
 def test_page(request):
-    return render(request, "test.html")
+    context = {'countries': countries}
+    return render(request, "test.html", context)
 
 def guest_page(request):
     return render(request, "guest.html")

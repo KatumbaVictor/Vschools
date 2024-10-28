@@ -1,8 +1,8 @@
 document.getElementById('select-image').addEventListener('click', () => {
-	document.getElementById('profile-picture-input').click();
+	document.getElementById('id_personal_information-profile_picture').click();
 })
 
-document.getElementById('profile-picture-input').addEventListener('change', (event) => {
+document.getElementById('id_personal_information-profile_picture').addEventListener('change', (event) => {
 	const file = event.target.files[0];
 
 	if (file && file.type.startsWith('image/')) {
@@ -44,5 +44,5 @@ document.getElementById('upload-button').addEventListener('click', function() {
 })
 
 document.getElementById('cancel-cropping').addEventListener('click', () => {
-	document.getElementById('profile-picture-input').value = '';
+	document.getElementById('id_personal_information-profile_picture').value = '';
 })

@@ -1,4 +1,8 @@
 from django import forms
+from django_countries.fields import CountryField
+from cities_light.models import City
+
+
 
 class AccountTypeForm(forms.Form):
     ACCOUNT_CHOICES = [('employer', 'Employer'),
@@ -11,10 +15,11 @@ class AccountTypeForm(forms.Form):
 class PersonalInformationForm(forms.Form):
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
-    country = forms.CharField(max_length=100)
+    country = CountryField().formfield()
     state_province_region = forms.CharField(max_length=100)
-    city = forms.CharField(max_length=100)
+    city = forms.CharField(max_length=200)
     zip_postal_code = forms.CharField(max_length=100)
+    profile_picture = forms.FileField()
     date_of_birth = forms.DateField()
 
     GENDER_CHOICES = [

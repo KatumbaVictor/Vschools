@@ -58,20 +58,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'django_celery_results',
-    'django_celery_beat',
     'compressor',
     'django_redis',
     'payments',
     'axes',
     'webpush',
-    #'csp',
-    #'cspreports',
+    'csp',
     'meta',
-    #'maintenance_mode',
     'hijack',
     'employee_portal',
-    'employer_portal'
+    'employer_portal',
+    'django_countries',
+    'cities_light',
+    'django_otp',
+    'django_otp.plugins.otp_totp'
 ]
 
 
@@ -100,7 +100,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
-    #'csp.middleware.CSPMiddleware',
+    'django_otp.middleware.OTPMiddleware',
+    'csp.middleware.CSPMiddleware',
     'hijack.middleware.HijackUserMiddleware',
     #'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
@@ -114,20 +115,18 @@ FIDO_SERVER_ID = 'vschoolsmeet.tech'
 FIDO_SERVER_NAME = "Vschools Meet"
 
 # Content Security Policy settings
-'''
+
 CSP_DEFAULT_SRC = ("'self'")
 CSP_SCRIPT_SRC = ("'self'")
 CSP_STYLE_SRC = ("'self'")
-CSP_IMG_SRC = ("'self'")
+CSP_IMG_SRC = ("'self'", "blob:")
 CSP_FONT_SRC = ("'self'")
 CSP_CONNECT_SRC = ("'self'")
 CSP_FORM_ACTION = ("'self'")
 CSP_MEDIA_SRC = ("'self'")
 CSP_UPGRADE_INSECURE_REQUESTS = True
 CSP_BLOCK_ALL_MIXED_CONTENT = True
-CSP_REPORT_URI = reverse_lazy('report_csp')
 CSP_REPORTS_EMAIL_ADMINS = False
-'''
 
 TEMPLATES = [
     {
@@ -243,6 +242,7 @@ STATICFILES_FINDERS = (
 
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/accounts/user-login'
+LOGIN_URL = '/accounts/user-login'
 
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=20)
@@ -287,6 +287,12 @@ MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 MAINTENANCE_MODE_RETRY_AFTER = 3600
 '''
 
+OTP_TOTP_DIGITS = 6
+OTP_TOTP_INTERVAL = 30
+OTP_TOTP_SYNC = 1
+OTP_TOTP_ISSUER = 'CareerConnect'
+OTP_TOTP_THROTTLE_FACTOR = 1
+
 if not DEBUG:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_HTTPONLY = True
@@ -306,8 +312,6 @@ if not DEBUG:
 
     HTML_MINIFY = True
     KEEP_COMMENTS_ON_MINIFYING = True
-
-    CSP_REPORTS_EMAIL_ADMINS = True
 
     DATABASES = {
         'default': {
@@ -338,13 +342,3 @@ if not DEBUG:
             },
         },
     }
-
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-accept_content = ['application/json']
-result_serializer = 'json'
-task_serializer = 'json'
-timezone = 'Africa/Kampala'
-
-result_backend = 'django-db'
-
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

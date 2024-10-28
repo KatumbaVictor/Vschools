@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from formtools.wizard.views import SessionWizardView
 from .forms import CompanyInformationForm, BillingInformationForm, AccountInformationForm, CompanyRepresentativeForm
 from django.conf import settings
+from django_countries import countries
 from django.core.files.storage import FileSystemStorage
 import os
 
@@ -24,6 +25,14 @@ class CompanySignUpWizard(SessionWizardView):
 
     def get_template_names(self):
         return [Templates[self.steps.current]]
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+
+        if self.steps.current == 'billing_information':
+            context['countries'] = countries
+
+        return context
 
     def done(self, form_list, **kwargs):
         for form in form_list:
