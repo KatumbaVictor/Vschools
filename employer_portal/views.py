@@ -4,6 +4,7 @@ from .forms import CompanyInformationForm, BillingInformationForm, AccountInform
 from django.conf import settings
 from django_countries import countries
 from django.core.files.storage import FileSystemStorage
+from moneyed import list_all_currencies
 import os
 
 Templates = {'company_information':'employer-portal/registration/company-information.html',
@@ -53,3 +54,20 @@ def home_page(request):
 
 def post_job(request):
     return render(request, 'employer-portal/post-job.html')
+
+def post_job_details(request):
+    context = {'countries': countries}
+    return render(request, 'employer-portal/post-job/job-details.html', context)
+
+def post_job_requirements(request):
+    return render(request, 'employer-portal/post-job/job-requirements.html')
+
+def compensation_details(request):
+    context = {'currencies': list_all_currencies}
+    return render(request, 'employer-portal/post-job/compensation-details.html', context)
+
+def application_details(request):
+    return render(request, 'employer-portal/post-job/application-details.html')
+
+def review_and_publish(request):
+    return render(request, 'employer-portal/post-job/review-and-publish.html')

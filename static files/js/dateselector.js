@@ -3,7 +3,7 @@ Array.from(document.getElementsByClassName('dateselector')).forEach((datepickerE
 		autohide: true,
 		buttons: true,
 		format: 'dd/mm/yyyy',
-		title: 'Date of birth'
+		title: 'Select date'
 	}
 
 	const datePicker = new Datepicker(datepickerElement, datepickerOptions);

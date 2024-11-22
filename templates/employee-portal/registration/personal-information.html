@@ -81,7 +81,7 @@
 
             <h2 class="mb-4 mt-6 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">2). Get started with your profile below.</h2>
 
-            <p class="mb-5 text-gray-500 dark:text-gray-400 bg-gray-50 p-4 rounded-lg mt-5">Fill out the form below with your personal details to get started. This information is necessary for account creation, and will be used solely for the purpose of setting up and managing your account. It will be treated with utmost confidentiality and in accordance with our privacy policy, which ensures that your data is protected and never shared with third parties without your explicit consent.
+            <p class="mb-5 text-gray-500 border border-gray-300 dark:text-gray-400 bg-gray-50 p-4 rounded-lg mt-5">Fill out the form below with your personal details to get started. This information is necessary for account creation, and will be used solely for the purpose of setting up and managing your account. It will be treated with utmost confidentiality and in accordance with our privacy policy, which ensures that your data is protected and never shared with third parties without your explicit consent.
             </p>
 
             <ol class="flex items-center w-full mt-10">
@@ -152,7 +152,7 @@
                     <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
                     <input type="text" name="personal_information-last_name" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter last name" required />
                 </div>         
-                <div class="mb-6 w-full">
+                <div class="w-full">
                     <label for="id_personal_information-country" class="block flex-row items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         <span>Select your country</span>
                     </label> 
@@ -181,8 +181,8 @@
                 <div class="flex mt-4 items-center w-full">
                     <input type="file" name="personal_information-profile_picture" id="id_personal_information-profile_picture" accept="image/*" hidden/>
                     <button type="button" id="upload-button" data-modal-target="cropper-modal" data-modal-toggle="cropper-modal" hidden>Upload picture</button>
-                    <img src="/media/no_profile_Pic.jpeg" id="profile-picture" class="mr-3 border border-gray-300 rounded-full h-14 sm:h-9" alt="Profile picture" />
-                    <button type="button" id="select-image" class="text-gray-900 bg-gray-100 text-center inline-flex items-center focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                    <img src="/media/no_profile_Pic.jpeg" id="profile-picture" class="mr-3 shadow-sm border border-gray-300 rounded-full h-14 sm:h-9" alt="Profile picture" />
+                    <button type="button" id="select-image" class="text-gray-900 bg-gray-100 text-center shadow-sm border border-gray-50 inline-flex items-center focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                         <svg class="w-6 h-6 mr-1 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M7.5 4.586A2 2 0 0 1 8.914 4h6.172a2 2 0 0 1 1.414.586L17.914 6H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1.086L7.5 4.586ZM10 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
                         </svg>
@@ -235,7 +235,7 @@
                 <input type="password" name="personal_information-confirm_password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
             </div> 
 
-            <div class="flex p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+            <div class="flex p-4 mb-4 text-sm border border-blue-300 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                 <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                 </svg>
@@ -274,7 +274,7 @@
 
             <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
 
-            <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}" class="text-gray-900 px-8 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Back</button>
+            <a href="#" name="wizard_goto_step" value="{{ wizard.steps.prev }}" class="text-gray-900 px-8 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Back</a>
             
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Next

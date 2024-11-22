@@ -9,6 +9,7 @@ async-timeout==4.0.2
 attrs==23.1.0
 autobahn==23.6.2
 Automat==22.10.0
+babel==2.16.0
 beautifulsoup4==4.12.2
 billiard==4.1.0
 cachetools==5.3.1
@@ -49,6 +50,7 @@ django-hosts==5.2
 django-htmlmin==0.11.0
 django-maintenance-mode==0.21.1
 django-meta==2.4.2
+django-money==3.5.3
 django-otp==1.5.4
 django-payments==2.0.0
 django-phonenumber-field==7.1.0
@@ -96,6 +98,7 @@ progressbar2==4.5.0
 prompt-toolkit==3.0.38
 protobuf==4.23.3
 psycopg2==2.9.10
+py-moneyed==3.0
 py-vapid==1.9.0
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
