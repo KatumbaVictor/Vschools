@@ -391,12 +391,12 @@
                         <form method="POST">
                             <div class="grid mb-6 gap-6 md:grid-cols-2 mt-8">
                                 <div>
-                                    <label for="cgpa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Maximum salary payment</label>
-                                    <input type="number" name="educational_background-gpa_grade" id="cgpa" min='0' max='5' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter salary payment..." required />
+                                    <label for="cgpa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Minimum salary payment</label>
+                                    <input type="number" name="educational_background-gpa_grade" id="cgpa" min='1' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter minimum salary payment..." required />
                                 </div>
                                 <div>
-                                    <label for="cgpa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Minimum salary payment</label>
-                                    <input type="number" name="educational_background-gpa_grade" id="cgpa" min='0' max='5' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter salary payment..." required />
+                                    <label for="cgpa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Maximum salary payment</label>
+                                    <input type="number" name="educational_background-gpa_grade" id="cgpa" min='1' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter maximum salary payment..." required />
                                 </div>
                                 <div class="w-full">
                                     <label for="id_personal_information-country" class="block flex-row items-center mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -404,7 +404,7 @@
                                     </label> 
                                     <select id="id_personal_information-country" name="personal_information-country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         {% for currency in currencies %}
-                                            <option>{{ currency.code }}</option>
+                                            <option>{{ currency.code }}, {{ currency.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
