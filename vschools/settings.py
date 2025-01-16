@@ -14,7 +14,6 @@ from pathlib import Path
 import os.path
 from decouple import config
 from datetime import timedelta
-from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,20 +43,16 @@ ROOT_HOSTCONF = f'{config("PROJECT_NAME")}.hosts'
 DEFAULT_HOST = 'www'
 PARENT_HOST = 'localhost'
 
-ASGI_APPLICATION = f'{config("PROJECT_NAME")}.asgi.application'
-
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
-    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
+    'django.contrib.sites',
     'compressor',
     'django_redis',
     'payments',
@@ -66,14 +61,15 @@ INSTALLED_APPS = [
     'csp',
     'meta',
     'hijack',
+    'django_countries',
+    'allauth',
+    'allauth.account',
     'employee_portal',
     'employer_portal',
-    'django_countries',
-    'cities_light',
-    'django_otp',
-    'django_otp.plugins.otp_totp'
+    'main',
 ]
 
+SITE_ID = 1
 
 CHANNEL_LAYERS = {
     "default": {
@@ -100,26 +96,25 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
-    'django_otp.middleware.OTPMiddleware',
     'csp.middleware.CSPMiddleware',
     'hijack.middleware.HijackUserMiddleware',
-    #'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
-    "django.contrib.auth.backends.ModelBackend",
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
 FIDO_SERVER_ID = 'vschoolsmeet.tech'
 FIDO_SERVER_NAME = "Vschools Meet"
 
 # Content Security Policy settings
-
+'''
 CSP_DEFAULT_SRC = ("'self'")
 CSP_SCRIPT_SRC = ("'self'")
 CSP_STYLE_SRC = ("'self'")
-CSP_IMG_SRC = ("'self'", "blob:")
+CSP_IMG_SRC = ("'self'", "blob:", "data:")
 CSP_FONT_SRC = ("'self'")
 CSP_CONNECT_SRC = ("'self'")
 CSP_FORM_ACTION = ("'self'")
@@ -127,7 +122,7 @@ CSP_MEDIA_SRC = ("'self'")
 CSP_UPGRADE_INSECURE_REQUESTS = True
 CSP_BLOCK_ALL_MIXED_CONTENT = True
 CSP_REPORTS_EMAIL_ADMINS = False
-
+'''
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -189,6 +184,22 @@ CACHES = {
         }
     }
 } 
+
+AUTH_USER_MODEL = 'main.User'
+
+#Django all auth settings
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_ADAPTER = 'main.adapters.LoginRedirectAccountAdapter'
+
+
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
@@ -287,12 +298,6 @@ MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 MAINTENANCE_MODE_RETRY_AFTER = 3600
 '''
 
-OTP_TOTP_DIGITS = 6
-OTP_TOTP_INTERVAL = 30
-OTP_TOTP_SYNC = 1
-OTP_TOTP_ISSUER = 'CareerConnect'
-OTP_TOTP_THROTTLE_FACTOR = 1
-
 if not DEBUG:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_HTTPONLY = True
@@ -306,9 +311,6 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
-    COMPRESS_ENABLED = True
-    FIDO_SERVER_ID = 'vschoolsmeet.tech'
-    PARENT_HOST = 'vschoolsmeet.tech'
 
     HTML_MINIFY = True
     KEEP_COMMENTS_ON_MINIFYING = True

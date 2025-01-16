@@ -1,60 +1,44 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django_countries.fields import CountryField
+from .models import *
 
 
-class CompanyInformationForm(forms.Form):
-	company_name = forms.CharField(max_length=255, required=True)
-	company_website = forms.URLField(required=True)
-	company_type = forms.ChoiceField(
-					choices=[
-                        ('private','Private'),
-                        ('public','Public'),
-                        ('government','Government'),
-                        ('non_profit','Non-Profit'),
-                    ],
-                    required=True
-		)
-	company_size = forms.ChoiceField(
-					choices=[
-                        ('small','1 - 50 employees'),
-                        ('medium', '51 - 200 employees'),
-                        ('large','201 - 500 employees'),
-                        ('enterprise', '500+ employees'),
-                    ] 
-		)
-	company_email = forms.EmailField(required=True)
-	company_location = forms.CharField(required=True)
-	company_linkedin = forms.URLField(required=True)
-	industry = forms.ChoiceField(
-                choices=[
-                    ('tech','Technology'),
-                    ('finance','Finance'),
-                    ('healthcare','Healthcare'),
-                    ('education','Education'),
-                    ('manufacturing','Manufacturing'),
-                ]
-        )
-	company_overview = forms.CharField(max_length=200, required=True)
-	company_vision = forms.CharField(max_length=200, required=True)
-	date_established = forms.CharField(max_length=200, required=True)
+class CompanyInformationForm(forms.ModelForm):
+	class Meta:
+		model = CompanyInformation
+		fields = [
+			'company_name',
+			'company_website',
+			'company_type',
+			'company_size',
+			'company_logo',
+			'company_email',
+			'company_location',
+			'company_linkedin',
+			'industry',
+			'company_overview',
+			'company_vision',
+			'date_established'
+		]
 
 
-
-
-class BillingInformationForm(forms.Form):
-	country = CountryField().formfield()
-	billing_address_1 = forms.CharField(max_length=255)
-	billing_address_2 = forms.CharField(max_length=255)
-	billing_email = forms.EmailField(required=True)
-	city = forms.CharField(max_length=100)
-	state_province_region = forms.CharField(max_length=100)
-	postal_code = forms.CharField(max_length=40)
-	full_name_on_card = forms.CharField(max_length=255)
-	card_number = forms.CharField(max_length=19, required=True)
-	card_expiration = forms.CharField(max_length=5, required=True)
-	cvv_number = forms.CharField(max_length=4, required=True)
-
+class BillingInformationForm(forms.ModelForm):
+	class Meta:
+		model = BillingInformation
+		fields = [
+			'country',
+			'billing_address_1',
+			'billing_address_2',
+			'billing_email',
+			'city',
+			'state_province_region',
+			'postal_code',
+			'full_name_on_card',
+			'card_number',
+			'card_expiration',
+			'cvv_number',
+		]
 
 
 class AccountInformationForm(forms.Form):
@@ -74,14 +58,146 @@ class AccountInformationForm(forms.Form):
 		return cleaned_data
 
 
+class CompanyRepresentativeForm(forms.ModelForm):
+	class Meta:
+		model = AccountRepresentative
+		fields = [
+			'first_name',
+			'last_name',
+			'email',
+			'linkedin_profile',
+			'job_title',
+			'department',
+			'portfolio_website',
+			'biography',
+			'roles_responsibilities',
+		]
 
-class CompanyRepresentativeForm(forms.Form):
-	first_name = forms.CharField(max_length=80, required=True)
-	last_name = forms.CharField(max_length=80, required=True)
-	email = forms.EmailField(required=True)
-	linkedin_profile = forms.URLField(required=False)
-	job_title = forms.CharField(max_length=80)
-	department = forms.CharField(max_length=80)
-	portfolio_website = forms.URLField(required=True)
-	biography = forms.CharField(max_length=200)
-	roles_responsibilities = forms.CharField(max_length=200)
+
+class JobDetailsForm(forms.ModelForm):
+	class Meta:
+		model = JobDetails
+		fields = [
+			'job_title',
+			'country',
+			'state_or_region',
+			'employment_type',
+			'company_department',
+			'industry',
+			'job_description',
+			'working_hours',
+			'post_expiry_date',
+			'work_location_mode',
+			'seniority_level',
+			'job_description_document'
+		]
+
+
+class JobRequirementsForm(forms.ModelForm):
+	class Meta:
+		model = JobRequirements
+		fields = [
+			'minimum_education_level',
+			'field_of_study',
+			'certifications_and_licenses',
+			'age_requirements',
+			'languages_required',
+			'language_proficiency',
+			'gender_preferences',
+			'key_responsibilities',
+			'required_experience'
+		]
+
+	
+
+class CompensationDetailsForm(forms.ModelForm):
+	class Meta:
+		model = CompensationDetails
+		fields = [
+			'minimum_salary',
+			'maximum_salary',
+			'payment_currency',
+			'payment_frequency',
+			'compensation_type',
+			'benefits_and_incentives',
+			'non_monetary_benefits',
+			'salary_negotiability'
+		]
+
+
+class ApplicationDetailsForm(forms.ModelForm):
+	class Meta:
+		model = ApplicationDetails
+		fields = [
+			'application_start_date',
+			'application_deadline',
+			'application_limit',
+			'contact_information',
+			'application_instructions',
+			'custom_application_url',
+		]
+
+
+class JobPostTermsAndConditionsForm(forms.Form):
+	accept_terms = forms.BooleanField(required=True, error_messages={'required':'You must accept the terms and conditions to continue.'})
+
+
+class InternshipDetailsForm(forms.ModelForm):
+	class Meta:
+		model = InternshipDetails
+		fields = [
+			'internship_title',
+			'country',
+			'industry',
+			'company_department',
+			'start_date',
+			'end_date',
+			'internship_type',
+			'working_hours',
+			'internship_description',
+			'key_responsibilities',
+			'internship_description_document'
+		]
+
+
+class InternshipEligibilityCriteriaForm(forms.ModelForm):
+	class Meta:
+		model = InternshipEligibilityCriteria
+		fields = [
+			'education_level',
+			'field_of_study',
+			'certifications_and_licenses',
+			'age_requirements',
+			'languages_required',
+			'language_proficiency',
+			'gender_preferences',
+			'required_experience',
+			'required_skills'
+		]
+
+
+class InternshipCompensationDetailsForm(forms.ModelForm):
+	class Meta:
+		model = InternshipCompensationDetails
+		fields = [
+			'payment_amount',
+			'payment_currency',
+			'payment_frequency',
+			'compensation_type',
+			'benefits_and_incentives',
+			'non_monetary_benefits',
+			'salary_negotiability'
+		]
+
+
+class InternshipApplicationDetailsForm(forms.ModelForm):
+	class Meta:
+		model = InternshipApplicationDetails
+		fields = [
+			'application_start_date',
+			'application_deadline',
+			'application_limit',
+			'contact_information',
+			'application_instructions',
+			'custom_application_url'
+		]

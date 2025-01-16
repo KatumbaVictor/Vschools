@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import reverse
 from .forms import AccountTypeForm
 from django_countries import countries
+from django.contrib.auth.forms import AuthenticationForm
 
 
 meta = {
@@ -33,15 +34,21 @@ meta = {
 
 def login_page(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request=request, username=username, password=password)
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request=request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'Incorrect username or password, Please check your credentials and try again, If you continue to have trouble, consider resetting your password.')
+            if user is not None:
+                login(request, user)
+                print(user.account_type)
+                if user.account_type == 'Employer':
+                    return redirect('/employer-portal/home')
+                else:
+                    return redirect('/home')
+            else:
+                messages.error(request, 'Incorrect username or password, Please check your credentials and try again, If you continue to have trouble, consider resetting your password.')
 
     return render(request, 'login.html')
 

@@ -2,7 +2,7 @@ Array.from(document.getElementsByClassName('dateselector')).forEach((datepickerE
 	const datepickerOptions = {
 		autohide: true,
 		buttons: true,
-		format: 'dd/mm/yyyy',
+		format: 'yyyy-dd-mm',
 		title: 'Select date'
 	}
 

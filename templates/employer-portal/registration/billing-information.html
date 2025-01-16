@@ -140,7 +140,7 @@
             <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
 
             <div class="grid gap-6 md:grid-cols-2 mt-8">
-                <div class="mb-6">
+                <div>
                     <label for="id_billing_information-country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select your country</label>
                     <select id="id_billing_information-country" name="billing_information-country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         {% for code, name in countries %}
@@ -148,15 +148,15 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="job_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Billing Address line 1</label>
                     <input type="text" name="billing_information-billing_address_1" id="desired_job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Street address (e.g., 123 Main St)" required />
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="job_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Billing Address line 2</label>
                     <input type="text" name="billing_information-billing_address_2" maxlength="255" id="desired_job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Apt, suite, unit, building, floor, etc." required />
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Billing Email address</label>
                     <input type="email" name="billing_information-billing_email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="you@example.com" required />
                 </div> 
@@ -164,7 +164,7 @@
                     <label for="job_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
                     <input type="text" name="billing_information-city" maxlength="100" id="desired_job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter city" required />
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="job_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State/Province/Region</label>
                     <input type="text" name="billing_information-state_province_region" maxlength="100" id="desired_job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter state/province/regioin" required />
                 </div>

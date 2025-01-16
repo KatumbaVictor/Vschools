@@ -1,7 +1,5 @@
 from django import forms
 from django_countries.fields import CountryField
-from cities_light.models import City
-
 
 
 class AccountTypeForm(forms.Form):
@@ -116,8 +114,7 @@ class WorkExperienceForm(forms.Form):
                 ]
         )
     role_description = forms.CharField(max_length=200)
-    job_start_date = forms.DateField()
-    job_end_date = forms.DateField()
+    job_duration = forms.CharField(max_length=255)
     reason_for_leaving = forms.CharField(max_length=200)
 
 
@@ -162,7 +159,8 @@ class CareerPrefencesForm(forms.Form):
         )
     desired_job_role = forms.CharField(max_length=100, required=True)
     expected_salary = forms.DecimalField(max_digits=10, decimal_places=2, required=True)
-    upload_resume = forms.FileField(required=True)
+    upload_resume = forms.FileField()
+    cover_letter = forms.FileField()
 
 
 

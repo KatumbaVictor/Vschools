@@ -22,7 +22,19 @@ document.getElementById('id_personal_information-profile_picture').addEventListe
 			    var croppedCanvas = cropper.getCroppedCanvas();
 			    if (croppedCanvas) {
 			        var croppedImageDataUrl = croppedCanvas.toDataURL('image/png');
-			        document.getElementById('profile-picture').src = croppedImageDataUrl;
+			        var image = document.createElement('img');
+			        image.setAttribute('src', croppedImageDataUrl);
+			        image.setAttribute('class','mr-3 border border-gray-300 rounded-full h-14 sm:h-9');
+			        image.setAttribute('alt', 'Profile Picture');
+
+			        var oldChild = document.getElementById('avatar-image');
+
+			        oldChild.parentNode.replaceChild(image, oldChild);
+
+
+			        const form  = document.getElementById('form');
+			        const formData = new FormData(form);
+			        formData.append("personal_information-profile_picture", croppedImageDataUrl);
 
 			        setTimeout(() => {
 			        	document.getElementById('toast-success').classList.remove("hidden");
