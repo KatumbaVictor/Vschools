@@ -18,11 +18,12 @@ class PersonalInformation(models.Model):
 	city = models.CharField(max_length=255, blank=True, null=True)
 	zip_code = models.CharField(max_length=20, blank=True, null=True, help_text="Zip/Postal code")
 	biography = models.TextField(blank=True, null=True, help_text="A short bio about yourself")
-	portfolio = models.URLField(blank=True, null=True, help_text="Portfolio/Website URL")
+	skills = models.JSONField(default=list, help_text='Describe required skills', blank=True, null=True)
+	portfolio = models.URLField(blank=True, null=True)
 	linkedin_profile = models.URLField(blank=True, null=True, help_text="Linkedin profile URL")
+	github_profile = models.URLField(blank=True, null=True, help_text="GitHub profile URL")
+	slug = models.SlugField(unique=True, blank=True, null=True)
 
-	def __str__(self):
-		return self.username
 
 class EducationalBackground(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='educations')
@@ -49,10 +50,13 @@ class EducationalBackground(models.Model):
 
 	institution_type = models.CharField(max_length=50, choices=INSTITUTION_TYPE_CHOICES)
 	gpa_grade = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-	internships_attended = models.TextField(blank=True, null=True, help_text="List the internships attended")
+	start_date = models.DateField(blank=True, null=True)
 	graduation_date = models.DateField(blank=True, null=True)
 	field_of_study = models.CharField(max_length=255, blank=True, null=True)
 	transcript = models.FileField(upload_to='transcripts/', blank=True, null=True)
+	honors_or_awards = models.TextField(blank=True, null=True)
+	certifications = models.TextField(blank=True, null=True)
+	projects = models.TextField(blank=True, null=True)
 	thesis_title = models.CharField(max_length=255, blank=True, null=True)
 
 
@@ -100,8 +104,8 @@ class WorkExperience(models.Model):
 
 	industry = models.CharField(max_length=50, choices=INDUSTRY_CHOICES)
 	role_description = models.TextField(blank=True, null=True)
-	job_duration = models.CharField(max_length=255, blank=True, null=True)
-	reason_for_leaving = models.TextField(blank=True, null=True)
+	job_start_date = models.DateField()
+	job_end_date = models.DateField()
 
 	def __str__(self):
 		return f"{self.job_title} at {self.company_name}"
@@ -149,7 +153,8 @@ class CareerPreferences(models.Model):
 
 	preferred_employment_type = models.CharField(max_length=50, choices=EMPLOYMENT_TYPE_CHOICES)
 	desired_job_role = models.CharField(max_length=255)
-	expected_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+	minimum_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+	maximum_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
 	resume = models.FileField(upload_to='resumes/', blank=True, null=True)
 	cover_letter = models.FileField(upload_to='cover_letters/', blank=True, null=True)
 

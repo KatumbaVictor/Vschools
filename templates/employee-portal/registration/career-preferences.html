@@ -194,7 +194,7 @@
                     <label for="id_career_preferences-desired_job_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Desired Job title</label>
                     <input type="text" name="career_preferences-desired_job_title" id="id_career_preferences-desired_job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your desired job title" required />
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="id_career_preferences-preferred_industry" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Industry</label>
                     <select id="id_career_preferences-preferred_industry" name="career_preferences-preferred_industry" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="education" selected>Education</option>
@@ -204,7 +204,7 @@
                         <option value="healthcare">Healthcare</option>
                     </select>
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="id_career_preferences-desired_company_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company type</label>
                     <select id="id_career_preferences-desired_company_type" name="career_preferences-desired_company_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="public" selected>Public</option>
@@ -213,7 +213,7 @@
                         <option value="government">Government</option>
                     </select>
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="id_career_preferences-desired_company_size" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company size</label>
                     <select id="id_career_preferences-desired_company_size" name="career_preferences-desired_company_size" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="small" selected>1 - 50 employees</option>
@@ -225,7 +225,11 @@
             </div>
             <div>
                 <label for="id_career_preferences-desired_job_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company location</label>
-                <input type="text" name="career_preferences-desired_job_location" id="id_career_preferences-desired_job_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter company City, State, Country" required />
+                <select id="id_career_preferences-desired_job_location" name="career_preferences-desired_job_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                    {% endfor %}
+                </select>
             </div> 
             <div class="mb-6">
                 <label for="id_career_preferences-preferred_employment_type" class="block mb-2 mt-6 text-sm font-medium text-gray-900 dark:text-white">Employment type</label>
@@ -242,8 +246,12 @@
                 <textarea id="id_career_preferences-desired_job_role" name="career_preferences-desired_job_role" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Briefly explain your role"></textarea>
             </div>
             <div>
-                <label for="id_career_preferences-expected_salary" class="block mb-2 mt-6 text-sm font-medium text-gray-900 dark:text-white">Expected salary</label>
-                <input type="number" name="career_preferences-expected_salary" id="id_career_preferences-expected_salary" min='0' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter expected salary (USD)" required />
+                <label for="id_career_preferences-minimum_salary" class="block mb-2 mt-6 text-sm font-medium text-gray-900 dark:text-white">Desired minimum salary</label>
+                <input type="number" name="career_preferences-minimum_salary" id="id_career_preferences-expected_salary" min='0' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter minimum salary (USD)" required />
+            </div>
+            <div>
+                <label for="id_career_preferences-maximum_salary" class="block mb-2 mt-6 text-sm font-medium text-gray-900 dark:text-white">Desired maximum salary</label>
+                <input type="number" name="career_preferences-maximum_salary" id="id_career_preferences-maximum_salary" min='0' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter expected maximum salary (USD)" required />
             </div>
             <div class="flex items-center justify-center w-full mb-5 mt-6">
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">

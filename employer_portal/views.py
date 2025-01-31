@@ -6,8 +6,12 @@ from django_countries import countries
 from django.core.files.storage import FileSystemStorage
 from moneyed import list_all_currencies
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from django.utils.text import slugify
+from django.http import JsonResponse
+import json
 from .models import *
+from employee_portal.models import *
 import os
 
 User = get_user_model()
@@ -36,6 +40,8 @@ class CompanySignUpWizard(SessionWizardView):
         context = super().get_context_data(form=form, **kwargs)
 
         if self.steps.current == 'billing_information':
+            context['countries'] = countries
+        elif self.steps.current == 'company_information':
             context['countries'] = countries
 
         return context
@@ -209,7 +215,9 @@ class JobPostWizardView(NamedUrlSessionWizardView):
 def home_page(request):
     company = CompanyInformation.objects.get(user=request.user)
     jobs = JobDetails.objects.filter(company=company)
-    context = {'jobs':jobs}
+
+    context = {'jobs':jobs, 'user':request.user}
+
     return render(request, 'employer-portal/home.html', context)
 
 def manage_jobs(request, status=None):
@@ -270,15 +278,85 @@ def manage_internship_listings(request, status=None):
 
     context = {'internships':internships, 'status': status}
     return render(request, 'employer-portal/manage-internships.html', context)
+
+
+def update_job_details(request, id, slug):
+    if request.method == "POST" and request.headers.get('x-requested-with') == "XMLHttpRequest":
+        job = get_object_or_404(JobDetails, id=id, slug=slug)
+        form = JobDetailsForm(request.POST, instance=job)
+
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True, 
+                                'message': 'Job details updated successfully'}, 
+                                status=200)
+        else:
+            return JsonResponse({'success': False, 'erros': form.erros}, status=400)
+
+
+def edit_job_details(request, id, slug):
+    job = get_object_or_404(JobDetails, id=id, slug=slug)
+    form = JobDetailsForm(instance=job)
+
+    context = {'job':job, 'countries':countries, 'form':form}
+
+    return render(request, 'employer-portal/edit-jobs/edit-job-details.html', context)
+
+def edit_requirement_details(request, id, slug):
+    job = get_object_or_404(JobDetails, id=id, slug=slug)
+
+    context = {'job':job}
+
+    return render(request, 'employer-portal/edit-jobs/edit-job-requirements.html', context)
+
+def edit_compensation_details(request, id, slug):
+    job = get_object_or_404(JobDetails,id=id, slug=slug)
+    compensation_details = CompensationDetails.objects.get(job_post=job)
+
+    context = {
+            'job': job, 
+            'compensation_details':compensation_details,
+            'currencies': list_all_currencies()
+        }
+
+    return render(request, 'employer-portal/edit-jobs/edit-compensation-details.html', context)
+
+def edit_application_details(request, id, slug):
+    job = get_object_or_404(JobDetails, id=id, slug=slug)
+    application_details = ApplicationDetails.objects.get(job_post=job)
+
+    context = {'job': job, 'application_details':application_details}
+
+    return render(request, 'employer-portal/edit-jobs/edit-application-details.html', context)
+
+def delete_job(request, id, slug):
+    job = get_object_or_404(JobDetails, id=id, slug=slug)
+    context = {'job': job}
+
+    return render(request, 'employer-portal/delete-job.html', context)
     
 def company_information(request):
     return render(request,"employer-portal/registration/company-information.html")
 
-def employee_profile(request):
-    return render(request, 'employer-portal/employee-profile.html')
+def candidate_profile(request, slug):
+    candidate = get_object_or_404(PersonalInformation, slug=slug)
+    candidate.skills = [skill.strip() for skill in candidate.skills.split(',')]
+
+    context = {'candidate': candidate}
+
+    return render(request, 'employer-portal/candidate-profile.html', context)
 
 def post_job(request):
     return render(request, 'employer-portal/post-job.html')
 
 def candidate_profiles(request):
-    return render(request, 'employer-portal/candidate-profiles.html')
+    candidates = PersonalInformation.objects.all()
+
+    context = {
+        'candidates': candidates
+    }
+
+    return render(request, 'employer-portal/candidate-profiles.html', context)
+
+def job_applications(request):
+    return render(request, 'employer-portal/job-applications.html')

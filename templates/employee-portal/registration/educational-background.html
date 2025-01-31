@@ -28,7 +28,7 @@
                         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">CareerConnect</span>
                     </a>
                     <div class="flex items-center lg:order-2">
-                        <a href="{% url 'login' %}" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
+                        <a href="{% url 'account_login' %}" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                         <a href="#" class="text-white bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
                         <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                             <span class="sr-only">Open main menu</span>
@@ -146,12 +146,16 @@
                     <input type="text" name="educational_background-institution_name" id="institution_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter name of Institution" required />
                 </div>         
                 <div>
-                    <label for="institution_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Institution location</label>
-                    <input type="text" name="educational_background-institution_location" id="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter institution City, State, Country" required />
+                    <label for="id_educational_background-institution_location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Institution location</label>
+                    <select id="id_educational_background-institution_location" name="educational_background-institution_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% for country in countries %}
+                            <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Highest education level</label>
-                    <select id="country" name="educational_background-highest_education_level" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select id="country" name="educational_background-highest_educational_level" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="high_school" selected>High school diploma</option>
                         <option value="associate">Associate degree</option>
                         <option value="bachelor">Bachelor's degree</option>
@@ -164,7 +168,7 @@
                     <label for="degree_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Degree title</label>
                     <input type="text" name="educational_background-degree_title" id="degree_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter degree title" required />
                 </div>
-                <div class="mb-6">
+                <div>
                     <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Institution type</label>
                     <select id="country" name="educational_background-institution_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="public" selected>Public</option>
@@ -179,10 +183,17 @@
                 </div>
             </div>
 
-            <div class="mb-6">
-                <label for="internships" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Internships attended</label>
-                <textarea id="internships" name="educational_background-internships_attended" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter the Internships you did..."></textarea>
-            </div> 
+            <div class="mb-6 w-full">
+                <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start date</label>
+                <div class="relative w-full">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                    </svg>
+                  </div>
+                  <input datepicker id="datepicker-autohide" name="educational_background-start_date" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" required/>
+                </div>
+            </div>
 
             <div class="mb-6 w-full">
                 <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Graduation date</label>
@@ -192,7 +203,7 @@
                       <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                     </svg>
                   </div>
-                  <input datepicker id="datepicker-autohide" name="educational_background-graduation_date" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                  <input datepicker id="datepicker-autohide" name="educational_background-graduation_date" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" required/>
                 </div>
             </div>
 
@@ -206,8 +217,23 @@
             <p class="mt-1 mb-4 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">.PDF, .DOCX, .TXT or .RTF (MAX. 2MB)</p>
 
             <div class="mb-6">
-                <label for="degree_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thesis/Dessertation title (if applicable)</label>
-                <input type="text" name="educational_background-thesis_title" id="degree_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter title of your thesis/dissertation" required />
+                <label for="id_personal_information-honors_or_awards" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Honors or Awards</label>
+                <textarea id="id_personal_information-honors_or_awards" name="personal_information-honors_or_awards" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 apply-tags" placeholder="List any honors or awards received (e.g., Academic Excellence Award, Merit Scholarship)"></textarea>
+            </div> 
+
+            <div class="mb-6">
+                <label for="id_personal_information-certifications" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Certifications & Licenses</label>
+                <textarea id="id_personal_information-certifications" name="personal_information-certifications" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 apply-tags" placeholder="List any certifications or licenses (e.g., CFA, Scrum Master, Microsoft Azure)"></textarea>
+            </div> 
+
+            <div class="mb-6">
+                <label for="id_personal_information-projects" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Projects & Research work</label>
+                <textarea id="id_personal_information-projects" name="personal_information-projects" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 apply-tags" placeholder="e.g., AI-powered Resume Parser, E-commerce Website Development"></textarea>
+            </div> 
+
+            <div class="mb-6">
+                <label for="id_educational_background-thesis_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thesis/Dessertation title (if applicable)</label>
+                <input type="text" name="educational_background-thesis_title" id="id_educational_background-thesis_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter title of your thesis or dissertation (if any)" required />
             </div>
 
             <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

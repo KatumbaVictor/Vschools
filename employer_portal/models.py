@@ -27,9 +27,11 @@ class CompanyInformation(models.Model):
     ]
 
     company_size = models.CharField(max_length=50, choices=COMPANY_SIZE_CHOICES)
-    company_logo = models.FileField(upload_to="profile_pictures", blank=True, null=True)
+    company_profile_picture = models.ImageField(upload_to="profile_pictures", blank=True, null=True)
     company_email = models.EmailField(max_length=255, blank=True, null=True)
-    company_location = models.CharField(max_length=255)
+    country = CountryField(blank_label='Select country', blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True, help_text="State/Province/Region")
+    city = models.CharField(max_length=255, blank=True, null=True)
     company_linkedin = models.URLField(max_length=255, blank=True, null=True)
 
     INDUSTRY_CHOICES = [
@@ -44,6 +46,7 @@ class CompanyInformation(models.Model):
     company_overview = models.TextField()
     company_vision = models.TextField()
     date_established = models.DateField()
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.company_name
@@ -113,8 +116,7 @@ class JobDetails(models.Model):
 
     industry = models.CharField(max_length=200, choices=INDUSTRY_CHOICES)
     job_description = models.TextField()
-    working_hours = models.CharField(max_length=255)
-    post_expiry_date = models.DateField()
+    key_responsibilities = models.JSONField(null=True, help_text='Describe key responsibilities and duties')
 
     WORK_MODES = [
         ('ONSITE','On-site'),
@@ -151,19 +153,22 @@ class JobDetails(models.Model):
 
 
 class JobRequirements(models.Model):
-    company = models.ForeignKey(CompanyInformation, on_delete=models.CASCADE, related_name='job_requirements')
+    job_post = models.OneToOneField(JobDetails, on_delete=models.CASCADE, related_name='job_requirements')
 
     EDUCATIONAL_LEVEL_CHOICES = [
+        ('none', 'No Formal Education'),
         ('high_school', 'High School'),
         ('associate', 'Associate Degree'),
         ('bachelor','Bachelor\'s Degree'),
         ('master', 'Master\'s Degree'),
-        ('doctorate', 'Doctorate Degree')
+        ('doctorate', 'Doctorate Degree (PhD)'),
+        ('professional', 'Professional Certification'),
     ]
 
     minimum_education_level = models.CharField(max_length=100, choices=EDUCATIONAL_LEVEL_CHOICES)
-    field_of_study = models.CharField(max_length=200, blank=True)
-    certifications_and_licenses = models.TextField(blank=True, help_text='List certifications/licenses seperated by commas')
+    field_of_study = models.CharField(max_length=200, blank=True, null=True)
+    certifications_and_licenses = models.JSONField(blank=True, help_text='List certifications/licenses seperated by commas')
+    required_skills = models.JSONField(help_text='Describe required skills', blank=True, null=True)
 
     AGE_RANGE_CHOICES = [
         ('none', 'No age preference'),
@@ -193,12 +198,11 @@ class JobRequirements(models.Model):
     ]
 
     gender_preferences = models.CharField(max_length=50, choices=GENDER_CHOICES, default='any')
-    key_responsibilities = models.TextField(help_text='Describe key responsibilities and duties')
     required_experience = models.PositiveIntegerField(help_text='Specify required years of experience')
 
 
 class CompensationDetails(models.Model):
-    job_post = models.OneToOneField(JobDetails, on_delete=models.CASCADE, related_name='compensation')
+    job_post = models.OneToOneField(JobDetails, on_delete=models.CASCADE, related_name='compensation_details')
     minimum_salary = models.DecimalField(max_digits=10, decimal_places=2, help_text='Enter the minimum salary')
     maximum_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, help_text='Enter the maximum salary (if applicable)')
 
@@ -241,7 +245,7 @@ class CompensationDetails(models.Model):
 
 
 class ApplicationDetails(models.Model):
-    job_post = models.OneToOneField(JobDetails, on_delete=models.CASCADE, related_name='application_details')
+    job_post = models.OneToOneField(JobDetails, on_delete=models.CASCADE, related_name='job_application_details')
     application_start_date = models.DateField(help_text='Date when applications open.')
     application_deadline = models.DateField(help_text='Date when applications close.')
     application_limit = models.PositiveIntegerField(blank=True, null=True, help_text='Maximum number of applications (leave blank for no limit).')

@@ -1,0 +1,31 @@
+{% load static %}
+
+<div id="cropper-modal" data-modal-backdrop="static" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full z-50">
+            <div class="relative w-full max-w-md max-h-full">
+                <div class="relative bg-white rounded-lg w-80 shadow dark:bg-gray-700">
+                    <div class="flex-column items-center py-5 h-50 text-center">
+                        <h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Please crop this image below.</h2>
+
+                        <div class="flex justify-center items-center h-full">
+                            <div class="mb-4 w-full h-full">
+                                <img class="w-full h-full object-cover" id="image" src="{% static 'images/profile_pic.svg' %}" alt="Source Image"/>
+                            </div>
+                        </div>
+
+                        <button id="crop" data-modal-hide="cropper-modal" type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blu-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                            <svg class="w-6 h-6 text-white mr-1 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+                            </svg>
+                            Crop Image
+                        </button>
+
+                        <button data-modal-hide="cropper-modal" id="cancel-cropping" type="button" class="text-center inline-flex items-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 mr-1 text-gray-800 hover:text-blue-700 dark:text-white"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                            </svg>
+                            No, cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>

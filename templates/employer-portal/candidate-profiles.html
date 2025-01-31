@@ -1,0 +1,175 @@
+{% load static %}
+{% load compress %}
+{% load meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% include 'meta/meta.html' %}
+        <title>Post Internship - Career connect</title>
+        {% compress css %}
+        <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
+        {% endcompress %}
+        {% compress js %} 
+        <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
+        {% endcompress %}
+    </head>
+    <body class="bg-gray-50">
+        {% include 'employer-portal/navbar.html' %}
+  
+        {% include 'employer-portal/sidebar.html' %}
+
+        <div class="p-2 sm:ml-64">
+            <div class="p-2 rounded-lg mt-14">
+                {% if candidates %}
+                    <div class="bg-white mb-4 mt-2 border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <!-- Header -->
+                        <div class="flex flex-wrap justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800">Filter Candidates</h2>
+                                <p class="text-sm text-gray-600">Refine your search to find the perfect match.</p>
+                            </div>
+                            <button class="text-sm text-blue-600 hover:underline focus:outline-none">
+                                Reset Filters
+                            </button>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="grid grid-cols-1 bg-white sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Search -->
+                            <div>
+                                <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Search
+                                </label>
+                                <input type="text" name="search" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name, skills, or location"/>
+                            </div>
+
+                            <!-- Experience Level -->
+                            <div>
+                                <label for="experience" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Experience Level</label>
+                                <select id="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="">Select Level</option>
+                                    <option value="entry">Entry Level</option>
+                                    <option value="mid">Mid-Level</option>
+                                    <option value="senior">Senior Level</option>
+                                </select>
+                            </div>
+
+                            <!-- Location -->
+                            <div>
+                                <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                                <input type="text" id="location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="City or country"/>
+                            </div>
+
+                            <!-- Sorting Options -->
+                            <div>
+                                <label for="sort" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sort By</label>
+                                <select id="sort" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="recent">Recently Added</option>
+                                    <option value="experience">Experience</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Additional Filters -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                            <!-- Skills -->
+                            <div>
+                                <label for="skills" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Skills</label>
+                                <input type="text" id="skills" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g., JavaScript, Python"/>
+                            </div>
+
+                            <!-- Job Type -->
+                            <div>
+                                <label for="job-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Job Type</label>
+                                <select id="job-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="">Any</option>
+                                    <option value="full-time">Full-time</option>
+                                    <option value="part-time">Part-time</option>
+                                    <option value="contract">Contract</option>
+                                </select>
+                            </div>
+
+                            <!-- Salary Range -->
+                            <div>
+                                <label for="salary" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Salary Range</label>
+                                <input type="text" id="salary" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g., $40,000 - $60,000"/>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex justify-end gap-4">
+                            <button class="py-2 px-8 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                Clear
+                            </button>
+                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-4 h-4 mr-2 text-white" viewbox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                                </svg>
+                                Apply Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        {% for candidate in candidates %}
+                            <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col hover:shadow-lg transition-shadow duration-300">
+                                <!-- Profile Section -->
+                                <div class="flex items-center">
+                                    <!-- Profile Picture -->
+                                    <div class="flex-shrink-0">
+                                        <img class="w-16 h-16 mr-2 rounded-full object-cover" src="{% static 'images/profile_pic.svg' %}" alt="Candidate Photo"/>
+                                    </div>
+                                    <!-- Candidate Details -->
+                                    <div class="ml-4 flex-grow">
+                                        <h3 class="text-lg font-semibold text-gray-900">{{ candidate.user.get_full_name }}</h3>
+                                        <p class="text-sm text-gray-600">Full Stack Developer</p>
+                                        <div class="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                            <span><strong>Location:</strong> {{ candidate.city }}, {{ candidate.country }}</span>
+                                            <span><strong>Experience:</strong> 8+ years</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bio Section -->
+                                <div class="mt-4 text-sm rounded-lg bg-gray-50 p-4 text-gray-600">
+                                    {{ candidate.biography }}
+                                </div>
+
+                                <!-- Skills Section -->
+                                <div class="flex flex-wrap mt-3 gap-2">
+                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded">Python</span>
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Django</span>
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded">AWS</span>
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">React</span>
+                                </div>
+
+                                  <!-- Call to Action -->
+                                <div class="flex justify-end mt-4">
+                                    <a href="{% url 'employer_portal:candidate_profile' candidate.slug %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                      View Profile
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <section class="mt-6 dark:bg-gray-900">
+                        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+                            <h3 class="mb-4 text-sm font-bold tracking-tight leading-none text-blue-500 md:text-4xl dark:text-white">No candidates yet.</h3>
+                            <p class="mb-8 text-base font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">It seems there are no candidates available on our platform yet. As new candidates sign up, their profiles will appear here.
+                            </p>
+                            <p class="mb-8 lg:px-48 text-center text-gray-500 dark:text-gray-400 sm:mt-8 lg:text-left">
+                                In the meantime, you can <a href="{% url 'employer_portal:job_post_wizard' step='job-details' %}" class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500">post a job</a> to attract talent or explore other options to connect with potential candidates. If you have any questions, feel free to <a class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500" href="#">reach out to support.</a>
+                            </p>
+                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Refresh candidate profiles</button>
+                        </div>
+                    </section>
+                {% endif %}
+            </div>
+        </div>                                                          
+    </body>
+</html>

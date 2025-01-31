@@ -12,9 +12,11 @@ class CompanyInformationForm(forms.ModelForm):
 			'company_website',
 			'company_type',
 			'company_size',
-			'company_logo',
+			'company_profile_picture',
 			'company_email',
-			'company_location',
+			'country',
+			'state',
+			'city',
 			'company_linkedin',
 			'industry',
 			'company_overview',
@@ -85,8 +87,7 @@ class JobDetailsForm(forms.ModelForm):
 			'company_department',
 			'industry',
 			'job_description',
-			'working_hours',
-			'post_expiry_date',
+			'key_responsibilities',
 			'work_location_mode',
 			'seniority_level',
 			'job_description_document'
@@ -100,11 +101,11 @@ class JobRequirementsForm(forms.ModelForm):
 			'minimum_education_level',
 			'field_of_study',
 			'certifications_and_licenses',
+			'required_skills',
 			'age_requirements',
 			'languages_required',
 			'language_proficiency',
 			'gender_preferences',
-			'key_responsibilities',
 			'required_experience'
 		]
 

@@ -21,6 +21,13 @@ from django.conf.urls.static import static
 from django.conf import settings
 from main.views import *
 
+from django.contrib.sitemaps.views import sitemap
+from main.sitemaps import *
+
+sitemaps = {
+    'static': StaticSitemap
+}
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('webpush/', include('webpush.urls')),
@@ -47,6 +54,7 @@ urlpatterns = [
     path('verify-email', verify_email, name="verify_email"),
     path('hijack/', include('hijack.urls')),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('sitemap.xml/', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('reset',auth_views.PasswordResetView.as_view(template_name="password-reset/forgot_password.html"), 
         name = "reset_password"),
     path('reset_sent/',

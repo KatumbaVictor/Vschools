@@ -1,8 +1,8 @@
 document.getElementById('select-image').addEventListener('click', () => {
-	document.getElementById('id_personal_information-profile_picture').click();
+	document.getElementById('profile_picture').click();
 })
 
-document.getElementById('id_personal_information-profile_picture').addEventListener('change', (event) => {
+document.getElementById('profile_picture').addEventListener('change', (event) => {
 	const file = event.target.files[0];
 
 	if (file && file.type.startsWith('image/')) {
@@ -26,15 +26,13 @@ document.getElementById('id_personal_information-profile_picture').addEventListe
 			        image.setAttribute('src', croppedImageDataUrl);
 			        image.setAttribute('class','mr-3 border border-gray-300 rounded-full h-14 sm:h-9');
 			        image.setAttribute('alt', 'Profile Picture');
+			        image.setAttribute('name', 'personal_information-profile_picture');
+			        image.setAttribute('id', 'id_personal_information-profile_picture');
+			        image.setAttribute('value', croppedImageDataUrl);
 
 			        var oldChild = document.getElementById('avatar-image');
 
 			        oldChild.parentNode.replaceChild(image, oldChild);
-
-
-			        const form  = document.getElementById('form');
-			        const formData = new FormData(form);
-			        formData.append("personal_information-profile_picture", croppedImageDataUrl);
 
 			        setTimeout(() => {
 			        	document.getElementById('toast-success').classList.remove("hidden");
@@ -57,4 +55,11 @@ document.getElementById('upload-button').addEventListener('click', function() {
 
 document.getElementById('cancel-cropping').addEventListener('click', () => {
 	document.getElementById('id_personal_information-profile_picture').value = '';
+})
+
+var tagify = new Tagify(document.getElementById('skills'));
+
+document.getElementById('form').addEventListener('submit', () => {
+	var tags = tagify.getCleanValue().map(tag => tag.value);
+	document.getElementById('id_personal_information-skills').value = JSON.stringify(tags.join(','));
 })

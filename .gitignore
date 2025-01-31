@@ -1,5 +1,6 @@
 db.sqlite3
 staticfiles/
+media/
 main/migrations/
 employee_portal/migrations/
 employer_portal/migrations/
