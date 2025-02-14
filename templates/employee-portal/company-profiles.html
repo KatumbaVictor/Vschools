@@ -1,0 +1,85 @@
+{% load static %}
+{% load compress %}
+{% load meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% include 'meta/meta.html' %}
+        <title>Post Internship - Career connect</title>
+        {% compress css %}
+        <link rel="stylesheet" href="{% static 'flags/sprite.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}"/>
+        {% endcompress %}
+        {% compress js %} 
+        <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
+        {% endcompress %}
+    </head>
+    <body>
+        {% include 'employee-portal/partials/navbar.html' %}
+  
+        {% include 'employee-portal/partials/sidebar.html' %}
+
+        <div class="p-2 sm:ml-64">
+            <div class="p-2 rounded-lg mt-14">
+                <div class="grid grid-cols-2 gap-3">
+                    {% for company_profile in company_profiles %}
+                        <div class="w-full bg-white border border-gray-200 rounded-lg p-5">
+                            <!-- Company Logo -->
+                            <div class="flex items-center space-x-4">
+                                <img class="w-14 h-14 rounded-lg object-cover" src="{% static 'images/profile_pic.svg' %}" alt="Company Logo">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">{{ company_profile.company_name }}</h2>
+                                    <p class="text-sm text-gray-500">Software & IT | {{ company_profile.city }}, {{ company_profile.country }} <i class="{{ company_profile.country.flag_css }}"></i></p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center mt-4">
+                                <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+                                <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+                                <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+                                <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+                                <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+                                <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
+                                <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
+                                <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
+                            </div>
+
+                            <!-- Company Description -->
+                            <p class="mt-3 text-gray-600 text-sm line-clamp-2 job-description text-sm bg-gray-50 p-4 rounded-lg">
+                                We are a cutting-edge software development company focused on delivering innovative AI solutions...
+                            </p>
+
+                            <!-- Jobs Available -->
+                            <div class="mt-4 flex items-center justify-between text-sm">
+                                <p class="text-gray-600"><span class="font-semibold text-gray-900">{{ company_profile.job_count }}</span> Open Job(s)</p>
+                                <div class="flex items-center space-x-2">
+                                    {% if company_profile.company_website %}
+                                        <a target="_blank" href="{{ company_profile.company_website }}" class="text-blue-600 mr-2 font-semibold hover:underline text-sm">
+                                            Visit Website
+                                        </a>
+                                    {% endif %}
+                                    <a href="{% url 'employee_portal:company_profile' company_profile.slug %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        View Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>                                                          
+    </body>
+</html>

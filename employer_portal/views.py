@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Count
 from formtools.wizard.views import SessionWizardView, NamedUrlSessionWizardView
 from .forms import *
 from django.conf import settings
@@ -12,6 +13,7 @@ from django.http import JsonResponse
 import json
 from .models import *
 from employee_portal.models import *
+from main.models import *
 import os
 
 User = get_user_model()
@@ -180,6 +182,7 @@ class JobPostWizardView(NamedUrlSessionWizardView):
 
         return context
 
+
     def done(self, form_list, **kwargs):
         company = CompanyInformation.objects.get(user=self.request.user)
 
@@ -193,7 +196,7 @@ class JobPostWizardView(NamedUrlSessionWizardView):
         #Saving job requirements
         job_requirements_form = JobRequirementsForm(form_list[1].cleaned_data)
         job_requirements = job_requirements_form.save(commit=False)
-        job_requirements.company = company
+        job_requirements.job_post = job_details
         job_requirements_form.save()
 
         #Saving compensation details
@@ -225,17 +228,17 @@ def manage_jobs(request, status=None):
     jobs = JobDetails.objects.filter(company=company)
 
     if status == 'all-jobs':
-        jobs = JobDetails.objects.filter(company=company)
+        jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication'))
     elif status == "active":
-        jobs = JobDetails.objects.filter(company=company, status='active')
+        jobs = JobDetails.objects.filter(company=company, status='active').annotate(application_count=Count('jobapplication'))
     elif status == 'expired':
-        jobs = JobDetails.objects.filter(company=company, status='expired')
+        jobs = JobDetails.objects.filter(company=company, status='expired').annotate(application_count=Count('jobapplication'))
     elif status == 'drafts':
-        jobs = JobDetails.objects.filter(company=company, status='drafts')
+        jobs = JobDetails.objects.filter(company=company, status='drafts').annotate(application_count=Count('jobapplication'))
     elif status == 'closed':
-        jobs = JobDetails.objects.filter(company=company, status='closed')
+        jobs = JobDetails.objects.filter(company=company, status='closed').annotate(application_count=Count('jobapplication'))
     else:
-        jobs = JobDetails.objects.filter(company=company)
+        jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication'))
 
     context = {'jobs':jobs, 'status': status}
     return render(request, 'employer-portal/manage-jobs.html', context)
@@ -342,6 +345,12 @@ def candidate_profile(request, slug):
     candidate = get_object_or_404(PersonalInformation, slug=slug)
     candidate.skills = [skill.strip() for skill in candidate.skills.split(',')]
 
+    total_reviews = CandidateRatingAndReview.objects.filter(candidate=candidate).aggregate(
+            total_reviews=Count('review')
+        )
+
+    candidate.total_reviews = total_reviews['total_reviews']
+
     context = {'candidate': candidate}
 
     return render(request, 'employer-portal/candidate-profile.html', context)
@@ -358,5 +367,13 @@ def candidate_profiles(request):
 
     return render(request, 'employer-portal/candidate-profiles.html', context)
 
-def job_applications(request):
-    return render(request, 'employer-portal/job-applications.html')
+def job_applications(request, slug):
+    job = get_object_or_404(JobDetails, slug=slug)
+    applicants = JobApplication.objects.filter(job=job)
+
+    context = {
+        'job': job,
+        'applicants': applicants
+    }
+
+    return render(request, 'employer-portal/job-applications.html', context)

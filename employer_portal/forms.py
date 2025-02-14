@@ -106,7 +106,8 @@ class JobRequirementsForm(forms.ModelForm):
 			'languages_required',
 			'language_proficiency',
 			'gender_preferences',
-			'required_experience'
+			'required_experience',
+			'additional_requirements'
 		]
 
 	
@@ -121,7 +122,6 @@ class CompensationDetailsForm(forms.ModelForm):
 			'payment_frequency',
 			'compensation_type',
 			'benefits_and_incentives',
-			'non_monetary_benefits',
 			'salary_negotiability'
 		]
 

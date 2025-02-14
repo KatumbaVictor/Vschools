@@ -166,7 +166,7 @@
                 </div>
                 <div>
                     <label for="id_personal_information-state_province_region" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State/Province/Region</label>
-                    <input type="text" name="personal_information-state_province_region" id="id_personal_information-state_province_region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your state/province/region" required />
+                    <input type="text" name="personal_information-state" id="id_personal_information-state_province_region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your state/province/region" required />
                 </div>
                 <div>
                     <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
@@ -174,14 +174,14 @@
                 </div>
                 <div>
                     <label for="postal-code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ZIP/Postal code</label>
-                    <input type="text" name="personal_information-zip_postal_code" id="postal-code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your postal code" required />
+                    <input type="text" name="personal_information-zip_code" id="postal-code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your postal code" required />
                 </div>
             </div>
 
             <div class="mb-6">
                 <label for="id_personal_information-profile_picture" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select profile photo</label>
                 <div class="flex mt-4 items-center w-full">
-                    <input type="file" name="profile_picture" id="profile_picture" accept="image/*" hidden/>
+                    <input type="file" name="personal_information-profile_picture" id="profile_picture" accept="image/*" hidden/>
                     <button type="button" id="upload-button" data-modal-target="cropper-modal" data-modal-toggle="cropper-modal" hidden>Upload picture</button>
                     <div class="relative w-10 h-10 overflow-hidden mr-3 shadow-sm border border-gray-300 bg-gray-100 rounded-full dark:bg-gray-400" id="avatar-image">
                         <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -198,14 +198,14 @@
             </div>
 
             <div class="mb-6 w-full">
-                <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter Date of birth</label>
+                <label for="datepicker-autohide" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter Date of birth</label>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                         </svg>
                     </div>
-                    <input datepicker datepicker-buttons datepicker-autohide id="datepicker-autohide" name="personal_information-date_of_birth" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MM/DD/YYYY">
+                    <input datepicker datepicker-buttons datepicker-autohide id="datepicker-autohide" name="personal_information-date_of_birth" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MM/DD/YYYY" required />
                 </div>
             </div>
 
@@ -221,14 +221,14 @@
                 <textarea id="id_personal_information-biography" name="personal_information-biography" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tell us about yourself (e.g., your background, passions, and career goals)" required></textarea>
             </div> 
             <div class="mb-6">
-                <label for="id_personal_information-skills" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Skills & Expertise</label>
+                <label for="skills" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Skills & Expertise</label>
                 <input type="text" name="skills" id="skills" class="w-full text-sm rounded-lg bg-gray-50" placeholder="Add your key skills (e.g., JavaScript, Python, Communication)" required/>
                 <p class="mt-1 mb-4 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">Use commas to separate each skill.</p>
             </div>
             <input type="hidden" name="personal_information-skills" id="id_personal_information-skills"/>
             <div class="mb-6">
                 <label for="portfolio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Portfolio/Website</label>
-                <input type="url" name="personal_information-portfolio_website" id="portfolio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://yourwebsite.com"/>
+                <input type="url" name="personal_information-portfolio" id="portfolio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://yourwebsite.com"/>
             </div> 
             <div class="mb-6">
                 <label for="id_personal_information-linkedin_profile" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">LinkedIn Profile</label>

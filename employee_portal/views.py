@@ -5,10 +5,14 @@ from .forms import (PersonalInformationForm, EducationalBackgroundForm,
 from django.conf import settings
 from django_countries import countries
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Count
 from .models import *
 from employer_portal.models import *
+from main.models import *
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 import os
+import json
 
 User = get_user_model()
 
@@ -37,6 +41,12 @@ class SignUpWizardView(SessionWizardView):
 
         return context
 
+    def process_step(self, form):
+        step_data = form.cleaned_data
+        print(f"Step {self.steps.current} Data:", step_data)
+
+        return super().process_step(form)
+
     def done(self, form_list, **kwargs):
         personal_information_form = PersonalInformationForm(form_list[0].cleaned_data)
         educational_background_form = EducationalBackgroundForm(form_list[1].cleaned_data)
@@ -63,20 +73,66 @@ class SignUpWizardView(SessionWizardView):
 
             return redirect('verify_email')
 
-def apply_page(request):
-    return render(request, 'employee-portal/apply.html')
-
-def job_details(request, slug):
+def apply_for_job(request, slug):
     job = get_object_or_404(JobDetails, slug=slug)
 
     context = {
         'job': job
     }
 
+    return render(request, 'employee-portal/apply.html', context)
+
+def job_applications_view(request):
+    applications_list = JobApplication.objects.filter(user=request.user).order_by('-applied_at')
+
+    paginator = Paginator(applications_list, 10)
+    page_number = request.GET.get('page')
+    applications = paginator.get_page(page_number)
+
+    context = {'applications': applications}
+
+    return render(request, 'employee-portal/job-applications.html', context)
+
+def job_details(request, slug):
+    job = get_object_or_404(JobDetails, slug=slug)
+    job_requirements = JobRequirements.objects.get(job_post=job)
+    compensation_details = CompensationDetails.objects.get(job_post=job)
+    application_details = ApplicationDetails.objects.get(job_post=job)
+
+    job_requirements.certifications_and_licenses = job_requirements.certifications_and_licenses
+    job_requirements.additional_requirements = job_requirements.additional_requirements
+
+    context = {
+        'job': job,
+        'job_requirements': job_requirements,
+        'compensation_details': compensation_details,
+        'application_details': application_details,
+        'meta': job.as_meta()
+    }
+
+    if request.method == "POST":
+        user = request.user
+
+        JobApplication.objects.create(job=job, user=user)
+
+
     return render(request, 'employee-portal/job-details.html', context)
 
-def employer_profile(request):
-    return render(request, 'employee-portal/employer-profile.html')
+def employer_profile(request, slug):
+    company = get_object_or_404(CompanyInformation, slug=slug)
+
+    context = {
+        'company': company
+    }
+
+    return render(request, 'employee-portal/employer-profile.html', context)
+
+def company_profiles(request):
+    company_profiles = CompanyInformation.objects.all().annotate(job_count=Count('jobs'))
+
+    context = {'company_profiles': company_profiles}
+
+    return render(request, 'employee-portal/company-profiles.html', context)
 
 def job_listings(request):
     jobs = JobDetails.objects.all()

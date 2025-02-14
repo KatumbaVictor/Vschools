@@ -3,6 +3,8 @@ from django.conf import settings
 from django_countries.fields import CountryField
 from moneyed import list_all_currencies
 from django.utils.text import slugify
+from meta.models import ModelMeta
+import json
 
 
 class CompanyInformation(models.Model):
@@ -43,10 +45,12 @@ class CompanyInformation(models.Model):
     ]
 
     industry = models.CharField(max_length=255, choices=INDUSTRY_CHOICES)
+    biography = models.TextField(blank=True, null=True)
     company_overview = models.TextField()
     company_vision = models.TextField()
     date_established = models.DateField()
     slug = models.SlugField(unique=True, blank=True, null=True)
+    average_rating = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.company_name
@@ -89,7 +93,7 @@ class BillingInformation(models.Model):
         return f"Billing Information for {self.user.username}"
 
 
-class JobDetails(models.Model):
+class JobDetails(models.Model, ModelMeta):
     company = models.ForeignKey(CompanyInformation, on_delete=models.CASCADE, related_name='jobs')
     job_title = models.CharField(max_length=200)
     country = CountryField()
@@ -148,6 +152,78 @@ class JobDetails(models.Model):
     status = models.CharField(max_length=10, choices=JOB_STATUS_CHOICES, default='active')
     slug = models.SlugField(unique=True, blank=True, null=True)
 
+    _metadata = {
+        "use_title_tag": True,
+        "use_schemaorg": True,
+        "use_twitter": True,
+        "use_og": True,
+        "use_facebook": True,
+        "site_name": "CareerConnect",
+        "title": "get_meta_title",
+        "description": "get_meta_description",
+        "keywords": "get_meta_keywords",
+        "og_title": "get_meta_title",
+        "og_description": "get_meta_description",
+        "og_type": "article",
+        "twitter_card": "summary_large_image",
+        "twitter_title": "get_meta_title",
+        "twitter_description": "get_meta_description",
+        "schemaorg_title": "get_meta_title",
+        "url": "get_absolute_url",
+    }
+
+    _schema = {
+        "use_title_tag": True,
+        "use_schemaorg": True,
+        "use_twitter": True,
+        "use_og": True,
+        "use_facebook": True,
+        "site_name": "CareerConnect",
+        "title": "get_meta_title",
+        "description": "get_meta_description",
+        "keywords": "get_meta_keywords",
+        "og_title": "get_meta_title",
+        "og_description": "get_meta_description",
+        "og_type": "article",
+        "twitter_card": "summary_large_image",
+        "twitter_title": "get_meta_title",
+        "twitter_description": "get_meta_description",
+        "schemaorg_title": "get_meta_title",
+        "url": "get_absolute_url",
+    }
+
+    def get_meta_title(self):
+        return f"{self.job_title} at {self.company.company_name} - {self.country}"
+
+    def get_meta_description(self):
+        return f"Apply for {self.job_title} at {self.company.company_name} in {self.country}, Industry: {self.industry}, Employment Type: {self.employment_type}"
+
+    def get_meta_keywords(self):
+        return [self.job_title, self.company.company_name, self.country, self.industry, self.employment_type, 'jobs', 'hiring']
+
+    def get_absolute_url(self):
+        return f"/employee-portal/job-details/{self.slug}/"
+
+    def get_schema_org(self):
+        schema_data = {
+            "@context": "https://schema.org",
+            "@type": "JobPosting",
+            "title": self.job_title,
+            "hiringOrganization": {
+                "@type": "Organization",
+                "name": self.company.company_name
+            },
+            "jobLocation": {
+                '@type': 'Place',
+                'address': {
+                '@type': "PostalAddress",
+                "addressLocality": self.country
+                }
+            }
+        }
+
+        return json.dumps(schema_data, indent=4)
+
     def __str__(self):
         return self.job_title	
 
@@ -190,6 +266,7 @@ class JobRequirements(models.Model):
     ]
 
     language_proficiency = models.CharField(max_length=50, choices=LANGUAGE_PROFICIENCY_CHOICES, blank=True)
+    additional_requirements = models.JSONField(blank=True, null=True, help_text='Enter additional requirements')
 
     GENDER_CHOICES = [
         ('any', 'Any'),
@@ -230,7 +307,6 @@ class CompensationDetails(models.Model):
 
     compensation_type = models.CharField(max_length=50, choices=COMPENSATION_TYPE_CHOICES, default='fixed')
     benefits_and_incentives = models.TextField(blank=True, help_text='List non-monetary benefits separated by commas.')
-    non_monetary_benefits = models.TextField(blank=True, help_text='List non-monetary benefits separated by commas.')
 
     SALARY_NEGOTIABILITY_CHOICES = [
         ('non_negotiable', 'Non-negotiable'),
@@ -412,3 +488,26 @@ class InternshipApplicationDetails(models.Model):
     class Meta:
         verbose_name = "Internship Application Details"
         verbose_name_plural = "Internship Application Details"
+
+
+class CompanyRatingAndReview(models.Model):
+    class RatingChoices(models.IntegerChoices):
+        ONE_STAR = 1, "Very Poor"
+        TWO_STARS = 2, "Poor"
+        THREE_STARS = 3, "Average"
+        FOUR_STARS = 4, "Good"
+        FIVE_STARS = 5, "Excellent"
+
+    candidate = models.ForeignKey("employee_portal.PersonalInformation", on_delete=models.CASCADE)
+    employer = models.ForeignKey(CompanyInformation, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(choices=RatingChoices.choices, default=RatingChoices.ONE_STAR)
+    review_title = models.CharField(max_length=200, null=True, blank=True)
+    review = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('candidate', 'employer')
+
+    def __str__(self):
+        return f"{self.candidate.user.username}  rated {self.employer.company_name} - {self.rating} Starts"

@@ -11,12 +11,13 @@
         <title>Job listings - Career connect</title>
         {% compress css %}
         <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/job-listings.css' %}">
         {% endcompress %}
         {% compress js %} 
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
         {% endcompress %}
     </head>
-    <body class="bg-gray-50">
+    <body>
     	{% include 'employee-portal/partials/navbar.html' %}
 
     	{% include 'employee-portal/partials/sidebar.html' %}
@@ -24,9 +25,12 @@
     	<div class="p-2 sm:ml-64">
             <div class="p-2 rounded-lg mt-14">
             	{% if jobs %}
+            		<h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Welcome to CareerConnect!</h2>
+	                <p class="mb-5 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">Ready to find the perfect candidate for your job opening? Posting a job with us is simple and effective. Follow these steps to get your listing in front of thousands of qualified job seekers. Ready to find the perfect candidate for your job opening?
+	                </p>
             		{% for job in jobs %}
 		                <div class="grid grid-cols-2 gap-3">
-		                	<div class="bg-white shadow-sm rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
+		                	<div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
 		                        <!-- Header Section -->
 		                        <div class="flex items-center justify-between">
 		                            <!-- Job and Company Info -->
@@ -48,7 +52,7 @@
 		                        </div>
 
 		                        <!-- Job Description -->
-		                        <p class="text-gray-600 text-sm bg-gray-50 p-4 rounded-lg">
+		                        <p class="text-gray-600 job-description text-sm bg-gray-50 p-4 rounded-lg">
 		                            {{ job.job_description }}
 		                        </p>
 
@@ -60,7 +64,7 @@
 		                            <span class="px-3 py-1 bg-green-100 text-green-600 text-xs rounded-full">     
 		                            	{{ job.get_work_location_mode_display }}
 		                            </span>
-		                            <span class="px-3 py-1 bg-red-100 text-red-600 text-xs rounded-full">     
+		                            <span class="px-3 py-1 bg-red-100 text-red-600 text-xs rounded-full">
 		                            	{{ job.get_industry_display }}
 		                            </span>
 		                        </div>
@@ -76,12 +80,28 @@
 		                            	Apply now
 		                            </a>
 		                            <a href="{% url 'employee_portal:job_details' job.slug %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+		                            	<svg aria-hidden="true" class="mr-2 w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"clip-rule="evenodd"></path>
+                                        </svg>
 		                                View Job
 		                            </a>
 		                        </div>
 		                    </div>
 		                </div>
 	                {% endfor %}
+	            {% else %}
+	            <section class="mt-6 dark:bg-gray-900">
+                    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+                        <h3 class="mb-4 text-sm font-bold tracking-tight leading-none text-blue-500 md:text-4xl dark:text-white">No candidates yet.</h3>
+                        <p class="mb-8 text-base font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">It seems there are no candidates available on our platform yet. As new candidates sign up, their profiles will appear here.
+                        </p>
+                        <p class="mb-8 lg:px-48 text-center text-gray-500 dark:text-gray-400 sm:mt-8 lg:text-left">
+                            In the meantime, you can <a href="{% url 'employer_portal:job_post_wizard' step='job-details' %}" class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500">post a job</a> to attract talent or explore other options to connect with potential candidates. If you have any questions, feel free to <a class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500" href="#">reach out to support.</a>
+                        </p>
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Refresh candidate profiles</button>
+                    </div>
+                </section>
                 {% endif %}
             </div>
         </div>

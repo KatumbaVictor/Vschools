@@ -1,4 +1,84 @@
-<!-- Start block -->
+<div class="mx-auto p-6">
+    <!-- Page Title -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Your Notifications</h1>
+        <p class="text-gray-600">Stay updated with the latest activities related to your job applications and account.</p>
+    </div>
+
+    <!-- Tabs for Categories -->
+    <div class="mb-4 border-b border-gray-200">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="notification-tabs">
+            <li class="mr-2">
+                <button class="inline-block p-4 border-b-2 text-blue-600 border-blue-600" onclick="filterNotifications('all')">All</button>
+            </li>
+            <li class="mr-2">
+                <button class="inline-block p-4 border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600" onclick="filterNotifications('job')">Job Updates</button>
+            </li>
+            <li class="mr-2">
+                <button class="inline-block p-4 border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600" onclick="filterNotifications('interview')">Interviews</button>
+            </li>
+            <li class="mr-2">
+                <button class="inline-block p-4 border-b-2 border-transparent hover:text-blue-600 hover:border-blue-600" onclick="filterNotifications('messages')">Messages</button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Mark All as Read Button -->
+    <div class="flex justify-between items-center mb-4">
+        <p class="text-sm text-gray-500"><span id="unread-count">3</span> Unread Notifications</p>
+        <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700" onclick="markAllAsRead()">Mark all as read</button>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="space-y-4">
+        <!-- Notification Item with Image -->
+        <div class="p-4 bg-white border rounded-lg shadow-md hover:bg-gray-50 flex items-center">
+            <img src="{% static 'images/profile_pic.svg' %}" alt="Company Logo" class="w-12 h-12 rounded-full mr-4">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-800">Your application has been shortlisted!</h3>
+                <p class="text-sm text-gray-600">XYZ Company has moved your application to the next stage.</p>
+                <span class="text-xs text-gray-400">2 hours ago</span>
+            </div>
+            <button class="text-blue-500 text-sm hover:underline">View Details</button>
+        </div>
+
+        <!-- Another Notification with Image -->
+        <div class="p-4 bg-gray-100 border rounded-lg shadow-md flex items-center">
+            <img src="{% static 'images/profile_pic.svg' %}" alt="Interview Icon" class="w-12 h-12 rounded-lg mr-4">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-600">Your interview has been scheduled</h3>
+                <p class="text-sm text-gray-500">ABC Corp has scheduled your interview for Monday.</p>
+                <span class="text-xs text-gray-400">1 day ago</span>
+            </div>
+            <button class="text-blue-500 text-sm hover:underline">View Details</button>
+        </div>
+
+        <!-- Unread Notification with Image -->
+        <div class="p-4 bg-white border rounded-lg shadow-md border-blue-500 hover:bg-gray-50 flex items-center">
+            <img src="{% static 'images/profile_pic.svg' %}" alt="Recruiter Profile" class="w-12 h-12 rounded-full mr-4">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-800">New Message from Recruiter</h3>
+                <p class="text-sm text-gray-600">Recruiter at DEF Ltd. has sent you a message.</p>
+                <span class="text-xs text-gray-400">30 minutes ago</span>
+            </div>
+            <button class="text-blue-500 text-sm hover:underline">Read</button>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-6">
+        <p class="text-sm text-gray-500">Showing 1-10 of 50</p>
+        <div class="inline-flex space-x-2">
+            <button class="px-3 py-2 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300">Previous</button>
+            <button class="px-3 py-2 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300">Next</button>
+        </div>
+    </div>
+
+    <!-- Empty State (if no notifications exist) -->
+    <div id="no-notifications" class="hidden text-center p-6">
+        <p class="text-gray-500">🎉 No new notifications! Check back later.</p>
+    </div>
+</div><!-- Start block -->
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
     <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
