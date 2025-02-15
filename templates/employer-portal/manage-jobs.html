@@ -240,7 +240,7 @@
                                             {{ job.created_at }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <a class="font-semibold text-blue-600 hover:underline" href="{% url 'employer_portal:job_applications' job.slug %}" class="text-blue-600 hover:underline">
+                                            <a class="font-semibold text-blue-600 hover:underline" href="{% url 'employer_portal:job_applications' job.slug 'all-applicants' %}" class="text-blue-600 hover:underline">
                                                 {{ job.application_count }} applicant(s)
                                             </a>
                                         </td>

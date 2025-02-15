@@ -35,5 +35,5 @@ urlpatterns = [
     path('compensation-details/<int:id>/<slug:slug>/', edit_compensation_details, name="compensation_details"),
     path('application-details/<int:id>/<slug:slug>/', edit_application_details, name="application_details"),
     path('delete-job/<int:id>/<slug:slug>/', delete_job, name="delete_job"), 
-    path('job-applications/<slug:slug>/', job_applications, name="job_applications"),
+    path('job-applications/<slug:slug>/<str:category>/', job_applications, name="job_applications"),
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Count
+from django.db.models import Count, Case, When, IntegerField
 from formtools.wizard.views import SessionWizardView, NamedUrlSessionWizardView
 from .forms import *
 from django.conf import settings
@@ -353,6 +353,9 @@ def candidate_profile(request, slug):
 
     context = {'candidate': candidate}
 
+    if request.method == "POST":
+        print(request.POST)
+
     return render(request, 'employer-portal/candidate-profile.html', context)
 
 def post_job(request):
@@ -367,13 +370,39 @@ def candidate_profiles(request):
 
     return render(request, 'employer-portal/candidate-profiles.html', context)
 
-def job_applications(request, slug):
+def job_applications(request, slug, category):
     job = get_object_or_404(JobDetails, slug=slug)
     applicants = JobApplication.objects.filter(job=job)
 
+    if category == 'all-applicants':
+        applicants = JobApplication.objects.filter(job=job)
+    elif category == "reviewed":
+        applicants = JobApplication.objects.filter(job=job, status='Reviewed')
+    elif category == "shortlisted":
+        applicants = JobApplication.objects.filter(job=job, status='Shortlisted')
+    elif category == "rejected":
+        applicants = JobApplication.objects.filter(job=job, status="Rejected")
+    elif category == "interview-scheduled":
+        applicants = JobApplication.objects.filter(job=job, status="Interview Scheduled")
+    elif category == "pending":
+        applicants = JobApplication.objects.filter(job=job, status="Pending")
+    else:
+        applicants = JobApplication.objects.filter(job=job)
+
+    category_counts = JobApplication.objects.filter(job=job).aggregate(
+        all_count=Count('id'),
+        reviewed_count=Count(Case(When(status='Reviewed', then=1), output_field=IntegerField())),
+        shortlisted_count=Count(Case(When(status='Shortlisted', then=1), output_field=IntegerField())),
+        rejected_count=Count(Case(When(status='Rejected', then=1), output_field=IntegerField())),
+        interview_scheduled_count=Count(Case(When(status='Interview Scheduled', then=1), output_field=IntegerField())),
+        pending_count=Count(Case(When(status='Pending', then=1), output_field=IntegerField())),
+    )
+
     context = {
         'job': job,
-        'applicants': applicants
+        'applicants': applicants,
+        'category': category, 
+        'category_counts': category_counts
     }
 
     return render(request, 'employer-portal/job-applications.html', context)
