@@ -8,7 +8,7 @@ import json
 
 
 class CompanyInformation(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='company_information')
+    user = models.OneToOneField('main.User', on_delete=models.CASCADE)
     company_name = models.CharField(max_length=255)
     company_website = models.URLField(max_length=255, blank=True, null=True)
 
@@ -58,7 +58,7 @@ class CompanyInformation(models.Model):
 
 
 class AccountRepresentative(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='account_representative')
+    user = models.OneToOneField('main.User', on_delete=models.CASCADE)
     company = models.ForeignKey('CompanyInformation', on_delete=models.CASCADE, related_name='representatives')
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -75,7 +75,7 @@ class AccountRepresentative(models.Model):
 
 
 class BillingInformation(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='billing_information')
+    user = models.OneToOneField('main.User', on_delete=models.CASCADE, related_name='billing_information')
     company = models.ForeignKey('CompanyInformation', on_delete=models.CASCADE, related_name='billing_information')
     country = CountryField(blank_label='Select country', blank=True, null=True)
     billing_address_1 = models.CharField(max_length=255)

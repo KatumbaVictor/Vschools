@@ -11,4 +11,5 @@ urlpatterns = [
     path('company-profile/<slug:slug>', employer_profile, name="company_profile"),
     path('job-listings/', job_listings, name="job_listings"),
     path('applications/', job_applications_view, name="job_applications"),
+    path('settings/profile/', settings_profile, name="profile_settings"),
 ]

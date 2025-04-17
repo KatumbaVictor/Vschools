@@ -177,7 +177,7 @@ class CandidateRatingAndReview(models.Model):
         FOUR_STARS = 4, "Good"
         FIVE_STARS = 5, "Excellent"
 
-    employer = models.ForeignKey(CompanyInformation, on_delete=models.CASCADE)
+    employer = models.ForeignKey("employer_portal.CompanyInformation", on_delete=models.CASCADE)
     candidate = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(choices=RatingChoices.choices, default=RatingChoices.ONE_STAR)
     review_title = models.CharField(max_length=200, null=True, blank=True)

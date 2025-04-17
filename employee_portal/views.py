@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from formtools.wizard.views import SessionWizardView
 from .forms import (PersonalInformationForm, EducationalBackgroundForm,
              WorkExperienceForm, CareerPrefencesForm)
@@ -82,10 +83,12 @@ def apply_for_job(request, slug):
 
     return render(request, 'employee-portal/apply.html', context)
 
+@login_required
 def job_applications_view(request):
-    applications_list = JobApplication.objects.filter(user=request.user).order_by('-applied_at')
+    candidate = PersonalInformation.objects.get(user=request.user)
+    applications_list = JobApplication.objects.filter(candidate=candidate).order_by('-applied_at')
 
-    paginator = Paginator(applications_list, 10)
+    paginator = Paginator(applications_list, 10) 
     page_number = request.GET.get('page')
     applications = paginator.get_page(page_number)
 
@@ -93,14 +96,18 @@ def job_applications_view(request):
 
     return render(request, 'employee-portal/job-applications.html', context)
 
+@login_required
 def job_details(request, slug):
     job = get_object_or_404(JobDetails, slug=slug)
     job_requirements = JobRequirements.objects.get(job_post=job)
     compensation_details = CompensationDetails.objects.get(job_post=job)
     application_details = ApplicationDetails.objects.get(job_post=job)
 
+    compensation_details.benefits_and_incentives = [item.strip() for item in json.loads(compensation_details.benefits_and_incentives).split(',')]
+
     job_requirements.certifications_and_licenses = job_requirements.certifications_and_licenses
     job_requirements.additional_requirements = job_requirements.additional_requirements
+    job_requirements.required_skills = [skill.strip() for skill in job_requirements.required_skills.split(',')]
 
     context = {
         'job': job,
@@ -111,9 +118,9 @@ def job_details(request, slug):
     }
 
     if request.method == "POST":
-        user = request.user
+        candidate = PersonalInformation.objects.get(user=request.user)
 
-        JobApplication.objects.create(job=job, user=user)
+        JobApplication.objects.create(job=job, candidate=candidate)
 
 
     return render(request, 'employee-portal/job-details.html', context)
@@ -127,6 +134,7 @@ def employer_profile(request, slug):
 
     return render(request, 'employee-portal/employer-profile.html', context)
 
+@login_required
 def company_profiles(request):
     company_profiles = CompanyInformation.objects.all().annotate(job_count=Count('jobs'))
 
@@ -134,6 +142,7 @@ def company_profiles(request):
 
     return render(request, 'employee-portal/company-profiles.html', context)
 
+@login_required
 def job_listings(request):
     jobs = JobDetails.objects.all()
 
@@ -142,3 +151,14 @@ def job_listings(request):
     }
 
     return render(request, 'employee-portal/job-listings.html', context)
+
+
+@login_required
+def settings_profile(request):
+    personal_information = PersonalInformation.objects.get(user=request.user)
+
+    context = {
+        'personal_information': personal_information
+    }
+
+    return render(request, 'employee-portal/settings/profile.html', context)

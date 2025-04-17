@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'django_countries',
     'allauth',
     'allauth.account',
+    #'allauth.usersessions',
     'employee_portal',
     'employer_portal',
     'main',
@@ -99,12 +100,13 @@ MIDDLEWARE = [
     'django_hosts.middleware.HostsResponseMiddleware',
     #'csp.middleware.CSPMiddleware',
     'hijack.middleware.HijackUserMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 FIDO_SERVER_ID = 'vschoolsmeet.tech'
@@ -176,31 +178,21 @@ WEBPUSH_SETTINGS = {
     'VAPID_ADMIN_EMAIL': 'katumbavictor5@gmail.com'
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": 'redis://127.0.0.1:6379',
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-} 
-
 AUTH_USER_MODEL = 'main.User'
 
 #Django all auth settings
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
+
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
-ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_ADAPTER = 'main.adapters.LoginRedirectAccountAdapter'
 
-
 LOGOUT_REDIRECT_URL = '/accounts/login/'
-
+LOGIN_URL = '/accounts/login/'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
@@ -251,10 +243,6 @@ STATICFILES_FINDERS = (
 
     'compressor.finders.CompressorFinder'
 )
-
-LOGIN_REDIRECT_URL = '/home'
-LOGOUT_REDIRECT_URL = '/accounts/user-login'
-LOGIN_URL = '/accounts/user-login'
 
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=20)
@@ -326,6 +314,16 @@ if not DEBUG:
             'PORT': config("DATABASE_PORT")
         }
     }
+
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": 'redis://127.0.0.1:6379',
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    } 
 
     LOGGING = {
         'version':1,

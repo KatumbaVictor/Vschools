@@ -36,4 +36,6 @@ urlpatterns = [
     path('application-details/<int:id>/<slug:slug>/', edit_application_details, name="application_details"),
     path('delete-job/<int:id>/<slug:slug>/', delete_job, name="delete_job"), 
     path('job-applications/<slug:slug>/<str:category>/', job_applications, name="job_applications"),
+    path('manage-applicant/<slug:job_slug>/<slug:applicant_slug>', manage_applicant, name="manage_applicant"),
+    path('schedule-interview/<slug:job_slug>/<slug:applicant_slug>', schedule_interview, name="schedule_interview"),
 ]

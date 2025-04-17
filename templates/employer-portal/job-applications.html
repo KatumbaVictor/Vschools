@@ -203,10 +203,14 @@
                                             </div>
                                         </td>
                                         <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <img class="w-10 h-10 rounded-full" src="{% static 'images/profile_pic.svg' %}" alt="Jese image">
+                                            <div class="relative w-10 h-10 overflow-hidden shadow-sm border border-gray-300 bg-gray-100 rounded-full dark:bg-gray-400" id="avatar-image">
+                                                <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">{{ applicant.user.username }}</div>
-                                                <div class="font-normal text-gray-500">{{ applicant.user.email }}</div>
+                                                <div class="text-base font-semibold">{{ applicant.candidate.user.username }}</div>
+                                                <div class="font-normal text-gray-500">{{ applicant.candidate.user.email }}</div>
                                             </div>  
                                         </th>
                                         <td class="px-6 py-4">
@@ -220,7 +224,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center space-x-4">
-                                                <a href="#" class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                <a href="{% url 'employer_portal:manage_applicant' applicant.job.slug applicant.candidate.slug %}" class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                                                         <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
@@ -259,5 +263,7 @@
                 </div>
             </div>
         </div>
+
+        {% include 'employer-portal/partials/footer.html' %}
     </body>
 </html>

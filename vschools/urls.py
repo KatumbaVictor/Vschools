@@ -35,7 +35,7 @@ urlpatterns = [
     path('accounts/user-logout/', user_logout, name='logout'),
     path('employee-portal/', include('employee_portal.urls'), name="employee_portal"),
     path('employer-portal/', include('employer_portal.urls'), name="employer_portal"),
-    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls'), name="accounts"),
     path('home/', home_page, name = "home"),
     path('verify-email/',verify_email_page, name = "verify_email_page"),
     path('', guest_page, name = "guest"),

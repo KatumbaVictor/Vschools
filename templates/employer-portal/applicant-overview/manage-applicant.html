@@ -1,0 +1,357 @@
+{% load static %}
+{% load compress %}
+{% load meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% include 'meta/meta.html' %}
+        <title>Employer home page - Career connect</title>
+        {% compress css %}
+        <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
+        <link rel="stylesheet" href="{% static 'flags/sprite.css' %}"/>
+        {% endcompress %}
+        {% compress js %} 
+        <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
+        {% endcompress %}
+    </head>
+    <body>
+        {% include 'employer-portal/navbar.html' %}
+
+        <div class="p-4">
+            <div class="p-4 rounded-lg mt-14">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
+                        <li class="inline-flex items-center">
+                            <a href="{% url 'employer_portal:manage_jobs' 'all-jobs' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 hover:underline dark:text-gray-400 dark:hover:text-white">
+                                Manage Jobs
+                            </a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                </svg>
+                                <a href="{% url 'employer_portal:job_applications' job.slug 'all-applicants' %}" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 hover:underline md:ms-2 dark:text-gray-400 dark:hover:text-white">
+                                    {{ job.job_title }}
+                                </a>
+                            </div>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                </svg>
+                                <span class="ms-1 text-sm font-medium text-gray-400 md:ms-2 dark:text-gray-400">{{ candidate.user.username }}</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+
+                <!-- Container -->
+                <div class="max-w-6xl mx-auto bg-white mt-4">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center">
+                        <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl dark:text-white">{{ job.job_title }} <span class="text-blue-700"> - {{ candidate.user.username }}</span></h2>
+                        <div class="flex space-x-2">
+                            <div class="inline-flex rounded-md shadow-xs" role="group">
+                              <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                                </svg>
+                                Profile
+                              </button>
+                              <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"/>
+                                </svg>
+                                Settings
+                              </button>
+                              <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
+                                  <path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                                </svg>
+                                Downloads
+                              </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="text-gray-500 text-sm rounded-lg dark:bg-gray-900 dark:text-gray-300">
+                        Applied on {{ application.applied_at }} • {{ application.applied_at|timesince }} ago
+                    </span>
+
+                    <p class="mb-5 rounded-lg bg-gray-100 p-4 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">
+                        This page provides a comprehensive view of the applicant's profile, including their personal details, work experience, education, skills, and resume. You can review their qualifications, download their resume, and access whether they meet the job requirements. Additionally, you have the option to take hiring actions such as scheduling an interview, shortlisting, or rejecting the applicant. Use this page to make informed recruitment decisions and streamline the hiring process efficiently.
+                    </p>
+
+                    <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+                        <ul class="flex flex-wrap -mb-px">
+                            <li class="me-2">
+                                <a href="{% url 'employer_portal:manage_applicant' job.slug candidate.slug %}" class="flex flex-row items-center justify-center inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" aria-current="page">
+                                    <svg class="w-4 h-4 me-2 text-blue-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Applicant details
+                                </a>
+                            </li>
+                            <li class="me-2">
+                                <a href="{% url 'employer_portal:schedule_interview' job.slug candidate.slug %}" class="flex flex-row items-center justify-center inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4 font-bold me-2 text-gray-400 dark:text-blue" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Interview management
+                                </a>
+                            </li>
+                            <li class="me-2">
+                                <a href="#" class="flex flex-row items-center justify-center inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4 font-bold me-2 text-gray-400 dark:text-blue" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M9.586 2.586A2 2 0 0 1 11 2h2a2 2 0 0 1 2 2v.089l.473.196.063-.063a2.002 2.002 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.827l-.063.064.196.473H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.089l-.196.473.063.063a2.002 2.002 0 0 1 0 2.828l-1.414 1.414a2 2 0 0 1-2.828 0l-.063-.063-.473.196V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.089l-.473-.196-.063.063a2.002 2.002 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.827l.063-.064L4.089 15H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09l.195-.473-.063-.063a2 2 0 0 1 0-2.828l1.414-1.414a2 2 0 0 1 2.827 0l.064.063L9 4.089V4a2 2 0 0 1 .586-1.414ZM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Hiring actions
+                                </a>
+                            </li>
+                            <li class="me-2">
+                                <a href="#" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">Preferences</a>
+                            </li>
+                            <li class="me-2">
+                                <a href="{% url 'billing' %}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">Billing & Subscriptions</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                            <div class="p-4 md:p-5 text-center">
+                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                                <h3 class="mb-2 text-xl font-bold text-gray-500 dark:text-gray-400">Reject Applicant.</h3>
+                                <p class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Are you sure you want to reject <span class="font-semibold">{{ candidate.user.username }}?</span> This action cannot be undone. The applicant will be notified of your decision.</p>
+                                <button data-modal-hide="popup-modal" type="button" hx-trigger="click" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                    Confirm Reject
+                                </button>
+                                <button data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Layout: Sidebar + Main Content -->
+                    <div class="grid grid-cols-3 gap-6 mt-6">
+                        <!-- Left Sidebar -->
+                        <div class="p-6 border border-gray-200 shadow-sm rounded-lg">
+                            <div class="text-center flex flex-col items-center">
+                                <img src="{% static 'images/profile_pic.svg' %}" alt="Profile Picture" class="w-24 h-24 mx-auto rounded-full">
+                                <h3 class="mt-3 text-lg font-semibold">{{ application.candidate.user.get_full_name }}</h3>
+                                <p class="text-gray-500">{{ job.job_title }} Applicant</p>
+                                <span class="mt-2 inline-block px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-lg">Application {{ application.get_status_display }}</span>
+
+                                <a target="_blank" href="{% url 'employer_portal:candidate_profile' candidate.slug %}" class="text-blue-600 mt-3 mr-2 font-semibold hover:underline text-sm">
+                                    View Profile
+                                </a>
+                            </div>
+                            <hr class="my-4">
+                            <div class="space-y-2 text-sm">
+                                <p><strong>Email:</strong> {{ application.candidate.user.email }}</p>
+                                <p><strong>Location:</strong> {{ application.candidate.city }}, {{ application.candidate.country }} <i class="{{ application.candidate.country.flag_css }}"></i></p>
+                                <p><strong>🔗 LinkedIn:</strong> <a target="_blank" href="{{ application.candidate.linkedin_profile }}" class="text-blue-600 hover:underline">View Profile</a></p>
+                                <p><strong>🔗 Portfolio:</strong> <a target="_blank" href="{{ application.candidate.portfolio }}" class="text-blue-600 hover:underline">Visit Website</a></p>
+                                <p><strong>🔗 Github Profile:</strong> <a target="_blank" href="{{ application.candidate.github_profile }}" class="text-blue-600 hover:underline">View Profile</a></p>
+
+                                <div class="flex items-center mt-4 mb-4">
+                                    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ application.candidate.average_rating }}</p>
+                                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                    <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">40 reviews</a>
+                                </div>
+
+                                <div class="mt-8">
+                                    <h3 class="text-sm mt-6 font-semibold">Bio</h3>
+                                    <p class="text-sm font-normal text-base leading-7 text-gray-500">
+                                        {{ application.candidate.biography }}
+                                    </p>
+                                </div>
+
+                                <div class="mt-6 mb-6">
+                                    <h3 class="text-sm mt-6 font-semibold">Applicant Skills</h3>
+                                    <div class="flex flex-wrap gap-2 mt-3">
+                                        {% for skill in candidate.skills %}
+                                            <span class="bg-green-100 text-green-800 text-xs font-medium px-3 py-1 rounded-full">{{ skill }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <!-- Resume Section -->
+                                <div class="mt-6">
+                                    <h3 class="text-lg mt-8 font-semibold">Resume</h3>
+                                    <p class="text-gray-500">Download the applicant's resume.</p>
+                                    <a href="{{ career_preferences.resume }}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none mt-2 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" download>
+                                        <svg class="w-4 h-4 mr-1 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
+                                        </svg>
+                                        Download Resume
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content (Tabs & Details) -->
+                        <div class="col-span-2 bg-white">
+                            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200 w-full">
+                                <div class="flex items-center justify-between mt-2 mb-4">
+                                    <!-- Job Title & Company Info -->
+                                    <div>
+                                        <h3 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl dark:text-white">{{ work_experience.job_title }}</h3>
+                                        <p class="text-sm mb-2 font-semibold leading-none tracking-tight text-gray-600 md:text-xl dark:text-white text-lg">{{ work_experience.company_name }}</p>
+                                        <p class="text-sm text-gray-500">{{ work_experience.get_company_location_display }} <i class="{{ work_experience.company_location.flag_css }}"></i></p>
+                                    </div>
+
+                                    <!-- Status & Dates -->
+                                    <div class="text-right">
+                                        <span class="text-sm font-medium text-gray-600">Status: <span class="text-green-500">Active</span></span>
+                                        <p class="text-sm text-gray-600 mt-2">Started: {{ work_experience.job_start_date }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex space-x-6 mb-4">
+                                    <!-- Company Size -->
+                                    <div class="flex items-center">
+                                        <span class="text-gray-500 text-lg">🏢</span>
+                                        <p class="text-sm text-gray-600 ml-2">{{ work_experience.get_company_size_display }}</p>
+                                    </div>
+
+                                    <!-- Employment Type -->
+                                    <div class="flex items-center">
+                                        <span class="text-gray-500 text-lg">💼</span>
+                                        <p class="text-sm text-gray-600 ml-2">{{ work_experience.get_employment_type_display }}</p>
+                                    </div>
+
+                                    <!-- Industry -->
+                                    <div class="flex items-center">
+                                        <span class="text-gray-500 text-lg">🌐</span>
+                                        <p class="text-sm text-gray-600 ml-2">Software Development</p>
+                                    </div>
+                                </div>
+
+                                <hr class="border-gray-300 my-4">
+
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <!-- Role Description -->
+                                    <div class="col-span-2">
+                                        <p class="text-sm font-semibold text-gray-600">Role Description</p>
+                                        <p class="text-gray-900 text-sm truncate" id="roleDescription" style="max-height: 80px; overflow: hidden;">
+                                            {{ work_experience.role_description }}
+                                        </p>
+                                        <button class="text-blue-500 text-sm mt-2" onclick="toggleDescription()">Read More</button>
+                                    </div>
+                                    
+                                    <!-- Dates -->
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-600">End Date</p>
+                                        <p class="text-gray-900">{{ work_experience.job_end_date }}</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-600">Start Date</p>
+                                        <p class="text-gray-900">{{ work_experience.job_start_date }}</p>
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="max-w-4xl mx-auto mt-6 p-6 shadow-sm border border-gray-200 bg-white rounded-lg">
+                                <!-- Card Header -->
+                                <div class="flex items-center mb-6">
+                                    <div class="w-16 h-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center">
+                                        <svg class="w-12 h-12 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-3xl font-bold text-gray-900">Educational Background</h3>
+                                        <p class="text-sm text-gray-500">Overview of the candidate's academic qualifications</p>
+                                    </div>
+                                </div>
+
+                                
+                                <!-- Educational Info -->
+                                <div class="space-y-6">
+                                    <!-- Institution Info -->
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <h4 class="text-xl font-semibold text-gray-800">{{ education_background.institution_name }}</h4>
+                                            <p class="text-sm text-gray-500">Institution</p>
+                                        </div>
+                                        <div class="text-right text-sm text-gray-500">
+                                            <p>Graduation Date: <span class="font-semibold text-gray-800">{{ education_background.graduation_date }}</span></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Degree Info -->
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Degree</p>
+                                            <h5 class="text-lg font-semibold text-gray-800">{{ education_background.get_highest_educational_level_display }} in {{ education_background.field_of_study }}</h5>
+                                        </div>
+                                        <div class="text-right text-sm text-gray-500">
+                                            <p>GPA: <span class="font-semibold text-gray-800">{{ education_background.gpa_grade }} / 4.0</span></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field of Study -->
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Field of Study</p>
+                                            <h5 class="text-lg font-semibold text-gray-800">{{ education_background.field_of_study }}</h5>
+                                        </div>
+                                        <div class="text-right text-sm text-gray-500">
+                                            <p>Institution Type: <span class="font-semibold text-gray-800">{{ education_background.get_institution_type_display }}</span></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Start Date -->
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Study Duration</p>
+                                            <h5 class="text-lg font-semibold text-gray-800">{{ education_background.start_date }}  - {{ education_background.graduation_date }}</h5>
+                                        </div>
+                                        <div class="text-right text-sm text-gray-500">
+                                            <p>Location: <span class="font-semibold text-gray-800">{{ education_background.get_institution_location_display }} <i class="{{ education_background.institution_location.flag_css }}"></i></span></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Button -->
+                                    <div class="mt-8">
+                                        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            <svg aria-hidden="true" class="mr-2 w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"clip-rule="evenodd"></path>
+                                            </svg>
+                                            View full profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>                         
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        </div>
+
+        {% include 'employer-portal/partials/footer.html' %}
+    </body>
+</html>

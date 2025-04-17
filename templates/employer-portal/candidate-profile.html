@@ -36,6 +36,8 @@
                         <p class="max-w-lg font-normal text-base leading-7 text-gray-500">
                             {{ candidate.biography }}
                         </p>
+                        <p class="text-gray-500 mt-2 text-sm">🔗 <a href="{{ candidate.linkedin_profile }}" class="text-blue-600 hover:underline">LinkedIn Profile</a></p>
+                        <p class="text-gray-500 text-sm">🔗 <a href="{{ candidate.github_profile }}" class="text-blue-600 hover:underline">Github Profile</a></p>
                         
                         <div class="flex items-center mt-4">
                             <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -223,6 +225,6 @@
         </div>
   
 
-        {% include 'employer-portal/footer.html' %}                                                            
+        {% include 'employer-portal/partials/footer.html' %}                                                          
     </body>
 </html>

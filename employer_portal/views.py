@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
 from formtools.wizard.views import SessionWizardView, NamedUrlSessionWizardView
+from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.conf import settings
 from django_countries import countries
@@ -15,6 +16,7 @@ from .models import *
 from employee_portal.models import *
 from main.models import *
 import os
+import pytz
 
 User = get_user_model()
 
@@ -223,6 +225,7 @@ def home_page(request):
 
     return render(request, 'employer-portal/home.html', context)
 
+@login_required
 def manage_jobs(request, status=None):
     company = CompanyInformation.objects.get(user=request.user)
     jobs = JobDetails.objects.filter(company=company)
@@ -237,10 +240,22 @@ def manage_jobs(request, status=None):
         jobs = JobDetails.objects.filter(company=company, status='drafts').annotate(application_count=Count('jobapplication'))
     elif status == 'closed':
         jobs = JobDetails.objects.filter(company=company, status='closed').annotate(application_count=Count('jobapplication'))
+    elif status == 'paused':
+        jobs = JobDetails.objects.filter(company=company, status='paused').annotate(application_count=Count('jobapplication'))
     else:
         jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication'))
 
-    context = {'jobs':jobs, 'status': status}
+    job_category_counts = JobDetails.objects.filter(company=company).aggregate(
+        all_job_count=Count('id'),
+        active_job_count=Count(Case(When(status='active', then=1), output_field=IntegerField())),
+        expired_job_count=Count(Case(When(status='expired', then=1), output_field=IntegerField())),
+        draft_job_count=Count(Case(When(status='drafts', then=1), output_field=IntegerField())),
+        closed_job_count=Count(Case(When(status='closed', then=1), output_field=IntegerField())),
+        paused_job_count=Count(Case(When(status='paused', then=1), output_field=IntegerField())),
+    )
+
+    context = {'jobs':jobs, 'status': status, 'job_counts': job_category_counts}
+
     return render(request, 'employer-portal/manage-jobs.html', context)
 
 
@@ -370,6 +385,7 @@ def candidate_profiles(request):
 
     return render(request, 'employer-portal/candidate-profiles.html', context)
 
+@login_required
 def job_applications(request, slug, category):
     job = get_object_or_404(JobDetails, slug=slug)
     applicants = JobApplication.objects.filter(job=job)
@@ -406,3 +422,40 @@ def job_applications(request, slug, category):
     }
 
     return render(request, 'employer-portal/job-applications.html', context)
+
+@login_required
+def manage_applicant(request, job_slug, applicant_slug):
+    job = get_object_or_404(JobDetails, slug=job_slug)
+    candidate = PersonalInformation.objects.get(slug=applicant_slug)
+    job_application = JobApplication.objects.get(job=job, candidate=candidate)
+    education_background = EducationalBackground.objects.get(user=candidate.user)
+    work_experience = WorkExperience.objects.get(user=candidate.user)
+
+    candidate.skills = [skill.strip() for skill in candidate.skills.split(',')]
+
+    context = {
+        'job': job,
+        'candidate': candidate,
+        'application': job_application,
+        'education_background': education_background,
+        'work_experience': work_experience,
+        'career_preferences': CareerPreferences
+    }
+
+    return render(request, 'employer-portal/applicant-overview/manage-applicant.html', context)
+
+@login_required
+def schedule_interview(request, job_slug, applicant_slug):
+    job = get_object_or_404(JobDetails, slug=job_slug)
+    candidate = PersonalInformation.objects.get(slug=applicant_slug)
+    job_application = JobApplication.objects.get(job=job, candidate=candidate)
+    timezones = pytz.common_timezones
+
+    context = {
+        'job': job,
+        'candidate': candidate,
+        'application': job_application,
+        'timezones': timezones
+    }
+
+    return render(request, 'employer-portal/applicant-overview/schedule-interview.html', context)
