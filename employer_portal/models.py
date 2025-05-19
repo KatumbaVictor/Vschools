@@ -162,13 +162,7 @@ class JobDetails(models.Model, ModelMeta):
         "title": "get_meta_title",
         "description": "get_meta_description",
         "keywords": "get_meta_keywords",
-        "og_title": "get_meta_title",
-        "og_description": "get_meta_description",
         "og_type": "article",
-        "twitter_card": "summary_large_image",
-        "twitter_title": "get_meta_title",
-        "twitter_description": "get_meta_description",
-        "schemaorg_title": "get_meta_title",
         "url": "get_absolute_url",
     }
 
@@ -224,6 +218,9 @@ class JobDetails(models.Model, ModelMeta):
 
         return json.dumps(schema_data, indent=4)
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return self.job_title	
 
@@ -268,6 +265,7 @@ class JobRequirements(models.Model):
     language_proficiency = models.CharField(max_length=50, choices=LANGUAGE_PROFICIENCY_CHOICES, blank=True)
     additional_requirements = models.JSONField(blank=True, null=True, help_text='Enter additional requirements')
 
+
     GENDER_CHOICES = [
         ('any', 'Any'),
         ('male', 'Male'),
@@ -275,6 +273,17 @@ class JobRequirements(models.Model):
     ]
 
     gender_preferences = models.CharField(max_length=50, choices=GENDER_CHOICES, default='any')
+
+    class RequiredRating(models.TextChoices):
+        NONE = 'none', 'No rating required'
+        ONE_STAR = '1', '1 Star & Above'
+        TWO_STAR = '2', '2 Stars & Above'
+        THREE_STARS = '3', '3 Stars & Above'
+        FOUR_STARS = '4', '4 Stars & Above'
+        FIVE_STARS = '5', '5 Stars Only'
+
+    required_rating = models.CharField(max_length=10, choices=RequiredRating.choices, default=RequiredRating.NONE, help_text='Minimum candidate rating required for this job.')
+
     required_experience = models.PositiveIntegerField(help_text='Specify required years of experience')
 
 

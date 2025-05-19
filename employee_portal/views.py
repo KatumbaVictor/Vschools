@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Case, When, IntegerField
 from formtools.wizard.views import SessionWizardView
 from .forms import (PersonalInformationForm, EducationalBackgroundForm,
              WorkExperienceForm, CareerPrefencesForm)
@@ -84,15 +85,39 @@ def apply_for_job(request, slug):
     return render(request, 'employee-portal/apply.html', context)
 
 @login_required
-def job_applications_view(request):
+def job_applications_view(request, category):
     candidate = PersonalInformation.objects.get(user=request.user)
-    applications_list = JobApplication.objects.filter(candidate=candidate).order_by('-applied_at')
+    applications = JobApplication.objects.filter(candidate=candidate).order_by('-applied_at')
 
-    paginator = Paginator(applications_list, 10) 
-    page_number = request.GET.get('page')
-    applications = paginator.get_page(page_number)
+    if category == 'all-applications':
+        applications = applications
+    elif category == "reviewed":
+        applications = JobApplication.objects.filter(candidate=candidate, status='Reviewed').order_by('-applied_at')
+    elif category == "shortlisted":
+        applications = JobApplication.objects.filter(candidate=candidate, status='Shortlisted').order_by('-applied_at')
+    elif category == "interview-scheduled":
+        applications = JobApplication.objects.filter(candidate=candidate, status="Interview Scheduled").order_by('-applied_at')
+    elif category == "rejected":
+        applications = JobApplication.objects.filter(candidate=candidate, status="Rejected").order_by('-applied_at')
+    elif category == "pending":
+        applicants = JobApplication.objects.filter(candidate=candidate, status="Pending").order_by('-applied_at')
 
-    context = {'applications': applications}
+
+    category_counts = JobApplication.objects.filter(candidate=candidate).aggregate(
+        all_count=Count('id'),
+        reviewed_count=Count(Case(When(status='Reviewed', then=1), output_field=IntegerField())),
+        shortlisted_count=Count(Case(When(status='Shortlisted', then=1), output_field=IntegerField())),
+        rejected_count=Count(Case(When(status='Rejected', then=1), output_field=IntegerField())),
+        interview_scheduled_count=Count(Case(When(status='Interview Scheduled', then=1), output_field=IntegerField())),
+        pending_count=Count(Case(When(status='Pending', then=1), output_field=IntegerField())),
+    )
+
+
+    context = {
+        'applications': applications,
+        'category': category, 
+        'category_counts': category_counts
+    }
 
     return render(request, 'employee-portal/job-applications.html', context)
 
@@ -162,3 +187,46 @@ def settings_profile(request):
     }
 
     return render(request, 'employee-portal/settings/profile.html', context)
+
+ 
+@login_required
+def job_interviews(request, category):
+    candidate = PersonalInformation.objects.get(user=request.user)
+    job_interviews = JobInterview.objects.filter(candidate=candidate)
+
+    if category == 'all-interviews':
+        job_interviews = JobInterview.objects.filter(candidate=candidate)
+    elif category == 'rescheduled-interviews':
+        job_interviews = JobInterview.objects.filter(candidate=candidate, status=JobInterview.InterviewStatus.RESCHEDULED)
+    elif category == 'completed-interviews':
+        job_interviews = JobInterview.objects.filter(candidate=candidate, status=JobInterview.InterviewStatus.COMPLETED)
+    elif category == 'canceled-interviews':
+        job_interviews = JobInterview.objects.filter(candidate=candidate, status=JobInterview.InterviewStatus.CANCELLED)
+    else:
+        job_interviews = JobInterview.objects.filter(candidate=candidate)
+
+    category_counts = JobInterview.objects.filter(candidate=candidate).aggregate(
+        all_count=Count('id'),
+        rescheduled_count=Count(Case(When(status=JobInterview.InterviewStatus.RESCHEDULED, then=1), output_field=IntegerField())),
+        completed_count=Count(Case(When(status=JobInterview.InterviewStatus.COMPLETED, then=1), output_field=IntegerField())),
+        canceled_count=Count(Case(When(status=JobInterview.InterviewStatus.CANCELLED, then=1), output_field=IntegerField())),
+    )
+
+    context = {
+        'category':category,
+        'category_counts': category_counts,
+        'job_interviews': job_interviews
+    }
+
+    return render(request, 'employee-portal/job-interviews.html', context)
+
+
+@login_required
+def job_interview_details(request, interview_slug):
+    interview = get_object_or_404(JobInterview, slug=interview_slug)
+
+    context = {
+        'interview': interview
+    }
+
+    return render(request, 'employee-portal/interview-details.html', context)

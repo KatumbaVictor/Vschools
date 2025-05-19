@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django_countries.fields import CountryField
 from .models import *
+from main.models import *
 
 
 class CompanyInformationForm(forms.ModelForm):
@@ -107,7 +108,8 @@ class JobRequirementsForm(forms.ModelForm):
 			'language_proficiency',
 			'gender_preferences',
 			'required_experience',
-			'additional_requirements'
+			'additional_requirements',
+			'required_rating',
 		]
 
 	
@@ -202,3 +204,21 @@ class InternshipApplicationDetailsForm(forms.ModelForm):
 			'application_instructions',
 			'custom_application_url'
 		]
+
+
+
+class JobInterviewForm(forms.ModelForm):
+    class Meta:
+        model = JobInterview
+        fields = [
+            'interview_title',
+            'interview_description',
+            'interviewer_name',
+            'interviewer_email',
+            'interview_date',
+            'start_time',
+            'end_time',
+            'timezone',
+            'attachment',
+            'attachment_description',
+        ]

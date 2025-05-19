@@ -11,6 +11,8 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.utils.text import slugify
 from django.http import JsonResponse
+from datetime import datetime
+from .utils.timezone import get_interview_times_in_user_timezone
 import json
 from .models import *
 from employee_portal.models import *
@@ -231,17 +233,17 @@ def manage_jobs(request, status=None):
     jobs = JobDetails.objects.filter(company=company)
 
     if status == 'all-jobs':
-        jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication')).order_by('-created_at')
     elif status == "active":
-        jobs = JobDetails.objects.filter(company=company, status='active').annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company, status='active').annotate(application_count=Count('jobapplication')).order_by('-created_at')
     elif status == 'expired':
-        jobs = JobDetails.objects.filter(company=company, status='expired').annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company, status='expired').annotate(application_count=Count('jobapplication')).order_by('-created_at')
     elif status == 'drafts':
-        jobs = JobDetails.objects.filter(company=company, status='drafts').annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company, status='drafts').annotate(application_count=Count('jobapplication')).order_by('-created_at')
     elif status == 'closed':
-        jobs = JobDetails.objects.filter(company=company, status='closed').annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company, status='closed').annotate(application_count=Count('jobapplication')).order_by('-created_at')
     elif status == 'paused':
-        jobs = JobDetails.objects.filter(company=company, status='paused').annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company, status='paused').annotate(application_count=Count('jobapplication')).order_by('-created_at')
     else:
         jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication'))
 
@@ -385,6 +387,27 @@ def candidate_profiles(request):
 
     return render(request, 'employer-portal/candidate-profiles.html', context)
 
+
+def candidate_reviews(request, candidate_slug, category):
+    candidate = get_object_or_404(PersonalInformation, slug=candidate_slug)
+    reviews = CandidateRatingAndReview.objects.filter(candidate=candidate)
+
+    if category == 'all-reviews':
+        reviews = CandidateRatingAndReview.objects.filter(candidate=candidate)
+    elif category == 'five-star':
+        reviews = CandidateRatingAndReview.objects.filter(candidate=candidate, rating=CandidateRatingAndReview.RatingChoices.FIVE_STARS)
+    elif category == 'four-star':
+        reviews = CandidateRatingAndReview.objects.filter(candidate=candidate, rating=CandidateRatingAndReview.RatingChoices.FOUR_STARS)
+    elif category == 'three-star':
+        reviews = CandidateRatingAndReview.objects.filter(candidate=candidate, rating=CandidateRatingAndReview.RatingChoices.THREE_STARS)
+    elif category == 'two-star':
+        reviews = CandidateRatingAndReview.objects.filter(candidate=candidate, rating=CandidateRatingAndReview.RatingChoices.TWO_STARS)
+    elif category == 'one-star':
+        reviews = CandidateRatingAndReview.objects.filter(candidate=candidate, rating=CandidateRatingAndReview.RatingChoices.ONE_STAR)
+
+    return render(request, "employer-portal/candidate-reviews.html")
+
+
 @login_required
 def job_applications(request, slug, category):
     job = get_object_or_404(JobDetails, slug=slug)
@@ -393,25 +416,25 @@ def job_applications(request, slug, category):
     if category == 'all-applicants':
         applicants = JobApplication.objects.filter(job=job)
     elif category == "reviewed":
-        applicants = JobApplication.objects.filter(job=job, status='Reviewed')
+        applicants = JobApplication.objects.filter(job=job, status=JobApplication.Status.REVIEWED)
     elif category == "shortlisted":
-        applicants = JobApplication.objects.filter(job=job, status='Shortlisted')
+        applicants = JobApplication.objects.filter(job=job, status=JobApplication.Status.SHORTLISTED)
     elif category == "rejected":
-        applicants = JobApplication.objects.filter(job=job, status="Rejected")
+        applicants = JobApplication.objects.filter(job=job, status=JobApplication.Status.REJECTED)
     elif category == "interview-scheduled":
-        applicants = JobApplication.objects.filter(job=job, status="Interview Scheduled")
+        applicants = JobApplication.objects.filter(job=job, status=JobApplication.Status.INTERVIEW_SCHEDULED)
     elif category == "pending":
-        applicants = JobApplication.objects.filter(job=job, status="Pending")
+        applicants = JobApplication.objects.filter(job=job, status=JobApplication.Status.PENDING)
     else:
         applicants = JobApplication.objects.filter(job=job)
 
     category_counts = JobApplication.objects.filter(job=job).aggregate(
         all_count=Count('id'),
-        reviewed_count=Count(Case(When(status='Reviewed', then=1), output_field=IntegerField())),
-        shortlisted_count=Count(Case(When(status='Shortlisted', then=1), output_field=IntegerField())),
-        rejected_count=Count(Case(When(status='Rejected', then=1), output_field=IntegerField())),
-        interview_scheduled_count=Count(Case(When(status='Interview Scheduled', then=1), output_field=IntegerField())),
-        pending_count=Count(Case(When(status='Pending', then=1), output_field=IntegerField())),
+        reviewed_count=Count(Case(When(status=JobApplication.Status.REVIEWED, then=1), output_field=IntegerField())),
+        shortlisted_count=Count(Case(When(status=JobApplication.Status.SHORTLISTED, then=1), output_field=IntegerField())),
+        rejected_count=Count(Case(When(status=JobApplication.Status.REJECTED, then=1), output_field=IntegerField())),
+        interview_scheduled_count=Count(Case(When(status=JobApplication.Status.INTERVIEW_SCHEDULED, then=1), output_field=IntegerField())),
+        pending_count=Count(Case(When(status=JobApplication.Status.PENDING, then=1), output_field=IntegerField())),
     )
 
     context = {
@@ -433,6 +456,10 @@ def manage_applicant(request, job_slug, applicant_slug):
 
     candidate.skills = [skill.strip() for skill in candidate.skills.split(',')]
 
+    if job_application.status == JobApplication.Status.PENDING:
+        job_application.status = JobApplication.Status.REVIEWED
+        job_application.save()
+
     context = {
         'job': job,
         'candidate': candidate,
@@ -449,7 +476,10 @@ def schedule_interview(request, job_slug, applicant_slug):
     job = get_object_or_404(JobDetails, slug=job_slug)
     candidate = PersonalInformation.objects.get(slug=applicant_slug)
     job_application = JobApplication.objects.get(job=job, candidate=candidate)
+    company = CompanyInformation.objects.get(user=request.user)
     timezones = pytz.common_timezones
+
+    job_application.interview_exists = bool(JobInterview.objects.filter(job_application=job_application).exists())
 
     context = {
         'job': job,
@@ -458,4 +488,135 @@ def schedule_interview(request, job_slug, applicant_slug):
         'timezones': timezones
     }
 
+    if request.method == "POST":
+        interview_post_form = JobInterviewForm(request.POST)
+        interview_post = interview_post_form.save(commit=False)
+        interview_post.job_application = job_application
+        interview_post.company = company
+        interview_post.candidate = candidate
+        interview_post.slug = slugify(interview_post.interview_title)
+
+        if interview_post_form.is_valid():
+            interview_post_form.save()
+            job_application.status = JobApplication.Status.INTERVIEW_SCHEDULED
+            job_application.save()
+
+            messages.success(request, "Interview has been scheduled successfully.")
+
     return render(request, 'employer-portal/applicant-overview/schedule-interview.html', context)
+
+
+@login_required
+def hiring_decisions(request, job_slug, applicant_slug):
+    job = get_object_or_404(JobDetails, slug=job_slug)
+    candidate = PersonalInformation.objects.get(slug=applicant_slug)
+    job_application = JobApplication.objects.get(job=job, candidate=candidate)
+
+    if request.method == "POST":
+        action = request.POST.get('action')
+        
+        if action == 'shortlist':
+            job_application.status = JobApplication.Status.SHORTLISTED
+            job_application.save()
+
+            if request.htmx:
+                context = {
+                    'message':'This candidate has been successfully shortlisted'
+                }
+
+                return render(request, 'employer-portal/partials/toast-success.html', context)
+
+        elif action == 'reject':
+            job_application.status = JobApplication.Status.REJECTED
+            job_application.save()
+
+            if request.htmx:
+                context = {
+                    'message': 'This candidate has been declined'
+                }
+
+                return render(request, 'employer-portal/partials/toast-danger.html', context)
+
+
+    context = {
+        'job': job,
+        'candidate': candidate,
+        'application': job_application
+    }
+
+    return render(request, 'employer-portal/applicant-overview/hiring-decisions.html', context)
+
+
+@login_required
+def job_interview_schedules(request, category):
+    company = CompanyInformation.objects.get(user=request.user)
+    job_interviews = JobInterview.objects.filter(company=company)
+
+    if category == 'all-interviews':
+        job_interviews = JobInterview.objects.filter(company=company)
+    elif category == 'rescheduled-interviews':
+        job_interviews = JobInterview.objects.filter(company=company, status=JobInterview.InterviewStatus.RESCHEDULED)
+    elif category == 'completed-interviews':
+        job_interviews = JobInterview.objects.filter(company=company, status=JobInterview.InterviewStatus.COMPLETED)
+    elif category == 'canceled-interviews':
+        job_interviews = JobInterview.objects.filter(company=company, status=JobInterview.InterviewStatus.CANCELLED)
+    else:
+        job_interviews = JobInterview.objects.filter(company=company)
+
+
+    category_counts = JobInterview.objects.filter(company=company).aggregate(
+        all_count=Count('id'),
+        rescheduled_count=Count(Case(When(status=JobInterview.InterviewStatus.RESCHEDULED, then=1), output_field=IntegerField())),
+        completed_count=Count(Case(When(status=JobInterview.InterviewStatus.COMPLETED, then=1), output_field=IntegerField())),
+        canceled_count=Count(Case(When(status=JobInterview.InterviewStatus.CANCELLED, then=1), output_field=IntegerField())),
+    )
+
+    for interview in job_interviews:
+        formated_start_date, _, _ = get_interview_times_in_user_timezone(interview)
+        interview.start_date = formated_start_date
+    
+
+    context = {
+        'job_interviews': job_interviews,
+        'category': category,
+        'category_counts': category_counts
+    }
+
+    return render(request, 'employer-portal/job-interviews.html', context)
+
+
+@login_required
+def job_interview_details(request, interview_slug):
+    interview = get_object_or_404(JobInterview, slug=interview_slug)
+
+    formated_start_date, formated_start_time, formated_end_time = get_interview_times_in_user_timezone(interview)
+
+    interview.start_date = formated_start_date
+    interview.start_time = formated_start_time
+    interview.end_time = formated_end_time
+
+
+    context = {
+        'interview': interview,
+        'timezones' :pytz.common_timezones
+    }
+
+    return render(request, 'employer-portal/interview-details.html', context)
+
+
+def create_job_offer(request, candidate_slug):
+    candidate = get_object_or_404(PersonalInformation, slug=candidate_slug)
+    company = CompanyInformation.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        job_offer_form = JobOfferForm(request.POST)
+
+        if job_offer_form.is_valid():
+            job_offer = job_offer_form.save(commit=False)
+            job_offer.company = company
+            job_offer.candidate = candidate
+            job_offer.slug = slugify(job_offer.offer_title)
+            job_offer.save()
+
+    else:
+        job_offer_form = JobOfferForm()

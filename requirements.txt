@@ -42,6 +42,7 @@ django-payments==3.0.1
 django-phonenumber-field==8.1.0
 django-redis==5.4.0
 django-webpush==0.3.6
+djangorestframework==3.16.0
 frozenlist==1.5.0
 html5lib==1.1
 http_ece==1.2.1

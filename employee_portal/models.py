@@ -187,6 +187,7 @@ class CandidateRatingAndReview(models.Model):
 
     class Meta:
         unique_together = ('employer', 'candidate')
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"{self.employer.company_name} rated {self.candidate.user.username} - {self.rating} Starts"

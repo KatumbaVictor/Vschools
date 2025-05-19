@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,7 @@ from django.urls import reverse
 from .forms import AccountTypeForm
 from django_countries import countries
 from django.contrib.auth.forms import AuthenticationForm
+from .models import *
 
 
 meta = {
@@ -67,29 +68,14 @@ def handle_500(request):
 def handle_403(request, reason=""):
     return render(request, 'error-pages/403.html', {"reason": reason}, status=403)
 
-def email_verified(request):
-    return render(request, "email_verified.html")
-
 def verify_email_page(request):
     return render(request, 'verify_email_page.html')
-
-def welcome_page(request):
-    return render(request, 'welcome.html')
-
-def privacy_policy(request):
-    return render(request, 'privacy_policy.html')
 
 def about_page(request):
     return render(request, 'about.html')
 
 def terms_of_service(request):
     return render(request, 'terms_of_service.html')
-
-def community_guidelines(request):
-    return render(request, 'community_guidelines.html')
-
-def cookie_policy(request):
-    return render(request, 'cookie_policy.html')
 
 def sign_up_page(request):
     if request.user.is_authenticated:
@@ -134,9 +120,6 @@ def community_forum(request):
 def pricing_page(request):
     return render(request, 'pricing.html')
 
-def services_page(request):
-    return render(request, 'services.html')
-
 def FAQ_page(request):
     return render(request, 'FAQ.html')
 
@@ -147,9 +130,16 @@ def test_page(request):
 def guest_page(request):
     return render(request, "guest.html")
 
-def user_logout(request):
-    logout(request)
-    return redirect('login')
-
 def verify_email(request):
     return render(request, 'otp.html')
+
+
+@login_required
+def join_interview(request, interview_slug):
+    interview = get_object_or_404(JobInterview, slug=interview_slug)
+
+    context = {
+        'interview': interview
+    }
+
+    return render(request, 'join-interview.html', context)

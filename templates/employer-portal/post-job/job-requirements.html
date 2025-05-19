@@ -30,10 +30,10 @@
         <div class="p-4 sm:ml-64">
             <div class="p-4 rounded-lg mt-14">
                 <div class="inline-flex justify-between items-center w-full">
-                    <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Post a Job, hire talent.</h2>
+                    <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Post a Job <span class="text-blue-600">- Job requirements</span></h2>
                 </div>
 
-                <p class="mb-5 text-gray-500 dark:text-gray-400 mt-5 p-4 rounded-lg bg-gray-50">This section focuses on the qualifications and expectations for the ideal candidate. Providing clear and concise information will help ensure the job listing appeals to the right audience. Use this section below to describe and specify what makes someone a strong fit for the role, ensuring the details align with the goals and responsibilities of the position. Ensure that the requirements reflect the core competences and expertise needed to excel, as well as any qualities that would make a candidate stand out.
+                <p class="mb-5 text-gray-500 dark:text-gray-400 p-4 rounded-lg bg-gray-50">This section focuses on the qualifications and expectations for the ideal candidate. Providing clear and concise information will help ensure the job listing appeals to the right audience. Use this section below to describe and specify what makes someone a strong fit for the role, ensuring the details align with the goals and responsibilities of the position. Ensure that the requirements reflect the core competences and expertise needed to excel, as well as any qualities that would make a candidate stand out.
                 </p>
 
                 <ol class="flex items-center w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
@@ -81,10 +81,9 @@
                     </li>
                 </ol>
 
-                <h5 class="mb-4 mt-6 text-xl text-gray-500 font-bold dark:text-white">2). Provide mandatory requirements for this job position.</h5>
-
-                <div class="max-w-6xl flex mt-4">
-                    <div class="w-3/4">
+                <div class="max-w-6xl flex mt-6">
+                    <div class="w-3/4 bg-white p-6 border border-gray-200 rounded-lg">
+                        <h5 class="mb-4 text-xl text-gray-500 font-bold dark:text-white">2). Provide mandatory requirements for this job position.</h5>
                         <div class="flex p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                             <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -160,6 +159,17 @@
                                 </div>
                             </div>
 
+                            <div class="mb-6">
+                                <label for="id_job-requirements-required_rating" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Minimum Candidate Rating (Optional)</label>
+                                <select id="id_job-requirements-required_rating" name="job-requirements-required_rating" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="none" selected>No rating required</option>
+                                    <option value="1">1 Star & Above</option>
+                                    <option value="2">2 Stars & Above</option>
+                                    <option value="3">3 Stars & Above</option>
+                                    <option value="4">4 Stars & Above</option>
+                                    <option value="5">5 Stars Only</option>
+                                </select>
+                            </div>  
                             <div class="mb-6">
                                 <label for="id_job-requirements-gender_preferences" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender preferences</label>
                                 <select id="id_job-requirements-gender_preferences" name="job-requirements-gender_preferences" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">

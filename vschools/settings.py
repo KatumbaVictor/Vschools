@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     'employee_portal',
     'employer_portal',
     'main',
+    'django_htmx',
+    'rest_framework',
 ]
 
 SITE_ID = 1
@@ -101,6 +103,7 @@ MIDDLEWARE = [
     #'csp.middleware.CSPMiddleware',
     'hijack.middleware.HijackUserMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [

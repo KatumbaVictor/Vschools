@@ -26,6 +26,9 @@
                     <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
                         <li class="inline-flex items-center">
                             <a href="{% url 'employer_portal:manage_jobs' 'all-jobs' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 hover:underline dark:text-gray-400 dark:hover:text-white">
+                                <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M10 2a3 3 0 0 0-3 3v1H5a3 3 0 0 0-3 3v2.382l1.447.723.005.003.027.013.12.056c.108.05.272.123.486.212.429.177 1.056.416 1.834.655C7.481 13.524 9.63 14 12 14c2.372 0 4.52-.475 6.08-.956.78-.24 1.406-.478 1.835-.655a14.028 14.028 0 0 0 .606-.268l.027-.013.005-.002L22 11.381V9a3 3 0 0 0-3-3h-2V5a3 3 0 0 0-3-3h-4Zm5 4V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1h6Zm6.447 7.894.553-.276V19a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-5.382l.553.276.002.002.004.002.013.006.041.02.151.07c.13.06.318.144.557.242.478.198 1.163.46 2.01.72C7.019 15.476 9.37 16 12 16c2.628 0 4.98-.525 6.67-1.044a22.95 22.95 0 0 0 2.01-.72 15.994 15.994 0 0 0 .707-.312l.041-.02.013-.006.004-.002.001-.001-.431-.866.432.865ZM12 10a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z" clip-rule="evenodd"/>
+                                </svg>
                                 Manage Jobs
                             </a>
                         </li>
@@ -54,28 +57,28 @@
                 <div class="max-w-6xl mx-auto bg-white mt-4">
                     <!-- Header -->
                     <div class="flex justify-between items-center">
-                        <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl dark:text-white">{{ job.job_title }} <span class="text-blue-700"> - {{ candidate.user.username }}</span></h2>
+                        <h2 class="text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl dark:text-white">{{ job.job_title }} <span class="text-blue-700"> - {{ candidate.user.username }}</span></h2>
                         <div class="flex space-x-2">
                             <div class="inline-flex rounded-md shadow-xs" role="group">
-                              <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                  <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
-                                </svg>
-                                Profile
-                              </button>
-                              <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"/>
-                                </svg>
-                                Settings
-                              </button>
-                              <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                  <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
-                                  <path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
-                                </svg>
-                                Downloads
-                              </button>
+                                <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                    <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                                    </svg>
+                                    Profile
+                                </button>
+                                <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                    <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"/>
+                                    </svg>
+                                    Settings
+                                </button>
+                                <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                    <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
+                                        <path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                                    </svg>
+                                    Downloads
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +87,52 @@
                         Applied on {{ application.applied_at }} • {{ application.applied_at|timesince }} ago
                     </span>
 
-                    <p class="mb-5 rounded-lg bg-gray-100 p-4 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">
+                    <ol class="flex items-center mt-5 mb-5 w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
+                        <li class="flex items-center {% if application.status == 'Reviewed' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'Reviewed' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                                1
+                            </span>
+                            Applicant <span class="hidden sm:inline-flex sm:ms-2">Reviewed</span>
+                            <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                            </svg>
+                        </li>
+                        <li class="flex items-center {% if application.status == 'shortlisted' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'shortlisted' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                                2
+                            </span>
+                            Applicant <span class="hidden sm:inline-flex sm:ms-2">Shortlisted</span>
+                            <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                            </svg>
+                        </li>
+                        <li class="flex items-center {% if application.status == 'interview_scheduled' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'interview_scheduled' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                                3
+                            </span>
+                            Interview Scheduled
+                            <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                            </svg>
+                        </li>
+                        <li class="flex items-center {% if application.status == 'Interview Completed' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'Interview Completed' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                                4
+                            </span>
+                            Interview <span class="hidden sm:inline-flex sm:ms-2">Completed</span>
+                            <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                            </svg>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
+                                5
+                            </span>
+                            Final hiring <span class="hidden sm:inline-flex sm:ms-2">Decision</span>
+                        </li>
+                    </ol>
+
+                    <p class="mb-5 rounded-lg bg-gray-100 p-4 text-gray-500 dark:text-gray-400">
                         This page provides a comprehensive view of the applicant's profile, including their personal details, work experience, education, skills, and resume. You can review their qualifications, download their resume, and access whether they meet the job requirements. Additionally, you have the option to take hiring actions such as scheduling an interview, shortlisting, or rejecting the applicant. Use this page to make informed recruitment decisions and streamline the hiring process efficiently.
                     </p>
 
@@ -107,11 +155,11 @@
                                 </a>
                             </li>
                             <li class="me-2">
-                                <a href="#" class="flex flex-row items-center justify-center inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                                <a href="{% url 'employer_portal:hiring_decisions' job.slug candidate.slug %}" class="flex flex-row items-center justify-center inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
                                     <svg class="w-4 h-4 font-bold me-2 text-gray-400 dark:text-blue" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd" d="M9.586 2.586A2 2 0 0 1 11 2h2a2 2 0 0 1 2 2v.089l.473.196.063-.063a2.002 2.002 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.827l-.063.064.196.473H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.089l-.196.473.063.063a2.002 2.002 0 0 1 0 2.828l-1.414 1.414a2 2 0 0 1-2.828 0l-.063-.063-.473.196V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.089l-.473-.196-.063.063a2.002 2.002 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.827l.063-.064L4.089 15H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09l.195-.473-.063-.063a2 2 0 0 1 0-2.828l1.414-1.414a2 2 0 0 1 2.827 0l.064.063L9 4.089V4a2 2 0 0 1 .586-1.414ZM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd"/>
                                     </svg>
-                                    Hiring actions
+                                    Hiring decisions & actions
                                 </a>
                             </li>
                             <li class="me-2">
@@ -122,120 +170,358 @@
                             </li>
                         </ul>
                     </div>
-
-                    <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative p-4 w-full max-w-md max-h-full">
-                        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                </svg>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                            <div class="p-4 md:p-5 text-center">
-                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                </svg>
-                                <h3 class="mb-2 text-xl font-bold text-gray-500 dark:text-gray-400">Reject Applicant.</h3>
-                                <p class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Are you sure you want to reject <span class="font-semibold">{{ candidate.user.username }}?</span> This action cannot be undone. The applicant will be notified of your decision.</p>
-                                <button data-modal-hide="popup-modal" type="button" hx-trigger="click" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                                    Confirm Reject
-                                </button>
-                                <button data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <h5 class="mb-4 mt-6 text-xl text-gray-500 font-bold dark:text-white">1). Provide Essential Details About the Job Position.</h5>
-
-                <div class="flex flex-col lg:flex-row min-h-screen">
+                <div class="flex flex-col lg:flex-row min-h-screen items-start">
                     <!-- Left Panel: Applicant Details -->
-                    <div class="lg:w-1/3 bg-white p-6 border border-gray-200 shadow-sm rounded-lg mr-4 mt-4">
-                        <h2 class="text-xl font-semibold mb-4">Applicant Information</h2>
-                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                            <p class="text-lg font-medium">Name: <span class="font-semibold">John Doe</span></p>
-                            <p class="text-lg font-medium">Job Applied: <span class="font-semibold">Software Engineer</span></p>
-                            <p class="text-lg font-medium">Application Date: <span class="font-semibold">March 20, 2025</span></p>
-                            <p class="text-lg font-medium">Resume: <a href="#" class="text-blue-600 underline">Download</a></p>
+                    <div class="md:w-1/3 lg:w-1/3 border border-gray-200 mt-4 bg-white p-6 rounded-xl">
+                        <!-- Candidate Summary -->
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold uppercase">
+                                {{ candidate.user.get_initials }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">{{ candidate.user.username }}</p>
+                                <p class="text-xs text-gray-500">Frontend Developer</p>
+                            </div>
                         </div>
 
-                        <h3 class="text-lg font-semibold mb-2">Hiring Progress</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-center space-x-2">
-                                <span class="w-5 h-5 bg-green-500 text-white text-xs flex items-center justify-center rounded-full">✓</span>
-                                <span>Application Received</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <span class="w-5 h-5 bg-green-500 text-white text-xs flex items-center justify-center rounded-full">✓</span>
-                                <span>Application Reviewed</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <span class="w-5 h-5 bg-blue-500 text-white text-xs flex items-center justify-center rounded-full">3</span>
-                                <span>Schedule Interview</span>
-                            </li>
-                            <li class="flex items-center space-x-2">
-                                <span class="w-5 h-5 bg-gray-400 text-white text-xs flex items-center justify-center rounded-full">4</span>
-                                <span>Interview Completed</span>
-                            </li>
+                        <!-- Quick Links -->
+                        <h3 class="text-sm font-semibold text-gray-700 mb-2">Quick Links</h3>
+                        <ul class="text-sm text-blue-600 space-y-2 mb-6">
+                            <li><a href="#">View Application</a></li>
+                            <li><a href="#">View Resume</a></li>
+                            <li><a href="#">Contact Candidate</a></li>
+                            <li><a href="#">Cancel Interview</a></li>
+                        </ul>
+
+                        <!-- Interview Tips -->
+                        <h3 class="text-sm font-semibold text-gray-700 mb-2">Interview Tips</h3>
+                        <ul class="text-sm text-gray-600 list-disc list-inside space-y-1">
+                            <li>Review resume</li>
+                            <li>Confirm availability</li>
+                            <li>Prepare role-specific Qs</li>
                         </ul>
                     </div>
 
-                    <!-- Right Panel: Schedule Form -->
-                    <div class="lg:w-2/3 bg-white p-6 border border-gray-200 shadow-sm rounded-lg m-4 flex-1">
-                        <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl dark:text-white">Schedule Interview</h2>
-
-                        <form class="grid mb-6 gap-6 md:grid-cols-2 mt-8">
-                            <!-- Date -->
-                            <div class="col-span-1">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview title</label>
-                                <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                    {% if application.interview_exists %}
+                        <div class="p-8 lg:w-2/3 bg-white p-6 border border-gray-200 rounded-lg m-4 flex-1 bg-white m-4 shadow-sm rounded-2xl space-y-8">
+                            <!-- Heading -->
+                            <div class="space-y-2">
+                                <h2 class="mb-2 flex flex-row items-center text-3xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                    <svg class="w-8 h-8 me-2 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Scheduled Interview <span class="ms-1 text-gray-400"> - May 5, 2025</span></h2>
+                                <p class="text-gray-500">Here are the details of the upcoming interview.</p>
                             </div>
 
-                            <!-- Time -->
-                            <div class="col-span-1">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Time</label>
-                                <input type="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                            <!-- Interview Main Info -->
+                            <div class="space-y-6">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Interview Title</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Frontend Developer Interview</p>
+                                </div>
+
+                                <hr class="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Interview Description</h3>
+                                    <p class="text-gray-600 text-sm mt-1">This interview will focus on frontend engineering skills, UI/UX principles, and React.js expertise. Please be prepared to showcase past projects and solve live coding problems.</p>
+                                </div>
                             </div>
 
-                            <!-- Interview Mode -->
-                            <div class="col-span-2">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview Mode</label>
-                                <select id="interviewMode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    {% for tz in timezones %}
-                                        <option value="{{ tz }}">{{ tz }}</option>
-                                    {% endfor %}
-                                </select>
+                            <hr class="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                            <!-- Interviewer Info -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Interviewer Name</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Jane Smith</p>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Interviewer Email</h3>
+                                    <p class="text-gray-600 text-sm mt-1">jane.smith@company.com</p>
+                                </div>
                             </div>
 
-                            <!-- Meeting Link (Only for Video Call) -->
-                            <div id="meetingLinkSection" class="col-span-2 hidden">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Meeting Link</label>
-                                <input type="url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Zoom, Google Meet, etc. link" />
+                            <!-- Timing Info -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Interview Date</h3>
+                                    <p class="text-gray-600 text-sm mt-1">May 5, 2025</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Start Time</h3>
+                                    <p class="text-gray-600 text-sm mt-1">10:00 AM</p>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">End Time</h3>
+                                    <p class="text-gray-600 text-sm mt-1">11:00 AM</p>
+                                </div>
                             </div>
-
-                            <!-- Additional Notes -->
-                            <div class="col-span-2">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Additional Notes</label>
-                                <textarea class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" rows="3" placeholder="Any extra details..."></textarea>
-                            </div>
-
-                            <!-- Action Buttons -->
-                            <div class="col-span-2 flex justify-end gap-3">
-                                <button type="button" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-200">Cancel</button>
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Schedule Interview</button>
-                            </div>
-                        </form>
-
-                        <!-- Scheduled Interview Summary -->
-                        <div class="mt-6 bg-blue-50 p-4 rounded-lg">
-                            <h3 class="text-lg font-semibold mb-2">Scheduled Interview</h3>
-                            <p class="text-sm text-gray-700">📅 <strong>Date:</strong> <span id="scheduledDate">Not set</span></p>
-                            <p class="text-sm text-gray-700">⏰ <strong>Time:</strong> <span id="scheduledTime">Not set</span></p>
-                            <p class="text-sm text-gray-700">📍 <strong>Mode:</strong> <span id="scheduledMode">Not set</span></p>
-                            <p class="text-sm text-gray-700">🔗 <strong>Meeting Link:</strong> <span id="scheduledLink">N/A</span></p>
                         </div>
-                    </div>
+
+                        <hr class="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                            <!-- Timezone Info -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-700">Timezone</h3>
+                                <p class="text-gray-600 text-sm mt-1">Eastern Standard Time (EST)</p>
+                            </div>
+
+                            <hr class="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                            <!-- Attachment Info -->
+                            <div class="space-y-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Attachment</h3>
+                                    <div class="mt-1 flex items-center space-x-4">
+                                        <svg class="h-4 w-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828L18 10.828a4 4 0 00-5.656-5.656L7.05 10.465a6 6 0 108.486 8.486L20 14"></path>
+                                        </svg>
+                                        <a href="#" class="text-sm text-blue-600 font-medium hover:underline">Interview_Guide.pdf</a>
+                                    </div>
+                                </div>
+
+                                <hr class="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-700">Attachment Description</h3>
+                                    <p class="text-gray-600 mt-1">Please review this guide before the interview. It contains instructions and important information about the assessment process.</p>
+                                </div>
+                            </div>
+            
+                            <div class="flex items-center space-x-4">
+                                <button type="button" data-modal-target="updateProductModal" data-modal-toggle="updateProductModal" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg aria-hidden="true" class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                                    Reschedule
+                                </button>   
+                                <button type="button" class="inline-flex items-center text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    <svg aria-hidden="true" class="w-5 h-5 mr-1.5 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                    Cancel Interview
+                                </button> 
+                            </div>
+
+                            <!-- Main modal -->
+                            <div id="updateProductModal" data-modal-placement="center" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                    <!-- Modal content -->
+                                    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                        <!-- Modal header -->
+                                        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                Reschedule Interview
+                                            </h3>
+
+                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="updateProductModal">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+
+                                        </div>
+                                        <!-- Modal body -->
+                                        <form method="POST" hx-post="">
+                                            {% csrf_token %}
+                                            <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                                                <p class="col-span-2 bg-gray-50 p-4 text-gray-500 dark:text-gray-400 text-sm rounded-lg">Manage all your job postings in one place. Review, update, or deactivate your listings with ease, ensuring you always have accurate and current opportunities available for candidates.
+                                                </p>
+
+                                                <div>
+                                                    <label for="datepicker-autohide" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview Date</label>
+                                                    <div class="relative w-full">
+                                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <input datepicker datepicker-buttons datepicker-autohide id="datepicker-autohide" name="interview_date" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MM/DD/YYYY" required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview start time</label>
+                                                    <div class="flex">
+                                                        <input type="time" id="time" name="start_time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-span-2">
+                                                    <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview end time</label>
+                                                    <div class="flex">
+                                                        <input type="time" id="time" name="end_time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-span-2">
+                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Timezone</label>
+                                                    <select id="interviewMode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="timezone">
+                                                        {% for tz in timezones %}
+                                                            <option value="{{ tz }}">{{ tz }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                                            <div class="flex items-center space-x-4">
+                                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    Reschedule
+                                                </button>
+                                                <button type="button" data-modal-hide="updateProductModal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                    No, cancel
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <!-- Right Panel: Schedule Form -->
+                        <div class="lg:w-2/3 bg-white p-6 border border-gray-200 rounded-lg m-4 flex-1">
+                            <h2 class="mb-4 flex flex-row items-center text-3xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                <svg class="w-8 h-8 me-2 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/>
+                                </svg>
+
+                                Schedule an Interview
+                            </h2>
+
+                            <p class="mb-5 rounded-lg text-gray-500 dark:text-gray-400 mt-5">
+                            This page provides a comprehensive view of the applicant's profile, including their personal details, work experience, education, skills, and resume.</p>
+
+                            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="grid mb-6 gap-6 md:grid-cols-2 mt-8">
+                                    <!-- Date -->
+                                    <div class="col-span-1">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview title</label>
+                                        <input type="text" name="interview_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. Frontend Developer Technical Interview" required/>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interviewer name</label>
+                                        <input type="text" name="interviewer_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. Sarah Johnson (Senior Recruiter)" required/>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interviewer email</label>
+                                        <input type="email" name="interviewer_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. sarah.johnson@company.com" required/>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <label for="datepicker-autohide" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview Date</label>
+                                        <div class="relative w-full">
+                                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                                </svg>
+                                            </div>
+                                            <input datepicker datepicker-buttons datepicker-autohide id="datepicker-autohide" name="interview_date" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MM/DD/YYYY" required />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-span-1">
+                                        <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview start time</label>
+                                        <div class="flex">
+                                            <input type="time" id="time" name="start_time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview end time</label>
+                                        <div class="flex">
+                                            <input type="time" id="time" name="end_time" class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required>
+                                            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Interview Mode -->
+                                <div class="mb-6">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Timezone</label>
+                                    <select id="interviewMode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="timezone">
+                                        {% for tz in timezones %}
+                                            <option value="{{ tz }}">{{ tz }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <!-- Additional Notes -->
+                                <div class="mb-6">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interview Description</label>
+                                    <textarea class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" rows="4" name="interview_description" placeholder="Describe the interview format and what to expect..." required></textarea>
+                                </div>
+
+                                <div class="col-span-1 mb-6">
+                                    <label for="datepicker-autohide" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Candidate confirmation date</label>
+                                    <div class="relative w-full">
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                            </svg>
+                                        </div>
+                                        <input datepicker datepicker-buttons datepicker-autohide id="datepicker-autohide" name="candidate_confirmation_deadline" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MM/DD/YYYY" required />
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload attachment</label>
+                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" name="attachment" accept=".pdf,.docx,.txt,.rtf"/>
+                                    <p class="mt-1 mb-4 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">.PDF, .DOCX, .TXT or .RTF (MAX. 2MB)</p>
+                                </div>
+
+                                <div class="mb-6">
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attachment Description</label>
+                                    <textarea class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="attachment_description" rows="4" placeholder="Describe the attached document (e.g. Interview guide)"></textarea>
+                                </div>
+
+                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Schedule Interview
+                                </button>
+                            </form>
+
+                            <div class="flex p-4 mb-4 mt-5 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                                <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div>
+                                    <span class="font-medium">Best practices for presenting compensation information.</span>
+                                    <ul class="mt-1.5 list-disc list-inside">
+                                        <li>Provide transparent information about the offered salary range, bonuses, or incentives helps attract candidates who align with your expectations and eliminates unnecessary negotiations.</li>
+                                        <li>Consider showcasing the full compensation package, including non-monetary benefits such as healthcare, paid leave, professional development opportunities, or flexible work arrangements. This highlights the overall value of the position beyond just the salary.</li>
+                                        <li>Providing a salary range rather than an exact figure allows flexibility and keeps the role attractive to a broader pool of candidates. It also gives room for negotiation based on experience and skills.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
 
 

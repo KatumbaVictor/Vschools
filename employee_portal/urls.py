@@ -10,6 +10,8 @@ urlpatterns = [
     path('company-profiles/', company_profiles, name="company_profiles"),
     path('company-profile/<slug:slug>', employer_profile, name="company_profile"),
     path('job-listings/', job_listings, name="job_listings"),
-    path('applications/', job_applications_view, name="job_applications"),
+    path('applications/<str:category>/', job_applications_view, name="job_applications"),
     path('settings/profile/', settings_profile, name="profile_settings"),
+    path('job-interview-schedules/<str:category>/', job_interviews, name="job_interview_schedules"),
+    path('job-interview-details/<slug:interview_slug>', job_interview_details, name="job_interview_details"),
 ]

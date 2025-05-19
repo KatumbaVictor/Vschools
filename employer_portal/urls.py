@@ -38,4 +38,8 @@ urlpatterns = [
     path('job-applications/<slug:slug>/<str:category>/', job_applications, name="job_applications"),
     path('manage-applicant/<slug:job_slug>/<slug:applicant_slug>', manage_applicant, name="manage_applicant"),
     path('schedule-interview/<slug:job_slug>/<slug:applicant_slug>', schedule_interview, name="schedule_interview"),
+    path('hiring-decisions/<slug:job_slug>/<slug:applicant_slug>', hiring_decisions, name="hiring_decisions"),
+    path('job-interview-schedules/<str:category>/', job_interview_schedules, name="job_interview_schedules"),
+    path('job-interview-details/<slug:interview_slug>', job_interview_details, name="job_interview_details"),
+    path('candidate-reviews/<slug:candidate_slug>/<str:category>/', candidate_reviews, name="candidate_reviews"),
 ]
