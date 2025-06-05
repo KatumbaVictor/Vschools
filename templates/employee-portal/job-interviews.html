@@ -150,6 +150,9 @@
                                             Interview Date & Time
                                         </th>
                                         <th scope="col" class="px-6 py-3">
+                                            Interview status
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
                                             Action
                                         </th>
                                     </tr>
@@ -181,7 +184,12 @@
                                                 {{ interview.interview_date }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <a href="{% url 'employee_portal:job_interview_details' interview.slug %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit interview</a>
+                                                <div class="flex items-center">
+                                                    <span class="{% if interview.status == 'scheduled' %} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 {% elif interview.status == 'rescheduled' %} bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300 {% elif interview.status == 'completed' %} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 {% elif interview.status == 'cancelled' %} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 {% endif %} text-sm font-medium me-2 px-2.5 py-0.5 rounded-lg">{{ interview.get_status_display }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <a href="{% url 'employee_portal:job_interview_details' interview.slug %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View details</a>
                                             </td>
                                         </tr>
                                     {% endfor %}

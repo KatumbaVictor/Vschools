@@ -38,6 +38,7 @@ class JobApplication(models.Model):
 
     job = models.ForeignKey(JobDetails, on_delete=models.CASCADE)
     candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE)
+    company = models.ForeignKey('employer_portal.CompanyInformation', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=30, choices=Status.choices, default=Status.PENDING)
     applied_at = models.DateTimeField(auto_now_add=True) 
 
@@ -113,6 +114,75 @@ class JobOffer(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return "f{self.company.company_name} -> {self.candidate.user.username}: {self.offer_title}"
+        return f"{self.company.company_name} -> {self.candidate.user.username}: {self.offer_title}"
 
 
+class JobView(models.Model):
+    job = job = models.ForeignKey("employer_portal.JobDetails", on_delete=models.CASCADE, related_name='job_views')
+    viewer = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE, null=True, blank=True)
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('job', 'viewer')
+        ordering = ['-viewed_at']
+
+    def __str__(self):
+        return f"{self.viewer.user.username} viewed {self.job.job_title} at {self.viewed_at}"
+
+
+
+class JobShare(models.Model):
+    job =  models.ForeignKey("employer_portal.JobDetails", on_delete=models.CASCADE, related_name='job_shares')
+    shared_by = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE, null=True, blank=True)
+    shared_at = models.DateTimeField(auto_now_add=True)
+
+    class SharePlatform(models.TextChoices):
+        EMAIL = 'email', 'Email'
+        FACEBOOK = 'facebook', 'Facebook'
+        X = 'twitter', 'X'
+        LINKEDIN = 'linkedin', 'LinkedIn'
+        WHATSAPP = 'whatsapp', 'WhatsApp'
+        OTHER = 'other', 'Other'
+
+    platform = models.CharField(max_length=20, choices=SharePlatform.choices, default=SharePlatform.OTHER)
+
+    def __str__(self):
+        return f"{self.shared_by.user.username} shared {self.job.job_title} on {self.shared_at}"
+
+
+class JobImpression(models.Model):
+    job =  models.ForeignKey("employer_portal.JobDetails", on_delete=models.CASCADE, related_name='job_impressions')
+    candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('job', 'candidate')
+        ordering = ["-timestamp"]
+
+    def __str__(self):
+        return f"Impression: {self.candidate.user.username} -> {self.job.job_title} at {self.timestamp}"
+
+
+
+class JobRating(models.Model):
+    job =  models.ForeignKey("employer_portal.JobDetails", on_delete=models.CASCADE, related_name='job_ratings')
+    candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE)
+
+    class JobRatingChoices(models.IntegerChoices):
+        ONE_STAR = 1, "Very Poor"
+        TWO_STARS = 2, "Poor"
+        THREE_STARS = 3, "Average"
+        FOUR_STARS = 4, "Good"
+        FIVE_STARS = 5, "Excellent"
+
+    rating = models.PositiveIntegerField(choices=JobRatingChoices.choices, default=JobRatingChoices.ONE_STAR)
+    title = models.CharField(max_length=100)
+    comment = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('job', 'candidate')
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"{self.candidate} rated {self.job} {self.get_rating_display()}"

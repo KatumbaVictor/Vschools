@@ -7,14 +7,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% include 'meta/meta.html' %}
-        <title>Employer home page - Career connect</title>
-        {% compress css %}
+        <title>CareerConnect | Manage Your Job Postings</title>
         <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
-        {% endcompress %}
-        {% compress js %} 
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
-        {% endcompress %}
     </head>
     <body>
         {% include 'employer-portal/navbar.html' %}
@@ -29,7 +24,7 @@
                     </svg>
                     Manage your jobs here.
                 </h2>
-                <p class="mb-5 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">Manage all your job postings in one place. Review, update, or deactivate your listings with ease, ensuring you always have accurate and current opportunities available for candidates. Streamline your hiring process and keep track of every job you've posted.
+                <p class="mb-5 rounded-lg bg-gray-50 p-4 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">Manage all your job postings in one place. Review, update, or deactivate your listings with ease, ensuring you always have accurate and current opportunities available for candidates. Streamline your hiring process and keep track of every job you've posted.
                 </p>
 
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mt-4 mb-3">
@@ -196,7 +191,7 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">
-                                            Post date
+                                            Job Post date
                                             <a href="#">
                                                 <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
@@ -216,7 +211,7 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">
-                                            Status
+                                            Job Status
                                             <a href="#">
                                                 <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
@@ -257,12 +252,14 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center">
-                                                <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Active</span>
+                                                <span class="{% if job.status == 'active' %} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 {% elif job.status == 'closed' %} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 {% elif job.status == 'expired' %} bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300 {% elif job.status == 'paused' %} bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300 {% elif job.status == 'draft' %} bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 {% endif %} text-sm font-medium me-2 px-2.5 py-0.5 rounded-lg">
+                                                    {{ job.get_status_display }}
+                                                </span>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center space-x-4">
-                                                <a href="{% url 'employer_portal:job_overview' job.slug %}" class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                <a href="{% url 'employer_portal:job_details' job.slug %}" class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                                                         <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />

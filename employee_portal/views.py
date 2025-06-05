@@ -134,6 +134,13 @@ def job_details(request, slug):
     job_requirements.additional_requirements = job_requirements.additional_requirements
     job_requirements.required_skills = [skill.strip() for skill in job_requirements.required_skills.split(',')]
 
+    viewer = PersonalInformation.objects.get(user=request.user)
+
+    already_viewed = JobView.objects.filter(job=job, viewer=viewer).exists()
+
+    if not already_viewed:
+        JobView.objects.create(job=job, viewer=viewer)
+
     context = {
         'job': job,
         'job_requirements': job_requirements,
@@ -144,8 +151,9 @@ def job_details(request, slug):
 
     if request.method == "POST":
         candidate = PersonalInformation.objects.get(user=request.user)
+        company = job.company
 
-        JobApplication.objects.create(job=job, candidate=candidate)
+        JobApplication.objects.create(job=job, candidate=candidate, company=company)
 
 
     return render(request, 'employee-portal/job-details.html', context)
@@ -170,6 +178,14 @@ def company_profiles(request):
 @login_required
 def job_listings(request):
     jobs = JobDetails.objects.all()
+    candidate = PersonalInformation.objects.get(user=request.user)
+
+    for job in jobs:
+        candidate = PersonalInformation.objects.get(user=request.user)
+        already_impressed = JobImpression.objects.filter(job=job, candidate=candidate).exists()
+
+        if not already_impressed:
+            JobImpression.objects.create(job=job, candidate=candidate)
 
     context = {
         'jobs': jobs

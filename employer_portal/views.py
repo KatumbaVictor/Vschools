@@ -149,7 +149,7 @@ class InternshipPostWizardView(NamedUrlSessionWizardView):
         internship_application_details.internship = internship
         internship_application_details_form.save()
 
-        return redirect('employer_portal:home')
+        return redirect('employer_portal:dashboard')
 
 
 
@@ -215,17 +215,34 @@ class JobPostWizardView(NamedUrlSessionWizardView):
         application_details.job_post = job_details
         application_details_form.save()
 
+        context = {'job': job_details}
 
-        return redirect('/employer-portal/home')
+        return render(self.request, 'employer-portal/post-job/job_submission_complete.html', context)
 
 
-def home_page(request):
+@login_required
+def dashboard_page(request):
     company = CompanyInformation.objects.get(user=request.user)
-    jobs = JobDetails.objects.filter(company=company)
 
-    context = {'jobs':jobs, 'user':request.user}
+    total_jobs = JobDetails.objects.filter(company=company).count()
+    active_jobs = JobDetails.objects.filter(company=company, status='active').count()
+    total_applications = JobApplication.objects.filter(company=company).count()
+    pending_applications = JobApplication.objects.filter(company=company, status=JobApplication.Status.PENDING).count()
+    pending_interviews = JobInterview.objects.filter(company=company, status=JobInterview.InterviewStatus.SCHEDULED).count()
+    total_job_offers = JobOffer.objects.filter(company=company).count()
 
-    return render(request, 'employer-portal/home.html', context)
+    context = { 
+        'total_jobs':total_jobs, 
+        'active_jobs':active_jobs,
+        'total_applications': total_applications,
+        'pending_applications': pending_applications,
+        'pending_interviews': pending_interviews,
+        'total_job_offers': total_job_offers,
+        'company': company,
+        'user':request.user
+        }
+
+    return render(request, 'employer-portal/dashboard.html', context)
 
 @login_required
 def manage_jobs(request, status=None):
@@ -299,76 +316,24 @@ def manage_internship_listings(request, status=None):
     context = {'internships':internships, 'status': status}
     return render(request, 'employer-portal/manage-internships.html', context)
 
-
-def update_job_details(request, id, slug):
-    if request.method == "POST" and request.headers.get('x-requested-with') == "XMLHttpRequest":
-        job = get_object_or_404(JobDetails, id=id, slug=slug)
-        form = JobDetailsForm(request.POST, instance=job)
-
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True, 
-                                'message': 'Job details updated successfully'}, 
-                                status=200)
-        else:
-            return JsonResponse({'success': False, 'erros': form.erros}, status=400)
-
-
-def edit_job_details(request, id, slug):
-    job = get_object_or_404(JobDetails, id=id, slug=slug)
-    form = JobDetailsForm(instance=job)
-
-    context = {'job':job, 'countries':countries, 'form':form}
-
-    return render(request, 'employer-portal/edit-jobs/edit-job-details.html', context)
-
-def edit_requirement_details(request, id, slug):
-    job = get_object_or_404(JobDetails, id=id, slug=slug)
-
-    context = {'job':job}
-
-    return render(request, 'employer-portal/edit-jobs/edit-job-requirements.html', context)
-
-def edit_compensation_details(request, id, slug):
-    job = get_object_or_404(JobDetails,id=id, slug=slug)
-    compensation_details = CompensationDetails.objects.get(job_post=job)
-
-    context = {
-            'job': job, 
-            'compensation_details':compensation_details,
-            'currencies': list_all_currencies()
-        }
-
-    return render(request, 'employer-portal/edit-jobs/edit-compensation-details.html', context)
-
-def edit_application_details(request, id, slug):
-    job = get_object_or_404(JobDetails, id=id, slug=slug)
-    application_details = ApplicationDetails.objects.get(job_post=job)
-
-    context = {'job': job, 'application_details':application_details}
-
-    return render(request, 'employer-portal/edit-jobs/edit-application-details.html', context)
-
-def delete_job(request, id, slug):
-    job = get_object_or_404(JobDetails, id=id, slug=slug)
-    context = {'job': job}
-
-    return render(request, 'employer-portal/delete-job.html', context)
     
 def company_information(request):
     return render(request,"employer-portal/registration/company-information.html")
 
+@login_required
 def candidate_profile(request, slug):
     candidate = get_object_or_404(PersonalInformation, slug=slug)
     candidate.skills = [skill.strip() for skill in candidate.skills.split(',')]
+    company = CompanyInformation.objects.get(user=request.user)
+    jobs = JobDetails.objects.filter(company=company)
 
-    total_reviews = CandidateRatingAndReview.objects.filter(candidate=candidate).aggregate(
-            total_reviews=Count('review')
-        )
+    already_viewed = CandidateProfileView.objects.filter(candidate=candidate, viewed_by=company).exists()
 
-    candidate.total_reviews = total_reviews['total_reviews']
+    if not already_viewed:
+        CandidateProfileView.objects.create(candidate=candidate, viewed_by=company)
 
-    context = {'candidate': candidate}
+
+    context = {'candidate': candidate, 'jobs':jobs}
 
     if request.method == "POST":
         print(request.POST)
@@ -406,6 +371,42 @@ def candidate_reviews(request, candidate_slug, category):
         reviews = CandidateRatingAndReview.objects.filter(candidate=candidate, rating=CandidateRatingAndReview.RatingChoices.ONE_STAR)
 
     return render(request, "employer-portal/candidate-reviews.html")
+
+
+@login_required
+def job_details(request, job_slug):
+    job = get_object_or_404(JobDetails, slug=job_slug)
+    job_requirements = JobRequirements.objects.get(job_post=job)
+    compensation_details = CompensationDetails.objects.get(job_post=job)
+    application_details = ApplicationDetails.objects.get(job_post=job)
+    compensation_details.benefits_and_incentives = [item.strip() for item in json.loads(compensation_details.benefits_and_incentives).split(',')]
+
+    job_requirements.certifications_and_licenses = job_requirements.certifications_and_licenses
+    job_requirements.additional_requirements = job_requirements.additional_requirements
+    job_requirements.required_skills = [skill.strip() for skill in job_requirements.required_skills.split(',')]
+
+    total_applications = JobApplication.objects.filter(job=job).count()
+    total_job_views = JobView.objects.filter(job=job).count()
+    total_job_shares = JobShare.objects.filter(job=job).count()
+    total_job_impressions = JobImpression.objects.filter(job=job).count()
+
+    context = {
+        'job': job,
+        'job_requirements': job_requirements,
+        'compensation_details': compensation_details,
+        'application_details': application_details,
+        'total_applications': total_applications,
+        'total_job_views': total_job_views,
+        'total_job_shares': total_job_shares,
+        'total_job_impressions': total_job_impressions
+    }
+
+    return render(request, 'employer-portal/job-details.html', context)
+
+
+@login_required
+def update_job(request, job_slug):
+    return render(request, 'employer-portal/update-job.html')
 
 
 @login_required

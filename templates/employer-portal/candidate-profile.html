@@ -16,6 +16,8 @@
         {% compress js %} 
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
         <script src = "{% static 'js/submit-rating.js' %}" type = "text/javascript" defer></script>
+        <script src = "{% static 'js/datepicker.min.js' %}" type = "text/javascript"></script>
+        <script src = "{% static 'js/dateselector.js' %}" type = "text/javascript" defer></script>
         {% endcompress %}
     </head>
     <body>
@@ -45,7 +47,7 @@
                             </svg>
                             <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ candidate.average_rating }}</p>
                             <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                            <a href="{% url 'employer_portal:candidate_reviews' candidate.slug 'all-reviews' %}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{ candidate.total_reviews }} reviews</a>
+                            <a href="{% url 'employer_portal:candidate_reviews' candidate.slug 'all-reviews' %}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{ candidate.candidate_ratings.count }} reviews</a>
                         </div>
                     </div>
 
@@ -62,7 +64,7 @@
                             Edit Profile
                         </button>
                         <button data-modal-target="job-offer-modal" data-modal-toggle="job-offer-modal" class="py-3.5 px-5 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-base leading-7 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-100">
-                            Offer Job
+                            Offer a Job
                         </button>
                     </div>
                     <div class="flex flex-col md:flex-row items-center gap-6">
@@ -141,7 +143,7 @@
                     <!-- Modal header -->
                     <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Send Job Offer
+                            Offer a Job to {{ candidate.user.get_full_name }}
                         </h3>
                         <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="job-offer-modal">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -157,30 +159,36 @@
                             </div>
                             <div>
                                 <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiry Date</label>
-                                <input type="text" name="brand" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Select expiry date" required="">
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                        </svg>
+                                    </div>
+                                    <input datepicker datepicker-buttons datepicker-autohide id="datepicker-autohide" name="personal_information-date_of_birth" type="text" class="dateselector bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MM/DD/YYYY" required />
+                                </div>
                             </div>
                             <div class="col-span-2">
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a job to offer</label>
                                 <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option selected="">Select category</option>
-                                    <option value="TV">TV/Monitors</option>
-                                    <option value="PC">PC</option>
-                                    <option value="GA">Gaming/Console</option>
-                                    <option value="PH">Phones</option>
+                                    {% for job in jobs %}
+                                        <option>{{ job.job_title }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-span-2">
-                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Message</label>
+                                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Offer Description</label>
                                 <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write a personalized message explaining the offer, expectations, or next steps..."></textarea>                    
                             </div>
                         </div>
 
-                        <hr class="my-3 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-
-                        <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                            Send Offer
-                        </button>
+                        <!-- Modal footer -->
+                        <div class="flex items-center mt-8 p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                            <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Send Offer
+                            </button>
+                            <button data-modal-hide="job-offer-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, Cancel</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -195,10 +203,7 @@
                 <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                        <h3 class="text-xl flex items-center font-semibold text-gray-900 dark:text-white">
-                            <svg class="w-6 h-6 mr-2 text-gray-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
-                            </svg>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                             Rate this candidate
                         </h3>
                         <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
@@ -214,10 +219,6 @@
                         <input type="hidden" name="rating" id="rating">
 
                         <div class="p-4 md:p-5 space-y-4">
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                Rate this candidate based on their qualifications, skills, and interview performance.
-                            </p>
-
                             <div class="flex items-center mb-5">
                                 <button type="button" class="star" data-value="1">
                                     <svg class="w-6 h-6 ms-2 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">

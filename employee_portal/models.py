@@ -169,6 +169,20 @@ class CareerPreferences(models.Model):
         return f"{self.user.username} - Career Preferences"
 
 
+class CandidateProfileView(models.Model):
+    candidate = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, related_name='profile_views')
+    viewed_by = models.ForeignKey("employer_portal.CompanyInformation", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['candidate', 'viewed_by', 'timestamp']
+        ordering = ['-timestamp']
+
+
+    def __str__(self):
+        return f"{self.viewed_by.company_name} viewed {self.candidate.user.username} at {self.timestamp}"
+
+
 class CandidateRatingAndReview(models.Model):
     class RatingChoices(models.IntegerChoices):
         ONE_STAR = 1, "Very Poor"
@@ -178,7 +192,7 @@ class CandidateRatingAndReview(models.Model):
         FIVE_STARS = 5, "Excellent"
 
     employer = models.ForeignKey("employer_portal.CompanyInformation", on_delete=models.CASCADE)
-    candidate = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE)
+    candidate = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, related_name='candidate_ratings')
     rating = models.PositiveIntegerField(choices=RatingChoices.choices, default=RatingChoices.ONE_STAR)
     review_title = models.CharField(max_length=200, null=True, blank=True)
     review = models.TextField(null=True, blank=True)

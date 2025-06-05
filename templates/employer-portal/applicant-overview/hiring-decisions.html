@@ -58,7 +58,7 @@
                 <div class="max-w-6xl mx-auto bg-white mt-4">
                     <!-- Header -->
                     <div class="flex justify-between items-center">
-                        <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl dark:text-white">{{ job.job_title }} <span class="text-blue-700"> - {{ candidate.user.username }}</span></h2>
+                        <h2 class="text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl dark:text-white">{{ job.job_title }} <span class="text-blue-700"> - {{ candidate.user.username }}</span></h2>
                         <div class="flex space-x-2">
                             <div class="inline-flex rounded-md shadow-xs" role="group">
                               <button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
@@ -85,12 +85,12 @@
                     </div>
 
                     <span class="text-gray-500 text-sm rounded-lg dark:bg-gray-900 dark:text-gray-300">
-                        Applied on {{ application.applied_at }} • {{ application.applied_at|timesince }} ago
+                        Applied on {{ application.applied_at|date:"F j, Y, g:i A" }} • {{ application.applied_at|timesince }} ago
                     </span>
 
                     <ol class="flex items-center mt-5 mb-5 w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
-                        <li class="flex items-center {% if application.status == 'Reviewed' %}text-blue-600 dark:text-blue-500 {% endif %}">
-                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'Reviewed' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                        <li class="flex items-center {% if application.status == 'reviewed' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'reviewed' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
                                 1
                             </span>
                             Applicant <span class="hidden sm:inline-flex sm:ms-2">Reviewed</span>
@@ -107,8 +107,8 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
                             </svg>
                         </li>
-                        <li class="flex items-center {% if application.status == 'Interview Scheduled' %}text-blue-600 dark:text-blue-500 {% endif %}">
-                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'Interview Scheduled' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                        <li class="flex items-center {% if application.status == 'interview_scheduled' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'interview_scheduled' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
                                 3
                             </span>
                             Interview Scheduled

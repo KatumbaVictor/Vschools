@@ -150,6 +150,7 @@ class JobDetails(models.Model, ModelMeta):
     ]
 
     status = models.CharField(max_length=10, choices=JOB_STATUS_CHOICES, default='active')
+    average_rating = models.FloatField(default=0.0)
     slug = models.SlugField(unique=True, blank=True, null=True)
 
     _metadata = {
@@ -220,6 +221,9 @@ class JobDetails(models.Model, ModelMeta):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def review_count(self):
+        return self.job_ratings.count()
 
     def __str__(self):
         return self.job_title	

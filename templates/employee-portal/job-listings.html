@@ -28,8 +28,8 @@
             		<h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Welcome to CareerConnect!</h2>
 	                <p class="mb-5 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">Ready to find the perfect candidate for your job opening? Posting a job with us is simple and effective. Follow these steps to get your listing in front of thousands of qualified job seekers. Ready to find the perfect candidate for your job opening?
 	                </p>
-            		{% for job in jobs %}
 		                <div class="grid grid-cols-2 gap-3">
+		                	{% for job in jobs %}
 		                	<div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
 		                        <!-- Header Section -->
 		                        <div class="flex items-center justify-between">
@@ -76,9 +76,14 @@
 		                        
 		                        <!-- Action -->
 		                        <div class="flex justify-between items-center mt-6">
-		                            <a href="#" class="text-blue-600 text-sm font-medium hover:underline">      
-		                            	Apply now
-		                            </a>
+		                            <div class="flex items-center mb-2">
+	                                    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+	                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+	                                    </svg>
+	                                    <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ job.average_rating }}</p>
+	                                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+	                                    <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">0 reviews</a>
+	                                </div>
 		                            <a href="{% url 'employee_portal:job_details' job.slug %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 		                            	<svg aria-hidden="true" class="mr-2 w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
@@ -88,8 +93,8 @@
 		                            </a>
 		                        </div>
 		                    </div>
+		                    {% endfor %}
 		                </div>
-	                {% endfor %}
 	            {% else %}
 	            <section class="mt-6 dark:bg-gray-900">
                     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">

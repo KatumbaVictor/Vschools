@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% include 'meta/meta.html' %}
-        <title>Employer home page - Career connect</title>
+        <title>CareerConnect | Applications for {{ job.job_title }}</title>
         {% compress css %}
         <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
         {% endcompress %}
@@ -221,7 +221,7 @@
                                                     </svg>
                                                     <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ applicant.candidate.average_rating }}</p>
                                                     <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                                                    <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">60 reviews</a>
+                                                    <a href="{% url 'employer_portal:candidate_reviews' applicant.candidate.slug 'all-reviews' %}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">60 reviews</a>
                                                 </div>
                                             </div>  
                                         </th>

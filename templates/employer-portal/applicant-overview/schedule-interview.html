@@ -84,12 +84,12 @@
                     </div>
 
                     <span class="text-gray-500 text-sm rounded-lg dark:bg-gray-900 dark:text-gray-300">
-                        Applied on {{ application.applied_at }} • {{ application.applied_at|timesince }} ago
+                        Applied on {{ application.applied_at|date:"F j, Y, g:i A" }} • {{ application.applied_at|timesince }} ago
                     </span>
 
-                    <ol class="flex items-center mt-5 mb-5 w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
-                        <li class="flex items-center {% if application.status == 'Reviewed' %}text-blue-600 dark:text-blue-500 {% endif %}">
-                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'Reviewed' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
+                    <ol class="flex items-center mt-5 mb-5 w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse"> 
+                        <li class="flex items-center {% if application.status == 'reviewed' %}text-blue-600 dark:text-blue-500 {% endif %}">
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border {% if application.status == 'reviewed' %} border-blue-600 {% else %} border-gray-500 dark:border-blue-500 {% endif %} rounded-full shrink-0">
                                 1
                             </span>
                             Applicant <span class="hidden sm:inline-flex sm:ms-2">Reviewed</span>
