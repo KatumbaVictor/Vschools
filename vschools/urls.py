@@ -19,6 +19,8 @@ from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
+#from machina import urls as machina_urls
+import machina
 from main.views import *
 
 from django.contrib.sitemaps.views import sitemap
@@ -34,6 +36,7 @@ urlpatterns = [
     path('employee-portal/', include('employee_portal.urls'), name="employee_portal"),
     path('employer-portal/', include('employer_portal.urls'), name="employer_portal"),
     path('accounts/', include('allauth.urls'), name="accounts"),
+    path('', include('machina.urls'), name="machina"),
     path('home/', home_page, name = "home"),
     path('verify-email/',verify_email_page, name = "verify_email_page"),
     path('join-interview/<slug:interview_slug>', join_interview, name="join_interivew"),

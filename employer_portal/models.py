@@ -103,7 +103,7 @@ class JobDetails(models.Model, ModelMeta):
         ('full_time','Full-time'),
         ('part_time', 'Part-time'),
         ('contract','Contract'),
-        ('internship','Internship'),
+        ('apprenticeship','Apprenticeship'),
         ('freelance','Freelance'),
     ]
 

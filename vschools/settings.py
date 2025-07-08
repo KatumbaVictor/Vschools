@@ -14,6 +14,8 @@ from pathlib import Path
 import os.path
 from decouple import config
 from datetime import timedelta
+from machina import MACHINA_MAIN_TEMPLATE_DIR
+from machina import MACHINA_MAIN_STATIC_DIR
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,8 +35,7 @@ ADMINS = [
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['vschoolsmeet.tech','www.vschoolsmeet.tech','191.96.57.85','127.0.0.1','localhost',
-                'dialogue.vschoolsmeet.tech', 'dialogue.localhost','www.localhost']
+ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['https://vschoolsmeet.tech','http://localhost:8000']
 
@@ -42,6 +43,10 @@ ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 ROOT_HOSTCONF = f'{config("PROJECT_NAME")}.hosts'
 DEFAULT_HOST = 'www'
 PARENT_HOST = 'localhost'
+
+
+#SESSION_COOKIE_DOMAIN = '.localhost'
+#CSRF_COOKIE_DOMAIN = '.localhost'
 
 # Application definition
 
@@ -71,6 +76,25 @@ INSTALLED_APPS = [
     'main',
     'django_htmx',
     'rest_framework',
+    'django_hosts',
+
+    #Machina dependencies
+    'mptt',
+    'haystack',
+    'widget_tweaks',
+
+    #Machina apps
+    'machina',
+    'machina.apps.forum',
+    'machina.apps.forum_conversation',
+    'machina.apps.forum_conversation.forum_attachments',
+    'machina.apps.forum_conversation.forum_polls',
+    'machina.apps.forum_feeds',
+    'machina.apps.forum_moderation',
+    'machina.apps.forum_search',
+    'machina.apps.forum_tracking',
+    'machina.apps.forum_member',
+    'machina.apps.forum_permission',
 ]
 
 SITE_ID = 1
@@ -99,11 +123,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_hosts.middleware.HostsResponseMiddleware',
     #'csp.middleware.CSPMiddleware',
     'hijack.middleware.HijackUserMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'machina.apps.forum_permission.middleware.ForumPermissionMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -129,10 +154,11 @@ CSP_UPGRADE_INSECURE_REQUESTS = True
 CSP_BLOCK_ALL_MIXED_CONTENT = True
 CSP_REPORTS_EMAIL_ADMINS = False
 '''
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'machina')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,6 +166,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'machina.core.context_processors.metadata',
             ],
         },
     },
@@ -175,6 +202,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        },
+        'machina_attachments': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': os.path.join(BASE_DIR, 'machina-attachment-cache'),
+        },
+} 
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
 WEBPUSH_SETTINGS = {
     'VAPID_PUBLIC_KEY': 'BCA2I2ypilTvhTaHxbqzbCGDdBgkmLaM0ydsZXNpnoIPdIzf4Va8poLm-GlGJcMN4t8I29yOtCGSrvdA7EUMxJY',
     'VAPID_PRIVATE_KEY': 'fgjnXLr1f0yZbbqoHrfCK7Bf1EO97lYODuPyNEws-_U',
@@ -182,6 +228,21 @@ WEBPUSH_SETTINGS = {
 }
 
 AUTH_USER_MODEL = 'main.User'
+
+
+#Django machina settings
+MACHINA_DEFAULT_AUTHENTICATED_USER_FORUM_PERMISSIONS = [
+    'can_see_forum',
+    'can_read_forum',
+    'can_start_new_topics',
+    'can_reply_to_topics',
+    'can_edit_own_posts',
+    'can_post_without_approval',
+    'can_create_polls',
+    'can_vote_in_polls',
+    'can_download_file',
+]
+
 
 #Django all auth settings
 
@@ -238,7 +299,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static files')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static files'), MACHINA_MAIN_STATIC_DIR]
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -320,12 +381,16 @@ if not DEBUG:
 
     CACHES = {
         "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": 'redis://127.0.0.1:6379',
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": 'machina-default',
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
-        }
+                }
+            },
+            'machina_attachments': {
+                'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+                'LOCATION': os.path.join(BASE_DIR, 'machina_attachment_cache'),
+            },
     } 
 
     LOGGING = {

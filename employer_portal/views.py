@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Case, When, IntegerField
 from formtools.wizard.views import SessionWizardView, NamedUrlSessionWizardView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from django.conf import settings
 from django_countries import countries
@@ -92,7 +93,7 @@ class CompanySignUpWizard(SessionWizardView):
         return redirect('verify_email')
 
 
-class InternshipPostWizardView(NamedUrlSessionWizardView):
+class InternshipPostWizardView(LoginRequiredMixin, NamedUrlSessionWizardView):
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'media'))
 
     form_list = [
@@ -101,6 +102,8 @@ class InternshipPostWizardView(NamedUrlSessionWizardView):
         ('internship-compensation-details', InternshipCompensationDetailsForm),
         ('internship-application-details', InternshipApplicationDetailsForm)
     ]
+
+    login_url = '/accounts/login/'
 
     templates = {'internship-details':'employer-portal/post-internship/internship-details.html',
                  'eligibility-criteria':'employer-portal/post-internship/eligibility-criteria.html',
@@ -153,7 +156,7 @@ class InternshipPostWizardView(NamedUrlSessionWizardView):
 
 
 
-class JobPostWizardView(NamedUrlSessionWizardView):
+class JobPostWizardView(LoginRequiredMixin, NamedUrlSessionWizardView):
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'media'))
 
     form_list = [
@@ -163,6 +166,8 @@ class JobPostWizardView(NamedUrlSessionWizardView):
         ('application-details', ApplicationDetailsForm),
         ('review-and-publish', JobPostTermsAndConditionsForm),
     ]
+
+    login_url = '/accounts/login/'
 
     templates = {'job-details':'employer-portal/post-job/job-details.html',
                  'job-requirements':'employer-portal/post-job/job-requirements.html',
@@ -243,6 +248,18 @@ def dashboard_page(request):
         }
 
     return render(request, 'employer-portal/dashboard.html', context)
+
+
+@login_required
+def company_profile(request):
+    company = CompanyInformation.objects.get(user=request.user)
+
+    context = {
+        'company': company
+    }
+
+    return render(request, 'employer-portal/company-profile.html', context)
+
 
 @login_required
 def manage_jobs(request, status=None):
@@ -593,8 +610,8 @@ def job_interview_details(request, interview_slug):
     formated_start_date, formated_start_time, formated_end_time = get_interview_times_in_user_timezone(interview)
 
     interview.start_date = formated_start_date
-    interview.start_time = formated_start_time
-    interview.end_time = formated_end_time
+    interview.formated_start_time = formated_start_time
+    interview.formated_end_time = formated_end_time
 
 
     context = {

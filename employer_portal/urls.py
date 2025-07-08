@@ -23,6 +23,7 @@ urlpatterns = [
     path('sign-up/', CompanySignUpWizard.as_view(), name="company_sign_up"),
     path('candidate-profile/<slug:slug>/', candidate_profile, name="candidate_profile"),
     path('dashboard/', dashboard_page, name="dashboard"),
+    path('company-profile/', company_profile, name="company_profile"),
     re_path('post-job/(?P<step>.+)', JobPostWizardView.as_view(JobPostForms, url_name='employer_portal:job_post_wizard'), name="job_post_wizard"),
     re_path('post-internship/(?P<step>.+)', InternshipPostWizardView.as_view(InternshipPostForms, url_name='employer_portal:internship_post_wizard'), name="internship_post_wizard"),
     path('job-overview/<slug:slug>', job_overview, name='job_overview'),

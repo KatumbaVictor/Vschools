@@ -25,9 +25,72 @@
     	<div class="p-2 sm:ml-64">
             <div class="p-2 rounded-lg mt-14">
             	{% if jobs %}
-            		<h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Welcome to CareerConnect!</h2>
-	                <p class="mb-5 text-gray-500 dark:text-gray-400 mt-5 rounded-lg">Ready to find the perfect candidate for your job opening? Posting a job with us is simple and effective. Follow these steps to get your listing in front of thousands of qualified job seekers. Ready to find the perfect candidate for your job opening?
-	                </p>
+            		<section class="bg-white mb-4 mt-2 border border-gray-200 rounded-lg p-6">
+  <!-- Section Heading -->
+  <div class="mb-4">
+    <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Find Your Next Opportunity</h2>
+    <p class="text-gray-500 text-sm">Search and filter jobs by title, location, type, or category.</p>
+  </div>
+
+  <!-- Filter Form -->
+  <form method="get" action="#">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+      <!-- Search by Keyword -->
+      <div>
+        <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keyword</label>
+        <input type="text" id="search" name="search" placeholder="e.g. Software Engineer"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+      </div>
+
+      <!-- Location -->
+      <div>
+        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+        <input type="text" id="location" name="location" placeholder="e.g. Kampala"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+      </div>
+
+      <!-- Job Type -->
+      <div>
+        <label for="job_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Job Type</label>
+        <select id="job_type" name="job_type"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option value="">All Types</option>
+          <option value="full-time">Full-Time</option>
+          <option value="part-time">Part-Time</option>
+          <option value="internship">Internship</option>
+          <option value="contract">Contract</option>
+        </select>
+      </div>
+
+      <!-- Category (Industry) -->
+      <div>
+        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+        <select id="category" name="category"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option value="">All Categories</option>
+          <option value="tech">Technology</option>
+          <option value="design">Design</option>
+          <option value="marketing">Marketing</option>
+          <option value="finance">Finance</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+      <a href="#"
+        class="py-2 px-8 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+        Reset Filters
+      </a>
+      <button type="submit"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Apply Filters
+      </button>
+    </div>
+  </form>
+</section>
+
 		                <div class="grid grid-cols-2 gap-3">
 		                	{% for job in jobs %}
 		                	<div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
@@ -37,7 +100,13 @@
 		                            <div class="flex items-center space-x-4">
 		                                <!-- Company Logo -->
 		                                <div class="w-14 h-14 flex-shrink-0">
-		                                    <img src="{% static 'images/profile_pic.svg' %}" alt="Company Logo"class="w-full h-full object-cover rounded-md"/>
+		                                    {% if job.company.company_profile_picture %}
+			                                    <img src="{{ job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
+			                                {% else %}
+			                                    <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
+			                                        {{ job.company.company_name|slice:":1"|upper }}
+			                                    </div>
+			                                {% endif %}
 		                                </div>
 		                                <!-- Details -->
 		                                <div>

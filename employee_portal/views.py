@@ -158,14 +158,16 @@ def job_details(request, slug):
 
     return render(request, 'employee-portal/job-details.html', context)
 
-def employer_profile(request, slug):
+
+@login_required
+def company_profile(request, slug):
     company = get_object_or_404(CompanyInformation, slug=slug)
 
     context = {
         'company': company
     }
 
-    return render(request, 'employee-portal/employer-profile.html', context)
+    return render(request, 'employee-portal/company-profile.html', context)
 
 @login_required
 def company_profiles(request):
