@@ -267,19 +267,19 @@ def manage_jobs(request, status=None):
     jobs = JobDetails.objects.filter(company=company)
 
     if status == 'all-jobs':
-        jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication')).order_by('-created_at')
+        jobs = JobDetails.objects.filter(company=company)
     elif status == "active":
-        jobs = JobDetails.objects.filter(company=company, status='active').annotate(application_count=Count('jobapplication')).order_by('-created_at')
+        jobs = JobDetails.objects.filter(company=company, status='active')
     elif status == 'expired':
-        jobs = JobDetails.objects.filter(company=company, status='expired').annotate(application_count=Count('jobapplication')).order_by('-created_at')
+        jobs = JobDetails.objects.filter(company=company, status='expired')
     elif status == 'drafts':
-        jobs = JobDetails.objects.filter(company=company, status='drafts').annotate(application_count=Count('jobapplication')).order_by('-created_at')
+        jobs = JobDetails.objects.filter(company=company, status='drafts')
     elif status == 'closed':
-        jobs = JobDetails.objects.filter(company=company, status='closed').annotate(application_count=Count('jobapplication')).order_by('-created_at')
+        jobs = JobDetails.objects.filter(company=company, status='closed')
     elif status == 'paused':
-        jobs = JobDetails.objects.filter(company=company, status='paused').annotate(application_count=Count('jobapplication')).order_by('-created_at')
+        jobs = JobDetails.objects.filter(company=company, status='paused')
     else:
-        jobs = JobDetails.objects.filter(company=company).annotate(application_count=Count('jobapplication'))
+        jobs = JobDetails.objects.filter(company=company)
 
     job_category_counts = JobDetails.objects.filter(company=company).aggregate(
         all_job_count=Count('id'),

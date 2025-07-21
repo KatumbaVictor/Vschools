@@ -8,6 +8,6 @@ class LoginRedirectAccountAdapter(DefaultAccountAdapter):
 			if user.account_type == 'Employer':
 				return resolve_url('employer_portal:dashboard')
 			elif user.account_type == 'Employee':
-				return resolve_url('employee_portal:job_listings')
+				return resolve_url('employee_portal:dashboard')
 
 		return super().get_login_redirect_url(request)

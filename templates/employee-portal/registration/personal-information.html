@@ -24,6 +24,7 @@
         <script src = "{% static 'js/dateselector.js' %}" type = "text/javascript" defer></script>
         <script src = "{% static 'js/personal-information.js' %}" type = "text/javascript" defer></script>
         {% endcompress %}
+        {{ wizard.form.media }}
     </head>
     <body> 
         <header>
@@ -220,6 +221,10 @@
                 <label for="id_personal_information-biography" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
                 <textarea id="id_personal_information-biography" name="personal_information-biography" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tell us about yourself (e.g., your background, passions, and career goals)" required></textarea>
             </div> 
+            <div class="mb-6">
+                <label for="id_personal_information-biography" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
+                {{ wizard.form.biography }}
+            </div>
             <div class="mb-6">
                 <label for="skills" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Skills & Expertise</label>
                 <input type="text" name="skills" id="skills" class="w-full text-sm rounded-lg bg-gray-50" placeholder="Add your key skills (e.g., JavaScript, Python, Communication)" required/>

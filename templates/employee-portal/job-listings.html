@@ -12,171 +12,184 @@
         {% compress css %}
         <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/job-listings.css' %}">
+        <link rel="stylesheet" href="{% static 'flags/sprite.css' %}"/>
         {% endcompress %}
         {% compress js %} 
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
         {% endcompress %}
     </head>
     <body>
-    	{% include 'employee-portal/partials/navbar.html' %}
+    	  {% include 'employee-portal/partials/navbar.html' %}
 
-    	{% include 'employee-portal/partials/sidebar.html' %}
+    	  {% include 'employee-portal/partials/sidebar.html' %}
 
-    	<div class="p-2 sm:ml-64">
+    	  <div class="p-2 sm:ml-64">
             <div class="p-2 rounded-lg mt-14">
-            	{% if jobs %}
-            		<section class="bg-white mb-4 mt-2 border border-gray-200 rounded-lg p-6">
-  <!-- Section Heading -->
-  <div class="mb-4">
-    <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Find Your Next Opportunity</h2>
-    <p class="text-gray-500 text-sm">Search and filter jobs by title, location, type, or category.</p>
-  </div>
+            	  {% if jobs %}
+            		    <section class="bg-white mb-4 mt-2 border border-gray-200 rounded-lg p-6">
+                        <!-- Section Heading -->
+                        <div class="mb-4">
+                            <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Find Your Next Opportunity</h2>
+                            <p class="text-gray-500 text-sm">Search and filter jobs by title, location, type, or category.</p>
+                        </div>
 
-  <!-- Filter Form -->
-  <form method="get" action="#">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Filter Form -->
+                        <form method="get" action="#">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <!-- Search by Keyword -->
+                                <div>
+                                    <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keyword</label>
+                                    <input type="text" id="search" name="search" placeholder="e.g. Software Engineer" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                </div>
 
-      <!-- Search by Keyword -->
-      <div>
-        <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keyword</label>
-        <input type="text" id="search" name="search" placeholder="e.g. Software Engineer"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-      </div>
+                                <!-- Location -->
+                                <div>
+                                    <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                                    <input type="text" id="location" name="location" placeholder="e.g. Kampala" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                </div>
 
-      <!-- Location -->
-      <div>
-        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-        <input type="text" id="location" name="location" placeholder="e.g. Kampala"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-      </div>
+                                <!-- Job Type -->
+                                <div>
+                                    <label for="job_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Job Type</label>
+                                    <select id="job_type" name="job_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">All Types</option>
+                                        <option value="full-time">Full-Time</option>
+                                        <option value="part-time">Part-Time</option>
+                                        <option value="internship">Internship</option>
+                                        <option value="contract">Contract</option>
+                                    </select>
+                                </div>
 
-      <!-- Job Type -->
-      <div>
-        <label for="job_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Job Type</label>
-        <select id="job_type" name="job_type"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option value="">All Types</option>
-          <option value="full-time">Full-Time</option>
-          <option value="part-time">Part-Time</option>
-          <option value="internship">Internship</option>
-          <option value="contract">Contract</option>
-        </select>
-      </div>
+                                <!-- Category (Industry) -->
+                                <div>
+                                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                    <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">All Categories</option>
+                                        <option value="tech">Technology</option>
+                                        <option value="design">Design</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="finance">Finance</option>
+                                    </select>
+                                </div>
+                            </div>
 
-      <!-- Category (Industry) -->
-      <div>
-        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-        <select id="category" name="category"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option value="">All Categories</option>
-          <option value="tech">Technology</option>
-          <option value="design">Design</option>
-          <option value="marketing">Marketing</option>
-          <option value="finance">Finance</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
-      <a href="#"
-        class="py-2 px-8 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-        Reset Filters
-      </a>
-      <button type="submit"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Apply Filters
-      </button>
-    </div>
-  </form>
-</section>
+                            <!-- Action Buttons -->
+                            <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+                                <a href="#" class="py-2 px-8 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                    Reset Filters
+                                </a>
+                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Apply Filters
+                                </button>
+                            </div>
+                        </form>
+                    </section>
 
 		                <div class="grid grid-cols-2 gap-3">
-		                	{% for job in jobs %}
-		                	<div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
-		                        <!-- Header Section -->
-		                        <div class="flex items-center justify-between">
-		                            <!-- Job and Company Info -->
-		                            <div class="flex items-center space-x-4">
-		                                <!-- Company Logo -->
-		                                <div class="w-14 h-14 flex-shrink-0">
-		                                    {% if job.company.company_profile_picture %}
-			                                    <img src="{{ job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
-			                                {% else %}
-			                                    <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
-			                                        {{ job.company.company_name|slice:":1"|upper }}
-			                                    </div>
-			                                {% endif %}
-		                                </div>
-		                                <!-- Details -->
-		                                <div>
-		                                    <h3 class="text-lg font-semibold text-gray-800">
-		                                        {{ job.job_title }}
-		                                    </h3>
-		                                    <p class="text-sm text-gray-500"><a href="#" class="hover:underline">{{ job.company.company_name }}</a> • {{ job.state_or_region }}, {{ job.country }}</p>
-		                                </div>
-		                            </div>
-		                            <!-- Posting Date -->
-		                            <p class="text-sm font-base text-gray-500">{{ job.created_at|timesince }} ago</p>
-		                        </div>
+		                	  {% for job in jobs %}
+    		                	  <div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
+    		                        <!-- Header Section -->
+    		                        <div class="flex items-center justify-between">
+    		                            <!-- Job and Company Info -->
+    		                            <div class="flex items-center space-x-4">
+    		                                <!-- Company Logo -->
+    		                                <div class="w-14 h-14 flex-shrink-0">
+    		                                    {% if job.company.company_profile_picture %}
+    			                                      <img src="{{ job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
+    			                                  {% else %}
+    			                                      <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
+    			                                          {{ job.company.company_name|slice:":1"|upper }}
+    			                                      </div>
+    			                                  {% endif %}
+    		                                </div>
+    		                                <!-- Details -->
+    		                                <div class="mt-2">
+    		                                    <h3 class="text-lg font-semibold text-gray-800">
+    		                                        {{ job.job_title }}
+    		                                    </h3>
+    		                                    <p class="text-sm text-gray-500"><a href="{% url 'employee_portal:company_profile' job.company.slug %}" class="hover:underline">{{ job.company.company_name }}</a> • {{ job.state_or_region }}, {{ job.country }} <i class="{{ job.country.flag_css }}"></i></p>
+                                            <div class="flex items-center">
+                                                <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                                </svg>
+                                                <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ job.average_rating }}</p>
+                                                <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                                <a href="{% url 'employee_portal:job_reviews' job.slug %}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">
+                                                    {% if job.job_ratings.count == 1 %}
+                                                        {{ job.job_ratings.count }} review
+                                                    {% else %}
+                                                        {{ job.job_ratings.count }} reviews
+                                                    {% endif %}
+                                                </a>
+                                                <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                                <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                                    {% if job.job_applications.count == 1 %}
+                                                        {{ job.job_applications.count }} application
+                                                    {% else %}
+                                                        {{ job.job_applications.count }} applications
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+    		                                </div>
+    		                            </div>
+    		                        </div>
 
-		                        <!-- Job Description -->
-		                        <p class="text-gray-600 job-description text-sm bg-gray-50 p-4 rounded-lg">
-		                            {{ job.job_description }}
-		                        </p>
+    		                        <!-- Job Description -->
+    		                        <p class="text-gray-600 job-description text-sm bg-gray-50 p-4 rounded-lg">
+    		                            {{ job.job_description }}
+    		                        </p>
 
-		                        <!-- Tags -->
-		                        <div class="flex flex-wrap gap-2">
-		                            <span class="px-3 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">     
-		                            	{{ job.get_employment_type_display }}
-		                            </span>
-		                            <span class="px-3 py-1 bg-green-100 text-green-600 text-xs rounded-full">     
-		                            	{{ job.get_work_location_mode_display }}
-		                            </span>
-		                            <span class="px-3 py-1 bg-red-100 text-red-600 text-xs rounded-full">
-		                            	{{ job.get_industry_display }}
-		                            </span>
-		                        </div>
+    		                        <!-- Tags -->
+    		                        <div class="flex flex-wrap gap-2">
+    		                            <span class="px-3 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">     
+    		                            	{{ job.get_employment_type_display }}
+    		                            </span>
+    		                            <span class="px-3 py-1 bg-green-100 text-green-600 text-xs rounded-full">     
+    		                            	{{ job.get_work_location_mode_display }}
+    		                            </span>
+    		                            <span class="px-3 py-1 bg-red-100 text-red-600 text-xs rounded-full">
+    		                            	{{ job.get_industry_display }}
+    		                            </span>
+    		                        </div>
 
 
-		                        <p class="text-sm text-gray-600 mt-2 font-medium">
-		                            Salary: (80,000 - 120,000)USD / year
-		                        </p>
-		                        
-		                        <!-- Action -->
-		                        <div class="flex justify-between items-center mt-6">
-		                            <div class="flex items-center mb-2">
-	                                    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-	                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-	                                    </svg>
-	                                    <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ job.average_rating }}</p>
-	                                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-	                                    <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">0 reviews</a>
-	                                </div>
-		                            <a href="{% url 'employee_portal:job_details' job.slug %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-		                            	<svg aria-hidden="true" class="mr-2 w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"xmlns="http://www.w3.org/2000/svg">
+    		                        <p class="text-sm text-gray-600 mt-2 font-medium">
+    		                            💰 Salary: (80,000 - 120,000) USD / year
+    		                        </p>
+    		                        
+    		                        <!-- Action -->
+    		                        <div class="flex justify-between items-center mt-6">
+                                    <div class="flex flex-row items-center text-gray-700 font-semibold text-xs px-3 py-1 bg-gray-100 p-5 rounded-lg">
+                                        <svg class="w-4 h-4 mr-1 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                        </svg>
+
+                                        {{ job.created_at|timesince }} ago
+                                    </div>
+    		                            <a href="{% url 'employee_portal:job_details' job.slug %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    		                            	 <svg aria-hidden="true" class="mr-2 w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"clip-rule="evenodd"></path>
                                         </svg>
-		                                View Job
-		                            </a>
-		                        </div>
-		                    </div>
+    		                                View Job
+    		                            </a>
+    		                        </div>
+    		                    </div>
 		                    {% endfor %}
 		                </div>
 	            {% else %}
-	            <section class="mt-6 dark:bg-gray-900">
-                    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
-                        <h3 class="mb-4 text-sm font-bold tracking-tight leading-none text-blue-500 md:text-4xl dark:text-white">No candidates yet.</h3>
-                        <p class="mb-8 text-base font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">It seems there are no candidates available on our platform yet. As new candidates sign up, their profiles will appear here.
-                        </p>
-                        <p class="mb-8 lg:px-48 text-center text-gray-500 dark:text-gray-400 sm:mt-8 lg:text-left">
-                            In the meantime, you can <a href="{% url 'employer_portal:job_post_wizard' step='job-details' %}" class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500">post a job</a> to attract talent or explore other options to connect with potential candidates. If you have any questions, feel free to <a class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500" href="#">reach out to support.</a>
-                        </p>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Refresh candidate profiles</button>
-                    </div>
-                </section>
-                {% endif %}
+	                <section class="mt-6 dark:bg-gray-900">
+                      <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+                          <h3 class="mb-4 text-sm font-bold tracking-tight leading-none text-blue-500 md:text-4xl dark:text-white">No candidates yet.</h3>
+                          <p class="mb-8 text-base font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">It seems there are no candidates available on our platform yet. As new candidates sign up, their profiles will appear here.
+                          </p>
+                          <p class="mb-8 lg:px-48 text-center text-gray-500 dark:text-gray-400 sm:mt-8 lg:text-left">
+                              In the meantime, you can <a href="{% url 'employer_portal:job_post_wizard' step='job-details' %}" class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500">post a job</a> to attract talent or explore other options to connect with potential candidates. If you have any questions, feel free to <a class="font-medium text-blue-700 underline hover:no-underline dark:text-primary-500" href="#">reach out to support.</a>
+                          </p>
+                          <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Refresh candidate profiles</button>
+                      </div>
+                  </section>
+              {% endif %}
             </div>
         </div>
     </body>

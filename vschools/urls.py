@@ -32,11 +32,13 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
     path('webpush/', include('webpush.urls')),
     path('employee-portal/', include('employee_portal.urls'), name="employee_portal"),
     path('employer-portal/', include('employer_portal.urls'), name="employer_portal"),
     path('accounts/', include('allauth.urls'), name="accounts"),
     path('', include('machina.urls'), name="machina"),
+    path('blog/', include('blog.urls'), name='blog'),
     path('home/', home_page, name = "home"),
     path('verify-email/',verify_email_page, name = "verify_email_page"),
     path('join-interview/<slug:interview_slug>', join_interview, name="join_interivew"),
@@ -48,7 +50,6 @@ urlpatterns = [
     path('pricing/', pricing_page, name="pricing"),
     path('billing/', billing_page, name="billing"),
     path('faq/', FAQ_page),
-    path('community-forum/', community_forum, name="community_forum"),
     path('contact/', contact_page, name="contact"),
     path('verify-email', verify_email, name="verify_email"),
     path('hijack/', include('hijack.urls')),

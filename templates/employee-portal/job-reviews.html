@@ -1,0 +1,175 @@
+{% load static %}
+{% load compress %}
+{% load meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CareerConnect | Manage Your Job Postings</title>
+        <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
+        <link rel="stylesheet" href="{% static 'flags/sprite.css' %}"/>
+        <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
+    </head>
+    <body>
+        {% include 'employee-portal/partials/navbar.html' %}
+
+        {% include 'employee-portal/partials/sidebar.html' %}
+
+        <div class="p-2 sm:ml-64">
+            <div class="p-2 rounded-lg mt-14">
+                <nav class="flex mb-6 mt-4" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3 rtl:space-x-reverse">
+                        <li class="inline-flex items-center">
+                            <a href="{% url 'employee_portal:job_listings' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 hover:underline dark:text-gray-400 dark:hover:text-white">
+                                <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
+                                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
+                                </svg>
+                                Job Listings
+                            </a>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                </svg>
+                                <span class="ms-1 text-sm font-medium text-gray-400 md:ms-2 dark:text-gray-400">Job Reviews</span>
+                            </div>
+                        </li>
+                    </ol> 
+                </nav>
+        
+                <div class="mx-auto py-10 shadow-sm border border-gray-100 rounded-lg">
+                    <!-- Job Info Header -->
+                    <section class="bg-white p-6 mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
+                        <!-- Left: Company Info -->
+                        <div class="flex items-start md:items-center gap-4">
+                            <!-- Company Logo -->
+                            {% if job.company.company_profile_picture %}
+                                <img src="{{ job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
+                            {% else %}
+                                <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
+                                    {{ job.company.company_name|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                            
+                            <div>
+                                <!-- Job Title -->
+                                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">
+                                   {{ job.job_title }}
+                                </h1>
+                                <!-- Company Name & Location -->
+                                <p class="text-gray-600 text-sm md:text-base">{{ job.company.company_name }} • {{ job.state_or_region }}, {{ job.country }} <i class="{{ job.country.flag_css }}"></i></p>
+                                <!-- Meta info -->
+                                <!-- Tags -->
+                                <div class="flex flex-wrap gap-2 mt-1">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">     
+                                      {{ job.get_employment_type_display }}
+                                    </span>
+                                    <span class="px-3 py-1 bg-green-100 text-green-600 text-xs rounded-full">     
+                                      {{ job.get_work_location_mode_display }}
+                                    </span>
+                                    <span class="px-3 py-1 bg-red-100 text-red-600 text-xs rounded-full">
+                                      {{ job.get_industry_display }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Optional Ratings -->
+                        <div class="mt-4 md:mt-0 text-right">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+                                <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ job.average_rating }}</p>
+                                <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{ job.job_ratings.count }} reviews</a>
+                            </div>
+                            <p class="text-sm text-gray-500">Rated by 28 job seekers</p>
+                        </div>
+                    </section>
+
+                    <hr class="h-px my-4 mx-4 bg-gray-200 border-0 dark:bg-gray-700">
+
+                    <div class="px-6 mb-8">
+                        <div class="flex items-center mb-2 mt-8">
+                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
+                            <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
+                            <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
+                        <div class="flex items-center mt-4">
+                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
+                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
+                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 70%"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
+                        </div>
+                        <div class="flex items-center mt-4">
+                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
+                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
+                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 17%"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
+                        </div>
+                        <div class="flex items-center mt-4">
+                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
+                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
+                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 8%"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
+                        </div>
+                        <div class="flex items-center mt-4">
+                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
+                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
+                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 4%"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
+                        </div>
+                        <div class="flex items-center mt-4">
+                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
+                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
+                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 1%"></div>
+                            </div>
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
+                        </div>  
+                    </div> 
+
+                    <section class="bg-white rounded-lg text-center">
+                        <div class="flex flex-col items-center justify-center space-y-4 py-12">
+                            <svg class="w-16 h-16 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M14 4v3a1 1 0 0 1-1 1h-3m4 10v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h2m11-3v10a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V7.87a1 1 0 0 1 .24-.65l2.46-2.87a1 1 0 0 1 .76-.35H18a1 1 0 0 1 1 1Z"/>
+                            </svg>
+
+                            <h3 class="text-xl font-semibold text-gray-800">No reviews yet</h3>
+                            <p class="text-gray-500 max-w-md">Be the first to share your experience working in this position. Your insights could help other job seekers make better decisions.</p>
+
+                            <!-- CTA button (only if user is allowed to submit) -->
+                            <a href="#review-form" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                 Write a Review
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

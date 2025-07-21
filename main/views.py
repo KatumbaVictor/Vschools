@@ -114,9 +114,6 @@ def contact_page(request):
     context = {'meta':meta}
     return render(request, "contact.html", context)
 
-def community_forum(request):
-    return render(request, 'forum.html')
-
 def pricing_page(request):
     return render(request, 'pricing.html')
 

@@ -2,6 +2,7 @@ from django import forms
 from django_countries.fields import CountryField
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import *
 
 User = get_user_model()
@@ -39,6 +40,12 @@ class PersonalInformationForm(forms.ModelForm):
             'linkedin_profile',
             'github_profile',
         ]
+
+        widgets = {
+            'biography': CKEditor5Widget(
+                  attrs={"class": "django_ckeditor_5", 'placeholder':'Tell us about yourself (e.g., your background, passions, and career goals)'}, config_name="default"
+              )
+        }
 
     def clean(self):
         cleaned_data = super().clean()

@@ -1,6 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.contrib.auth import get_user_model
+from django_ckeditor_5.fields import CKEditor5Field
 from employer_portal.models import *
 
 User = get_user_model()
@@ -20,7 +21,7 @@ class PersonalInformation(models.Model):
     state = models.CharField(max_length=255, blank=True, null=True, help_text="State/Province/Region")
     city = models.CharField(max_length=255, blank=True, null=True)
     zip_code = models.CharField(max_length=20, blank=True, null=True, help_text="Zip/Postal code")
-    biography = models.TextField(blank=True, null=True, help_text="A short bio about yourself")
+    biography = CKEditor5Field('Biography', config_name='default', blank=True, null=True)
     skills = models.JSONField(default=list, help_text='Describe required skills', blank=True, null=True)
     portfolio = models.URLField(blank=True, null=True)
     linkedin_profile = models.URLField(blank=True, null=True, help_text="Linkedin profile URL")

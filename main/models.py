@@ -36,7 +36,7 @@ class JobApplication(models.Model):
         SHORTLISTED = "shortlisted", "Shortlisted"
         REJECTED = "rejected", "Rejected"
 
-    job = models.ForeignKey(JobDetails, on_delete=models.CASCADE)
+    job = models.ForeignKey(JobDetails, on_delete=models.CASCADE, related_name='job_applications')
     candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE)
     company = models.ForeignKey('employer_portal.CompanyInformation', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=30, choices=Status.choices, default=Status.PENDING)

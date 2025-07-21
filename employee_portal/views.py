@@ -85,6 +85,28 @@ def apply_for_job(request, slug):
     return render(request, 'employee-portal/apply.html', context)
 
 @login_required
+def dashboard_view(request):
+    candidate = PersonalInformation.objects.get(user=request.user)
+
+    total_applications = JobApplication.objects.filter(candidate=candidate).count()
+    pending_applications = JobApplication.objects.filter(candidate=candidate, status="Pending").count()
+    shortlisted_applications = JobApplication.objects.filter(candidate=candidate, status="Shortlisted").count()
+    pending_interviews = JobInterview.objects.filter(candidate=candidate).count()
+    pending_job_offers = JobOffer.objects.filter(candidate=candidate, status=JobOffer.JobOfferStatus.PENDING).count()
+    profile_views = CandidateProfileView.objects.filter(candidate=candidate).count()
+
+    context = {
+        'total_applications': total_applications,
+        'pending_applications': pending_applications,
+        'shortlisted_applications': shortlisted_applications,
+        'pending_interviews': pending_interviews,
+        'pending_job_offers': pending_job_offers,
+        'profile_views': profile_views
+    }
+
+    return render(request, 'employee-portal/dashboard.html', context)
+
+@login_required
 def job_applications_view(request, category):
     candidate = PersonalInformation.objects.get(user=request.user)
     applications = JobApplication.objects.filter(candidate=candidate).order_by('-applied_at')
@@ -196,6 +218,18 @@ def job_listings(request):
     return render(request, 'employee-portal/job-listings.html', context)
 
 
+def job_reviews(request, slug):
+    job = get_object_or_404(JobDetails, slug=slug)
+    job_ratings = JobRating.objects.filter(job=job)
+
+    context = {
+        'job': job,
+        'ratings': job_ratings
+    }
+
+    return render(request, 'employee-portal/job-reviews.html', context)
+
+
 @login_required
 def settings_profile(request):
     personal_information = PersonalInformation.objects.get(user=request.user)
@@ -247,4 +281,4 @@ def job_interview_details(request, interview_slug):
         'interview': interview
     }
 
-    return render(request, 'employee-portal/interview-details.html', context)
+    return render(request, 'employee-portal/interview-details.html', context) 
