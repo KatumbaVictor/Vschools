@@ -39,4 +39,7 @@ urlpatterns = [
     path('candidate-reviews/<slug:candidate_slug>/<str:category>/', candidate_reviews, name="candidate_reviews"),
     path('job-details/<slug:job_slug>/', job_details, name="job_details"),
     path('update-job/<slug:job_slug>', update_job, name="update_job"),
+    path('save-candidate/<slug:candidate_slug>', candidate_save_toggle, name="candidate_save_toggle"),
+    path('saved-candidates/', saved_candidates, name="saved_candidates"),
+    path('application-invite/<slug:candidate_slug>/', send_application_invitation, name="application_invite"),
 ]

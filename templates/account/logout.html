@@ -12,7 +12,7 @@
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
     </head>
     <body>
-        <div class="mx-auto max-w-screen-sm flex flex-col items-center text-center mt-10 lg:mb-16">
+        <div class="mx-auto max-w-screen-sm flex flex-col items-center text-center mt-10 mb-10">
             <a href="#" class="mb-4 text-3xl flex flex-row justify-center lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
                 <img class="w-8 h-8 mr-2" src="{% static 'images/profile_pic.svg' %}" alt="logo">
                 CareerConnect  
@@ -20,18 +20,18 @@
             <p class="font-light text-center max-w-4xl text-gray-500 sm:text-lg dark:text-gray-400">We use an agile approach to test assumptions and connect with the needs of your audience early and often.</p>
         </div> 
 
-        <section class="min-h-screen bg-white flex mb-8 items-center justify-center px-4 py-16">
-            <div class="w-full max-w-4xl bg-white shadow-lg border border-gray-200 rounded-2xl overflow-hidden">
+        <section class="min-h-screen bg-white flex mb-8 items-center justify-center px-4">
+            <div class="w-full max-w-4xl bg-white shadow-sm border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <!-- Left: User Info Section -->
-                    <div class="bg-gray-100 flex flex-col items-center justify-center px-6 py-12">
+                    <div class="bg-gray-50 flex flex-col items-center justify-center px-6 py-12">
                         <div class="flex-shrink-0">
-                            <div class="w-24 h-24 mb-4 rounded-full bg-blue-100 text-blue-700 border border-blue-200 shadow-lg flex items-center justify-center text-3xl font-bold uppercase">
+                            <div class="w-24 h-24 mb-4 rounded-full bg-blue-100 text-blue-700 border border-blue-200 shadow-sm flex items-center justify-center text-3xl font-bold uppercase">
                                 KV
                             </div>
                         </div>
                         <div class="text-center">
-                            <p class="text-xl font-semibold text-gray-800">{{ request.user.get_full_name }}</p>
+                            <p class="text-xl font-bold text-gray-600">{{ request.user.get_full_name }}</p>
                             <p class="text-sm text-gray-500">{{ request.user.email }}</p>
                         </div>
 

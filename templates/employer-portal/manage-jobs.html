@@ -238,13 +238,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <a class="font-semibold text-blue-600 hover:underline" href="{% url 'employer_portal:job_applications' job.slug 'all-applicants' %}" class="text-blue-600 hover:underline">
-                                                {% if job.job_applications.count == 1 %}
-                                                    {{ job.job_applications.count }} Application
-                                                {% elif job.job_applications.count == 0 %}
-                                                    No applications yet
-                                                {% else %}
-                                                    {{ job.job_applications.count }} Applications
-                                                {% endif %}
+                                                {{ job.job_applications.count }} Application{{ job.job_applications.count|pluralize }}
                                             </a>
                                         </td>
                                         <td class="px-6 py-4">

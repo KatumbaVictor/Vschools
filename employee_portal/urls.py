@@ -16,4 +16,8 @@ urlpatterns = [
     path('settings/profile/', settings_profile, name="profile_settings"),
     path('job-interview-schedules/<str:category>/', job_interviews, name="job_interview_schedules"),
     path('job-interview-details/<slug:interview_slug>', job_interview_details, name="job_interview_details"),
+    path('job-save-toggle/<slug:job_slug>', job_save_toggle, name="job_save_toggle"),
+    path('saved-jobs', saved_jobs, name='saved_jobs'),
+    path('withdraw-application/<int:job_application_id>', withdraw_job_application, name="withdraw_application"),
+    path('job-application/<int:job_application_id>', application_detail, name="job_application_details"),
 ]

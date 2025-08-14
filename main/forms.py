@@ -1,6 +1,8 @@
 from django import forms
 from allauth.account.forms import LoginForm
 from django.core.exceptions import ValidationError
+from employer_portal.models import *
+from employee_portal.models import *
 from .models import *
 
 class AccountTypeForm(forms.Form):
@@ -27,5 +29,14 @@ class JobOfferForm(forms.ModelForm):
             'offer_title',
             'message',
             'expiry_date'
+        ]
+
+
+class CandidateEndorsementForm(forms.ModelForm):
+    class Meta:
+        model = CandidateEndorsement
+        fields = [
+            'endorsement_text',
+            'relationship'
         ]
 

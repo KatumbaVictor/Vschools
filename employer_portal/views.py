@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Count, Case, When, IntegerField
+from django.db.models import Count, Case, When, IntegerField, OuterRef, Exists
+from django.views.decorators.http import require_POST
 from formtools.wizard.views import SessionWizardView, NamedUrlSessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,6 +14,7 @@ from django.contrib import messages
 from django.utils.text import slugify
 from django.http import JsonResponse
 from datetime import datetime
+from django.utils import timezone
 from .utils.timezone import get_interview_times_in_user_timezone
 import json
 from .models import *
@@ -199,7 +201,6 @@ class JobPostWizardView(LoginRequiredMixin, NamedUrlSessionWizardView):
         job_details_form = JobDetailsForm(form_list[0].cleaned_data)
         job_details = job_details_form.save(commit=False)
         job_details.company = company
-        job_details.slug = slugify(job_details.job_title)
         job_details_form.save()
 
         #Saving job requirements
@@ -343,17 +344,23 @@ def candidate_profile(request, slug):
     candidate.skills = [skill.strip() for skill in candidate.skills.split(',')]
     company = CompanyInformation.objects.get(user=request.user)
     jobs = JobDetails.objects.filter(company=company)
+    endorsements_count = CandidateEndorsement.objects.filter(candidate=candidate).count()
 
-    already_viewed = CandidateProfileView.objects.filter(candidate=candidate, viewed_by=company).exists()
+    form = JobApplicationInviteForm(employer=company)
 
-    if not already_viewed:
-        CandidateProfileView.objects.create(candidate=candidate, viewed_by=company)
+    profile_view, created = CandidateProfileView.objects.get_or_create(candidate=candidate, viewed_by=company)
+
+    if not created:
+        profile_view.timestamp = timezone.now()
+        profile_view.save()
 
 
-    context = {'candidate': candidate, 'jobs':jobs}
-
-    if request.method == "POST":
-        print(request.POST)
+    context = {
+        'candidate': candidate, 
+        'jobs':jobs, 'form':form, 
+        'endorsements_count': endorsements_count,
+        'meta': candidate.as_meta()
+    }
 
     return render(request, 'employer-portal/candidate-profile.html', context)
 
@@ -361,7 +368,10 @@ def post_job(request):
     return render(request, 'employer-portal/post-job.html')
 
 def candidate_profiles(request):
-    candidates = PersonalInformation.objects.all()
+    company = CompanyInformation.objects.get(user=request.user)
+    saved_candidates_subquery = SavedCandidate.objects.filter(employer=company, candidate=OuterRef('pk'))
+
+    candidates = PersonalInformation.objects.annotate(is_saved=Exists(saved_candidates_subquery))
 
     context = {
         'candidates': candidates
@@ -620,6 +630,55 @@ def job_interview_details(request, interview_slug):
     }
 
     return render(request, 'employer-portal/interview-details.html', context)
+
+
+@require_POST
+@login_required
+def candidate_save_toggle(request, candidate_slug):
+    candidate = get_object_or_404(PersonalInformation, slug=candidate_slug)
+    company = CompanyInformation.objects.get(user=request.user)
+
+    saved, created = SavedCandidate.objects.get_or_create(employer=company, candidate=candidate)
+
+    if not created:
+        saved.delete()
+        return JsonResponse({'saved': False})
+    else:
+        return JsonResponse({'saved': True})
+
+
+@require_POST
+@login_required
+def send_application_invitation(request, candidate_slug):
+    candidate = get_object_or_404(PersonalInformation, slug=candidate_slug)
+    company = CompanyInformation.objects.get(user=request.user)
+
+    invitation_form = JobApplicationInviteForm(request.POST, employer=company)
+
+    if invitation_form.is_valid():
+        invitation = invitation_form.save(commit=False)
+        invitation.employer = company
+        invitation.candidate = candidate
+        invitation.save()
+
+        return JsonResponse({'success': True, 'message': 'Invitation sent successfully'})
+    else:
+        print(invitation_form.errors)
+        invitation_form = JobApplicationInviteForm(employer=company)
+        return JsonResponse({'success': False, 'errors': invitation_form.errors.as_json()}, status=400)
+
+
+
+@login_required
+def saved_candidates(request):
+    company = CompanyInformation.objects.get(user=request.user)
+    saved_candidates = SavedCandidate.objects.select_related('candidate').filter(employer=company)
+
+    context = {
+        'saved_candidates': saved_candidates
+    }
+
+    return render(request, 'employer-portal/saved-candidates.html', context)
 
 
 def create_job_offer(request, candidate_slug):

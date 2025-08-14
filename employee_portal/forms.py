@@ -55,39 +55,6 @@ class PersonalInformationForm(forms.ModelForm):
         if password != confirm_password:
             raise forms.ValidationError("Passwords do not match")
 
-    def save(self, commit=True):
-        first_name = self.cleaned_data.get("first_name")
-        last_name = self.cleaned_data.get("last_name")
-        email = self.cleaned_data.get("email")
-        username = f"{first_name} {last_name}"
-        password = self.cleaned_data.get("confirm_password")
-
-        user = User.objects.create_user(
-                    username=username,
-                    email=email,
-                    password=password,
-                    first_name=first_name,
-                    last_name=last_name, 
-                    account_type='Employee'
-                )
-
-        personal_information = super().save(commit=False)
-
-        personal_information.user = user
-
-        if commit:
-            base_slug = slugify(f"{first_name} {last_name}")
-            slug = base_slug
-            slug_counter = 1
-            while PersonalInformation.objects.filter(slug=slug).exists():
-                slug = f"{base_slug}-{slug_counter}"
-                slug_counter += 1
-            personal_information.slug = slug
-
-            personal_information.save()
-
-        return user
-
 
 class EducationalBackgroundForm(forms.ModelForm):
     class Meta:

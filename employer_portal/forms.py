@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django_countries.fields import CountryField
 from .models import *
 from main.models import *
+from employee_portal.models import *
 
 
 class CompanyInformationForm(forms.ModelForm):
@@ -222,3 +223,20 @@ class JobInterviewForm(forms.ModelForm):
             'attachment',
             'attachment_description',
         ]
+
+
+class JobApplicationInviteForm(forms.ModelForm):
+	class Meta:
+		model = JobApplicationInvite
+		fields = [
+			'job',
+			'employer_message',
+			'deadline'
+		]
+
+	def __init__(self, *args, **kwargs):
+		employer = kwargs.pop('employer', None)
+		super().__init__(*args, **kwargs)
+
+		if employer:
+			self.fields['job'].queryset = JobDetails.objects.filter(company=employer)

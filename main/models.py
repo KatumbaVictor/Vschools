@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from employer_portal.models import JobDetails
+from django.apps import apps
 import pytz
 
 
@@ -13,6 +14,16 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
+
+
+    @property
+    def profile_instance(self):
+        if self.account_type == 'Employer':
+            CompanyInformation = apps.get_model('employer_portal', 'CompanyInformation')
+            return CompanyInformation.objects.get(user=self)
+        elif self.account_type == 'Employee':
+            PersonalInformation = apps.get_model('employee_portal', 'PersonalInformation')
+            return PersonalInformation.objects.get(user=self)
 
     def get_initials(self):
         first = self.first_name[:1] if self.first_name else ''
@@ -35,12 +46,18 @@ class JobApplication(models.Model):
         INTERVIEW_COMPLETED = "interview_completed", "Interview Completed"
         SHORTLISTED = "shortlisted", "Shortlisted"
         REJECTED = "rejected", "Rejected"
+        WITHDRAWN = "withdrawn", "Withdrawn"
 
     job = models.ForeignKey(JobDetails, on_delete=models.CASCADE, related_name='job_applications')
     candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE)
     company = models.ForeignKey('employer_portal.CompanyInformation', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=30, choices=Status.choices, default=Status.PENDING)
     applied_at = models.DateTimeField(auto_now_add=True) 
+
+    # Application withdrawal fields
+    withdrawn = models.BooleanField(default=False)
+    withdrawn_at = models.DateTimeField(null=True, blank=True)
+    withdraw_reason = models.TextField(null=True, blank=True)
 
     class Meta:
         unique_together = ('job', 'candidate')

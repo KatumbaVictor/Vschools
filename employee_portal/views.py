@@ -1,18 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Case, When, IntegerField
+from django.views.decorators.http import require_POST
+from django.db.models import Count, Case, When, IntegerField, OuterRef, Exists
 from formtools.wizard.views import SessionWizardView
 from .forms import (PersonalInformationForm, EducationalBackgroundForm,
              WorkExperienceForm, CareerPrefencesForm)
 from django.conf import settings
 from django_countries import countries
 from django.core.files.storage import FileSystemStorage
+from django.utils import timezone
 from django.db.models import Count
 from .models import *
 from employer_portal.models import *
 from main.models import *
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 from django.core.paginator import Paginator
+from meta.views import Meta
 import os
 import json
 
@@ -56,7 +60,20 @@ class SignUpWizardView(SessionWizardView):
         career_preferences_form = CareerPrefencesForm(form_list[3].cleaned_data)
 
         if personal_information_form.is_valid() and educational_background_form.is_valid() and work_experience_form.is_valid() and career_preferences_form.is_valid():
-            user = personal_information_form.save()
+            first_name = self.cleaned_data.get("first_name")
+            last_name = self.cleaned_data.get("last_name")
+            email = self.cleaned_data.get("email")
+            username = f"{first_name} {last_name}"
+            password = self.cleaned_data.get("confirm_password")
+
+            user = User.objects.create_user(
+                        username=username,
+                        email=email,
+                        password=password,
+                        first_name=first_name,
+                        last_name=last_name, 
+                        account_type='Employee'
+                    )
 
             #Save Educational background information
             educational_background = educational_background_form.save(commit=False)
@@ -95,13 +112,23 @@ def dashboard_view(request):
     pending_job_offers = JobOffer.objects.filter(candidate=candidate, status=JobOffer.JobOfferStatus.PENDING).count()
     profile_views = CandidateProfileView.objects.filter(candidate=candidate).count()
 
+
+    meta = Meta(
+        title=f"My Dashboard | {settings.META_SITE_NAME}",
+        description="Access your personal job seeker dashboard. View saved jobs, applications, interviews, and profile details all in one place",
+        keywords=["Job seeker dashboard", "career tools"],
+        use_title_tag=True
+    )
+
+
     context = {
         'total_applications': total_applications,
         'pending_applications': pending_applications,
         'shortlisted_applications': shortlisted_applications,
         'pending_interviews': pending_interviews,
         'pending_job_offers': pending_job_offers,
-        'profile_views': profile_views
+        'profile_views': profile_views,
+        'meta': meta
     }
 
     return render(request, 'employee-portal/dashboard.html', context)
@@ -201,8 +228,17 @@ def company_profiles(request):
 
 @login_required
 def job_listings(request):
-    jobs = JobDetails.objects.all()
     candidate = PersonalInformation.objects.get(user=request.user)
+    saved_jobs_subquery = SavedJob.objects.filter(candidate=candidate, job=OuterRef('pk'))
+
+    jobs = JobDetails.objects.annotate(is_saved=Exists(saved_jobs_subquery))
+
+    meta = Meta(
+        title=f"Browse Jobs | {settings.META_SITE_NAME}",
+        description="Explore the latest job opportunities across industries. Find your next role and apply online today.",
+        keywords=["job listings", "open jobs", "careers", "apply for jobs", "job opportunites"],
+        use_title_tag=True
+    )
 
     for job in jobs:
         candidate = PersonalInformation.objects.get(user=request.user)
@@ -212,19 +248,24 @@ def job_listings(request):
             JobImpression.objects.create(job=job, candidate=candidate)
 
     context = {
-        'jobs': jobs
+        'jobs': jobs,
+        'meta': meta
     }
 
     return render(request, 'employee-portal/job-listings.html', context)
 
 
+@login_required
 def job_reviews(request, slug):
     job = get_object_or_404(JobDetails, slug=slug)
-    job_ratings = JobRating.objects.filter(job=job)
+    job_reviews = JobRating.objects.filter(job=job)
+
+    rating_percentages = job.rating_percentages()
 
     context = {
         'job': job,
-        'ratings': job_ratings
+        'reviews': job_reviews,
+        'rating_percentages': rating_percentages
     }
 
     return render(request, 'employee-portal/job-reviews.html', context)
@@ -282,3 +323,65 @@ def job_interview_details(request, interview_slug):
     }
 
     return render(request, 'employee-portal/interview-details.html', context) 
+
+
+@require_POST
+@login_required
+def job_save_toggle(request, job_slug):
+    job = get_object_or_404(JobDetails, slug=job_slug)
+    candidate = PersonalInformation.objects.get(user=request.user)
+
+    saved_job, created = SavedJob.objects.get_or_create(candidate=candidate, job=job)
+
+    if not created:
+        saved_job.delete()
+        return JsonResponse({'saved':False, 'message': 'Job unsaved'})
+    else:
+        return JsonResponse({'saved': True, 'message': 'Job saved successfully!'})
+
+
+@login_required
+def saved_jobs(request):
+    candidate = PersonalInformation.objects.get(user=request.user)
+    saved_jobs = SavedJob.objects.select_related('job').filter(candidate=candidate)
+
+    meta = Meta(
+        title=f"Saved Jobs | {settings.META_SITE_NAME}",
+        description="View all the jobs you have saved for future applications. Stay organized and apply when ready.",
+        keywords=["saved jobs", "job seeker"],
+        use_title_tag=True 
+    )
+
+    context = {
+        'saved_jobs': saved_jobs,
+        'meta': meta
+    }
+
+    return render(request, 'employee-portal/saved-jobs.html', context)
+
+
+
+@require_POST
+@login_required
+def withdraw_job_application(request, job_application_id):
+    candidate = PersonalInformation.objects.get(user=request.user)
+    job_application = get_object_or_404(JobApplication, id=job_application_id, candidate=candidate)
+
+    job_application.withdrawn = True
+    job_application.withdrawn_at = timezone.now()
+    job_application.withdraw_reason = request.POST.get('withdraw_reason', None)
+    job_application.save(update_fields=['withdrawn', 'withdrawn_at', 'withdraw_reason'])
+
+    return JsonResponse({'success': True, 'message': 'Your application has been withdrawn'})
+
+
+@login_required
+def application_detail(request, job_application_id):
+    candidate = PersonalInformation.objects.get(user=request.user)
+    job_application = get_object_or_404(JobApplication, id=job_application_id, candidate=candidate)
+
+    context = {
+        'job_application': job_application
+    }
+
+    return render(request, 'employee-portal/application-detail.html', context)

@@ -41,11 +41,11 @@
                     </ol> 
                 </nav>
         
-                <div class="mx-auto py-10 shadow-sm border border-gray-100 rounded-lg">
+                <div class="mx-auto py-10 border border-gray-200 rounded-lg">
                     <!-- Job Info Header -->
-                    <section class="bg-white p-6 mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
+                    <section class="bg-white p-6 mb-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
                         <!-- Left: Company Info -->
-                        <div class="flex items-start md:items-center gap-4">
+                        <div class="flex items-start md:items-center gap-3">
                             <!-- Company Logo -->
                             {% if job.company.company_profile_picture %}
                                 <img src="{{ job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
@@ -57,7 +57,7 @@
                             
                             <div>
                                 <!-- Job Title -->
-                                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">
+                                <h1 class="text-3xl mt-1 font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">
                                    {{ job.job_title }}
                                 </h1>
                                 <!-- Company Name & Location -->
@@ -78,7 +78,7 @@
                             </div>
                         </div>
 
-                        <!-- Right: Optional Ratings -->
+                        <!-- Right: Ratings -->
                         <div class="mt-4 md:mt-0 text-right">
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -86,9 +86,9 @@
                                 </svg>
                                 <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ job.average_rating }}</p>
                                 <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                                <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{ job.job_ratings.count }} reviews</a>
+                                <p class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{ job.job_ratings.count }} reviews</p>
                             </div>
-                            <p class="text-sm text-gray-500">Rated by 28 job seekers</p>
+                            <p class="text-sm text-gray-500">This job has no reviews yet.</p>
                         </div>
                     </section>
 
@@ -96,78 +96,101 @@
 
                     <div class="px-6 mb-8">
                         <div class="flex items-center mb-2 mt-8">
-                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                            </svg>
-                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                            </svg>
-                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                            </svg>
-                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                            </svg>
-                            <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                            </svg>
-                            <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= job.average_rating %}
+                                    <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                {% endif %}
+                            {% endfor %}
+                        
+                            <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                {{ job.average_rating }}
+                            </p>
                             <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
                             <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
                         </div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">1,745 global ratings</p>
-                        <div class="flex items-center mt-4">
-                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
-                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
-                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 70%"></div>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ job.job_ratings.count }} ratings</p>
+                        {% for star, percentage in rating_percentages.items %}
+                            <div class="flex items-center mt-4">
+                                <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ star }} star</a>
+                                <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
+                                    <div class="h-5 bg-yellow-300 rounded-sm" style="width: {{ percentage  }}%"></div>
+                                </div>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ percentage }}%</span>
                             </div>
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">70%</span>
-                        </div>
-                        <div class="flex items-center mt-4">
-                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
-                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
-                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 17%"></div>
-                            </div>
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">17%</span>
-                        </div>
-                        <div class="flex items-center mt-4">
-                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
-                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
-                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 8%"></div>
-                            </div>
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">8%</span>
-                        </div>
-                        <div class="flex items-center mt-4">
-                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
-                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
-                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 4%"></div>
-                            </div>
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">4%</span>
-                        </div>
-                        <div class="flex items-center mt-4">
-                            <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
-                            <div class="w-2/4 h-5 mx-4 bg-gray-200 rounded-sm dark:bg-gray-700">
-                                <div class="h-5 bg-yellow-300 rounded-sm" style="width: 1%"></div>
-                            </div>
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">1%</span>
-                        </div>  
+                        {% endfor %} 
                     </div> 
 
-                    <section class="bg-white rounded-lg text-center">
-                        <div class="flex flex-col items-center justify-center space-y-4 py-12">
-                            <svg class="w-16 h-16 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M14 4v3a1 1 0 0 1-1 1h-3m4 10v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h2m11-3v10a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V7.87a1 1 0 0 1 .24-.65l2.46-2.87a1 1 0 0 1 .76-.35H18a1 1 0 0 1 1 1Z"/>
-                            </svg>
+                    <hr class="h-px my-6 mx-4 bg-gray-200 border-0 dark:bg-gray-700">
 
-                            <h3 class="text-xl font-semibold text-gray-800">No reviews yet</h3>
-                            <p class="text-gray-500 max-w-md">Be the first to share your experience working in this position. Your insights could help other job seekers make better decisions.</p>
+                    {% if reviews %}
+                        {% for review in reviews %}
+                            <article class="px-6 mb-5">
+                                <div class="flex items-center mb-4">
+                                    {% if review.candidate.profile_picture %}
+                                        <img class="w-10 h-10 me-4 rounded-full" src="{{ review.candidate.profile_picture.url }}" alt="profile picture">
+                                    {% else %}
+                                        <div class="flex-shrink-0">
+                                            <div class="w-10 h-10 mr-2 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-bold uppercase">
+                                                {{ candidate.user.get_initials }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
 
-                            <!-- CTA button (only if user is allowed to submit) -->
-                            <a href="#review-form" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                 Write a Review
-                            </a>
-                        </div>
-                    </section>
+                                    <div class="font-medium dark:text-white">
+                                        <p>{{ review.candidate.user.username }} <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">Joined on August 2014</time></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="w-4 h-4 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">{{ review.title }}</h3>
+                                </div>
+                                <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p>Reviewed in the United Kingdom on <time datetime="2017-03-03 19:00">March 3, 2017</time></p></footer>
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                                   {{ review.comment }}
+                                </p>
+                                <a href="#" class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a>
+                                <aside>
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">19 people found this helpful</p>
+                                    <div class="flex items-center mt-3">
+                                        <a href="#" class="px-2 py-1.5 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Helpful</a>
+                                        <a href="#" class="ps-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 border-gray-200 ms-4 border-s md:mb-0 dark:border-gray-600">Report abuse</a>
+                                    </div>
+                                </aside>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <section class="bg-white rounded-lg text-center">
+                            <div class="flex flex-col items-center justify-center space-y-4 py-12">
+                                <svg class="w-16 h-16 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                </svg>
+
+                                <h3 class="mb-4 text-3xl font-bold tracking-tight leading-none text-gray-400 md:text-3xl dark:text-white">No reviews yet</h3>
+                                <p class="mt-6 text-center text-gray-500 dark:text-gray-400 max-w-md">Be the first to share your experience working in this position. Your insights could help other job seekers make better decisions.</p>
+
+                                <!-- CTA button (only if user is allowed to submit) -->
+                                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                     Write a Review
+                                </button>
+                            </div>
+                        </section>
+                    {% endif %}
                 </div>
             </div>
         </div>

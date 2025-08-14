@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from django.conf import settings
 from django_countries.fields import CountryField
 from moneyed import list_all_currencies
@@ -98,6 +99,7 @@ class JobDetails(models.Model, ModelMeta):
     job_title = models.CharField(max_length=200)
     country = CountryField()
     state_or_region = models.CharField(max_length=200)
+    qr_code = models.ImageField(upload_to="job_qr_codes", blank=True, null=True)
 
     EMPLOYMENT_TYPE_CHOICES = [
         ('full_time','Full-time'),
@@ -105,6 +107,7 @@ class JobDetails(models.Model, ModelMeta):
         ('contract','Contract'),
         ('apprenticeship','Apprenticeship'),
         ('freelance','Freelance'),
+        ('returnship','Returnship'),
     ]
 
     employment_type = models.CharField(max_length=100, choices=EMPLOYMENT_TYPE_CHOICES)
@@ -219,11 +222,24 @@ class JobDetails(models.Model, ModelMeta):
 
         return json.dumps(schema_data, indent=4)
 
+    def rating_percentages(self):
+        rating_counts = self.job_ratings.values('rating').annotate(count=Count('rating'))
+
+        total_ratings = self.job_ratings.aggregate(total=Count('id'))['total'] or 0
+
+        percentages = {str(i): 0.0 for i in range(5, 0, -1)}
+
+        if total_ratings > 0:
+            for rating_data in rating_counts:
+                rating_value = str(rating_data['rating'])
+                count = rating_data['count']
+                percentage = (count / total_ratings) * 100
+                percentages[rating_value] = round(percentage, 2)
+
+        return percentages
+
     class Meta:
         ordering = ["-created_at"]
-
-    def review_count(self):
-        return self.job_ratings.count()
 
     def __str__(self):
         return self.job_title	
@@ -524,3 +540,44 @@ class CompanyRatingAndReview(models.Model):
 
     def __str__(self):
         return f"{self.candidate.user.username}  rated {self.employer.company_name} - {self.rating} Starts"
+
+
+
+class SavedCandidate(models.Model):
+    employer = models.ForeignKey(CompanyInformation, on_delete=models.CASCADE)
+    candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE, related_name='saved_candidates')
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('employer', 'candidate')
+
+    def __str__(self):
+        return f"{self.employer.company_name} saved {self.candidate.user.username}"
+
+
+
+class JobApplicationInvite(models.Model):
+    employer = models.ForeignKey(CompanyInformation, on_delete=models.CASCADE)
+    candidate = models.ForeignKey('employee_portal.PersonalInformation', on_delete=models.CASCADE)
+    job = models.OneToOneField(JobDetails, on_delete=models.CASCADE)
+    employer_message = models.TextField(blank=True, null=True)
+    sent_at = models.DateTimeField(auto_now_add=True)
+    viewed = models.BooleanField(default=False)
+    viewed_at = models.DateTimeField(blank=True, null=True)
+    deadline = models.DateTimeField()
+    responded_at = models.DateTimeField(null=True, blank=True)
+
+    class CandidateResponseChoices(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        ACCEPTED = 'accepted', 'Accepted'
+        DECLINED = 'declined', 'Declined'
+        EXPIRED = 'expired', 'Expired'
+
+    candidate_response = models.CharField(max_length=25, choices=CandidateResponseChoices.choices, default=CandidateResponseChoices.PENDING)
+
+    class Meta:
+        unique_together = ('job', 'employer', 'candidate')
+
+    def __str__(self):
+        return f"{self.candidate} invited for {self.job}"
+

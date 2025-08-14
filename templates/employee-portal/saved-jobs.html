@@ -1,0 +1,142 @@
+{% load static %}
+{% load compress %}
+{% load meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% include 'meta/meta.html' %}
+        {% compress css %}
+        <link rel="stylesheet" href="{% static 'css/flowbite.min.css' %}">
+        <link rel="stylesheet" href="{% static 'flags/sprite.css' %}"/>
+        {% endcompress %}
+        {% compress js %} 
+        <script src="{% static 'js/flowbite.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'js/employee-portal/save-job.js' %}" type="text/javascript" defer></script>
+        {% endcompress %}
+    </head>
+    <body>
+    	{% include 'employee-portal/partials/navbar.html' %}
+
+    	{% include 'employee-portal/partials/sidebar.html' %}
+
+    	<div class="p-2 sm:ml-64">
+            <div class="p-4 rounded-lg mt-14">
+                <div class="border border-gray-200 rounded-lg p-6">
+                <div class="bg-white">
+                    <!-- Main Heading -->
+                    <div class="flex flex-row items-center gap-4 mb-6">
+                        <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                            <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h1 class="text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Saved Jobs</h1>
+                            <p class="rounded-lg text-gray-500 dark:text-gray-400 rounded-lg">Jobs you've bookmarked to apply for later.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% if saved_jobs %}
+                    {% for item in saved_jobs %}
+                        <!-- Saved Job Card -->
+                        <div class="bg-white border shadow-sm border-gray-200 rounded-lg p-6 mb-4 hover:shadow-md transition duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                <!-- Left: Company Logo + Job Info -->
+                                <div class="flex items-center justify-between">
+                                    <!-- Job and Company Info -->
+                                    <div class="flex items-center space-x-4">
+                                        <!-- Company Logo -->
+                                        <div class="w-14 h-14 flex-shrink-0">
+                                            {% if item.job.company.company_profile_picture %}
+                                                  <img src="{{ item.job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
+                                              {% else %}
+                                                  <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
+                                                      {{ item.job.company.company_name|slice:":1"|upper }}
+                                                  </div>
+                                              {% endif %}
+                                        </div>
+                                        <!-- Details -->
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-800">
+                                                {{ item.job.job_title }}
+                                            </h3>
+                                            <p class="text-sm text-gray-500"><a href="{% url 'employee_portal:company_profile' item.job.company.slug %}" class="hover:underline">{{ item.job.company.company_name }}</a> • {{ item.job.state_or_region }}, {{ item.job.country }} <i class="{{ job.country.flag_css }}"></i></p>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ item.job.average_rating }}</p>
+                                            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                            <a href="{% url 'employee_portal:job_reviews' item.job.slug %}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">
+                                                {% if item.job.job_ratings.count == 1 %}
+                                                    {{ item.job.job_ratings.count }} review
+                                                {% else %}
+                                                    {{ item.job.job_ratings.count }} reviews
+                                                {% endif %}
+                                            </a>
+                                            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                            <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                                {% if item.job.job_applications.count == 1 %}
+                                                    {{ item.job.job_applications.count }} application
+                                                {% else %}
+                                                    {{ item.job.job_applications.count }} applications
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right: Actions -->
+                                <div class="flex flex-col sm:items-end gap-2">
+                                    <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg aria-hidden="true" class="mr-2 w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"clip-rule="evenodd"></path>
+                                        </svg>
+                                        View Job
+                                    </a>
+                                    <button class="text-red-500 font-semibold text-sm hover:underline">Remove</button>
+                                    <p class="text-xs text-gray-400 mt-1">Saved on Jul 28, 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                    <div class="flex flex-col items-center justify-center text-center py-24 px-4 sm:px-6 lg:px-8">
+                        <!-- Icon or Illustration -->
+                        <svg class="w-16 h-16 text-gray-400 mb-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+                        </svg>
+
+                        <!-- Heading -->
+                        <h2 class="mb-4 text-3xl font-bold tracking-tight leading-none text-gray-500 md:text-3xl dark:text-white">No Saved Jobs Yet</h2>
+
+                        <!-- Subtext -->
+                        <p class="mt-2 text-center text-gray-500 dark:text-gray-400 max-w-md">
+                            You haven't saved any jobs. Start exploring and bookmark jobs you'd like to apply for.
+                        </p>
+
+                        <!-- CTA Button -->
+                        <div class="mt-6">
+                            <a href="{% url 'employee_portal:job_listings' %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Browse Jobs
+                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+    </body>
+</html>

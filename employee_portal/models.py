@@ -1,14 +1,21 @@
 from django.db import models
+from meta.models import ModelMeta
 from django_countries.fields import CountryField
 from django.contrib.auth import get_user_model
 from django_ckeditor_5.fields import CKEditor5Field
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.conf import settings
+from django.urls import reverse
 from employer_portal.models import *
 
 User = get_user_model()
 
-class PersonalInformation(models.Model):
+class PersonalInformation(models.Model, ModelMeta):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to="profile_pictures", blank=True, null=True)
+    cover_photo = models.ImageField(upload_to="profile_covers", blank=True, null=True, default="profile_covers/default_cover.png", help_text="Upload a professional cover photo (1200x300px recommended)")
+    qr_code = models.ImageField(upload_to="candidate_qr_codes", blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
 
     gender_choices = [
@@ -28,6 +35,32 @@ class PersonalInformation(models.Model):
     github_profile = models.URLField(blank=True, null=True, help_text="GitHub profile URL")
     slug = models.SlugField(unique=True, blank=True, null=True)
     average_rating = models.FloatField(default=0.0)
+
+    _metadata = {
+        "use_title_tag": True,
+        "use_schemaorg": True,
+        "use_twitter": True,
+        "use_og": True,
+        "use_facebook": True,
+        'title': 'get_meta_title',
+        'description': 'get_meta_description',
+        'keywords': 'get_meta_keywords',
+        'url': 'get_absolute_url'
+    }
+
+
+    def get_meta_title(self):
+        return f"{self.user.get_full_name()} | Professional Candidate Profile | {settings.META_SITE_NAME}"
+
+    def get_meta_description(self):
+        return self.biography or f"Profile of {self.user.get_full_name()}, a professional job seeker."
+
+    def get_meta_keywords(self):
+        return [self.user.get_full_name(), 'candidate', 'job seeker']
+
+    def get_absolute_url(self):
+        return reverse('employer_portal:candidate_profile', args=[self.slug])
+
 
     def __str__(self):
         return f"{self.user.username}"
@@ -206,3 +239,34 @@ class CandidateRatingAndReview(models.Model):
 
     def __str__(self):
         return f"{self.employer.company_name} rated {self.candidate.user.username} - {self.rating} Starts"
+
+
+
+class SavedJob(models.Model):
+    candidate = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE)
+    job = models.ForeignKey('employer_portal.JobDetails', on_delete=models.CASCADE, related_name='saved_jobs')
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('candidate', 'job')
+        ordering = ['saved_at']
+
+    def __str__(self):
+        return f"{self.candidate.user.username} saved {self.job.job_title}"
+
+
+
+class CandidateEndorsement(models.Model):
+    candidate = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, related_name='endorsements_received')
+    endorser_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    endorser_object_id = models.PositiveIntegerField()
+    endorser = GenericForeignKey('endorser_content_type', 'endorser_object_id')
+    endorsement_text = models.TextField()
+    relationship = models.CharField(max_length=200, help_text="E.g. Supervisor, Hiring Manager")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (('endorser_content_type', 'endorser_object_id', 'candidate'),)
+
+    def __str__(self):
+        return f"{self.endorser} endorsed {self.candidate}"
