@@ -12,106 +12,145 @@
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
     </head>
     <body>
-        <div class="max-w-6xl mx-auto p-6 space-y-6">
+        <!-- Trigger button -->
+<button
+  type="button"
+  data-modal-target="qrModal"
+  data-modal-toggle="qrModal"
+  class="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium hover:bg-gray-50"
+  aria-controls="qrModal"
+>
+  <!-- optional icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M3 3h4v4H3V3zm14 0h4v4h-4V3zM3 17h4v4H3v-4zm14 0h4v4h-4v-4zM9 3h6v2H9V3zm0 16h6v2H9v-2zM3 9h2v6H3V9zm16 0h2v6h-2V9z"/>
+  </svg>
+  View QR Code
+</button>
 
-  <!-- Page Header -->
-  <div class="flex items-center justify-between border-b pb-4">
-    <div>
-      <h1 class="text-2xl font-bold text-gray-800">Application Details</h1>
-      <p class="text-gray-500 text-sm">Track your job application and take further actions.</p>
-    </div>
-    <button class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg shadow">
-      Withdraw Application
-    </button>
-  </div>
+<!-- Modal -->
+<div id="qrModal" tabindex="-1" aria-hidden="true"
+     class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden">
+  <!-- backdrop -->
+  <div class="fixed inset-0 bg-black/40"></div>
 
-  <!-- Content -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-    <!-- Main Column -->
-    <div class="lg:col-span-2 space-y-6">
-
-      <!-- Job Information Card -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center space-x-4">
-          <img src="https://via.placeholder.com/80" alt="Company Logo" class="w-20 h-20 rounded-lg object-cover border">
-          <div>
-            <h2 class="text-xl font-bold text-gray-800">Senior Software Engineer</h2>
-            <p class="text-gray-500 text-sm">TechCorp International</p>
-            <p class="text-gray-400 text-xs">Posted on Aug 5, 2025</p>
-          </div>
-        </div>
-        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <span class="text-gray-400">Location:</span>
-            <p class="font-medium text-gray-700">New York, NY</p>
-          </div>
-          <div>
-            <span class="text-gray-400">Employment Type:</span>
-            <p class="font-medium text-gray-700">Full-time</p>
-          </div>
-          <div>
-            <span class="text-gray-400">Salary:</span>
-            <p class="font-medium text-gray-700">$120,000/year</p>
-          </div>
-          <div>
-            <span class="text-gray-400">Industry:</span>
-            <p class="font-medium text-gray-700">Software Development</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Application Timeline -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Application Timeline</h3>
-        <ul class="space-y-3 text-sm">
-          <li class="flex items-start">
-            <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></span>
-            <div>
-              <p class="font-medium text-gray-700">Application Submitted</p>
-              <p class="text-gray-400 text-xs">Aug 6, 2025, 10:45 AM</p>
-            </div>
-          </li>
-          <li class="flex items-start">
-            <span class="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-3"></span>
-            <div>
-              <p class="font-medium text-gray-700">Under Review</p>
-              <p class="text-gray-400 text-xs">Aug 8, 2025, 2:10 PM</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Sidebar Column -->
-    <div class="space-y-6">
-
-      <!-- Employer Card -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">About the Employer</h3>
-        <p class="text-sm text-gray-600 mb-4">
-          TechCorp International is a leader in innovative software solutions, serving clients worldwide with a focus on AI and data analytics.
-        </p>
-        <a href="#" class="text-blue-600 hover:underline text-sm">Visit Company Profile</a>
-      </div>
-
-      <!-- Actions -->
-      <div class="bg-white rounded-lg shadow p-6 space-y-3">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Actions</h3>
-        <button class="w-full px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg shadow">
-          Withdraw Application
-        </button>
-        <button class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg shadow">
-          Contact Employer
+  <div class="relative mx-auto my-8 w-full max-w-md p-4">
+    <div class="relative rounded-2xl bg-white shadow-xl">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b px-5 py-4">
+        <h3 class="text-base font-semibold">
+          Your Profile QR Code
+        </h3>
+        <button type="button" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                data-modal-hide="qrModal" aria-label="Close">
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"/>
+          </svg>
         </button>
       </div>
 
+      <!-- Body -->
+      <div class="space-y-4 px-5 py-5">
+        <p class="text-sm text-gray-500">Scan to view/share this candidate’s profile.</p>
+
+        <!-- QR image -->
+        <div class="flex justify-center">
+          <img
+            src="{{ candidate.qr_code.url }}"
+            alt="QR Code for {{ candidate.name }}"
+            class="h-40 w-40 rounded-lg border"
+            id="qrImage"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Profile link with copy -->
+        <!-- If you have `request` in the template context -->
+        <div class="flex items-stretch gap-2">
+          <input
+            type="text"
+            readonly
+            class="w-full rounded-xl border px-3 py-2 text-sm"
+            value="qr code"
+            id="profileLinkInput"
+          />
+          <button type="button"
+                  class="shrink-0 rounded-xl border px-3 py-2 text-sm hover:bg-gray-50"
+                  onclick="copyProfileLink()">
+            Copy
+          </button>
+        </div>
+
+        <!-- If you don't have `request` available, you can use:
+             value="{{ SITE_URL }}{{ candidate.get_absolute_url }}" -->
+      </div>
+
+      <!-- Footer -->
+      <div class="flex flex-wrap items-center justify-between gap-3 border-t px-5 py-4">
+        <a href="{{ candidate.qr_code.url }}" download
+           class="rounded-xl border px-4 py-2 text-sm hover:bg-gray-50">
+          Download QR
+        </a>
+        <div class="flex items-center gap-2">
+          <button type="button"
+                  class="rounded-xl border px-4 py-2 text-sm hover:bg-gray-50"
+                  onclick="copyProfileLink()">
+            Copy Link
+          </button>
+          <button type="button"
+                  class="rounded-xl border px-4 py-2 text-sm hover:bg-gray-50"
+                  onclick="printQrImage('{{ candidate.qr_code.url }}')">
+            Print
+          </button>
+          <button type="button"
+                  class="rounded-xl bg-gray-900 px-4 py-2 text-sm text-white hover:bg-black"
+                  data-modal-hide="qrModal">
+            Close
+          </button>
+        </div>
+      </div>
     </div>
-
   </div>
-
 </div>
 
+<script>
+  async function copyProfileLink() {
+    const input = document.getElementById('profileLinkInput');
+    try {
+      await navigator.clipboard.writeText(input.value);
+      // optional: give quick feedback
+      const original = input.value;
+      input.value = 'Link copied!';
+      setTimeout(() => { input.value = original; }, 900);
+    } catch (e) {
+      // fallback
+      input.select();
+      document.execCommand('copy');
+    }
+  }
+
+  function printQrImage(url) {
+    // open a minimal window with just the image for clean printing
+    const w = window.open('', '_blank', 'width=400,height=480');
+    w.document.write(`
+      <html>
+        <head>
+          <title>Print QR</title>
+          <style>
+            body { margin: 0; display: grid; place-items: center; height: 100vh; }
+            img { width: 320px; height: 320px; }
+          </style>
+        </head>
+        <body>
+          <img src="${url}" alt="QR Code" onload="window.print(); window.onafterprint = () => window.close();">
+        </body>
+      </html>
+    `);
+    w.document.close();
+  }
+</script>
 
 
     </body>
