@@ -35,6 +35,7 @@ class PersonalInformation(models.Model, ModelMeta):
     github_profile = models.URLField(blank=True, null=True, help_text="GitHub profile URL")
     slug = models.SlugField(unique=True, blank=True, null=True)
     average_rating = models.FloatField(default=0.0)
+    followed_employers = models.ManyToManyField("employer_portal.CompanyInformation", related_name="followers", blank=True)
 
     _metadata = {
         "use_title_tag": True,

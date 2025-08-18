@@ -210,10 +210,14 @@ def job_details(request, slug):
 
 @login_required
 def company_profile(request, slug):
+    candidate = PersonalInformation.objects.get(user=request.user)
     company = get_object_or_404(CompanyInformation, slug=slug)
+    
+    following = company in candidate.followed_employers.all()
 
     context = {
-        'company': company
+        'company': company,
+        'following': following
     }
 
     return render(request, 'employee-portal/company-profile.html', context)
@@ -373,6 +377,20 @@ def withdraw_job_application(request, job_application_id):
     job_application.save(update_fields=['withdrawn', 'withdrawn_at', 'withdraw_reason'])
 
     return JsonResponse({'success': True, 'message': 'Your application has been withdrawn'})
+
+
+@require_POST
+@login_required
+def toggle_follow(request, company_slug):
+    company = get_object_or_404(CompanyInformation, slug=company_slug)
+    candidate = PersonalInformation.objects.get(user=request.user)
+
+    if company in candidate.followed_employers.all():
+        candidate.followed_employers.remove(company)
+        return JsonResponse({'status': 'unfollowed', 'message': f'You have unfollowed {company.company_name}'})
+    else:
+        candidate.followed_employers.add(company)
+        return JsonResponse({'status': 'followed', 'message': f'You have followed {company.company_name}'})
 
 
 @login_required

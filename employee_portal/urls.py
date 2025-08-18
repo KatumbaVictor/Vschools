@@ -20,4 +20,5 @@ urlpatterns = [
     path('saved-jobs', saved_jobs, name='saved_jobs'),
     path('withdraw-application/<int:job_application_id>', withdraw_job_application, name="withdraw_application"),
     path('job-application/<int:job_application_id>', application_detail, name="job_application_details"),
+    path('toggle-follow/<slug:company_slug>', toggle_follow, name="toggle_follow"),
 ]

@@ -42,7 +42,7 @@
 
                 <div class="max-w-6xl mx-auto space-y-6">
                     <!-- Page Header -->
-                    <div class="flex items-center justify-between border-b pb-4">
+                    <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4">
                         <div>
                             <h1 class="text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Application Details</h1>
                             <p class="text-gray-500 text mt-2">
@@ -51,10 +51,10 @@
                         </div>
                         <div class="flex flex-row items-center">
                             <button class="flex flex-row items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                              <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z"/>
-                              </svg>
-                              Contact Employer
+                                <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z"/>
+                                </svg>
+                                Contact Employer
                             </button>
                             <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="flex flex-row items-center text-center text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
                                 <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -66,100 +66,116 @@
                     </div>
 
                     <!-- Content -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <!-- Main Column -->
-                          <div class="lg:col-span-2 space-y-6">
-                              <!-- Job Information Card -->
-                              <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                  <div class="flex items-center space-x-4">
-                                      <div class="w-14 h-14 flex-shrink-0">
-                                          {% if job_application.job.company.company_profile_picture %}
-                                              <img src="{{ job_application.job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
-                                          {% else %}
-                                              <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
-                                                  {{ job_application.job.company.company_name|slice:":1"|upper }}
-                                              </div>
-                                          {% endif %}
-                                      </div>
-                                      <div>
-                                          <h2 class="text-xl font-bold text-gray-800">
-                                              {{ job_application.job.job_title }}
-                                          </h2>
-                                          <p class="text-gray-500 text-sm">{{ job_application.company.company_name }}</p>
-                                          <p class="text-gray-400 text-xs">Posted on {{ job_application.job.created_at|date:"F j, Y, g:i A" }}</p>
-                                      </div>
-                                  </div>
-                                  <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
-                                      <div>
-                                          <span class="text-gray-400">Location:</span>
-                                          <p class="font-medium text-gray-700">{{ job_application.job.state_or_region }}, {{ job_application.job.country }} <i class="{{ job_application.job.country.flag_css }}"></i></p>
-                                      </div>
-                                      <div>
-                                          <span class="text-gray-400">Employment Type:</span>
-                                          <p class="font-medium text-gray-700">{{ job_application.job.get_employment_type_display }}</p>
-                                      </div>
-                                      <div>
-                                          <span class="text-gray-400">Salary:</span>
-                                          <p class="font-medium text-gray-700">$120,000/year</p>
-                                      </div>
-                                      <div>
-                                          <span class="text-gray-400">Industry:</span>
-                                          <p class="font-medium text-gray-700">{{ job_application.job.get_industry_display }}</p>
-                                      </div>
-                                  </div>
-                              </div>
-
-                              <!-- Application Timeline -->
-                              <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                  <h3 class="text-lg font-semibold text-gray-800 mb-4">Application Timeline</h3>
-                                  <ul class="space-y-3 text-sm">
-                                      <li class="flex items-start">
-                                          <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></span>
-                                          <div>
-                                              <p class="font-medium text-gray-700">Application Submitted</p>
-                                              <p class="text-gray-400 text-xs">{{ job_application.applied_at|date:"F j, Y, g:i A" }}</p>
-                                          </div>
-                                      </li>
-                                      <li class="flex items-start">
-                                          <span class="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-3"></span>
-                                          <div>
-                                              <p class="font-medium text-gray-700">Under Review</p>
-                                              <p class="text-gray-400 text-xs">Aug 8, 2025, 2:10 PM</p>
-                                          </div>
-                                      </li>
-                                  </ul>
-                              </div>
+                        <div class="lg:col-span-2 space-y-6">
+                            <!-- Job Information Card -->
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-14 h-14 flex-shrink-0">
+                                        {% if job_application.job.company.company_profile_picture %}
+                                            <img src="{{ job_application.job.company.company_profile_picture.url }}" class="w-20 h-20 rounded-full border" alt="Company Logo">
+                                        {% else %}
+                                            <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-700  flex items-center justify-center text-3xl font-bold uppercase">
+                                                {{ job_application.job.company.company_name|slice:":1"|upper }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <h2 class="text-xl font-bold text-gray-800">
+                                           {{ job_application.job.job_title }}
+                                        </h2>
+                                        <p class="text-gray-500 text-sm">{{ job_application.company.company_name }} • Posted on {{ job_application.job.created_at|date:"F j, Y, g:i A" }}</p>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                            </svg>
+                                            <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white">{{ job_application.job.average_rating }}</p>
+                                            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                            <a href="{% url 'employee_portal:job_reviews' job_application.job.slug %}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">
+                                                {{ job_application.job.job_ratings.count }} review{{ job_application.job.job_ratings.count|pluralize }}
+                                            </a>
+                                            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                            <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                                {{ job_application.job.job_applications.count }} application{{ job_application.job.job_applications.count|pluralize }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 mb-6 grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="text-gray-400">Location:</span>
+                                        <p class="font-medium text-gray-700">{{ job_application.job.state_or_region }}, {{ job_application.job.country }} <i class="{{ job_application.job.country.flag_css }}"></i></p>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">Employment Type:</span>
+                                        <p class="font-medium text-gray-700">{{ job_application.job.get_employment_type_display }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">Salary:</span>
+                                        <p class="font-medium text-gray-700">$120,000/year</p>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-400">Industry:</span>
+                                        <p class="font-medium text-gray-700">{{ job_application.job.get_industry_display }}</p>
+                                    </div>
+                                </div>
+                                <a href="{% url 'employee_portal:job_details' job_application.job.slug %}" class="text-blue-600 mt-6 font-semibold hover:underline text-sm">
+                                    View Job
+                                </a>
                             </div>
 
-                            <!-- Sidebar Column -->
-                            <div class="space-y-6">
-                                <!-- Employer Card -->
-                                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">
-                                        About the Employer
-                                    </h3>
-                                    <p class="text-sm text-gray-600 mb-4 bg-gray-50 p-4 rounded-lg">
-                                        {{ job_application.company.biography }}
-                                    </p>
-                                    <a href="#" class="text-blue-600 font-semibold hover:underline text-sm">
-                                        Visit Company Profile
-                                    </a>
-                                </div>
+                            <!-- Application Timeline -->
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Application Timeline</h3>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></span>
+                                        <div>
+                                            <p class="font-medium text-gray-700">Application Submitted</p>
+                                            <p class="text-gray-400 text-xs">{{ job_application.applied_at|date:"F j, Y, g:i A" }}</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-3"></span>
+                                        <div>
+                                            <p class="font-medium text-gray-700">Under Review</p>
+                                            <p class="text-gray-400 text-xs">Aug 8, 2025, 2:10 PM</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
-                                <!-- Actions -->
-                                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-3">
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Actions</h3>
-                                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="w-full text-center text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                        Withdraw Application
-                                    </button>
-                                    <button class="w-full py-2 px-3 text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                      Contact Employer
-                                  </button>
-                                </div>
+                        <!-- Sidebar Column -->
+                        <div class="space-y-6">
+                            <!-- Employer Card -->
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                                    About the Employer
+                                </h3>
+                                <p class="text-sm text-gray-600 mb-4 bg-gray-50 p-4 rounded-lg">
+                                    {{ job_application.company.biography }}
+                                </p>
+                                <a href="#" class="text-blue-600 font-semibold hover:underline text-sm">
+                                    Visit Company Profile
+                                </a>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="bg-white rounded-lg border border-gray-200 p-6 space-y-3">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">Actions</h3>
+                                <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="w-full text-center text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    Withdraw Application
+                                </button>
+                                <button class="w-full py-2 px-3 text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                  Contact Employer
+                              </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
