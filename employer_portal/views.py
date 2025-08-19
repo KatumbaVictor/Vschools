@@ -16,6 +16,8 @@ from django.http import JsonResponse
 from datetime import datetime
 from django.utils import timezone
 from .utils.timezone import get_interview_times_in_user_timezone
+from rest_framework import viewsets
+from .serializers import *
 import json
 from .models import *
 from employee_portal.models import *
@@ -697,3 +699,28 @@ def create_job_offer(request, candidate_slug):
 
     else:
         job_offer_form = JobOfferForm()
+
+
+
+
+
+class JobDetailsViewSet(viewsets.ModelViewSet):
+    queryset = JobDetails.objects.all()
+    serializer_class = JobDetailsSerializer
+
+
+
+class JobRequirementsViewSet(viewsets.ModelViewSet):
+    queryset = JobRequirements.objects.all()
+    serializer_class = JobRequirementsSerializer
+
+
+class CompensationDetailsViewSet(viewsets.ModelViewSet):
+    queryset = CompensationDetails.objects.all()
+    serializer_class = CompensationDetailsSerializer
+
+
+
+class ApplicationDetailsViewSet(viewsets.ModelViewSet):
+    queryset = ApplicationDetails.objects.all()
+    serializer_class = ApplicationDetailsSerializer

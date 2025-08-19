@@ -22,6 +22,8 @@ from django.conf import settings
 #from machina import urls as machina_urls
 import machina
 from main.views import *
+from employer_portal.views import *
+from rest_framework.routers import DefaultRouter
 
 from django.contrib.sitemaps.views import sitemap
 from main.sitemaps import *
@@ -30,12 +32,24 @@ sitemaps = {
     'static': StaticSitemap
 }
 
+
+router = DefaultRouter()
+router.register(f'jobs', JobDetailsViewSet, basename="job")
+router.register(f'job-requirements', JobRequirementsViewSet, basename="job-requirements")
+router.register(f'compensation-details', CompensationDetailsViewSet, basename="compensation-details")
+router.register(f'application-details', ApplicationDetailsViewSet, basename="application-details")
+
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
     path('webpush/', include('webpush.urls')),
     path('employee-portal/', include('employee_portal.urls'), name="employee_portal"),
     path('employer-portal/', include('employer_portal.urls'), name="employer_portal"),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
     path('main/', include('main.urls'), name="main"),
     path('accounts/', include('allauth.urls'), name="accounts"),
     path('', include('machina.urls'), name="machina"),

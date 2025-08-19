@@ -215,9 +215,12 @@ def company_profile(request, slug):
     
     following = company in candidate.followed_employers.all()
 
+    jobs = JobDetails.objects.filter(company=company, status="active").order_by("-created_at")
+
     context = {
         'company': company,
-        'following': following
+        'following': following,
+        'jobs': jobs
     }
 
     return render(request, 'employee-portal/company-profile.html', context)

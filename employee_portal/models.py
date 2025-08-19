@@ -32,6 +32,7 @@ class PersonalInformation(models.Model, ModelMeta):
     skills = models.JSONField(default=list, help_text='Describe required skills', blank=True, null=True)
     portfolio = models.URLField(blank=True, null=True)
     linkedin_profile = models.URLField(blank=True, null=True, help_text="Linkedin profile URL")
+    video_resume_url = models.URLField(max_length=500, blank=True, null=True, help_text="Link to your video resume (Youtube, Vimeo, Loom, etc.)")
     github_profile = models.URLField(blank=True, null=True, help_text="GitHub profile URL")
     slug = models.SlugField(unique=True, blank=True, null=True)
     average_rating = models.FloatField(default=0.0)
