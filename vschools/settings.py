@@ -99,6 +99,7 @@ INSTALLED_APPS = [
     'machina.apps.forum_tracking',
     'machina.apps.forum_member',
     'machina.apps.forum_permission',
+    'drf_spectacular',
 ]
 
 SITE_ID = 1
@@ -294,7 +295,9 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
