@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from employer_portal.models import JobDetails
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.apps import apps
 import pytz
 
@@ -203,3 +205,20 @@ class JobRating(models.Model):
 
     def __str__(self):
         return f"{self.candidate} rated {self.job} {self.get_rating_display()}"
+    
+
+class SuccessStory(models.Model):
+    # Generic relation to any user/account type
+    user_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    user_object_id = models.PositiveIntegerField()
+    user = GenericForeignKey('user_content_type', 'user_object_id')
+
+    title = models.CharField(max_length=255, help_text="Short catchy title for the story")
+    story_text = models.TextField(help_text="Detailed description of the success story")
+    story_image = models.ImageField(upload_to='success_stories/', blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True)
+    published_at = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title} by {self.user}" if self.user else self.title

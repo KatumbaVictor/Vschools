@@ -89,8 +89,11 @@ class JobDetailsForm(forms.ModelForm):
 			'company_department',
 			'industry',
 			'job_description',
+			'video_job_description_url',
 			'key_responsibilities',
 			'work_location_mode',
+			'relocation_assistance',
+			'relocation_details',
 			'seniority_level',
 			'job_description_document'
 		]

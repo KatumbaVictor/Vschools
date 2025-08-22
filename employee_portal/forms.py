@@ -39,6 +39,7 @@ class PersonalInformationForm(forms.ModelForm):
             'portfolio',
             'linkedin_profile',
             'github_profile',
+            'video_resume_url',
         ]
 
         widgets = {

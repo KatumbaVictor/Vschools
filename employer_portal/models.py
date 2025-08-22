@@ -123,6 +123,7 @@ class JobDetails(models.Model, ModelMeta):
 
     industry = models.CharField(max_length=200, choices=INDUSTRY_CHOICES)
     job_description = models.TextField()
+    video_job_description_url = models.URLField(blank=True, null=True, help_text="Paste a YouTube/Vimeo video URL")
     key_responsibilities = models.JSONField(null=True, help_text='Describe key responsibilities and duties')
 
     WORK_MODES = [
@@ -132,6 +133,9 @@ class JobDetails(models.Model, ModelMeta):
     ]
 
     work_location_mode = models.CharField(max_length=10, choices=WORK_MODES)
+
+    relocation_assistance = models.BooleanField(default=False, help_text="Does this job offer relocation assistance?")
+    relocation_details = models.TextField(blank=True, null=True, help_text="Provide details about the relocation package, if applicable.")
 
     SENIORITY_LEVELS = [
         ('JR','Junior'),
@@ -362,8 +366,8 @@ class ApplicationDetails(models.Model):
     	return f"Application details for {self.job_post.job_title}"
 
     class Meta:
-    	verbose_name = "Application Details"
-    	verbose_name_plural = "Application Details"
+        verbose_name = "Application Details"
+        verbose_name_plural = "Application Details"
 
 
 class InternshipDetails(models.Model):

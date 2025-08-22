@@ -25,6 +25,8 @@ from main.views import *
 from employer_portal.views import *
 from rest_framework.routers import DefaultRouter
 
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 from django.contrib.sitemaps.views import sitemap
 from main.sitemaps import *
 
@@ -50,6 +52,12 @@ urlpatterns = [
     path('employer-portal/', include('employer_portal.urls'), name="employer_portal"),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
+
+    #DRF Spectacular URL paths
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+
     path('main/', include('main.urls'), name="main"),
     path('accounts/', include('allauth.urls'), name="accounts"),
     path('', include('machina.urls'), name="machina"),
