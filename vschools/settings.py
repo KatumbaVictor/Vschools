@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'taggit',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    'django_elasticsearch_dsl',
 
     #Machina dependencies
     'mptt',
@@ -289,6 +290,15 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
+
+
+#django-elasticsearch-dsl settings config
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200',
+        'http_auth': ('username', 'password')
+    }
+}
 
 
 REST_FRAMEWORK = {

@@ -34,6 +34,7 @@ django-ckeditor-5==0.2.18
 django-compressor==4.5.1
 django-countries==7.6.1
 django-csp==4.0
+django-elasticsearch-dsl==9.0
 django-formtools==2.5.1
 django-haystack==3.3.0
 django-hijack==3.7.1
@@ -56,6 +57,8 @@ djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.28.0
 drf-spectacular-sidecar==2025.8.1
+elastic-transport==9.1.0
+elasticsearch==9.1.0
 fido2==2.0.0
 frozenlist==1.5.0
 html5lib==1.1
