@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'machina.apps.forum_tracking',
     'machina.apps.forum_member',
     'machina.apps.forum_permission',
+    'drf_spectacular',
 ]
 
 SITE_ID = 1
@@ -307,7 +308,12 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+<<<<<<< HEAD
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+=======
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+>>>>>>> 6ac04cb73bfe8b60cbdc9918f996ee049bb4a298
 }
 
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 aiohappyeyeballs==2.6.1
 aiohttp==3.11.16
 aiosignal==1.3.2
@@ -22,20 +21,17 @@ click-plugins==1.1.1
 click-repl==0.3.0
 colorama==0.4.6
 constantly==23.10.4
-cron-descriptor==1.4.5
 cryptography==44.0.2
 daphne==4.1.2
 Django==5.2
 django-allauth==65.7.0
 django-appconf==1.1.0
 django-axes==7.0.2
-django-celery-beat==2.8.1
 django-channels==0.7.0
 django-ckeditor-5==0.2.18
 django-compressor==4.5.1
 django-countries==7.6.1
 django-csp==4.0
-django-elasticsearch-dsl==9.0
 django-formtools==2.5.1
 django-haystack==3.3.0
 django-hijack==3.7.1
@@ -51,16 +47,11 @@ django-payments==3.0.1
 django-phonenumber-field==8.1.0
 django-redis==5.4.0
 django-taggit==6.1.0
-django-timezone-field==7.1
 django-webpush==0.3.6
 django-widget-tweaks==1.5.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.28.0
-drf-spectacular-sidecar==2025.8.1
-elastic-transport==9.1.0
-elasticsearch==9.1.0
-fido2==2.0.0
 frozenlist==1.5.0
 html5lib==1.1
 http_ece==1.2.1
@@ -88,13 +79,11 @@ pyasn1_modules==0.4.2
 pycparser==2.22
 PyJWT==2.10.1
 pyOpenSSL==25.0.0
-python-crontab==3.3.0
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 pytz==2025.2
 pywebpush==2.0.3
 PyYAML==6.0.2
-qrcode==8.2
 rcssmin==1.1.2
 redis==5.2.1
 referencing==0.36.2
@@ -120,5 +109,3 @@ webencodings==0.5.1
 whitenoise==6.9.0
 yarl==1.19.0
 zope.interface==7.2
-=======
->>>>>>> 6ac04cb73bfe8b60cbdc9918f996ee049bb4a298
