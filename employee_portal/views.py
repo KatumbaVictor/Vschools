@@ -111,6 +111,7 @@ def dashboard_view(request):
     pending_interviews = JobInterview.objects.filter(candidate=candidate).count()
     pending_job_offers = JobOffer.objects.filter(candidate=candidate, status=JobOffer.JobOfferStatus.PENDING).count()
     profile_views = CandidateProfileView.objects.filter(candidate=candidate).count()
+    recent_job_application_invites = JobApplicationInvite.objects.filter(candidate=candidate, candidate_response=JobApplicationInvite.CandidateResponseChoices.PENDING)[:3]
 
 
     meta = Meta(
@@ -128,6 +129,7 @@ def dashboard_view(request):
         'pending_interviews': pending_interviews,
         'pending_job_offers': pending_job_offers,
         'profile_views': profile_views,
+        'job_application_invites': recent_job_application_invites,
         'meta': meta
     }
 

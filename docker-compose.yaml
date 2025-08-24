@@ -16,6 +16,8 @@ services:
     - "8000:8000"
     networks:
     - net
+
+
   postgres_db:
     image: postgres:latest
     restart: always
@@ -29,6 +31,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     networks:
     - net
+
   nginx:
     image: nginx:latest
     ports:
@@ -38,12 +41,14 @@ services:
       - web
     networks:
       - net
+      
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
     networks:
       - net
+
   daphne:
     build: .
     command: /root/env/bin/python /root/env/bin/daphne -e ssl:8001:privateKey=/etc/letsencrypt/live/vschoolsmeet.tech/privkey.pem:certKey=/etc/letsencrypt/live/vschoolsmeet.tech/fullchain.pem vschools.asgi:application
@@ -54,6 +59,7 @@ services:
       - net
     ports:
      - "8001:8001"
+
   janus:
     image: janusgateway/janus
     ports:

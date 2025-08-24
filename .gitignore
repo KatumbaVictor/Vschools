@@ -6,3 +6,4 @@ employee_portal/migrations/
 employer_portal/migrations/
 debug.log
 .vscode/
+venv/

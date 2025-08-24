@@ -26,7 +26,7 @@
     	<div class="p-2 sm:ml-64">
             <div class="p-2 rounded-lg mt-14">
             	{% if jobs %}
-        		    <section class="bg-white mb-4 mt-2 border border-gray-200 rounded-lg p-6">
+        		    <section class="bg-white mb-4 mt-2 border border-gray-300 shadow-sm rounded-lg p-6">
                         <!-- Section Heading -->
                         <div class="mb-4">
                             <h2 class="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Find Your Next Opportunity</h2>
@@ -87,7 +87,7 @@
 
                     <div class="grid grid-cols-2 gap-3">
                     	{% for job in jobs %}
-    	                	<div class="bg-white rounded-lg border border-gray-200 p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
+    	                	<div class="bg-white rounded-lg border border-gray-300 shadow-sm p-5 space-y-4 hover:shadow-xl transition-shadow duration-300">
     	                        <!-- Header Section -->
     	                        <div class="flex items-center justify-between">
     	                            <!-- Job and Company Info -->
@@ -159,7 +159,7 @@
                                     {{ job.created_at|timesince }} ago
                                 </div>
                                 <div class="flex flex-row items-center">
-                                    <button class="py-2 px-4 mr-2 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 toggle-save-btn" data-url="{% url 'employee_portal:job_save_toggle' job.slug %}" data-slug="{{ job.slug }}" data-saved="{{ job.is_saved | yesno:'true,false' }}">
+                                    <button class="py-2 px-4 mr-2 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 toggle-save-btn" data-url="{% url 'employee_portal:job_save_toggle' job.slug %}" data-slug="{{ job.slug }}" data-saved="{{ job.is_saved | yesno:'true,false' }}">
                                         {% if job.is_saved %}
                                             <svg class="w-4 h-4 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>

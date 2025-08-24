@@ -581,6 +581,7 @@ class JobApplicationInvite(models.Model):
 
     class Meta:
         unique_together = ('job', 'employer', 'candidate')
+        ordering = ["-sent_at"]
 
     def __str__(self):
         return f"{self.candidate} invited for {self.job}"
