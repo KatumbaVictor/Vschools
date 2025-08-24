@@ -12,40 +12,56 @@
         <script src = "{% static 'js/flowbite.min.js' %}" type = "text/javascript"></script>
     </head>
     <body>
-        <div class="max-w-md w-full bg-white rounded-2xl shadow-md border border-gray-200 p-4">
-  <!-- Header -->
-  <div class="flex items-center justify-between mb-3">
-    <h5 class="flex items-center gap-2 text-lg font-semibold text-gray-800">
-      <!-- Briefcase Icon -->
-      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-          d="M9 12h6m-6 4h6m-6-8h6m-6-4h6M3 7h18M4 7v12a2 2 0 002 2h12a2 2 0 002-2V7"/>
-      </svg>
-      Job Invites
-    </h5>
-    <span class="text-sm text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-full">2 New</span>
-  </div>
+        <div class="max-w-2xl w-full space-y-4">
+  <!-- Invite Item 1 -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center bg-white border border-gray-200 rounded-2xl shadow p-4 hover:shadow-lg transition-shadow">
+    <!-- Logo -->
+    <img class="w-14 h-14 rounded-full border mr-4 mb-3 sm:mb-0" src="https://via.placeholder.com/56" alt="Company Logo">
 
-  <!-- Invite Example -->
-  <div class="flex flex-col gap-3 border-b border-gray-100 pb-3 mb-3">
-    <div class="flex items-start gap-3">
-      <img class="w-10 h-10 rounded-full border" src="https://via.placeholder.com/40" alt="Company Logo">
-      <div class="flex-1">
-        <p class="text-sm font-medium text-gray-800">Company XYZ</p>
-        <p class="text-xs text-gray-500">invited you to apply for:</p>
-        <p class="text-sm font-semibold text-gray-700">Software Engineer</p>
+    <!-- Job Details -->
+    <div class="flex-1 space-y-1">
+      <p class="text-sm font-semibold text-gray-800">Company XYZ</p>
+      <p class="text-xs text-gray-500">invited you to apply for</p>
+      <p class="text-sm font-medium text-gray-700">Software Engineer</p>
+
+      <!-- Invite Meta -->
+      <div class="flex flex-wrap gap-2 text-xs text-gray-500 mt-1">
+        <span>📅 Sent: 2 days ago</span>
+        <span>⏰ Deadline: 2025-09-10</span>
+        <span>💬 "We’d love to have you on our team!"</span>
       </div>
     </div>
-    
-    <!-- Invite Details -->
-    <div class="text-xs text-gray-500 space-y-1 pl-13">
-      <p>📅 Sent: 2 days ago</p>
-      <p>⏰ Deadline: 2025-09-10</p>
-      <p>💬 Message: "We think you’d be a great fit for our team!"</p>
+
+    <!-- Actions -->
+    <div class="flex gap-2 mt-3 sm:mt-0 sm:ml-4">
+      <button class="flex items-center gap-1 px-3 py-1 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+        Apply
+      </button>
+      <button class="flex items-center gap-1 px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+        View
+      </button>
+      <button class="flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100">
+        Decline
+      </button>
+    </div>
+  </div>
+
+  <!-- Invite Item 2 -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center bg-white border border-gray-200 rounded-2xl shadow p-4 hover:shadow-lg transition-shadow">
+    <img class="w-14 h-14 rounded-full border mr-4 mb-3 sm:mb-0" src="https://via.placeholder.com/56" alt="Company Logo">
+
+    <div class="flex-1 space-y-1">
+      <p class="text-sm font-semibold text-gray-800">Company ABC</p>
+      <p class="text-xs text-gray-500">invited you to apply for</p>
+      <p class="text-sm font-medium text-gray-700">Frontend Developer</p>
+      <div class="flex flex-wrap gap-2 text-xs text-gray-500 mt-1">
+        <span>📅 Sent: 1 day ago</span>
+        <span>⏰ Deadline: 2025-09-12</span>
+        <span>💬 "We’re excited to review your profile."</span>
+      </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="flex gap-2 pl-13 mt-2">
+    <div class="flex gap-2 mt-3 sm:mt-0 sm:ml-4">
       <button class="flex items-center gap-1 px-3 py-1 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
         Apply
       </button>
@@ -63,7 +79,6 @@
     <a href="#" class="text-sm font-medium text-blue-600 hover:underline">See all invites →</a>
   </div>
 </div>
-
 
     </body>
 </html>
