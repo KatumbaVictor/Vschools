@@ -408,3 +408,21 @@ def application_detail(request, job_application_id):
     }
 
     return render(request, 'employee-portal/application-detail.html', context)
+
+
+@require_POST
+@login_required
+def decline_job_application_invite(request, invite_id):
+    candidate = PersonalInformation.objects.get(user=request.user)
+    job_invite = get_object_or_404(JobApplicationInvite, id=invite_id, candidate=candidate)
+
+    job_invite.candidate_response = JobApplicationInvite.CandidateResponseChoices.DECLINED
+    job_invite.responded_at = timezone.now()
+
+    return JsonResponse({
+            "status": "success",
+            "invite_id": job_invite.id,
+            "new_status": job_invite.candidate_response,
+            "message": "You have declined this job invite."
+        })
+

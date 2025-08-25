@@ -5,6 +5,8 @@ from django_countries.fields import CountryField
 from moneyed import list_all_currencies
 from django.utils.text import slugify
 from meta.models import ModelMeta
+from datetime import timedelta
+from django.utils import timezone
 import json
 
 
@@ -92,6 +94,10 @@ class BillingInformation(models.Model):
 
     def __str__(self):
         return f"Billing Information for {self.user.username}"
+    
+
+def default_job_expiry_date():
+    return timezone.now() + timedelta(days=30)
 
 
 class JobDetails(models.Model, ModelMeta):
@@ -153,11 +159,14 @@ class JobDetails(models.Model, ModelMeta):
         ('closed', 'Closed'),
         ('expired', 'Expired'),
         ('paused', 'Paused'),
-        ('draft', 'Draft')
+        ('draft', 'Draft'),
+        ('scheduled', 'Scheduled')
     ]
 
     status = models.CharField(max_length=10, choices=JOB_STATUS_CHOICES, default='active')
+    publish_date = models.DateTimeField(null=True, blank=True)
     average_rating = models.FloatField(default=0.0)
+    expiry_date = models.DateTimeField(default=default_job_expiry_date)
     slug = models.SlugField(unique=True, blank=True, null=True)
 
     _metadata = {
